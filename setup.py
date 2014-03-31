@@ -7,11 +7,8 @@ setup(
     author_email='josephhardinee@gmail.com',
     packages=['pydisdrometer'],
     url='http://pypi.python.org/pypi/PyDisdrometer/',
-    licenese='LICENSE.txt',
+    license='LICENSE.txt',
     description='Pyton Disdrometer Processing',
     long_description=open('README.txt').read(),
-    install_requires=[
-        "pytmatrix >=0.2.0"
-    ],
 )
 
