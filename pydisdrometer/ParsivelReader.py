@@ -88,8 +88,13 @@ class ParsivelReader(object):
         pass
 
     def _prep_data(self):
+        self.rain_rate = np.array(self.rain_rate)
         self.Z = ma.masked_equal(self.Z, -9.999)
         self.Nd[self.Nd == -9.999] = 0
+        self.num_particles = np.array(self.num_particles)
+        self.time = np.array(self.time)
+        self.velocity = np.ndarray(self.vd)
+        self.raw = np.ndarray(self.raw)
 
     def get_sec(self, s):
         return int(s[0]) * 3600 + int(s[1]) * 60 + int(s[2])

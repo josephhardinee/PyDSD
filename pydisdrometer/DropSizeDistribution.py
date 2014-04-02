@@ -7,15 +7,23 @@ from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
 
+
 class DropSizeDistribution(object):
     '''
     DropSizeDistribution class to hold DSD's and calculate parameters
     and relationships. Should be returned from the disdrometer*reader objects.
     '''
 
-    def __init__(self, time, Nd, spread, rain_rate=None):
+    def __init__(self, time, Nd, spread, rain_rate=None, velocity=None, Z=None,
+            num_particles=None):
         self.time = time
         self.Nd = Nd
         self.spread = spread
         if rain_rate:
             self.rain_rate = rain_rate
+        if velocity:
+            self.velocity = velocity
+        if Z:
+            self.Z = Z
+        if num_particles:
+            self.num_particles = num_particles
