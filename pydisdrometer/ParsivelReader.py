@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+import numpy.ma as ma
 import pytmatrix
 import DSDProcessor
 from pytmatrix.tmatrix import Scatterer
@@ -7,6 +8,21 @@ from pytmatrix.psd import PSDIntegrator
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
 import csv
 import expfit
+from DropSizeDistribution import DropSizeDistribution
+
+
+def read_parsivel(filename):
+    '''
+    Takes a filename pointing to a parsivel raw file and returns
+    a drop size distribution object.
+    '''
+
+    reader = ParsivelReader(filename)
+    dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
+                               reader.rain_rate)
+    dsd.raw_matrix = reader.raw
+    dsd.Z = reader.Z
+    return dsd
 
 
 class ParsivelReader(object):
@@ -17,15 +33,15 @@ class ParsivelReader(object):
 
     '''
 
-    rain_intensity = []
-    rr = []
+    rain_rate = []
+    Z = []
     num_particles = []
 
     Nd = []
     vd = []
     raw = []
     code = []
-    time_od = []
+    time = []
 
     ndt = []
 
@@ -36,25 +52,25 @@ class ParsivelReader(object):
         self.pcm_matrix = np.reshape(
             map(int, pcm_matrix_file.read().rstrip('\n').split(',')), (32, 32))
 
-        self._process_file()
+        self._read_file()
+        self._prep_data()
 
         self.bins = np.hstack((0, self.diameter + np.array(self.spread) / 2))
 
-    def _process_file(self):
+    def _read_file(self):
         with open(self.filename) as f:
             for line in f:
-                line.split(':')[0]
                 code = line.split(':')[0]
                 if(code == '01'):
-                    self.rain_intensity.append(
+                    self.rain_rate.append(
                         float(line.rstrip('\n\r').split(':')[1]))
                 elif(code == '07'):
-                    self.rr.append(float(line.rstrip('\n\r').split(':')[1]))
+                    self.Z.append(float(line.rstrip('\n\r').split(':')[1]))
                 elif(code == '11'):
                     self.num_particles.append(
                         int(line.rstrip('\n\r').split(':')[1]))
                 elif(code == '20'):
-                    self.time_od.append(
+                    self.time.append(
                         self.get_sec(line.rstrip('\n\r').split(':')[1:4]))
                 elif(code == '90'):
                     self.Nd.append(
@@ -65,8 +81,15 @@ class ParsivelReader(object):
                 elif(code == '93'):
                     self.raw.append(
                         map(int, line.split(':')[1].strip('\r\n;').split(';')))
-                    self.ndt.append(np.sum((np.reshape(map(int,
-                        line.split(':')[1].strip(';\n').split(';')),(32,32))),axis=0))
+                    #self.ndt.append(np.sum((np.reshape(map(int,
+                    #    line.split(':')[1].strip(';\n').split(';')), (32, 32))), axis=0))
+
+    def _apply_pcm_matrix(self):
+        pass
+
+    def _prep_data(self):
+        self.Z = ma.masked_equal(self.Z, -9.999)
+        self.Nd[self.Nd == -9.999] = 0
 
     def get_sec(self, s):
         return int(s[0]) * 3600 + int(s[1]) * 60 + int(s[2])
@@ -96,12 +119,10 @@ class ParsivelReader(object):
             Kdp[t] = radar.Kdp(self.scatterer)
             Ai[t] = radar.Ai(self.scatterer)
 
-    def calculate_radar_relations(self):
-        pass
 
     diameter = [
-        0.06, 0.19, 0.32, 0.45, 0.58, 0.71, 0.84, 0.96, 1.09, 1.22, 1.42, 1.67, 1.93,
-        2.19, 2.45, 2.83, 3.35, 3.86, 4.38, 4.89, 5.66,
+        0.06, 0.19, 0.32, 0.45, 0.58, 0.71, 0.84, 0.96, 1.09, 1.22, 1.42, 1.67,
+        1.93, 2.19, 2.45, 2.83, 3.35, 3.86, 4.38, 4.89, 5.66,
         6.7, 7.72, 8.76, 9.78, 11.33, 13.39, 15.45, 17.51, 19.57, 22.15, 25.24]
 
     spread = [
@@ -122,29 +143,26 @@ class ParsivelReader(object):
         return 1.0048 + 5.7 * 10 ** (-4) - 2.628 * 10 ** (-2) * D_eq * D_eq ** 2 +\
             3.682 * 10 ** (-3) * D_eq ** 3 - 1.677 * 10 ** -4 * D_eq ** 4
 
-Nd = np.power(10, np.array(Nd))
-ndt = np.array(ndt)
+#Nd = np.power(10, np.array(Nd))
+#ndt = np.array(ndt)
 
-Nd[Nd < 0] = 0
-ndt[ndt < 0] = 0
-k = 92
+#Nd[Nd < 0] = 0
+#ndt[ndt < 0] = 0
+#k = 92
 
 
 # At this point we have Nd, need to do the scattering calculations
 
 
+#nt = Nd.shape[0]
 
-nt = Nd.shape[0]
+#Kdp = np.zeros(nt)
+#Zh = np.zeros(nt)
+#Zdr = np.zeros(nt)
+#Ai = np.zeros(nt)
 
-Kdp = np.zeros(nt)
-Zh = np.zeros(nt)
-Zdr = np.zeros(nt)
-Ai = np.zeros(nt)
+#rain_rate = np.array(rain_intensity)
 
-
-
-rain_rate = np.array(rain_intensity)
-
-if __name__ == '__main__':
-    filename = '/net/makalu/radar/tmp/jhardin/parsiveldata/20110910.mis'
-    par_reader = ParsivelReader(filename)
+#if __name__ == '__main__':
+#    filename = '/net/makalu/radar/tmp/jhardin/parsiveldata/20110910.mis'
+#    par_reader = ParsivelReader(filename)
