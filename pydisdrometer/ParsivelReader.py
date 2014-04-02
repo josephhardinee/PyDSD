@@ -2,12 +2,9 @@
 import numpy as np
 import numpy.ma as ma
 import pytmatrix
-import DSDProcessor
 from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
-import csv
-import expfit
 from DropSizeDistribution import DropSizeDistribution
 
 
@@ -19,7 +16,10 @@ def read_parsivel(filename):
 
     reader = ParsivelReader(filename)
     dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
-                               reader.rain_rate)
+            rain_rate=reader.rain_rate, velocity=reader.velocity,
+            Z=reader.Z, num_particles=reader.num_particles,
+            bin_edges=reader.bin_edges)
+
     dsd.raw_matrix = reader.raw
     dsd.Z = reader.Z
     return dsd
@@ -37,7 +37,7 @@ class ParsivelReader(object):
     Z = []
     num_particles = []
 
-    Nd = []
+    nd = []
     vd = []
     raw = []
     code = []
@@ -55,7 +55,7 @@ class ParsivelReader(object):
         self._read_file()
         self._prep_data()
 
-        self.bins = np.hstack((0, self.diameter + np.array(self.spread) / 2))
+        self.bin_edges = np.hstack((0, self.diameter + np.array(self.spread) / 2))
 
     def _read_file(self):
         with open(self.filename) as f:
@@ -73,16 +73,14 @@ class ParsivelReader(object):
                     self.time.append(
                         self.get_sec(line.rstrip('\n\r').split(':')[1:4]))
                 elif(code == '90'):
-                    self.Nd.append(
-                        map(float, line.rstrip('\n\r;').split(':')[1].split(';')))
+                    self.nd.append(
+                        np.power(10,map(float, line.rstrip('\n\r;').split(':')[1].split(';'))))
                 elif(code == '91'):
                     self.vd.append(
                         map(float, line.rstrip('\n').split(':')[1].rstrip(';\r').split(';')))
                 elif(code == '93'):
                     self.raw.append(
                         map(int, line.split(':')[1].strip('\r\n;').split(';')))
-                    #self.ndt.append(np.sum((np.reshape(map(int,
-                    #    line.split(':')[1].strip(';\n').split(';')), (32, 32))), axis=0))
 
     def _apply_pcm_matrix(self):
         pass
@@ -90,40 +88,16 @@ class ParsivelReader(object):
     def _prep_data(self):
         self.rain_rate = np.array(self.rain_rate)
         self.Z = ma.masked_equal(self.Z, -9.999)
-        self.Nd[self.Nd == -9.999] = 0
+        self.nd = np.array(self.nd)
+        self.nd[self.nd == -9.999] = 0
+        self.Nd =np.array(self.nd)
         self.num_particles = np.array(self.num_particles)
         self.time = np.array(self.time)
-        self.velocity = np.ndarray(self.vd)
-        self.raw = np.ndarray(self.raw)
+        self.velocity = self.vd #np.ndarray(self.vd)
+        #self.raw = np.power(10, np.ndarray(self.raw))
 
     def get_sec(self, s):
         return int(s[0]) * 3600 + int(s[1]) * 60 + int(s[2])
-
-    def _setup_scattering(self):
-        self.scatterer = Scatterer(wavelength=tmatrix_aux.wl_X,
-                                   m=refractive.m_w_10C[tmatrix_aux.wl_X])
-        self.scatterer.psd_integrator = PSDIntegrator()
-        self.scatterer.psd_integrator.axis_ratio_func = lambda D: 1.0 / \
-            self.bc(D)
-        self.scatterer.psd_integrator.D_max = 10.0
-        self.scatterer.psd_integrator.geometries = (
-            tmatrix_aux.geom_horiz_back, tmatrix_aux.geom_horiz_forw)
-        self.scatterer.or_pdf = orientation.gaussian_pdf(20.0)
-        self.scatterer.orient = orientation.orient_averaged_fixed
-        self.scatterer.psd_integrator.init_scatter_table(self.scatterer)
-
-    def radar_from_dsd(self, Nd):
-        for t in range(0, nt - 6):
-            BinnedDSD = pytmatrix.psd.BinnedPSD(
-                self.bins,  np.sum(Nd[t:t + 1], axis=0))
-            self.scatterer.psd = BinnedDSD
-            self.scatterer.set_geometry(tmatrix_aux.geom_horiz_back)
-            Zdr[t] = 10 * np.log10(radar.Zdr(self.scatterer))
-            Zh[t] = 10 * np.log10(radar.refl(self.scatterer))
-            self.scatterer.set_geometry(tmatrix_aux.geom_horiz_forw)
-            Kdp[t] = radar.Kdp(self.scatterer)
-            Ai[t] = radar.Ai(self.scatterer)
-
 
     diameter = [
         0.06, 0.19, 0.32, 0.45, 0.58, 0.71, 0.84, 0.96, 1.09, 1.22, 1.42, 1.67,
@@ -147,27 +121,3 @@ class ParsivelReader(object):
     def bc(D_eq):
         return 1.0048 + 5.7 * 10 ** (-4) - 2.628 * 10 ** (-2) * D_eq * D_eq ** 2 +\
             3.682 * 10 ** (-3) * D_eq ** 3 - 1.677 * 10 ** -4 * D_eq ** 4
-
-#Nd = np.power(10, np.array(Nd))
-#ndt = np.array(ndt)
-
-#Nd[Nd < 0] = 0
-#ndt[ndt < 0] = 0
-#k = 92
-
-
-# At this point we have Nd, need to do the scattering calculations
-
-
-#nt = Nd.shape[0]
-
-#Kdp = np.zeros(nt)
-#Zh = np.zeros(nt)
-#Zdr = np.zeros(nt)
-#Ai = np.zeros(nt)
-
-#rain_rate = np.array(rain_intensity)
-
-#if __name__ == '__main__':
-#    filename = '/net/makalu/radar/tmp/jhardin/parsiveldata/20110910.mis'
-#    par_reader = ParsivelReader(filename)
