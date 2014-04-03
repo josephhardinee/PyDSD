@@ -17,7 +17,7 @@ def read_parsivel(filename):
                                bin_edges=reader.bin_edges)
 
     dsd.raw_matrix = reader.raw
-    dsd.Z = reader.Z
+    dsd.filtered_raw_matrix = reader.filtered_raw_matrix
     return dsd
 
 
@@ -45,14 +45,14 @@ class ParsivelReader(object):
         self.filename = filename
 
         #pcm_matrix_file = open('parsivel_conditional_matrix.txt')
-        #self.pcm_matrix = np.reshape(
-        #    map(int, pcm_matrix_file.read().rstrip('\n').split(',')), (32, 32))
+        self.pcm = np.reshape(self.pcm_matrix, (32, 32))
 
         self._read_file()
         self._prep_data()
 
         self.bin_edges = np.hstack(
             (0, self.diameter + np.array(self.spread) / 2))
+        self._apply_pcm_matrix()
 
     def _read_file(self):
         with open(self.filename) as f:
@@ -80,7 +80,10 @@ class ParsivelReader(object):
                         map(int, line.split(':')[1].strip('\r\n;').split(';')))
 
     def _apply_pcm_matrix(self):
-        pass
+        self.filtered_raw_matrix = np.ndarray(shape=(len(self.raw),
+                                        32, 32), dtype=float)
+        for i in range(len(self.raw)):
+            self.filtered_raw_matrix[i] = np.multiply(self.pcm, np.reshape(self.raw[i],(32,32)))
 
     def _prep_data(self):
         self.rain_rate = np.array(self.rain_rate)
