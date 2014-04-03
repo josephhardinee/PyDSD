@@ -2,11 +2,11 @@
 import numpy as np
 import numpy.ma as ma
 import pytmatrix
-import DSDProcessor
 from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
 import DSR
+from expfit import expfit
 
 class DropSizeDistribution(object):
     '''
@@ -59,3 +59,26 @@ class DropSizeDistribution(object):
         self.scatterer.orient = orientation.orient_averaged_fixed
         self.scatterer.psd_integrator.init_scatter_table(self.scatterer)
 
+    def calc_R_kdp_relationship(self):
+        '''
+        calc_R_kdp_relationship calculates a power fit for the rainfall-kdp
+        relationship based upon the calculated radar parameters(which should
+        have already been run). It returns the scale and exponential
+        parameter a and b in the first tuple, and the second returned argument
+        gives the covariance of the fit.
+        '''
+        popt, pcov = expfit(self.Kdp[self.rain_rate > 0],
+                            self.rain_rate[self.rain_rate > 0])
+
+        return popt, pcov
+
+    def calc_R_Zh_relationship(self):
+        '''
+        calc_R_Zh_relationship calculates the power law fit for Zh based
+        upon scattered radar parameters. It returns the scale and exponential
+        parameter a and b in the first tuple, and the second returned argument
+        gives the covariance of the fit.
+        '''
+        popt, pcov = expfit(self.Zh[self.rain_rate > 0],
+                            self.rain_rate[self.rain_rate > 0])
+        return popt, pcov
