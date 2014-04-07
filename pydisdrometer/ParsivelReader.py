@@ -8,6 +8,13 @@ def read_parsivel(filename):
     '''
     Takes a filename pointing to a parsivel raw file and returns
     a drop size distribution object.
+
+    Usage:
+    dsd = read_parsivel(filename)
+
+    Returns: 
+    DropSizeDistrometer object
+
     '''
 
     reader = ParsivelReader(filename)

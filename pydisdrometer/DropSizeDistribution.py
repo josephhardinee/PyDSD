@@ -33,7 +33,14 @@ class DropSizeDistribution(object):
 
     def calc_radar_parameters(self, wavelength=tmatrix_aux.wl_X):
         '''
-        Calculates the radar parameters and stores them in the object
+        Calculates the radar parameters and stores them in the object.
+        Defaults to X-Band,Beard and Chuang setup. 
+        
+        Sets object radar parameters:
+            Zh, Zdr, Kdp, Ai
+
+        Parameter:
+            wavelength = tmatrix supported wavelength.
         '''
         self._setup_scattering(wavelength)
 
