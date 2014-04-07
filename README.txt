@@ -1,11 +1,10 @@
-#PyDisdrometer
+# PyDisdrometer
 
 PyDisdrometer is a package to process disdrometer files. It currently supports OTT Parsivel disdrometers. It is currently in alpha so functionality is limited.
 
-##Usage
+## Usage
 dsd = pydisdrometer.read_parsivel(filename)
 
-#This will calculate radar parameters. 
 dsd.calc_radar_parameters() 
 
 Author: Joseph C. Hardin
