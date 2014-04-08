@@ -11,6 +11,12 @@ dsd = pydisdrometer.read_parsivel(filename)
 dsd.calc_radar_parameters() 
 ```
 
+If using Ground Validation Parsivel Disdrometer Data, usage is more like
+
+```python
+dsd = pydisdrometer.read_parsivel_gv(filename, campaign='ifloods')
+```
+
 Requirements:
     This library currently requires the normal scientific python stack(numpy+scipy+matplotlib)
     It also requires the [PyTMatrix Package](https://github.com/jleinonen/pytmatrix). 
