@@ -10,6 +10,6 @@ setup(
     url='http://pypi.python.org/pypi/PyDisdrometer/',
     license='LICENSE.txt',
     description='Pyton Disdrometer Processing',
-    long_description=open('README.txt').read(),
+    long_description=open('README.md').read(),
 )
 
