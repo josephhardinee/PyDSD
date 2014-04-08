@@ -21,7 +21,7 @@ def read_parsivel(filename):
     dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
                                rain_rate=reader.rain_rate, velocity=reader.velocity,
                                Z=reader.Z, num_particles=reader.num_particles,
-                               bin_edges=reader.bin_edges)
+                               bin_edges=reader.bin_edges, diameter=reader.diameter)
 
     dsd.raw_matrix = reader.raw
     dsd.filtered_raw_matrix = reader.filtered_raw_matrix

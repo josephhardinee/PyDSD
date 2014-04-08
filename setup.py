@@ -1,5 +1,6 @@
 from distutils.core import setup
 
+
 setup(
     name='PyDisdrometer',
     version='0.1.0',

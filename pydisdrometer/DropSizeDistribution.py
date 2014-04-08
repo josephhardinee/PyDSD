@@ -15,7 +15,7 @@ class DropSizeDistribution(object):
     '''
 
     def __init__(self, time, Nd, spread, rain_rate=None, velocity=None, Z=None,
-                num_particles=None, bin_edges=None):
+                num_particles=None, bin_edges=None, diameter=None):
         self.time = time
         self.Nd = Nd
         self.spread = spread
@@ -24,6 +24,7 @@ class DropSizeDistribution(object):
         self.Z = Z
         self.num_particles = num_particles
         self.bin_edges = bin_edges
+        self.diameter=diameter
 
         lt = len(time)
         self.Zh = np.zeros(lt)
