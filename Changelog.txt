@@ -1,3 +1,6 @@
+v0.1.2:
+    FEATURE: Added Support for MC3E style *_dsd files
+    FEATURE: Added Campaing keyword to parsivel GV class
 v0.1.1:
     FEATURE: Added NASA Ground Validation File format reader
 v0.1.0: 
