@@ -9,13 +9,14 @@ from expfit import expfit
 
 
 class DropSizeDistribution(object):
+
     '''
     DropSizeDistribution class to hold DSD's and calculate parameters
     and relationships. Should be returned from the disdrometer*reader objects.
     '''
 
     def __init__(self, time, Nd, spread, rain_rate=None, velocity=None, Z=None,
-                num_particles=None, bin_edges=None, diameter=None):
+                 num_particles=None, bin_edges=None, diameter=None):
         self.time = time
         self.Nd = Nd
         self.spread = spread
@@ -24,7 +25,7 @@ class DropSizeDistribution(object):
         self.Z = Z
         self.num_particles = num_particles
         self.bin_edges = bin_edges
-        self.diameter=diameter
+        self.diameter = diameter
 
         lt = len(time)
         self.Zh = np.zeros(lt)
@@ -57,9 +58,10 @@ class DropSizeDistribution(object):
 
     def _setup_scattering(self, wavelength):
         self.scatterer = Scatterer(wavelength=wavelength,
-                m=refractive.m_w_10C[wavelength])
+                                   m=refractive.m_w_10C[wavelength])
         self.scatterer.psd_integrator = PSDIntegrator()
-        self.scatterer.psd_integrator.axis_ratio_func = lambda D: 1.0 / DSR.bc(D)
+        self.scatterer.psd_integrator.axis_ratio_func = lambda D: 1.0 / \
+            DSR.bc(D)
         self.scatterer.psd_integrator.D_max = 10.0
         self.scatterer.psd_integrator.geometries = (
             tmatrix_aux.geom_horiz_back, tmatrix_aux.geom_horiz_forw)
@@ -89,6 +91,6 @@ class DropSizeDistribution(object):
         gives the covariance matrix of the fit.
         '''
 
-        popt, pcov = expfit(np.power(10, 0.1*self.Zh[self.rain_rate > 0]),
+        popt, pcov = expfit(np.power(10, 0.1 * self.Zh[self.rain_rate > 0]),
                             self.rain_rate[self.rain_rate > 0])
         return popt, pcov

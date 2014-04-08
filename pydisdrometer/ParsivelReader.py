@@ -88,9 +88,10 @@ class ParsivelReader(object):
 
     def _apply_pcm_matrix(self):
         self.filtered_raw_matrix = np.ndarray(shape=(len(self.raw),
-                                        32, 32), dtype=float)
+                                                     32, 32), dtype=float)
         for i in range(len(self.raw)):
-            self.filtered_raw_matrix[i] = np.multiply(self.pcm, np.reshape(self.raw[i],(32,32)))
+            self.filtered_raw_matrix[i] = np.multiply(
+                self.pcm, np.reshape(self.raw[i], (32, 32)))
 
     def _prep_data(self):
         self.rain_rate = np.array(self.rain_rate)
