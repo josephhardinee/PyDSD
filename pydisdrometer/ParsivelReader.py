@@ -40,7 +40,7 @@ class ParsivelReader(object):
 
     def __init__(self, filename):
         self.filename = filename
-            rain_rate = []
+        rain_rate = []
         self.Z = []
         self.num_particles = []
 
