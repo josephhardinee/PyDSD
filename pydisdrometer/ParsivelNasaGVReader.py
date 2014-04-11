@@ -93,6 +93,8 @@ class NASA_APU_reader(object):
         self.bin_edges = np.hstack(
             (0, self.diameter + np.array(self.spread) / 2))
 
+        self.f.close()
+
     def _regenerate_rainfall(self):
         '''
         The goal of this function is to recreate the rainfall that the 
