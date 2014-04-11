@@ -12,7 +12,7 @@ def read_parsivel(filename):
     Usage:
     dsd = read_parsivel(filename)
 
-    Returns: 
+    Returns:
     DropSizeDistrometer object
 
     '''
@@ -36,20 +36,21 @@ class ParsivelReader(object):
 
     '''
 
-    rain_rate = []
-    Z = []
-    num_particles = []
 
-    nd = []
-    vd = []
-    raw = []
-    code = []
-    time = []
-
-    ndt = []
 
     def __init__(self, filename):
         self.filename = filename
+            rain_rate = []
+        self.Z = []
+        self.num_particles = []
+
+        self.nd = []
+        self.vd = []
+        self.raw = []
+        self.code = []
+        self.time = []
+
+        self.ndt = []
 
         #pcm_matrix_file = open('parsivel_conditional_matrix.txt')
         self.pcm = np.reshape(self.pcm_matrix, (32, 32))

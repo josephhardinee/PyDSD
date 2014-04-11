@@ -24,10 +24,10 @@ def read_parsivel_nasa_gv(filename, campaign='ifloods'):
     'mc3e_dsd'
     'mc3e_raw'
 
-    Returns: 
+    Returns:
     DropSizeDistrometer object
-    
-    Note: NASA's processing strips out rain rate so we have to 
+
+    Note: NASA's processing strips out rain rate so we have to
     recalculate it based upon a fall speed relationship.
     '''
 
@@ -42,17 +42,18 @@ def read_parsivel_nasa_gv(filename, campaign='ifloods'):
     else:
         return None
 
+    del(reader)
+
 
 class NASA_APU_reader(object):
 
     '''
-    This class reads and parses parsivel disdrometer data from nasa ground campaigns. These conform to document 
+    This class reads and parses parsivel disdrometer data from nasa ground campaigns. These conform to document
 
     Use the read_parsivel_nasa_gv() function to interface with this.
     '''
 
-    time = []  # Time in minutes from start of recording
-    Nd = []
+
     # Nt      = []
     # T       = []
     # W       = []
@@ -65,6 +66,9 @@ class NASA_APU_reader(object):
         '''
         Handles setting up a NASA APU Reader
         '''
+
+        self.time = []  # Time in minutes from start of recording
+        self.Nd = []
 
         if not campaign in self.supported_campaigns:
             print('Campaign type not supported')
@@ -97,7 +101,7 @@ class NASA_APU_reader(object):
 
     def _regenerate_rainfall(self):
         '''
-        The goal of this function is to recreate the rainfall that the 
+        The goal of this function is to recreate the rainfall that the
         NASA processing removes. The alternative is to merge the dsd and
         raintables files together. We might add that later
         '''
