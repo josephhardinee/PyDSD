@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 
 setup(
@@ -11,5 +11,6 @@ setup(
     license='LICENSE.txt',
     description='Pyton Disdrometer Processing',
     long_description=open('README.md').read(),
+    install_requires=['pytmatrix>=0.2.0']
 )
 

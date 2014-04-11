@@ -25,7 +25,7 @@ Requirements:
 This library should see significant updates over the coming weeks. We welcome contributions from all users. 
 
 Planned feature additions in short term:
-    1) 2D-DVD format reader
-    2) Normalized Gamma Parameter Estimation
-    3) Statistical Calculation Support
+    1) 2D-DVD format reader   
+    2) Normalized Gamma Parameter Estimation   
+    3) Statistical Calculation Support   
 
