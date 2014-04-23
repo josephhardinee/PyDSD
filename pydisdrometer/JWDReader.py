@@ -3,7 +3,7 @@ import numpy as np
 from DropSizeDistribution import DropSizeDistribution
 
 
-def read_jvd(filename):
+def read_jwd(filename):
     '''
     Takes a filename pointing to a Joss-WaldVogel file and returns
     a drop size distribution object.
