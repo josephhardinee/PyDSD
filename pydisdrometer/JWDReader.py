@@ -3,7 +3,7 @@ import numpy as np
 from DropSizeDistribution import DropSizeDistribution
 
 
-def read_jvd(filename):
+def read_jwd(filename):
     '''
     Takes a filename pointing to a Joss-WaldVogel file and returns
     a drop size distribution object.
@@ -50,11 +50,13 @@ class JWDReader(object):
         self.bin_edges = np.hstack(
             (0, self.diameter + np.array(self.spread) / 2))
 
-    def getSec(self, s):
+    def getSec(self, s, start_hh, start_mm):
         l = s.split(':')
-        if int(l[0]) <= 15 and int(l[1]) < 37:
+        if int(l[0]) < start_hh: 
             return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2]) + 86400
-        else:
+        elif int(l[0]) == start_hh and int(l[1]) < start_mm:
+	    return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2]) + 86400
+	else:
             return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2])
 
     def conv_md_to_nd(self, Nd):
@@ -66,15 +68,29 @@ class JWDReader(object):
     def _read_file(self):
         with open(self.filename) as f:
             next(f)
-            for line in f:
-                self.time.append(
-                    float(self.getSec(line.split()[1])))
-                md = line.split()[3:23]
-                md_float = np.array(map(float, md))
-                self.Nd.append(
-                    self.conv_md_to_nd(md_float))
-                self.rain_rate.append(
-                    float(line.split()[24]))
+            for i,line in enumerate(f):
+		if i==1:
+		    start_time = line.split()[1]
+	    	    t = start_time.split(':')
+	            start_hh = int(t[0])
+	            start_mm = int(t[1])
+                    self.time.append(
+                         float(self.getSec(line.split()[1],start_hh,start_mm)))
+                    md = line.split()[3:23]
+                    md_float = np.array(map(float, md))
+                    self.Nd.append(
+                         self.conv_md_to_nd(md_float))
+                    self.rain_rate.append(
+                         float(line.split()[24]))
+		elif i>1:
+		    self.time.append(
+                         float(self.getSec(line.split()[1],start_hh,start_mm)))
+                    md = line.split()[3:23]
+                    md_float = np.array(map(float, md))
+                    self.Nd.append(
+                         self.conv_md_to_nd(md_float))
+                    self.rain_rate.append(
+                         float(line.split()[24]))
 
     def _prep_data(self):
         self.Nd = np.array(self.Nd)
