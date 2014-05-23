@@ -1,4 +1,5 @@
 # PyDisdrometer
+![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.9991.png)   
 
 PyDisdrometer is a package to process disdrometer files. It currently supports OTT Parsivel disdrometers. It is currently in alpha so functionality is limited.
 
