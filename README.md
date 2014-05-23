@@ -29,3 +29,5 @@ Planned feature additions in short term:
     2) Normalized Gamma Parameter Estimation   
     3) Statistical Calculation Support   
 
+Changelog:
+May 22, 2014: Added support for raw formats from Wallops(Parsivel)

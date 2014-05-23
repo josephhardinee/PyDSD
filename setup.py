@@ -5,7 +5,7 @@ setup(
     version='0.1.4',
     author='Joseph C. Hardin',
     author_email='josephhardinee@gmail.com',
-    packages=['pydisdrometer'],
+    packages=['pydisdrometer', 'pydisdrometer.aux_readers'],
     url='http://pypi.python.org/pypi/PyDisdrometer/',
     license='LICENSE.txt',
     description='Pyton Disdrometer Processing',
