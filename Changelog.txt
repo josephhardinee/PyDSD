@@ -1,3 +1,6 @@
+v0.1.5:
+	Updated Documentation
+
 v0.1.4:
 	FEATURE: Added Joss Waldvogel Support
 v0.1.3:

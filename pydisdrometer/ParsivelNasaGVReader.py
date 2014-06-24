@@ -12,7 +12,7 @@ import datetime
 
 def read_parsivel_nasa_gv(filename, campaign='ifloods'):
     '''
-    Takes a filename pointing to a parsivel NASA Field Campaign file and returns
+    Takes a filename pointing to a Parsivel NASA Field Campaign file and returns
     a drop size distribution object.
 
     Usage:
