@@ -5,7 +5,7 @@ from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
 import DSR
-from expfit import expfit
+from expfit import expfit, expfit2
 from scipy.optimize import curve_fit
 
 
@@ -167,58 +167,62 @@ class DropSizeDistribution(object):
                             self.rain_rate[self.rain_rate > 0])
         return popt, pcov
 
-    def calc_rainfall_relationship(self, moments):
+    def calc_R_Zh_Zdr_relationship(self):
         '''
-        Calculate the rainfall empirical relationship. Moments is a
-        list of which parameters you want the relationship for. This uses
-        whatever frequency/temp the radar data was simulated at.
-        Current options are:
-        ['reflectivity' , 'differential_reflectivity' , 'specific_differential_phase']
-
-        Usage:
-        popt, pcov = calc_R_relationship(['reflectivity', 'differential_reflectivity'])
-
-        Returns:
-        Optimal parameters, covariance of fit
+        calc_R_Zh_Zdr_relationship calculates the power law fit for Zh,Zdr
+        based upon scattered radar parameters. It returns the scale and
+        exponential parameters a, b, and c in the first tuple, and the
+        second returned argument gives the covariance matrix of the fit.
+        Uses a set of filters to remove bad data:
+        rain_rate > 0
+        Zdr > 0
+        Kdp > 0
         '''
-        if self.rain_rate is None:
-            print('No Rain Rate Present')
-            return None
-        if self.Zh is None:
-            print('No Radar Calculated Variables Present. \
-                    Please run calc_radar_moments()')
-            return None
-        if moments is None:
-            print('No moments selected')
-            return None
+        filt = np.logical_and(np.logical_and(self.rain_rate > 0, np.greater(self.Zdr,0)), self.Kdp > 0)
+        popt, pcov = expfit2([self._idb(self.Zh[filt]),
+                                self._idb(self.Zdr[filt])],
+                                self.rain_rate[filt])
+        return popt, pcov
 
-        filt = np.logical_and(self.Kdp > 0, self.rain_rate > 0)
-        # I'm having a stupid day and couldn't figure
-        # out a more elegant way of doing this.
-        lzh = len(self.Zh)
-        x1 = np.ones(lzh)
-        x2 = np.ones(lzh)
-        x3 = np.ones(lzh)
+    def calc_R_Zh_Kdp_relationship(self):
+        '''
+        calc_R_Zh_Kdp_relationship calculates the power law fit for Zh,Kdp
+        based upon scattered radar parameters. It returns the scale and
+        exponential parameters a, b, and c in the first tuple, and the
+        second returned argument gives the covariance matrix of the fit.
+        rain_rate > 0
+        Zdr > 0
+        Kdp > 0
+       '''
 
-        if 'reflectivity' in moments:
-            x1 = self.Zh
-        if 'differential_reflectivity' in moments:
-            x2 = self.Zdr
-        if 'specific_differential_phase' in moments:
-            x3 = self.Kdp
+        filt = np.logical_and(np.logical_and(self.rain_rate > 0, self.Zdr > 0), self.Kdp > 0)
+        popt, pcov = expfit2([self._idb(self.Zh[filt]),
+                                self.Kdp[filt]],
+                                self.rain_rate[filt])
+        return popt, pcov
 
-        if len(moments) == 3:
-            fit_func = lambda x1, x2, x3, a, b, c, d: a * \
-               np.multiply(np.multiply( np.power(self.__idb(x1), b), np.power(self.__idb(x2),c)), np.power(x3,d))
-            popt, pcov = curve_fit(fit_func, (x1[filt], x2[filt], x3[filt]),
-                    (1, 1, 1, 1))
-            return popt, pcov
-        if len(moments) < 3:
-            print('Have not implemented 2 yet')
+    def calc_R_Zdr_Kdp_relationship(self):
+        '''
+        calc_R_Zdr_Kdp_relationship calculates the power law fit for Zdr,Kdp
+        based upon scattered radar parameters. It returns the scale and
+        exponential parameters a, b, and c in the first tuple, and the
+        second returned argument gives the covariance matrix of the fit.
+        rain_rate > 0
+        Zdr > 0
+        Kdp > 0
+      '''
 
-        return None
+        filt = np.logical_and(np.logical_and(self.rain_rate > 0, self.Zdr > 0), self.Kdp > 0)
+        popt, pcov = expfit2([self._idb(self.Zdr[filt]),
+                                self.Kdp[filt]],
+                                self.rain_rate[filt])
+        return popt, pcov
 
-    def __idb(self, db):
+
+    def _idb(self, db):
+        '''
+        Converts dB to linear scale
+        '''
         return np.power(10, np.multiply(0.1, db))
 
     def mmultiply(self, *args):
