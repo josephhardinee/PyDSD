@@ -60,7 +60,7 @@ class DropSizeDistribution(object):
 
     def _setup_scattering(self, wavelength):
         '''
-        This internal function sets up the scattering table. It takes the
+        This internal function sets up the scattering table. It takes a
         wavelength as an argument where wavelength is one of the pytmatrix
         accepted wavelengths.
         '''
@@ -178,10 +178,11 @@ class DropSizeDistribution(object):
         Zdr > 0
         Kdp > 0
         '''
-        filt = np.logical_and(np.logical_and(self.rain_rate > 0, np.greater(self.Zdr,0)), self.Kdp > 0)
+        filt = np.logical_and(
+            np.logical_and(self.rain_rate > 0, np.greater(self.Zdr, 0)), self.Kdp > 0)
         popt, pcov = expfit2([self._idb(self.Zh[filt]),
-                                self._idb(self.Zdr[filt])],
-                                self.rain_rate[filt])
+                              self._idb(self.Zdr[filt])],
+                             self.rain_rate[filt])
         return popt, pcov
 
     def calc_R_Zh_Kdp_relationship(self):
@@ -195,10 +196,11 @@ class DropSizeDistribution(object):
         Kdp > 0
        '''
 
-        filt = np.logical_and(np.logical_and(self.rain_rate > 0, self.Zdr > 0), self.Kdp > 0)
+        filt = np.logical_and(
+            np.logical_and(self.rain_rate > 0, self.Zdr > 0), self.Kdp > 0)
         popt, pcov = expfit2([self._idb(self.Zh[filt]),
-                                self.Kdp[filt]],
-                                self.rain_rate[filt])
+                              self.Kdp[filt]],
+                             self.rain_rate[filt])
         return popt, pcov
 
     def calc_R_Zdr_Kdp_relationship(self):
@@ -212,12 +214,12 @@ class DropSizeDistribution(object):
         Kdp > 0
       '''
 
-        filt = np.logical_and(np.logical_and(self.rain_rate > 0, self.Zdr > 0), self.Kdp > 0)
+        filt = np.logical_and(np.logical_and(self.rain_rate > 0, self.Zdr > 0),
+                              self.Kdp > 0)
         popt, pcov = expfit2([self._idb(self.Zdr[filt]),
-                                self.Kdp[filt]],
-                                self.rain_rate[filt])
+                              self.Kdp[filt]],
+                             self.rain_rate[filt])
         return popt, pcov
-
 
     def _idb(self, db):
         '''
@@ -226,6 +228,10 @@ class DropSizeDistribution(object):
         return np.power(10, np.multiply(0.1, db))
 
     def mmultiply(self, *args):
+        '''
+        mmultiply extends numpy multiply to arbitrary number of same
+        sized matrices
+        '''
         i_value = np.ones(len(args[0]))
         for i in args:
             i_value = np.multiply(i_value, i)
