@@ -1,6 +1,9 @@
+v0.1.6:
+	FEATURE: Added PyPI support
+	FEATURE: Added two-moment estimators for Rain Rate
+	FEATURE: Added terminal velocity rain rate calculation
 v0.1.5:
 	Updated Documentation
-
 v0.1.4:
 	FEATURE: Added Joss Waldvogel Support
 v0.1.3:
