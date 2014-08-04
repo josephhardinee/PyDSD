@@ -9,7 +9,11 @@ setup(
     url='http://pypi.python.org/pypi/PyDisdrometer/',
     license='LICENSE.txt',
     description='Pyton Disdrometer Processing',
-    long_description=open('README.md').read(),
-    install_requires=['pytmatrix>=0.2.0']
-)
+    long_description=open('description.txt').read(),
+    install_requires=['pytmatrix>=0.2.0'],
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Environment :: Console"
+        ],
 
+)
