@@ -37,6 +37,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
+    'numpydoc',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -335,7 +336,6 @@ epub_copyright = u'2014, Joseph C. Hardin'
 
 # If false, no index is generated.
 #epub_use_index = True
-
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'http://docs.python.org/': None}

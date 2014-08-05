@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+'''
+The Drop Size Distribution model contains the DropSizeDistribution class.
+This class represents drop size distributions returned from the various
+readers in the io module. The class knows how to perform scattering
+simulations on itself.
+'''
+
 import numpy as np
 import pytmatrix
 from pytmatrix.tmatrix import Scatterer
@@ -10,15 +17,28 @@ from scipy.optimize import curve_fit
 
 
 class DropSizeDistribution(object):
-
     '''
     DropSizeDistribution class to hold DSD's and calculate parameters
-    and relationships. Should be returned from the disdrometer*reader
+    and relationships. Should be returned from the disdrometer*reader style
     functions.
     '''
 
     def __init__(self, time, Nd, spread, rain_rate=None, velocity=None, Z=None,
                  num_particles=None, bin_edges=None, diameter=None):
+        '''Initializer for the dropsizedistribution class.
+
+        The DropSizeDistribution class holds dsd's returned from the various
+        readers in the io module.
+
+        Parameters
+        ----------
+        time: array_like
+            An array of times corresponding to the time each dsd was sampled.
+        Nd : 2d Array
+            A list of drop size distributions
+
+        '''
+
         self.time = time
         self.Nd = Nd
         self.spread = spread
@@ -137,7 +157,7 @@ class DropSizeDistribution(object):
             #    np.array(self.diameter)**3)
             velocity = 9.65 - 10.3 * np.exp(-0.6 * self.diameter)
             velocity[0] = 0.5
-            self.rain_rate[t] = 0.6 * np.pi * 1e-03 * np.sum(self.mmultiply(
+            self.rain_rate[t] = 0.6 * np.pi * 1e-03 * np.sum(self._mmultiply(
                 velocity, self.Nd[t], self.spread, np.array(self.diameter) ** 3))
 
     def calc_R_kdp_relationship(self):
@@ -227,9 +247,9 @@ class DropSizeDistribution(object):
         '''
         return np.power(10, np.multiply(0.1, db))
 
-    def mmultiply(self, *args):
+    def _mmultiply(self, *args):
         '''
-        mmultiply extends numpy multiply to arbitrary number of same
+        _mmultiply extends numpy multiply to arbitrary number of same
         sized matrices
         '''
         i_value = np.ones(len(args[0]))
