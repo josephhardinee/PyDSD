@@ -1,24 +1,5 @@
-pydisdrometer.aux_readers package
+:mod:`pydisdrometer.aux_readers`
 =================================
-
-Submodules
-----------
-
-pydisdrometer.aux_readers.GPMApuWallopsRawReader module
--------------------------------------------------------
-
-.. automodule:: pydisdrometer.aux_readers.GPMApuWallopsRawReader
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-pydisdrometer.aux_readers.NASA_2DVD_reader module
--------------------------------------------------
-
-.. automodule:: pydisdrometer.aux_readers.NASA_2DVD_reader
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 
 Module contents
@@ -28,3 +9,20 @@ Module contents
     :members:
     :undoc-members:
     :show-inheritance:
+
+:mod:`GPMApuWallopsRawReader`
+--------------------------------------------------------
+
+.. automodule:: pydisdrometer.aux_readers.GPMApuWallopsRawReader
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`NASA_2DVD_reader`
+-------------------------------------------------
+
+.. automodule:: pydisdrometer.aux_readers.NASA_2DVD_reader
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
