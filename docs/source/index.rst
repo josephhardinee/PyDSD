@@ -13,6 +13,7 @@ Contents:
 
    pydisdrometer.rst
    pydisdrometer.aux_readers.rst
+   pydisdrometer.plot.rst
 
 Indices and tables
 ==================

@@ -2,10 +2,12 @@ from setuptools import setup
 
 setup(
     name='PyDisdrometer',
-    version='0.1.7',
+    version='0.1.7.1',
     author='Joseph C. Hardin',
     author_email='josephhardinee@gmail.com',
-    packages=['pydisdrometer', 'pydisdrometer.aux_readers'],
+    packages=['pydisdrometer',
+              'pydisdrometer.aux_readers',
+              'pydisdrometer.plot'],
     url='http://pypi.python.org/pypi/PyDisdrometer/',
     license='LICENSE.txt',
     description='Pyton Disdrometer Processing',
