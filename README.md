@@ -30,8 +30,4 @@ Requirements:
 
 This library should see significant updates over the coming weeks. We welcome contributions from all users. Please see the examples in Notebooks for a more indepth guide on how to use PyDisdrometer.
 
-Planned feature additions in short term:   
-1) 2D-DVD format reader   
-2) Normalized Gamma Parameter Estimation   
-3) Statistical Calculation Support   
 

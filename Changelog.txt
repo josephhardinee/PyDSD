@@ -1,3 +1,6 @@
+v0.1.7:
+	FEATURE: Added 2DVD support from MC3E
+	DOC: Added Sphinx Documentation Support
 v0.1.6:
 	FEATURE: Added PyPI support
 	FEATURE: Added two-moment estimators for Rain Rate

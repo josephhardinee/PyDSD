@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='PyDisdrometer',
-    version='0.1.6',
+    version='0.1.7',
     author='Joseph C. Hardin',
     author_email='josephhardinee@gmail.com',
     packages=['pydisdrometer', 'pydisdrometer.aux_readers'],
