@@ -22,7 +22,7 @@ If using NASA Ground Validation Parsivel Disdrometer Data, usage is more like
 dsd = pydisdrometer.read_parsivel_gv(filename, campaign='ifloods')
 ```
 
-For more information, please see the examples in the Notebooks directory.
+For more information, please see the examples in the Notebooks directory. Additionally you can find some initial documentation at [PyDisdrometer Documentation](http://josephhardinee.github.io/PyDisdrometer)
 
 Requirements:
     This library currently requires the normal scientific python stack(numpy+scipy+matplotlib)
