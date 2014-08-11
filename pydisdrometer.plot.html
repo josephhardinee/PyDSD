@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pydisdrometer.plot &mdash; PyDisdrometer 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyDisdrometer 1.0 documentation" href="index.html" />
+    <link rel="prev" title="pydisdrometer.aux_readers" href="pydisdrometer.aux_readers.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pydisdrometer.aux_readers.html" title="pydisdrometer.aux_readers"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PyDisdrometer 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pydisdrometer-plot">
+<h1><a class="reference internal" href="#module-pydisdrometer.plot" title="pydisdrometer.plot"><tt class="xref py py-mod docutils literal"><span class="pre">pydisdrometer.plot</span></tt></a><a class="headerlink" href="#pydisdrometer-plot" title="Permalink to this headline">¶</a></h1>
+<p>This module contains plotting functions for the <cite>DropSizeDistribution</cite> object.</p>
+<div class="section" id="module-pydisdrometer.plot">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydisdrometer.plot" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pydisdrometer.plot.plot">
+<span id="dsd-plots"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">dsd_plots</span></tt><a class="headerlink" href="#module-pydisdrometer.plot.plot" title="Permalink to this headline">¶</a></h2>
+<p>Plotting routines for different aspects of the drop size distribution class.
+This may eventually be moved into the class itself.</p>
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.plot_dsd">
+<tt class="descclassname">pydisdrometer.plot.plot.</tt><tt class="descname">plot_dsd</tt><big>(</big><em>dsd</em>, <em>range=None</em>, <em>log_scale=True</em>, <em>tighten=True</em><big>)</big><a class="headerlink" href="#pydisdrometer.plot.plot.plot_dsd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plotting function for drop size distribution Nd</p>
+<p>plot_dsd creates a pcolor based plot for a drop size distribution object&#8217;s
+<cite>Nd</cite> field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dsd: DropSizeDistribution</strong></p>
+<blockquote>
+<div><p>Drop Size Distribution instance containing a <cite>Nd</cite>.</p>
+</div></blockquote>
+<p><strong>range: tuple</strong></p>
+<blockquote>
+<div><p>A tuple containing the range to be plotted in form
+(x_begin,x_end,y_begin,y_end)</p>
+</div></blockquote>
+<p><strong>log_scale: boolean</strong></p>
+<blockquote>
+<div><p>Whether to plot on a log scale, or a linear scale.</p>
+</div></blockquote>
+<p><strong>tighten: True</strong></p>
+<blockquote>
+<div><p>Whether to restrict plot to areas with data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">fig_handle: Figure Handle</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">pydisdrometer.plot</span></tt></a><ul>
+<li><a class="reference internal" href="#module-pydisdrometer.plot">Module contents</a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.plot.plot"><tt class="docutils literal"><span class="pre">dsd_plots</span></tt></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pydisdrometer.aux_readers.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">pydisdrometer.aux_readers</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pydisdrometer.plot.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pydisdrometer.aux_readers.html" title="pydisdrometer.aux_readers"
+             >previous</a> |</li>
+        <li><a href="index.html">PyDisdrometer 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Joseph C. Hardin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>

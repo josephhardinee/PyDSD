@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pydisdrometer.aux_readers &mdash; PyDisdrometer 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyDisdrometer 1.0 documentation" href="index.html" />
+    <link rel="next" title="pydisdrometer.plot" href="pydisdrometer.plot.html" />
+    <link rel="prev" title="pydisdrometer.aux_readers" href="" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pydisdrometer.plot.html" title="pydisdrometer.plot"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="#" title="pydisdrometer.aux_readers"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PyDisdrometer 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pydisdrometer-aux-readers">
+<h1><a class="reference internal" href="#module-pydisdrometer.aux_readers" title="pydisdrometer.aux_readers"><tt class="xref py py-mod docutils literal"><span class="pre">pydisdrometer.aux_readers</span></tt></a><a class="headerlink" href="#pydisdrometer-aux-readers" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pydisdrometer.aux_readers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydisdrometer.aux_readers" title="Permalink to this headline">¶</a></h2>
+<p>Auxillary Readers Module.</p>
+</div>
+<div class="section" id="module-pydisdrometer.aux_readers.GPMApuWallopsRawReader">
+<span id="gpmapuwallopsrawreader"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">GPMApuWallopsRawReader</span></tt><a class="headerlink" href="#module-pydisdrometer.aux_readers.GPMApuWallopsRawReader" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pydisdrometer.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader">
+<em class="property">class </em><tt class="descclassname">pydisdrometer.aux_readers.GPMApuWallopsRawReader.</tt><tt class="descname">GPMApuWallopsRawReader</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#pydisdrometer.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>This class reads and parses parsivel disdrometer data from
+nasa ground campaigns. These conform to document</p>
+<dl class="method">
+<dt id="pydisdrometer.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.conv_md_to_nd">
+<tt class="descname">conv_md_to_nd</tt><big>(</big><em>Md</em>, <em>t=0.16666666666666666</em><big>)</big><a class="headerlink" href="#pydisdrometer.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.conv_md_to_nd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pydisdrometer.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.diameter">
+<tt class="descname">diameter</tt><em class="property"> = array([  0.06,   0.19,   0.32,   0.45,   0.58,   0.71,   0.84,   0.96,          1.09,   1.22,   1.42,   1.67,   1.93,   2.19,   2.45,   2.83,          3.35,   3.86,   4.38,   4.89,   5.66,   6.7 ,   7.72,   8.76,          9.78,  11.33,  13.39,  15.45,  17.51,  19.57,  22.15,  25.24])</em><a class="headerlink" href="#pydisdrometer.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.diameter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pydisdrometer.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.spread">
+<tt class="descname">spread</tt><em class="property"> = [0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257, 0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515, 0.515, 0.515, 1.03, 1.03, 1.03, 1.03, 1.03, 2.06, 2.06, 2.06, 2.06, 2.06, 3.09, 3.09]</em><a class="headerlink" href="#pydisdrometer.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.spread" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pydisdrometer.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.velocity">
+<tt class="descname">velocity</tt><em class="property"> = array([  0.05,   0.15,   0.25,   0.35,   0.45,   0.55,   0.65,   0.75,          0.85,   0.96,   1.13,   1.35,   1.59,   1.83,   2.08,   2.4 ,          2.78,   3.15,   3.5 ,   3.84,   4.4 ,   5.2 ,   6.  ,   6.8 ,          7.6 ,   8.8 ,  10.4 ,  12.  ,  13.6 ,  15.2 ,  17.6 ,  20.8 ])</em><a class="headerlink" href="#pydisdrometer.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.velocity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.aux_readers.GPMApuWallopsRawReader.read_gpm_nasa_apu_raw_wallops">
+<tt class="descclassname">pydisdrometer.aux_readers.GPMApuWallopsRawReader.</tt><tt class="descname">read_gpm_nasa_apu_raw_wallops</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#pydisdrometer.aux_readers.GPMApuWallopsRawReader.read_gpm_nasa_apu_raw_wallops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a filename pointing to a parsivel NASA Field Campaign file with RAW Data and returns
+a drop size distribution object.</p>
+<p>Usage:
+dsd = read_gpm_nasa_apu_raw_wallops(filename)</p>
+<p>Returns:
+DropSizeDistrometer object</p>
+<p>Note: NASA&#8217;s processing strips out rain rate so we have to
+recalculate it based upon a fall speed relationship.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pydisdrometer.aux_readers.NASA_2DVD_reader">
+<span id="nasa-2dvd-reader"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">NASA_2DVD_reader</span></tt><a class="headerlink" href="#module-pydisdrometer.aux_readers.NASA_2DVD_reader" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pydisdrometer.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader">
+<em class="property">class </em><tt class="descclassname">pydisdrometer.aux_readers.NASA_2DVD_reader.</tt><tt class="descname">NASA_2DVD_dsd_reader</tt><big>(</big><em>filename</em>, <em>campaign</em><big>)</big><a class="headerlink" href="#pydisdrometer.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>This class reads and parses 2dvd disdrometer data from NASA ground
+campaigns.</p>
+<p>Use the read_2dvd_dsd_nasa_gv() function to interface with this.</p>
+<dl class="attribute">
+<dt id="pydisdrometer.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader.supported_campaigns">
+<tt class="descname">supported_campaigns</tt><em class="property"> = ['mc3e']</em><a class="headerlink" href="#pydisdrometer.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pydisdrometer.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader">
+<em class="property">class </em><tt class="descclassname">pydisdrometer.aux_readers.NASA_2DVD_reader.</tt><tt class="descname">NASA_2DVD_sav_reader</tt><big>(</big><em>filename</em>, <em>campaign</em><big>)</big><a class="headerlink" href="#pydisdrometer.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>This class reads and parses 2dvd disdrometer data from nasa ground
+campaigns.</p>
+<p>Use the read_2dvd_sav_nasa_gv() function to interface with this.</p>
+<dl class="attribute">
+<dt id="pydisdrometer.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader.supported_campaigns">
+<tt class="descname">supported_campaigns</tt><em class="property"> = ['ifloods']</em><a class="headerlink" href="#pydisdrometer.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.aux_readers.NASA_2DVD_reader.read_2dvd_dsd_nasa_gv">
+<tt class="descclassname">pydisdrometer.aux_readers.NASA_2DVD_reader.</tt><tt class="descname">read_2dvd_dsd_nasa_gv</tt><big>(</big><em>filename</em>, <em>campaign='mc3e'</em><big>)</big><a class="headerlink" href="#pydisdrometer.aux_readers.NASA_2DVD_reader.read_2dvd_dsd_nasa_gv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Takes a filename pointing to a 2D-Video Disdrometer NASA Field Campaign</dt>
+<dd>_dsd file and returns a drop size distribution object.</dd>
+</dl>
+<p>This reader processes the _dsd files generated.</p>
+<p>Usage:
+dsd = read_2dvd_dsd_nasa_gv(filename, campaign=&#8217;mc3e&#8217;)</p>
+<p>Current Options for campaign are:</p>
+<p>&#8216;mc3e&#8217;</p>
+<p>Returns:
+DropSizeDistrometer object</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.aux_readers.NASA_2DVD_reader.read_2dvd_sav_nasa_gv">
+<tt class="descclassname">pydisdrometer.aux_readers.NASA_2DVD_reader.</tt><tt class="descname">read_2dvd_sav_nasa_gv</tt><big>(</big><em>filename</em>, <em>campaign='ifloods'</em><big>)</big><a class="headerlink" href="#pydisdrometer.aux_readers.NASA_2DVD_reader.read_2dvd_sav_nasa_gv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a filename pointing to a 2D-Video Disdrometer NASA Field Campaign
+file and returns a drop size distribution object.</p>
+<p>This reader processes the .sav files generated.</p>
+<p>Usage:
+dsd = read_2dvd_sav_nasa_gv(filename, campaign=&#8217;ifloods&#8217;)</p>
+<p>Current Options for campaign are:</p>
+<p>&#8216;ifloods&#8217;</p>
+<p>Returns:
+DropSizeDistrometer object</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">pydisdrometer.aux_readers</span></tt></a><ul>
+<li><a class="reference internal" href="#module-pydisdrometer.aux_readers">Module contents</a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.aux_readers.GPMApuWallopsRawReader"><tt class="docutils literal"><span class="pre">GPMApuWallopsRawReader</span></tt></a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.aux_readers.NASA_2DVD_reader"><tt class="docutils literal"><span class="pre">NASA_2DVD_reader</span></tt></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href=""
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pydisdrometer.aux_readers</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pydisdrometer.plot.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">pydisdrometer.plot</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pydisdrometer.aux_readers.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pydisdrometer.plot.html" title="pydisdrometer.plot"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="#" title="pydisdrometer.aux_readers"
+             >previous</a> |</li>
+        <li><a href="index.html">PyDisdrometer 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Joseph C. Hardin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>
