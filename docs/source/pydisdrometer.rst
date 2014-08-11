@@ -7,11 +7,12 @@ Subpackages
 .. toctree::
 
     pydisdrometer.aux_readers
+    pydisdrometer.plot
 
 Submodules
 ----------
 
-pydisdrometer.DSDProcessor module
+DSDProcessor module
 ---------------------------------
 
 .. automodule:: pydisdrometer.DSDProcessor
@@ -19,7 +20,7 @@ pydisdrometer.DSDProcessor module
     :undoc-members:
     :show-inheritance:
 
-pydisdrometer.DSR module
+DSR module
 ------------------------
 
 .. automodule:: pydisdrometer.DSR
@@ -27,7 +28,7 @@ pydisdrometer.DSR module
     :undoc-members:
     :show-inheritance:
 
-pydisdrometer.DropSizeDistribution module
+DropSizeDistribution module
 -----------------------------------------
 
 .. automodule:: pydisdrometer.DropSizeDistribution
@@ -35,7 +36,7 @@ pydisdrometer.DropSizeDistribution module
     :undoc-members:
     :show-inheritance:
 
-pydisdrometer.JWDReader module
+JWDReader module
 ------------------------------
 
 .. automodule:: pydisdrometer.JWDReader
@@ -43,7 +44,7 @@ pydisdrometer.JWDReader module
     :undoc-members:
     :show-inheritance:
 
-pydisdrometer.ParsivelNasaGVReader module
+ParsivelNasaGVReader module
 -----------------------------------------
 
 .. automodule:: pydisdrometer.ParsivelNasaGVReader
@@ -51,7 +52,7 @@ pydisdrometer.ParsivelNasaGVReader module
     :undoc-members:
     :show-inheritance:
 
-pydisdrometer.ParsivelReader module
+ParsivelReader module
 -----------------------------------
 
 .. automodule:: pydisdrometer.ParsivelReader
@@ -59,7 +60,7 @@ pydisdrometer.ParsivelReader module
     :undoc-members:
     :show-inheritance:
 
-pydisdrometer.UtilityDisplay module
+UtilityDisplay module
 -----------------------------------
 
 .. automodule:: pydisdrometer.UtilityDisplay
@@ -67,7 +68,7 @@ pydisdrometer.UtilityDisplay module
     :undoc-members:
     :show-inheritance:
 
-pydisdrometer.expfit module
+expfit module
 ---------------------------
 
 .. automodule:: pydisdrometer.expfit
@@ -75,7 +76,7 @@ pydisdrometer.expfit module
     :undoc-members:
     :show-inheritance:
 
-pydisdrometer.process_NASA_APU module
+process_NASA_APU module
 -------------------------------------
 
 .. automodule:: pydisdrometer.process_NASA_APU

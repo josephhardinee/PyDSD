@@ -13,7 +13,7 @@ An quick example of using the pydisrometer package to read in a parsivel data fi
 ```python
 dsd = pydisdrometer.read_parsivel(filename)
 
-dsd.calc_radar_parameters() 
+dsd.calculate_radar_parameters() 
 ```
 
 If using NASA Ground Validation Parsivel Disdrometer Data, usage is more like

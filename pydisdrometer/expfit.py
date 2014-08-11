@@ -4,7 +4,7 @@ from scipy.optimize import curve_fit
 
 def expfit(x, y):
     '''
-    expfit calculates an exponential power law fit.
+    expfit calculates an exponential power law fit based upon levenburg-marquardt minimization.
     Note: There are some stability issues if bad data is passed into it.
     '''
 

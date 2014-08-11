@@ -23,8 +23,8 @@ def read_parsivel(filename):
                                Z=reader.Z, num_particles=reader.num_particles,
                                bin_edges=reader.bin_edges, diameter=reader.diameter)
 
-    dsd.raw_matrix = reader.raw
-    dsd.filtered_raw_matrix = reader.filtered_raw_matrix
+    dsd.fields['raw_matrix'] = {'data': reader.raw}
+    dsd.fields['filtered_raw_matrix'] = {'data': reader.filtered_raw_matrix}
     return dsd
 
 

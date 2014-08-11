@@ -128,7 +128,7 @@ class NASA_2DVD_dsd_reader(object):
 
     '''
     This class reads and parses 2dvd disdrometer data from NASA ground
-    campaigns.
+    campaigns. It works with the _dropCounts files from IFloodS.
 
     Use the read_2dvd_dsd_nasa_gv() function to interface with this.
     '''
@@ -163,4 +163,4 @@ class NASA_2DVD_dsd_reader(object):
 
         self.spread = np.array([0.2]*50)
 
-    supported_campaigns = ['mc3e']
+    supported_campaigns = ['mc3e', 'ifloods']
