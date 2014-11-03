@@ -1,3 +1,14 @@
+v0.8.0:
+	    DOC: Added documentation for Drop Size Distribution Class
+		FEATURE: Added Gamma Estimation Capabilities
+		FEATURE: NASA_2DVD_reader should now support NASA 2DVD IFloodS_dropcount files.
+		MISC: New function names. Replaced *calc* with calculate to be
+			consistent
+	    MISC: Added dictionary representation for scattered fields
+			in dsd.fields
+		FEATURE: Added time_start dictionary
+		FEATURE: Added location dictionary
+		MISC: Removed class level fields Zh, Zdr, Kdp
 v0.1.7.1:
 	FEATURE: Added Plotting Support
 v0.1.7:
