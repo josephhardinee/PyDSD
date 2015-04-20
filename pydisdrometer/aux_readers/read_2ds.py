@@ -30,7 +30,8 @@ def read_2ds(filename, campaign='acapex'):
 
     if reader:
         dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
-                                   diameter=reader.diameter, bin_edges = reader.bin_edges, total_conc= reader.conc)
+                                   diameter=reader.diameter, bin_edges = reader.bin_edges)
+                                   #, total_conc= reader.conc) #It would be nice to have this, but as of now it doesn't work.
         return dsd
 
     else:
@@ -61,9 +62,9 @@ class twoDS_reader_h(object):
         reader = csv.reader(self.f)
 
         #Remove Header lines but save them to variables for use later
-        header_line1 = next(self.f)
-        header_line2 = next(self.f)
-        header_line3 = next(self.f)
+        next(self.f)
+        next(self.f)
+        next(self.f)
         header_line4 = next(self.f)
 
         for row in reader:
