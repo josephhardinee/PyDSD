@@ -58,7 +58,7 @@ class twoDS_reader_h(object):
        #     print('Campaign type not supported')
        #     return
 
-        self.f = open(filename, 'r')
+        self.f = open(filename, 'rU')
         reader = csv.reader(self.f)
 
         #Remove Header lines but save them to variables for use later
