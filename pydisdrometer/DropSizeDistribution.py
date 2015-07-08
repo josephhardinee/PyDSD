@@ -139,12 +139,14 @@ class DropSizeDistribution(object):
             self.scatterer.set_geometry(tmatrix_aux.geom_horiz_forw)
             self.fields['Kdp']['data'][t] = radar.Kdp(self.scatterer)
             self.fields['Ai']['data'][t] = radar.Ai(self.scatterer)
+            self.fields['Ad']['data'][t] = radar.Ai(self.scatterer) -radar.Ai(self.scatterer, h_pol=False)
 
     def _setup_empty_fields(self):
         self.fields['Zh'] = {'data': np.zeros(len(self.time))}
         self.fields['Zdr'] = {'data': np.zeros(len(self.time))}
         self.fields['Kdp'] = {'data': np.zeros(len(self.time))}
         self.fields['Ai'] = {'data': np.zeros(len(self.time))}
+        self.fields['Ad'] = {'data': np.zeros(len(self.time))}
 
     def _setup_scattering(self, wavelength):
         ''' Internal Function to create scattering tables.
@@ -212,7 +214,7 @@ class DropSizeDistribution(object):
         self.fields['Nw'] = {'data': np.zeros(len(self.time))}
 
         rho_w = 1000  # grams per meter cubed Density of Water
-        vol_constant = 10e-03 * np.pi / 6.0 * rho_w
+        vol_constant = 1e-03 * np.pi / 6.0 * rho_w
         self.fields['Dm']['data'] = np.divide(self._calc_mth_moment(4), self._calc_mth_moment(3))
         for t in range(0, len(self.time)):
             self.fields['Nt']['data'][t] = np.dot(self.spread, self.Nd[t])
