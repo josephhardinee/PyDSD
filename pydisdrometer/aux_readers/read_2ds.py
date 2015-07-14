@@ -88,6 +88,8 @@ class twoDS_reader_h(object):
             s1 = bin_no_clist[i].split('-')
             bin_edge_str.append(s1)
 
+
+
         #Loop over the list of strings containing bin edges, turn them into integers
         bin_edge_int = []
         for i in range(len(bin_edge_str)):
@@ -96,6 +98,7 @@ class twoDS_reader_h(object):
                 bin_edge_int.append(int(bin_edge_str[i][1]))
             if i > 0 and i < 60:
                 bin_edge_int.append(int(bin_edge_str[i][1]))
+   
             if i == 60:
                 bin_edge_int.append(4000.)
 
@@ -140,20 +143,23 @@ class twoDS_reader_h(object):
         #Loop over the Nd num and exp arrays to turn them into floats
         Nd_num_t = np.empty([len(time),len(spread)])
         Nd_exp_t = np.empty([len(time),len(spread)])
+
+
+
         for i in range(len(Nd_num)):
             for j in range(len(Nd_num[0])):
                 Nd_num_t[i][j] = float(Nd_num[i][j])
                 Nd_exp_t[i][j] = float(Nd_exp[i][j])
 
         #math to combine num and exp arrays into one array of numbers.
-        Nd = Nd_num_t*(10.**Nd_exp_t)
+        Nd = Nd_num_t*(10.0**Nd_exp_t)
 
         #Unit conversions to decimal hours, mm, m^3
-        self.time = time/3600. #seconds since midnight to decimal hours, UTC
-        self.bin_edges = bin_edges/1000. #micrometers to mm
-        self.spread = spread/1000. #micrometers to mm
-        self.diameter = diameter/1000. #micrometers to mm
-        self.Nd = Nd  #*1000.*1000. # #/L/micrometer to #/m^3/mm
+        self.time = time/3600.0 #seconds since midnight to decimal hours, UTC
+        self.bin_edges = bin_edges/1000.0 #micrometers to mm
+        self.spread = spread/1000.0 #micrometers to mm
+        self.diameter = diameter/1000.0 #micrometers to mm
+        self.Nd = Nd *1000.*1000. # #/L/micrometer to #/m^3/mm
         self.conc = conc#*1000. # #/L to #/m^3
 
 

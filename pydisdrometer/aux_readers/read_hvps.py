@@ -101,7 +101,7 @@ class hvps_reader(object):
 
         Nd = []
         for row in reader:
-            Nd.append(row[10:70])
+            Nd.append(row[10:71])
 
         Nd = np.array(Nd)
 
@@ -131,7 +131,7 @@ class hvps_reader(object):
         self.bin_edges = bin_edges/1000. #micrometers to mm
         self.spread = spread/1000. #micrometers to mm
         self.diameter = diameter/1000. #micrometers to mm
-        self.Nd = Nd  #*1000.*1000. # #/L/micrometer to #/m^3/mm
+        self.Nd = Nd *1000.*1000. # #/L/micrometer to #/m^3/mm
         self.conc = conc#*1000. # #/L to #/m^3
 
 
