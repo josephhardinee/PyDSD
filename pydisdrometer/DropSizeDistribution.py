@@ -212,18 +212,20 @@ class DropSizeDistribution(object):
         self.fields['Dmax'] = {'data': np.zeros(len(self.time))}
         self.fields['Dm'] = {'data': np.zeros(len(self.time))}
         self.fields['Nw'] = {'data': np.zeros(len(self.time))}
+        self.fields['N0'] = {'data': np.zeros(len(self.time))}
 
-        rho_w = 1000  # grams per meter cubed Density of Water
-        vol_constant = 1e-03 * np.pi / 6.0 * rho_w
+        rho_w = 1e-03  # grams per mm cubed Density of Water
+        vol_constant = np.pi / 6.0 * rho_w 
         self.fields['Dm']['data'] = np.divide(self._calc_mth_moment(4), self._calc_mth_moment(3))
         for t in range(0, len(self.time)):
             self.fields['Nt']['data'][t] = np.dot(self.spread, self.Nd[t])
             self.fields['W']['data'][t] = vol_constant * np.dot(np.multiply(self.Nd[t], self.spread),
                                                                 np.array(self.diameter) ** 3)
             self.fields['D0']['data'][t] = self._calculate_D0(self.Nd[t])
-            self.fields['Nw']['data'][t] = 100 * 256.0 / \
+            self.fields['Nw']['data'][t] =  256.0 / \
                 (np.pi * rho_w) * np.divide(self.fields['W']['data'][t], self.fields['Dm']['data'][t] ** 4)
-            #self.Dmax[t] =self.diameter[self.__get_last_nonzero(self.Nd[t])]
+
+            self.fields['Dmax']['data'][t] = self.__get_last_nonzero(self.Nd[t])
 
     def __get_last_nonzero(self, N): 
         ''' Gets last nonzero entry in an array. Gets last non-zero entry in an array.
@@ -236,13 +238,17 @@ class DropSizeDistribution(object):
         Returns
         -------
         max: int
-            last nonzero entry iPwRIn an array.
+            last nonzero entry in an array.
         '''
-        return np.max(N.nonzero())
+
+        if np.count_nonzero(N):
+            return self.diameter[np.max(N.nonzero())]
+        else:
+            return 0
 
     def _calculate_D0(self, N):
-        rho_w = 1
-        W_const = 1e-3 * np.pi / 6.0
+        rho_w = 1e-3
+        W_const = rho_w * np.pi / 6.0
 
         cum_W = W_const * \
             np.cumsum([N[k] * self.spread[k] * (self.diameter[k] ** 3)
