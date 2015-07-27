@@ -15,6 +15,7 @@ from . import DSR
 from datetime import date
 from expfit import expfit, expfit2
 from scipy.optimize import curve_fit
+import scipy
 
 
 class DropSizeDistribution(object):
@@ -213,6 +214,7 @@ class DropSizeDistribution(object):
         self.fields['Dm'] = {'data': np.zeros(len(self.time))}
         self.fields['Nw'] = {'data': np.zeros(len(self.time))}
         self.fields['N0'] = {'data': np.zeros(len(self.time))}
+        self.fields['mu'] = {'data': np.zeros(len(self.time))}
 
         rho_w = 1e-03  # grams per mm cubed Density of Water
         vol_constant = np.pi / 6.0 * rho_w 
@@ -226,6 +228,8 @@ class DropSizeDistribution(object):
                 (np.pi * rho_w) * np.divide(self.fields['W']['data'][t], self.fields['Dm']['data'][t] ** 4)
 
             self.fields['Dmax']['data'][t] = self.__get_last_nonzero(self.Nd[t])
+
+        self.fields['mu']['data'][:] = map(self._estimate_mu, range(0,len(self.time)))
 
     def __get_last_nonzero(self, N): 
         ''' Gets last nonzero entry in an array. Gets last non-zero entry in an array.
@@ -379,3 +383,57 @@ class DropSizeDistribution(object):
             i_value = np.multiply(i_value, i)
 
         return i_value
+
+    def _estimate_mu(self, idx):
+        """ Estimate $\mu$ for a single drop size distribution
+
+        Estimate the shape parameter $\mu$ for the drop size distribution `Nd`. This uses the method
+        due to Bringi and Chandrasekar. It is a minimization of the MSE error of a created gamma and 
+        measured DSD. 
+
+        Parameters
+        ----------
+        Nd : array_like 
+            A drop size distribution
+        D0: optional, float
+            Median drop diameter in mm. If none is given, it will be estimated.
+        Nw: optional, float
+            Normalized Intercept Parameter. If none is given, it will be estimated.
+
+        Returns
+        -------
+        mu: integer
+            Best estimate for DSD shape parameter $\mu$.
+        """
+        if np.sum(self.Nd[idx]) == 0 :
+            return np.nan
+        res = scipy.optimize.minimize_scalar(self._mu_cost, bounds = (-10,20), args = (idx,), method='bounded')
+        if self._mu_cost(res.x, idx) == np.nan or res.x > 20:
+            return np.nan
+        else:
+            return res.x
+
+    def _mu_cost(self, mu, idx):
+        """ Cost function for goodness of fit of a distribution.
+
+        Calculates the MSE cost comparison of two distributions to fit $\mu$. 
+
+        Parameters
+        ----------
+        idx: integer
+            index into DSD field
+        mu: float
+            Potential Mu value
+        """
+        
+        gdsd  = pytmatrix.psd.GammaPSD(self.fields['D0']['data'][idx], self.fields['Nw']['data'][idx],mu)
+        return np.sqrt(np.nansum(np.power(np.abs(self.Nd[idx] - gdsd(self.diameter)),2)))
+
+
+        
+
+
+
+
+
+

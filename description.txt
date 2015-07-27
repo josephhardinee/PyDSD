@@ -1,3 +1,3 @@
-PyDisdrometer is a Python package to process disdrometer files. It currently is capable of reading several different types of disdrometers and calculating both important moment parameters, as well as radar derived parameters. It currently supports OTT Parsivel disdrometers and Joss Waldvogel Disdrometers. It is currently in alpha so functionality is limited but being expanded quickly..
+PyDisdrometer is a Python package to process disdrometer files. It currently is capable of reading several different types of disdrometers and calculating both important moment parameters, as well as radar derived parameters. It currently supports OTT Parsivel disdrometers and Joss Waldvogel Disdrometers. It is currently in alpha so functionality is limited but being expanded quickly.
 
 Author: Joseph C. Hardin
