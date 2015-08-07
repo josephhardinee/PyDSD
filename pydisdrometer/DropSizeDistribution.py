@@ -54,7 +54,8 @@ class DropSizeDistribution(object):
     '''
 
     def __init__(self, time, Nd, spread, rain_rate=None, velocity=None, Z=None,
-                 num_particles=None, bin_edges=None, diameter=None, time_start = None, location=None):
+                 num_particles=None, bin_edges=None, diameter=None, time_start = None, location=None,
+                 scattering_temp = '10C'):
         '''Initializer for the dropsizedistribution class.
 
         The DropSizeDistribution class holds dsd's returned from the various
@@ -86,6 +87,9 @@ class DropSizeDistribution(object):
             Recording Start time.
         location: tuple
             (Latitude, Longitude) pair in decimal format.
+        scattering_temp: optional, string
+            Scattering temperature string. One of ("0C","10C","20C").
+            Defaults to "10C"
 
         Returns
         -------
@@ -105,12 +109,28 @@ class DropSizeDistribution(object):
         self.diameter = diameter
         self.fields = {}
         self.time_start = time_start
+        
+        self.m_w_dict = {'0C': refractive.m_w_0C ,'10C': refractive.m_w_10C , '20C':  refractive.m_w_20C  }
+
+        self.m_w = self.m_w_dict[scattering_temp]
 
         lt = len(time)
         location = {}
 
         if location:
             self.location = {'latitude': location[0], 'longitude': location[1]}
+
+    def change_scattering_temperature(self, scattering_temp='10C'):
+        ''' Change the scattering temperature. After use, re-run calculate_radar_parameters
+        to see the effect this has on the parameters
+
+        Parameters
+        ----------
+        temp: optional, string
+            String of temperature to scatter at. Choice of ("0C","10C","20C").
+        '''
+        self.m_w = self.m_w_dict[scattering_temp]
+
 
 
     def calculate_radar_parameters(self, wavelength=tmatrix_aux.wl_X):
@@ -163,7 +183,7 @@ class DropSizeDistribution(object):
 
         '''
         self.scatterer = Scatterer(wavelength=wavelength,
-                                   m=refractive.m_w_10C[wavelength])
+                                   m=self.m_w[wavelength])
         self.scatterer.psd_integrator = PSDIntegrator()
         self.scatterer.psd_integrator.axis_ratio_func = lambda D: 1.0 / \
             DSR.bc(D)
