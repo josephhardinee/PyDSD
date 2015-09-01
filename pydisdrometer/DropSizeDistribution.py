@@ -150,6 +150,8 @@ class DropSizeDistribution(object):
         self._setup_empty_fields()
 
         for t in range(0, len(self.time)):
+            if np.sum(self.Nd[t]) is 0:
+                continue
             BinnedDSD = pytmatrix.psd.BinnedPSD(self.bin_edges,  self.Nd[t])
             self.scatterer.psd = BinnedDSD
             self.scatterer.set_geometry(tmatrix_aux.geom_horiz_back)
@@ -240,6 +242,8 @@ class DropSizeDistribution(object):
         vol_constant = np.pi / 6.0 * rho_w 
         self.fields['Dm']['data'] = np.divide(self._calc_mth_moment(4), self._calc_mth_moment(3))
         for t in range(0, len(self.time)):
+            if np.sum(self.Nd[t]) == 0:
+                continue
             self.fields['Nt']['data'][t] = np.dot(self.spread, self.Nd[t])
             self.fields['W']['data'][t] = vol_constant * np.dot(np.multiply(self.Nd[t], self.spread),
                                                                 np.array(self.diameter) ** 3)
@@ -273,6 +277,9 @@ class DropSizeDistribution(object):
     def _calculate_D0(self, N):
         rho_w = 1e-3
         W_const = rho_w * np.pi / 6.0
+
+        if np.sum(N) == 0:
+            return 0
 
         cum_W = W_const * \
             np.cumsum([N[k] * self.spread[k] * (self.diameter[k] ** 3)
