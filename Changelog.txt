@@ -1,5 +1,8 @@
 v0.11.0:
 	FEATURE: Added HVPS and 2DS format readers for ARM formatted data
+	FEATURE: Added configurable shape relationship for scattering
+	FEATURE: Added time configurable parameter for scattering
+	MISC: Rearranged scattering to speed up computation.
 v0.10.0:
         FEATURE: Add mu estimation to microphysics
 v0.9.0:

@@ -133,7 +133,7 @@ class DropSizeDistribution(object):
 
 
 
-    def calculate_radar_parameters(self, wavelength=tmatrix_aux.wl_X):
+    def calculate_radar_parameters(self, wavelength=tmatrix_aux.wl_X, dsr_func = DSR.bc, scatter_time_range = None ):
         ''' Calculates radar parameters for the Drop Size Distribution.
 
         Calculates the radar parameters and stores them in the object.
@@ -144,34 +144,59 @@ class DropSizeDistribution(object):
 
         Parameters:
         ----------
-            wavelength = pytmatrix supported wavelength.
+            wavelength: optional, pytmatrix wavelength
+                Wavelength to calculate scattering coefficients at.
+            dsr_func: optional, function
+                Drop Shape Relationship function. Several are availab le in the `DSR` module.
+                Defaults to Beard and Chuang
+            scatter_time_range: optional, tuple
+                Parameter to restrict the scattering to a time interval. The first element is the start time,
+                while the second is the end time. 
         '''
-        self._setup_scattering(wavelength)
+        self._setup_scattering(wavelength, dsr_func)
         self._setup_empty_fields()
 
-        for t in range(0, len(self.time)):
+        if scatter_time_range is None:
+            self.scatter_start_time = 0
+            self.scatter_end_time = len(self.time)
+        else:
+            if scatter_time_range[0] < 0:
+                print("Invalid Start time specified, aborting")
+                return
+            self.scatter_start_time = scatter_time_range[0]
+            self.scatter_end_time = scatter_time_range[1]
+
+            if scatter_time_range[1] > len(self.time):
+                print("End of Scatter time is greater than end of file. Scattering to end of included time.")
+                self.scatter_end_time = len(self.time)
+
+        self.scatterer.set_geometry(tmatrix_aux.geom_horiz_back) # We break up scattering to avoid regenerating table.
+
+        for t in range(self.scatter_start_time, self.scatter_end_time):
             if np.sum(self.Nd[t]) is 0:
                 continue
             BinnedDSD = pytmatrix.psd.BinnedPSD(self.bin_edges,  self.Nd[t])
             self.scatterer.psd = BinnedDSD
-            self.scatterer.set_geometry(tmatrix_aux.geom_horiz_back)
             self.fields['Zh']['data'][t] = 10 * \
                 np.log10(radar.refl(self.scatterer))
             self.fields['Zdr']['data'][t] = 10 * \
                 np.log10(radar.Zdr(self.scatterer))
-            self.scatterer.set_geometry(tmatrix_aux.geom_horiz_forw)
+
+        self.scatterer.set_geometry(tmatrix_aux.geom_horiz_forw)
+
+        for t in range(self.scatter_start_time, self.scatter_end_time):
             self.fields['Kdp']['data'][t] = radar.Kdp(self.scatterer)
             self.fields['Ai']['data'][t] = radar.Ai(self.scatterer)
             self.fields['Ad']['data'][t] = radar.Ai(self.scatterer) -radar.Ai(self.scatterer, h_pol=False)
 
-    def _setup_empty_fields(self):
+    def _setup_empty_fields(self, ):
         self.fields['Zh'] = {'data': np.zeros(len(self.time))}
         self.fields['Zdr'] = {'data': np.zeros(len(self.time))}
         self.fields['Kdp'] = {'data': np.zeros(len(self.time))}
         self.fields['Ai'] = {'data': np.zeros(len(self.time))}
         self.fields['Ad'] = {'data': np.zeros(len(self.time))}
 
-    def _setup_scattering(self, wavelength):
+    def _setup_scattering(self, wavelength, dsr_func):
         ''' Internal Function to create scattering tables.
 
         This internal function sets up the scattering table. It takes a
@@ -182,13 +207,16 @@ class DropSizeDistribution(object):
         -----------
             wavelength : tmatrix wavelength
                 PyTmatrix wavelength.
+            dsr_func : function
+                Drop Shape Relationship function. Several built-in are available in the `DSR` module.
 
         '''
         self.scatterer = Scatterer(wavelength=wavelength,
                                    m=self.m_w[wavelength])
         self.scatterer.psd_integrator = PSDIntegrator()
         self.scatterer.psd_integrator.axis_ratio_func = lambda D: 1.0 / \
-            DSR.bc(D)
+            dsr_func(D)
+        self.dsr_func = dsr_func
         self.scatterer.psd_integrator.D_max = 10.0
         self.scatterer.psd_integrator.geometries = (
             tmatrix_aux.geom_horiz_back, tmatrix_aux.geom_horiz_forw)
