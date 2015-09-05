@@ -3,6 +3,7 @@ v0.11.0:
 	FEATURE: Added configurable shape relationship for scattering
 	FEATURE: Added time configurable parameter for scattering
 	MISC: Rearranged scattering to speed up computation.
+	DOC: Minor Cleanups to the readme file
 v0.10.0:
         FEATURE: Add mu estimation to microphysics
 v0.9.0:

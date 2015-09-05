@@ -13,7 +13,7 @@ from pylab import cm
 def plot_dsd(dsd, range=None, log_scale=True, tighten=True):
     '''Plotting function for drop size distribution Nd
 
-    plot_dsd creates a pcolor based plot for a drop size distribution object's
+    plot_dsd creates a pcolormesh based plot for a drop size distribution object's
     `Nd` field.
 
     Parameters

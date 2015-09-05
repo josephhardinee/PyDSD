@@ -2,7 +2,7 @@
 
 ![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.9991.png)   
 
-PyDisdrometer is a Python package to process disdrometer files. It currently is capable of reading several different types of disdrometers and calculating both important moment parameters, as well as radar derived parameters. It currently supports OTT Parsivel disdrometers and Joss Waldvogel Disdrometers. It is currently in alpha so functionality is limited but being expanded quickly..
+PyDisdrometer is a Python package to process disdrometer files. It currently is capable of reading several different types of disdrometer formats, with more being added regularly. It can calculate several different moments of the distribution such as the median drop diamete, mu, and Dm. Additionally it can calculate radar parameters based on the T-Matrix scattering provided by pyTMatrix. It currently supports OTT Parsivel disdrometers, Joss Waldvogel Disdrometers, 2DVD files, and HVPS and 2DS airborne disdrometers. It is currently in alpha so functionality is limited but being expanded quickly.
 
 Author: Joseph C. Hardin
 
@@ -16,10 +16,16 @@ dsd = pydisdrometer.read_parsivel(filename)
 dsd.calculate_radar_parameters() 
 ```
 
-If using NASA Ground Validation Parsivel Disdrometer Data, usage is more like
+If using NASA Ground Validation Parsivel Disdrometer Data, usage is 
 
 ```python
 dsd = pydisdrometer.read_parsivel_gv(filename, campaign='ifloods')
+```
+
+The scattered fields will be stored in the fields dictionary of the dsd object. So to plot the reflectivity one can run
+
+```python
+plot(dsd.time, dsd.fields['Zh']['data'])
 ```
 
 For more information, please see the examples in the Notebooks directory. Additionally you can find some initial documentation at [PyDisdrometer Documentation](http://josephhardinee.github.io/PyDisdrometer)
