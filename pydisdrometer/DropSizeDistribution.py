@@ -190,6 +190,8 @@ class DropSizeDistribution(object):
             self.fields['Ad']['data'][t] = radar.Ai(self.scatterer) -radar.Ai(self.scatterer, h_pol=False)
 
     def _setup_empty_fields(self, ):
+        ''' Preallocate arrays of zeros for the radar moments
+        '''
         self.fields['Zh'] = {'data': np.zeros(len(self.time))}
         self.fields['Zdr'] = {'data': np.zeros(len(self.time))}
         self.fields['Kdp'] = {'data': np.zeros(len(self.time))}
@@ -248,10 +250,18 @@ class DropSizeDistribution(object):
     def calculate_dsd_parameterization(self, method='bringi'):
         '''Calculates DSD Parameterization.
 
-        This calculates the dsd parameterization and sets them in fields.
+        This calculates the dsd parameterization and stores the result in the fields dictionary. 
         This includes the following parameters:
-        Nt, W, D0, Nw
+        Nt, W, D0, Nw, Dmax, Dm, N0, mu
 
+        Parameters:
+        -----------
+        method: optional, string
+            Method to use for DSD estimation
+
+
+        Further Info:
+        ------
         For D0 and Nw we use the method due to Bringi and Chandrasekar.
 
         '''
@@ -303,6 +313,22 @@ class DropSizeDistribution(object):
             return 0
 
     def _calculate_D0(self, N):
+        ''' Calculate Median Drop diameter.
+
+        Calculates the median drop diameter for the array N. This assumes diameter and bin widths in the 
+        dsd object have been properly set. 
+
+        Parameters:
+        -----------
+        N: array_like
+            Array of drop counts for each size bin.
+
+        Notes:
+        ------
+        This works by calculating the two bins where cumulative water content goes over 0.5, and then interpolates
+        the correct D0 value between these two bins. 
+        '''
+
         rho_w = 1e-3
         W_const = rho_w * np.pi / 6.0
 
@@ -319,6 +345,10 @@ class DropSizeDistribution(object):
         return self.diameter[cross_pt] + run
 
     def calculate_RR(self):
+        '''Calculate instantaneous rain rate.
+
+        This calculates instantaneous rain rate based on the flux of water. 
+        '''
         self.fields['rain_rate'] = {'data': np.zeros(len(self.time))}
         for t in range(0, len(self.time)):
             # self.rain_rate[t] = 0.6*3.1415 * 10**(-3) * np.dot(np.multiply(self.velocity,np.multiply(self.Nd[t],self.spread )),
@@ -424,14 +454,14 @@ class DropSizeDistribution(object):
 
     def _idb(self, db):
         '''
-        Converts dB to linear scale
+        Converts dB to linear scale.
         '''
         return np.power(10, np.multiply(0.1, db))
 
     def _mmultiply(self, *args):
         '''
         _mmultiply extends numpy multiply to arbitrary number of same
-        sized matrices
+        sized matrices.
         '''
         i_value = np.ones(len(args[0]))
         for i in args:
