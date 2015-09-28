@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
 Plotting routines for different aspects of the drop size distribution class.
-This may eventually be moved into the class itself.
 '''
 
 import numpy as np

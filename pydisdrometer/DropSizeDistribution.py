@@ -461,7 +461,12 @@ class DropSizeDistribution(object):
     def _mmultiply(self, *args):
         '''
         _mmultiply extends numpy multiply to arbitrary number of same
-        sized matrices.
+        sized matrices. Multiplication is elementwise.
+
+        Parameters:
+        -----------
+        *args: matrices
+            Matrices to multiply. Must be same shape.
         '''
         i_value = np.ones(len(args[0]))
         for i in args:

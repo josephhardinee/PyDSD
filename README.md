@@ -34,6 +34,6 @@ Requirements:
     This library currently requires the normal scientific python stack(numpy+scipy+matplotlib)
     It also requires the [PyTMatrix Package](https://github.com/jleinonen/pytmatrix). 
 
-This library should see significant updates over the coming weeks. We welcome contributions from all users. Please see the examples in Notebooks for a more indepth guide on how to use PyDisdrometer.
+This library should see significant updates over the coming weeks. We welcome contributions from all users. Please see the examples in Notebooks for a more indepth guide on how to use PyDisdrometer.
 
 
