@@ -36,4 +36,9 @@ Requirements:
 
 This library should see significant updates over the coming weeks. We welcome contributions from all users. Please see the examples in Notebooks for a more indepth guide on how to use PyDisdrometer.
 
+## User Group
+There is now a pydisdrometer user group mailing list at
+https://groups.google.com/forum/#!forum/pydisdrometer-user-group
+
+
 
