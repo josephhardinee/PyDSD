@@ -1,0 +1,24 @@
+sudo: false
+
+addons:
+    apt:
+        packages:
+            - gfortran
+language: python
+matrix:
+  include:
+      - python: "2.7"
+        env: 
+        - PYTHON_VERSION="2.7"
+        - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+        - COVERALLS="true"
+
+before_install:
+    - pip install pytest pytest-cov
+    - pip install coveralls
+install: source continuous_integration/install.sh
+
+script:
+    - nosetests $NOSE_ARGS 
+after_success:
+    - coveralls
