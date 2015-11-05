@@ -3,7 +3,13 @@
 ![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.9991.png)   
 [![Coverage Status](https://coveralls.io/repos/josephhardinee/PyDisdrometer/badge.svg?branch=master&service=github)](https://coveralls.io/github/josephhardinee/PyDisdrometer?branch=master)
 
-PyDisdrometer is a Python package to process disdrometer files. It currently is capable of reading several different types of disdrometer formats, with more being added regularly. It can calculate several different moments of the distribution such as the median drop diamete, mu, and Dm. Additionally it can calculate radar parameters based on the T-Matrix scattering provided by pyTMatrix. It currently supports OTT Parsivel disdrometers, Joss Waldvogel Disdrometers, 2DVD files, and HVPS and 2DS airborne disdrometers. It is currently in alpha so functionality is limited but being expanded quickly.
+PyDisdrometer is a Python package to process disdrometer files. It currently is capable of reading several different types of disdrometer formats, with more being added regularly. It currently supports the following functionality:
+1) File Reading
+2) Microphysics Estimation
+3) T-Matrix Scattering of Radar Parameters
+4) QPE Relationship Estimation.
+
+It currently supports OTT Parsivel disdrometers, Joss Waldvogel Disdrometers, 2DVD files, and HVPS and 2DS airborne disdrometers.
 
 Author: Joseph C. Hardin
 
@@ -17,7 +23,7 @@ dsd = pydisdrometer.read_parsivel(filename)
 dsd.calculate_radar_parameters() 
 ```
 
-If using NASA Ground Validation Parsivel Disdrometer Data, usage is 
+If using NASA Ground Validation Parsivel Disdrometer Data from the IFloodS campaign, usage is 
 
 ```python
 dsd = pydisdrometer.read_parsivel_gv(filename, campaign='ifloods')
@@ -35,7 +41,7 @@ Requirements:
     This library currently requires the normal scientific python stack(numpy+scipy+matplotlib)
     It also requires the [PyTMatrix Package](https://github.com/jleinonen/pytmatrix). 
 
-This library should see significant updates over the coming weeks. We welcome contributions from all users. Please see the examples in Notebooks for a more indepth guide on how to use PyDisdrometer.
+We welcome contributions from all users. Please see the examples in Notebooks for a more indepth guide on how to use PyDisdrometer.
 
 ## User Group
 There is now a pydisdrometer user group mailing list at
