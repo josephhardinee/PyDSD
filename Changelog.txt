@@ -1,5 +1,7 @@
 v0.12.0:
 	MISC: Added Travis CI setup and Coveralls.
+	FEATURE: Added Convective stratiform partitioning algorithms from
+	pyparticle probe
 v0.11.0:
 	FEATURE: Added HVPS and 2DS format readers for ARM formatted data
 	FEATURE: Added configurable shape relationship for scattering
