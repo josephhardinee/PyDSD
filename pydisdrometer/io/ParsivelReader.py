@@ -2,6 +2,7 @@
 import numpy as np
 import numpy.ma as ma
 from DropSizeDistribution import DropSizeDistribution
+from .common import _var_to_dict, _get_epoch_time
 
 
 def read_parsivel(filename):
@@ -40,6 +41,8 @@ class ParsivelReader(object):
 
     def __init__(self, filename):
         self.filename = filename
+        self.fields = {}
+
         self.rain_rate = []
         self.Z = []
         self.num_particles = []
@@ -48,7 +51,7 @@ class ParsivelReader(object):
         self.vd = []
         self.raw = []
         self.code = []
-        self.time = []
+        self.filetime = []
 
         self.ndt = []
 
@@ -75,7 +78,7 @@ class ParsivelReader(object):
                     self.num_particles.append(
                         int(line.rstrip('\n\r').split(':')[1]))
                 elif(code == '20'):
-                    self.time.append(
+                    self.filetime.append(
                         self.get_sec(line.rstrip('\n\r').split(':')[1:4]))
                 elif(code == '90'):
                     self.nd.append(
@@ -95,15 +98,26 @@ class ParsivelReader(object):
                 self.pcm, np.reshape(self.raw[i], (32, 32)))
 
     def _prep_data(self):
-        self.rain_rate = np.array(self.rain_rate)
-        self.Z = ma.masked_equal(self.Z, -9.999)
-        self.nd = np.array(self.nd)
+        self.fields['rain_rate'] = _var_to_dict('Rain rate', np.array(self.rain_rate),
+                                                'mm/h', 'Rain rate')
+        self.fields['Z'] = _var_to_dict('Reflectivity', ma.masked_equal(self.Z, -9.999),
+                                        'dBZ', 'Equivalent reflectivity factor')
         self.nd[self.nd == -9.999] = 0
-        self.Nd = np.array(self.nd)
-        self.num_particles = np.array(self.num_particles)
-        self.time = np.array(self.time)
-        self.velocity = self.vd  # np.ndarray(self.vd)
+        self.fields['Nd'] = _var_to_dict('Nd', np.array(self.nd),
+                                         'm^-3', 'Liquid water particle concentration')
+        self.fields['num_particles'] = _var_to_dict('Number of Particles',
+                                                    np.array(self.num_particles),
+                                                    '', 'Number of particles')
+        self.fields['terminal_velocity'] = _var_to_dict('Terminal Fall Velocity',
+                                                        self.vd  # np.ndarray(self.vd),
+                                                        'm/s',
+                                                        'Terminal fall velocity for each bin')
         #self.raw = np.power(10, np.ndarray(self.raw))
+
+        # Pull in time (Need to use time_start instead of yyyy,mm,dd)
+        t_units = 'minutes since ' + "-".join([yyyy, mm, dd]) + ' 00:00:00'
+        # Return a common epoch time dictionary
+        self.time = _get_epoch_time(np.array(self.filetime), t_units)
 
     def get_sec(self, s):
         return int(s[0]) * 3600 + int(s[1]) * 60 + int(s[2])

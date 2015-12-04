@@ -26,10 +26,10 @@ def read_ucsc_netcdf(filename):
     reader = Image2DReader(filename, file_type='ucsc_netcdf')
 
     if reader:
-        dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd']['data'][:],
-                               spread=reader.spread['data'][:],
-                               diameter=reader.diameter['data'][:],
-                               bin_edges=reader.bin_edges['data'][:])
+        dsd = DropSizeDistribution(reader.time, reader.fields['Nd'],
+                               spread=reader.spread,
+                               diameter=reader.diameter,
+                               bin_edges=reader.bin_edges)
         return dsd
     else:
         return None
@@ -51,7 +51,12 @@ def read_noaa_aoml_netcdf(filename):
 
     reader = Image2DReader(filename, file_type='noaa_aoml_netcdf')
 
-    dsd = DropSizeDistribution(reader)
+    if reader:
+        dsd = DropSizeDistribution(reader.time, reader.fields['Nd'],
+                               diameter=reader.diameter)
+        return dsd
+    else:
+        return None
 
     return dsd
 
@@ -113,9 +118,9 @@ class Image2DReader(object):
         varmax = [s for s in ncFile.variables.keys() if "corr_bin_max" in s]
         bin_edges = np.hstack((ncFile.variables[varmin[0]][0],
                           ncFile.variables[varmax[0]]))
-        self.bin_edges = _var_to_dict('bin_edges',  bin_edges,
-                                      'micron', 'particle size bin edges')
-        self.spread = _var_to_dict('spread', np.diff(bin_edges),
+        self.bin_edges = _var_to_dict('Bin Edges',  bin_edges,
+                                      'micron', 'Particle size bin edges')
+        self.spread = _var_to_dict('Spread', np.diff(bin_edges),
                                    self.bin_edges['units'], 'Bin spread size')
 
         # Retrieve concentration convert from cm^-3 to m^-3
