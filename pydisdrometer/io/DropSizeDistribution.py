@@ -11,9 +11,9 @@ import pytmatrix
 from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
-from . import DSR
+from ..utility import DSR
 from datetime import date
-from expfit import expfit, expfit2
+from ..expfit import expfit, expfit2
 from scipy.optimize import curve_fit
 import scipy
 

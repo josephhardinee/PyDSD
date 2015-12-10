@@ -109,7 +109,7 @@ class ParsivelReader(object):
                                                     np.array(self.num_particles),
                                                     '', 'Number of particles')
         self.fields['terminal_velocity'] = _var_to_dict('Terminal Fall Velocity',
-                                                        self.vd  # np.ndarray(self.vd),
+                                                        self.vd,  # np.ndarray(self.vd),
                                                         'm/s',
                                                         'Terminal fall velocity for each bin')
         #self.raw = np.power(10, np.ndarray(self.raw))

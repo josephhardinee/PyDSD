@@ -8,6 +8,7 @@ from .io.ARM_APU_reader import read_parsivel_arm_netcdf
 from .io.read_2ds import read_2ds
 from .io.read_hvps import read_hvps
 from .io.Image2DReader import read_ucsc_netcdf, read_noaa_aoml_netcdf
+from .io import DropSizeDistribution
 from .plot.plot import plot_dsd
 
 from . import partition
