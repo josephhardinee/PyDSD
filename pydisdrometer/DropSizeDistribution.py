@@ -237,7 +237,10 @@ class DropSizeDistribution(object):
             order of the moment
         '''
 
-        bin_width = [self.bin_edges[i + 1] - self.bin_edges[i]
+        if len(self.spread) > 0:
+            bin_width=self.spread
+        else:
+            bin_width = [self.bin_edges[i + 1] - self.bin_edges[i]
                      for i in range(0, len(self.bin_edges) - 1)]
         mth_moment = np.zeros(len(self.time))
 

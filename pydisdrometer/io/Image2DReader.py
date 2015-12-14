@@ -26,10 +26,10 @@ def read_ucsc_netcdf(filename):
     reader = Image2DReader(filename, file_type='ucsc_netcdf')
 
     if reader:
-        dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd']['data'][:],
+        dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd']['data'][:]/1000.0,
                                spread=reader.spread['data'][:],
-                               diameter=reader.diameter['data'][:],
-                               bin_edges=reader.bin_edges['data'][:])
+                               diameter=reader.diameter['data'][:]/1000.0,
+                               bin_edges=reader.bin_edges['data'][:]/1000.0)
         return dsd
     else:
         return None
@@ -51,7 +51,9 @@ def read_noaa_aoml_netcdf(filename):
 
     reader = Image2DReader(filename, file_type='noaa_aoml_netcdf')
 
-    dsd = DropSizeDistribution(reader)
+    dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd']['data'][:]/1000.0,
+            spread=reader.spread['data'][:]/1000.0,
+            diameter=reader.diameter['data'][:]/1000.0)
 
     return dsd
 
@@ -197,6 +199,12 @@ class Image2DReader(object):
         eptime = _ncvar_to_dict(ncFile.variables['EpochTime'])
         # Return a common epoch time dictionary
         self.time = _get_epoch_time(eptime['data'][:], eptime['units'])
+        self.spread = {'data': np.zeros(len(self.diameter['data'])),
+                        'units': 'um',
+                        'Description': 'Bin Width'
+                        }
+        self.spread['data'][:] = 100 #Microns for now
+
 
         # Retrieve other variables
         self.fields['Nd'] = _ncvar_to_dict(ncFile.variables['Water'])
