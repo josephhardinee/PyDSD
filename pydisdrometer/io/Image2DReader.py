@@ -196,13 +196,13 @@ class Image2DReader(object):
         # Retrieve the time variable
         eptime = _ncvar_to_dict(ncFile.variables['EpochTime'])
         # Return a common epoch time dictionary
-        self.time = _get_epoch_time(eptime[:], eptime.units)
+        self.time = _get_epoch_time(eptime['data'][:], eptime['units'])
 
         # Retrieve other variables
-        self.fields['Nd'] = _ncvar_to_dict(ncFile.variables['Water'][:])
-        self.fields['Nd_ice'] = _ncvar_to_dict(ncFile.variables['Ice'][:])
-        self.fields['air_density'] = _ncvar_to_dict(ncFile.variables['RhoAir'][:])
-        self.fields['vert_wind_velocity'] = _ncvar_to_dict(ncFile.variables['vertVel'][:])
+        self.fields['Nd'] = _ncvar_to_dict(ncFile.variables['Water'])
+        self.fields['Nd_ice'] = _ncvar_to_dict(ncFile.variables['Ice'])
+        self.fields['air_density'] = _ncvar_to_dict(ncFile.variables['RhoAir'])
+        self.fields['vert_wind_velocity'] = _ncvar_to_dict(ncFile.variables['vertVel'])
 
     def apply_running_average(self, array, dim=0, num=6):
         '''
