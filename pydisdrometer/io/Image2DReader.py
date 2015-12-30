@@ -6,9 +6,6 @@ from ..DropSizeDistribution import DropSizeDistribution
 from .common import _ncvar_to_dict, _var_to_dict, _get_epoch_time
 
 import numpy as np
-########################
-## BEGIN MAIN CODE
-########################
 
 def read_ucsc_netcdf(filename):
     '''
@@ -51,7 +48,7 @@ def read_noaa_aoml_netcdf(filename):
 
     reader = Image2DReader(filename, file_type='noaa_aoml_netcdf')
 
-    dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd']['data'][:]/.1000.0
+    dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd']['data'][:]/1000.0,
             spread=reader.spread['data'][:]/1000.0,
             diameter=reader.diameter['data'][:]/1000.0)
 

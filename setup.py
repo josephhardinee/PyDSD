@@ -8,6 +8,7 @@ setup(
     packages=['pydisdrometer',
               'pydisdrometer.aux_readers',
               'pydisdrometer.plot',
+              'pydisdrometer.io',
               'pydisdrometer.partition',
               'pydisdrometer.plot',
               'pydisdrometer.utility'],
