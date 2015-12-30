@@ -49,8 +49,8 @@ def read_noaa_aoml_netcdf(filename):
     reader = Image2DReader(filename, file_type='noaa_aoml_netcdf')
 
     dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd']['data'][:]/1000.0,
-            spread=reader.spread['data'][:]/1000.0,
-            diameter=reader.diameter['data'][:]/1000.0)
+            spread=reader.spread['data'][:],
+            diameter=reader.diameter['data'][:])
 
     return dsd
 
@@ -191,16 +191,18 @@ class Image2DReader(object):
 
         # Read the size bins
         self.diameter = _ncvar_to_dict(ncFile.variables['Sizebins'])
+        self.diameter['data'] = self.diameter['data']/1000.0
+        self.diameter['units'] = 'mm'
 
         # Retrieve the time variable
         eptime = _ncvar_to_dict(ncFile.variables['EpochTime'])
         # Return a common epoch time dictionary
         self.time = _get_epoch_time(eptime['data'][:], eptime['units'])
         self.spread = {'data': np.zeros(len(self.diameter['data'])),
-                        'units': 'um',
+                        'units': 'mm',
                         'Description': 'Bin Width'
                         }
-        self.spread['data'][:] = 100 #Microns for now
+        self.spread['data'][:] = 0.1 #millimeters for now
 
 
         # Retrieve other variables
