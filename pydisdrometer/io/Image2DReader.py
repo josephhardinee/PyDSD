@@ -50,7 +50,8 @@ def read_noaa_aoml_netcdf(filename):
 
     dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd']['data'][:]/1000.0,
             spread=reader.spread['data'][:],
-            diameter=reader.diameter['data'][:])
+            diameter=reader.diameter['data'][:],
+            bin_edges=reader.bin_edges)
 
     return dsd
 
@@ -203,6 +204,8 @@ class Image2DReader(object):
                         'Description': 'Bin Width'
                         }
         self.spread['data'][:] = 0.1 #millimeters for now
+        self.bin_edges = self.diameter-self.spread['data'][0]/2.0
+        self.bin_edges.append(self.bin_edges[-1]+self.spread['data'][0])
 
 
         # Retrieve other variables
