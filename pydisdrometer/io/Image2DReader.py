@@ -48,7 +48,7 @@ def read_noaa_aoml_netcdf(filename):
 
     reader = Image2DReader(filename, file_type='noaa_aoml_netcdf')
 
-    dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd']['data'][:]/1000.0,
+    dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd_calc']['data'][:],
             spread=reader.spread['data'][:],
             diameter=reader.diameter['data'][:],
             bin_edges=reader.bin_edges)
@@ -204,8 +204,9 @@ class Image2DReader(object):
                         'Description': 'Bin Width'
                         }
         self.spread['data'][:] = 0.1 #millimeters for now
-        self.bin_edges = self.diameter-self.spread['data'][0]/2.0
-        self.bin_edges.append(self.bin_edges[-1]+self.spread['data'][0])
+
+        self.bin_edges = self.diameter['data']-self.spread['data'][0]/2.0
+        self.bin_edges=np.append(self.bin_edges,self.bin_edges[-1]+self.spread['data'][0])
 
 
         # Retrieve other variables
@@ -213,6 +214,13 @@ class Image2DReader(object):
         self.fields['Nd_ice'] = _ncvar_to_dict(ncFile.variables['Ice'])
         self.fields['air_density'] = _ncvar_to_dict(ncFile.variables['RhoAir'])
         self.fields['vert_wind_velocity'] = _ncvar_to_dict(ncFile.variables['vertVel'])
+
+        #Now let's convert to drop counts by dividing by volume.
+        vol_per_bin = (1/3.0) * np.pi * np.power(self.diameter['data'], 3)
+
+        self.fields['Nd_calc'] = {'units': '#/mm/m^3', 'Description': 'Calculated Drop Counts'}
+        self.fields['Nd_calc']['data'] = np.divide(self.fields['Nd']['data'], vol_per_bin)
+
 
     def apply_running_average(self, array, dim=0, num=6):
         '''
