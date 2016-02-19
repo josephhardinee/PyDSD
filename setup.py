@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(
     name='PyDisdrometer',
-    version='0.1.12.0',
-    author='Joseph C. Hardin',
+    version='0.1.13.0',
+    author='Joseph C. Hardin, Nick Guy',
     author_email='josephhardinee@gmail.com',
     packages=['pydisdrometer',
               'pydisdrometer.aux_readers',
