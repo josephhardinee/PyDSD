@@ -13,8 +13,18 @@ from netCDF4 import num2date, date2num
 from .io import common
 
 
-def read_parsivel_nasa_gv(filename, campaign='ifloods'):
+def read_parsivel_nasa_gv(filename, campaign='ifloods', skip_header=None):
     '''
+    Parameters
+    ----------
+    filename: str
+        Data file name.
+    campaign: str
+        Campaign identifier that reads file based upon the format used
+        to produce that data.
+    skip_header: int
+        A number of header lines to skip when reading the file.
+
     Takes a filename pointing to a Parsivel NASA Field Campaign file and returns
     a drop size distribution object.
 
@@ -34,7 +44,7 @@ def read_parsivel_nasa_gv(filename, campaign='ifloods'):
     recalculate it based upon a fall speed relationship.
     '''
 
-    reader = NASA_APU_reader(filename, campaign)
+    reader = NASA_APU_reader(filename, campaign, skip_header)
 
     if reader:
         dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
@@ -66,7 +76,7 @@ class NASA_APU_reader(object):
     # mu      = []
     # rho_w = 1
 
-    def __init__(self, filename, campaign):
+    def __init__(self, filename, campaign, skip_header):
         '''
         Handles setting up a NASA APU Reader
         '''
@@ -84,6 +94,9 @@ class NASA_APU_reader(object):
         yyyy = filename.split("_")[2]
         mmdd = filename.split("_")[3]
         StartDate = yyyy + '-' + mmdd[0:2] + '-' + mmdd[2:4]
+
+        if skip_header is not None:
+            next(reader, None)
 
         if campaign.lower() in ['ifloods']:
             self.diameter = np.array([float(x)
