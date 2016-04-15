@@ -2,6 +2,9 @@
 import numpy as np
 from netCDF4 import num2date, date2num
 
+EPOCH_UNITS = 'seconds since 1970-1-1 00:00:00+0:00'
+
+
 def _var_to_dict(standard_name, data, units, long_name):
     """
     Convert variable information to a dictionary.
