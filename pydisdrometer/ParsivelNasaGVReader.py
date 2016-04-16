@@ -8,6 +8,7 @@ import scipy.optimize
 from pytmatrix.psd import GammaPSD
 import csv
 import datetime
+import time
 from netCDF4 import num2date, date2num
 
 from .io import common
@@ -91,32 +92,17 @@ class NASA_APU_reader(object):
         self.f = open(filename, 'r')
         reader = csv.reader(self.f)
 
-        yyyy = filename.split("_")[2]
-        mmdd = filename.split("_")[3]
-        StartDate = yyyy + '-' + mmdd[0:2] + '-' + mmdd[2:4]
-
         if skip_header is not None:
             next(reader, None)
 
-        if campaign.lower() in ['ifloods']:
-            self.diameter = np.array([float(x)
-                                     for x in reader.next()[0].split()[1:]])
-            self.velocity = np.array([float(x)
-                                     for x in reader.next()[0].split()[1:]])
-
-            for row in reader:
-                self.time.append(float(row[0].split()[0]))
-                self.Nd.append([float(x) for x in row[0].split()[1:]])
-
-        if campaign.lower() in ['mc3e_dsd']:
-            for row in reader:
-                self.time.append(self._parse_time((row[0].split()[0:4])))
+        for row in reader:
+                self.time.append(self._parse_time(map(int, (row[0].split()[0:4]))))
                 self.Nd.append([float(x) for x in row[0].split()[4:]])
 
         try:
-            self.time = self._get_epoch_time(self.time, StartDate)
+            self.time = self._get_epoch_time(self.time)
         except:
-            import warings
+            import warnings
             warnings.warn('Conversion to Epoch did not work!')
             self.time = np.array(self.time)
         self.Nd = np.array(self.Nd)
@@ -135,21 +121,20 @@ class NASA_APU_reader(object):
         pass
 
     def _parse_time(self, time_vector):
-        # For now we just drop the day stuff, Eventually we'll make this a
-        # proper time
-        return float(time_vector[2]) * 60.0 + float(time_vector[3])
+        epoch_time = datetime.datetime(time_vector[0], 1, 1) + datetime.timedelta(days=time_vector[1]-1, hours=time_vector[2], minutes=time_vector[3])
+        return time.mktime(epoch_time.timetuple())
 
-    def _get_epoch_time(self, time, StartDate):
+    def _get_epoch_time(self, sample_time):
         '''
         Convert the time to an Epoch time using package standard.
         '''
         # Convert the time array into a datetime instance
-        dt_units = 'minutes since ' + StartDate + '00:00:00+0:00'
-        dtMin = num2date(time, dt_units)
+        #dt_units = 'minutes since ' + StartDate + '00:00:00+0:00'
+        #dtMin = num2date(time, dt_units)
         # Convert this datetime instance into a number of seconds since Epoch
-        TimeSec = date2num(dtMin, common.EPOCH_UNITS)
+        #TimeSec = date2num(dtMin, common.EPOCH_UNITS)
         # Once again convert this data into a datetime instance
-        Time_unaware = num2date(TimeSec, common.EPOCH_UNITS)
+        Time_unaware = num2date(sample_time, common.EPOCH_UNITS)
         Time = {'data': Time_unaware, 'units': common.EPOCH_UNITS,
                 'title': 'Time', 'full_name': 'Time (UTC)'}
         return Time
