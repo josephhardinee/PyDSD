@@ -141,13 +141,8 @@ class NASA_2DVD_dsd_reader(object):
         Handles setting up a NASA 2DVD Reader  Reader
         '''
         MIN_IN_DAY = 1440
-<<<<<<< d74ff2fa4d53bcf91cc075861b38dc374b89773f
 #        self.time = np.arange(MIN_IN_DAY)  # Time in minutes
-        self.Nd = np.zeros((MIN_IN_DAY, 50))
-=======
-        self.time = np.arange(MIN_IN_DAY)  # Time in minutes
         self.Nd = np.ma.zeros((MIN_IN_DAY, 50))
->>>>>>> ENH: Masked arrays in file readers.
         self.notes = []
 
         if not campaign in self.supported_campaigns:
