@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 from DropSizeDistribution import DropSizeDistribution
+#from .common import _get_epoch_time
 
 
 def read_jwd(filename):
@@ -52,7 +53,7 @@ class JWDReader(object):
 
     def getSec(self, s, start_hh, start_mm):
         l = s.split(':')
-        if int(l[0]) < start_hh: 
+        if int(l[0]) < start_hh:
             return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2]) + 86400
         elif int(l[0]) == start_hh and int(l[1]) < start_mm:
 	    return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2]) + 86400

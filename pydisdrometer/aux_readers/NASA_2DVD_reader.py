@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from ..DropSizeDistribution import DropSizeDistribution
-
+import datetime
 import scipy.io
+
+from ..DropSizeDistribution import DropSizeDistribution
+from ..io import common
+
 
 
 def read_2dvd_sav_nasa_gv(filename, campaign='ifloods'):
@@ -40,7 +43,7 @@ def read_2dvd_sav_nasa_gv(filename, campaign='ifloods'):
     del(reader)
 
 
-def read_2dvd_dsd_nasa_gv(filename, campaign='mc3e'):
+def read_2dvd_dsd_nasa_gv(filename, campaign='mc3e', skip_header=None):
     '''
     Takes a filename pointing to a 2D-Video Disdrometer NASA Field Campaign
      _dsd file and returns a drop size distribution object.
@@ -59,7 +62,7 @@ def read_2dvd_dsd_nasa_gv(filename, campaign='mc3e'):
 
     '''
 
-    reader = NASA_2DVD_dsd_reader(filename, campaign)
+    reader = NASA_2DVD_dsd_reader(filename, campaign, skip_header)
 
     if reader:
         dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
@@ -133,12 +136,12 @@ class NASA_2DVD_dsd_reader(object):
     Use the read_2dvd_dsd_nasa_gv() function to interface with this.
     '''
 
-    def __init__(self, filename, campaign):
+    def __init__(self, filename, campaign, skip_header):
         '''
         Handles setting up a NASA 2DVD Reader  Reader
         '''
         MIN_IN_DAY = 1440
-        self.time = np.arange(MIN_IN_DAY)  # Time in minutes
+#        self.time = np.arange(MIN_IN_DAY)  # Time in minutes
         self.Nd = np.zeros((MIN_IN_DAY, 50))
         self.notes = []
 
@@ -146,12 +149,20 @@ class NASA_2DVD_dsd_reader(object):
             print('Campaign not supported')
             return
 
+        dt = []
         with open(filename) as input:
+            if skip_header is not None:
+                for num in range(0, skip_header):
+                    input.readline()
             for line in input:
                 data_array = line.split()
+                dt.append(datetime.datetime(
+                    int(data_array[0]), int(data_array[1]),
+                    int(data_array[2]), int(data_array[3])))
                 time_min = int(data_array[2])*60 + int(data_array[3])
                 self.Nd[time_min, :] = [float(value) for value in data_array[4:]]
 
+        self.time = self._get_epoch_time(dt)
         self.diameter = np.arange(0.1, 10.1, .2)
         self.velocity =[0.248, 1.144, 2.018, 2.858, 3.649, 4.349, 4.916, 5.424, 5.892, 6.324,
                         6.721, 7.084, 7.411, 7.703, 7.961, 8.187, 8.382, 8.548, 8.688, 8.805,
@@ -162,5 +173,17 @@ class NASA_2DVD_dsd_reader(object):
         self.bin_edges = np.array(range(0, 51)) * 0.2
 
         self.spread = np.array([0.2]*50)
+
+    def _get_epoch_time(self, datetime):
+        '''
+        Convert the time to an Epoch time using package standard.
+        '''
+        # Convert this datetime instance into a number of seconds since Epoch
+        TimeSec = date2num(dtMin, common.EPOCH_UNITS)
+        # Once again convert this data into a datetime instance
+        time_unaware = num2date(TimeSec, common.EPOCH_UNITS)
+        eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
+                'title': 'Time', 'full_name': 'Time (UTC)'}
+        return etpime
 
     supported_campaigns = ['mc3e', 'ifloods']

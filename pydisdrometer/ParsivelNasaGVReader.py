@@ -8,10 +8,24 @@ import scipy.optimize
 from pytmatrix.psd import GammaPSD
 import csv
 import datetime
+import time
+from netCDF4 import num2date, date2num
+
+from .io import common
 
 
-def read_parsivel_nasa_gv(filename, campaign='ifloods'):
+def read_parsivel_nasa_gv(filename, campaign='ifloods', skip_header=None):
     '''
+    Parameters
+    ----------
+    filename: str
+        Data file name.
+    campaign: str
+        Campaign identifier that reads file based upon the format used
+        to produce that data.
+    skip_header: int
+        A number of header lines to skip when reading the file.
+
     Takes a filename pointing to a Parsivel NASA Field Campaign file and returns
     a drop size distribution object.
 
@@ -31,7 +45,7 @@ def read_parsivel_nasa_gv(filename, campaign='ifloods'):
     recalculate it based upon a fall speed relationship.
     '''
 
-    reader = NASA_APU_reader(filename, campaign)
+    reader = NASA_APU_reader(filename, campaign, skip_header)
 
     if reader:
         dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
@@ -48,7 +62,8 @@ def read_parsivel_nasa_gv(filename, campaign='ifloods'):
 class NASA_APU_reader(object):
 
     '''
-    This class reads and parses parsivel disdrometer data from nasa ground campaigns. These conform to document
+    This class reads and parses parsivel disdrometer data from NASA ground
+    validation campaigns. These conform to document ???
 
     Use the read_parsivel_nasa_gv() function to interface with this.
     '''
@@ -62,7 +77,7 @@ class NASA_APU_reader(object):
     # mu      = []
     # rho_w = 1
 
-    def __init__(self, filename, campaign):
+    def __init__(self, filename, campaign, skip_header):
         '''
         Handles setting up a NASA APU Reader
         '''
@@ -77,22 +92,18 @@ class NASA_APU_reader(object):
         self.f = open(filename, 'r')
         reader = csv.reader(self.f)
 
-        if campaign in ['ifloods']:
-            self.diameter = np.array([float(x)
-                                     for x in reader.next()[0].split()[1:]])
-            self.velocity = np.array([float(x)
-                                     for x in reader.next()[0].split()[1:]])
+        if skip_header is not None:
+            next(reader, None)
 
-            for row in reader:
-                self.time.append(float(row[0].split()[0]))
-                self.Nd.append([float(x) for x in row[0].split()[1:]])
-
-        if campaign in ['mc3e_dsd']:
-            for row in reader:
-                self.time.append(self._parse_time((row[0].split()[0:4])))
+        for row in reader:
+                self.time.append(self._parse_time(map(int, (row[0].split()[0:4]))))
                 self.Nd.append([float(x) for x in row[0].split()[4:]])
 
-        self.time = np.array(self.time)
+        try:
+            self.time = self._get_epoch_time(self.time)
+        except:
+            raise ValueError('Conversion to Epoch did not work!')
+            self.time = np.array(self.time)
         self.Nd = np.array(self.Nd)
         self.bin_edges = np.hstack(
             (0, self.diameter + np.array(self.spread) / 2))
@@ -109,9 +120,23 @@ class NASA_APU_reader(object):
         pass
 
     def _parse_time(self, time_vector):
-        # For now we just drop the day stuff, Eventually we'll make this a
-        # proper time
-        return float(time_vector[2]) * 60.0 + float(time_vector[3])
+        epoch_time = datetime.datetime(time_vector[0], 1, 1) + datetime.timedelta(days=time_vector[1]-1, hours=time_vector[2], minutes=time_vector[3])
+        return time.mktime(epoch_time.timetuple())
+
+    def _get_epoch_time(self, sample_time):
+        '''
+        Convert the time to an Epoch time using package standard.
+        '''
+        # Convert the time array into a datetime instance
+        #dt_units = 'minutes since ' + StartDate + '00:00:00+0:00'
+        #dtMin = num2date(time, dt_units)
+        # Convert this datetime instance into a number of seconds since Epoch
+        #TimeSec = date2num(dtMin, common.EPOCH_UNITS)
+        # Once again convert this data into a datetime instance
+        time_unaware = num2date(sample_time, common.EPOCH_UNITS)
+        eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
+                'title': 'Time', 'full_name': 'Time (UTC)'}
+        return eptime
 
     spread = [
         0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257,
