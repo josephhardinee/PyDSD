@@ -102,8 +102,7 @@ class NASA_APU_reader(object):
         try:
             self.time = self._get_epoch_time(self.time)
         except:
-            import warnings
-            warnings.warn('Conversion to Epoch did not work!')
+            raise ValueError('Conversion to Epoch did not work!')
             self.time = np.array(self.time)
         self.Nd = np.array(self.Nd)
         self.bin_edges = np.hstack(
@@ -134,10 +133,10 @@ class NASA_APU_reader(object):
         # Convert this datetime instance into a number of seconds since Epoch
         #TimeSec = date2num(dtMin, common.EPOCH_UNITS)
         # Once again convert this data into a datetime instance
-        Time_unaware = num2date(sample_time, common.EPOCH_UNITS)
-        Time = {'data': Time_unaware, 'units': common.EPOCH_UNITS,
+        time_unaware = num2date(sample_time, common.EPOCH_UNITS)
+        eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
                 'title': 'Time', 'full_name': 'Time (UTC)'}
-        return Time
+        return eptime
 
     spread = [
         0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257,

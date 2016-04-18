@@ -30,18 +30,14 @@ def _ncvar_to_dict(ncvar):
         d['data'].shape = (1, )
     return d
 
-def _get_epoch_units():
-    """Set common time units for AWOT. Using Epoch."""
-    return 'seconds since 1970-1-1 00:00:00+0:00'
-
 def _get_epoch_time(times, t_units):
     """Convert time to epoch time and return a dictionary."""
     # Convert the time array into a datetime instance
     dts = num2date(times, t_units)
     # Now convert this datetime instance into a number of seconds since Epoch
-    TimeSec = date2num(dts, _get_epoch_units())
+    TimeSec = date2num(dts, EPOCH_UNITS)
     # Now once again convert this data into a datetime instance
-    Time_unaware = num2date(TimeSec, _get_epoch_units())
-    eptime = {'data': Time_unaware, 'units': _get_epoch_units(),
+    time_unaware = num2date(TimeSec, EPOCH_UNITS)
+    eptime = {'data': time_unaware, 'units': EPOCH_UNITS,
               'standard_name': 'Time', 'long_name': 'Time (UTC)'}
     return eptime

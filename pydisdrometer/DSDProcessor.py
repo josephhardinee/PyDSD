@@ -28,7 +28,7 @@ class DSDProcessor:
         self.scatterer = Scatterer(wavelength=wl, m=refractive.m_w_10C[wl])
         self.scatterer.psd_integrator = PSDIntegrator()
         self.scatterer.psd_integrator.axis_ratio_func = lambda D: 1.0/DSR_list[shape](D)
-        self.scatterer.psd_integrator.D_max = 9.0
+        self.scatterer.psd_integrator.D_max = 10.0
         self.scatterer.psd_integrator.geometries = (tmatrix_aux.geom_horiz_back,
                 tmatrix_aux.geom_horiz_forw)
         self.scatterer.or_pdf = orientation.gaussian_pdf(20.0)
