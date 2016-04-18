@@ -99,12 +99,17 @@ class NASA_APU_reader(object):
                 self.time.append(self._parse_time(map(int, (row[0].split()[0:4]))))
                 self.Nd.append([float(x) for x in row[0].split()[4:]])
 
+<<<<<<< d74ff2fa4d53bcf91cc075861b38dc374b89773f
         try:
             self.time = self._get_epoch_time(self.time)
         except:
             raise ValueError('Conversion to Epoch did not work!')
             self.time = np.array(self.time)
         self.Nd = np.array(self.Nd)
+=======
+        self.time = np.ma.array(self.time)
+        self.Nd = np.ma.array(self.Nd)
+>>>>>>> ENH: Masked arrays in file readers.
         self.bin_edges = np.hstack(
             (0, self.diameter + np.array(self.spread) / 2))
 

@@ -95,13 +95,13 @@ class ParsivelReader(object):
                 self.pcm, np.reshape(self.raw[i], (32, 32)))
 
     def _prep_data(self):
-        self.rain_rate = np.array(self.rain_rate)
+        self.rain_rate = np.ma.array(self.rain_rate)
         self.Z = ma.masked_equal(self.Z, -9.999)
-        self.nd = np.array(self.nd)
+        self.nd = np.ma.array(self.nd)
         self.nd[self.nd == -9.999] = 0
-        self.Nd = np.array(self.nd)
-        self.num_particles = np.array(self.num_particles)
-        self.time = np.array(self.time)
+        self.Nd = np.ma.array(self.nd)
+        self.num_particles = np.ma.array(self.num_particles)
+        self.time = np.ma.array(self.time)
         self.velocity = self.vd  # np.ndarray(self.vd)
         #self.raw = np.power(10, np.ndarray(self.raw))
 

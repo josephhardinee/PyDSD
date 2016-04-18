@@ -124,7 +124,7 @@ class Image2DReader(object):
                                          'm^-3', 'Liquid water particle concentration')
 
         # First pull out the time variable
-        HHMMSS = np.array(ncFile.variables['time'][:])
+        HHMMSS = np.ma.array(ncFile.variables['time'][:])
         # Make this an "unaware" datetime object converted back into a number
         # of seconds since beginning of day.  Necessary because of the way the
         #  variable is saved in NetCDF
@@ -136,7 +136,7 @@ class Image2DReader(object):
         # Map to imaging probe data
         if flight_time_dict is not None:
             if flight_air_density_dict is not None:
-                air_density = np.array(
+                air_density = np.ma.array(
                   sinterp.griddata(flight_time_dict['data'][:],
                                    flight_air_density_dict['data'][:],
                                    Time_unaware[:]))
@@ -144,7 +144,7 @@ class Image2DReader(object):
                   'Air Density', air_density, flight_air_density_dict['units'], 'Air Density')
 
             if flight_vert_wind_dict is not None:
-                vert_wind_velocity = np.array(
+                vert_wind_velocity = np.ma.array(
                   sinterp.griddata(flight_time_dict['data'][:],
                                    flight_vert_wind_dict['data'][:],
                                    Time_unaware[:]))
@@ -153,7 +153,7 @@ class Image2DReader(object):
                   flight_vert_wind_dict['units'], 'Vertical Wind Velocity')
 
             if flight_altitude_dict is not None:
-                altitude = np.array(
+                altitude = np.ma.array(
                   sinterp.griddata(flight_time_dict['data'][:],
                                    flight_altitude_dict['data'][:],
                                    Time_unaware[:]))

@@ -94,7 +94,7 @@ class JWDReader(object):
                          float(line.split()[24]))
 
     def _prep_data(self):
-        self.Nd = np.array(self.Nd)
-        self.time = np.array(self.time)
+        self.Nd = np.ma.array(self.Nd)
+        self.time = np.ma.array(self.time)
         self.time = self.time - self.time[0]
-        self.rain_rate = np.array(self.rain_rate)
+        self.rain_rate = np.ma.array(self.rain_rate)

@@ -81,9 +81,9 @@ class HVPSReader(object):
             time.append(float(row[0].split()[0]))
             Nd.append(map(float,row[10:71]))
 
-        Nd = np.array(Nd)
+        Nd = np.ma.array(Nd)
 
-        time = np.array(time)
+        time = np.ma.array(time)
 
         #spread
         spread = np.diff(bin_edges)
