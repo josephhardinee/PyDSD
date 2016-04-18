@@ -1,3 +1,6 @@
+v0.13.0:
+	FEATURE: Added aoml reader from pyparticle probe
+	MISC: Changed default DMax to 9mm
 v0.12.0:
 	MISC: Added Travis CI setup and Coveralls.
 	FEATURE: Added Convective stratiform partitioning algorithms from

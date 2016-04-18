@@ -2,7 +2,7 @@ from setuptools import setup
 
 MAJOR = 0
 MINOR = 1
-MICRO = 12
+MICRO = 13
 SUB = 0
 ISRELEASED = False
 VERSION = '%d.%d.%d.%d' % (MAJOR, MINOR, MICRO, SUB)
@@ -10,7 +10,7 @@ VERSION = '%d.%d.%d.%d' % (MAJOR, MINOR, MICRO, SUB)
 setup(
     name='PyDisdrometer',
     version=VERSION,
-    author='Joseph C. Hardin',
+    author='Joseph C. Hardin, Nick Guy',
     author_email='josephhardinee@gmail.com',
     packages=['pydisdrometer',
               'pydisdrometer.aux_readers',
