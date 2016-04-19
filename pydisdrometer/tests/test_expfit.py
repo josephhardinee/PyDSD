@@ -1,10 +1,10 @@
-from .. import expfit
+from ..utility import expfit
 from unittest import TestCase
 import numpy as np
 
 
 class Test_expfit(TestCase):
-    ''' Tests for the expfit module.  '''
+    ''' Tests for the expfit module. '''
 
     def test_expfit_returns_correct_relationship(self):
         '''

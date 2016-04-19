@@ -8,14 +8,13 @@ simulations on itself.
 
 import numpy as np
 import pytmatrix
-import scipy
-from scipy.optimize import curve_fit
-
 from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
 from datetime import date
-from .expfit import expfit, expfit2
+from .utility.expfit import expfit, expfit2
+from scipy.optimize import curve_fit
+import scipy
 
 from . import DSR
 from .utility import dielectric
