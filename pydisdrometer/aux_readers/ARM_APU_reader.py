@@ -28,8 +28,10 @@ def read_parsivel_arm_netcdf(filename):
 
     if reader:
         dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
-                                   velocity=reader.velocity, diameter=reader.diameter,
-                                   bin_edges=reader.bin_edges, rain_rate=reader.rain_rate)
+                                   velocity=reader.velocity,
+                                   diameter=reader.diameter,
+                                   bin_edges=reader.bin_edges,
+                                   rain_rate=reader.rain_rate)
         return dsd
 
     else:
@@ -41,14 +43,15 @@ def read_parsivel_arm_netcdf(filename):
 class ARM_APU_reader(object):
 
     '''
-    This class reads and parses parsivel disdrometer data from ARM netcdf files. These conform to document (Need Document)
+    This class reads and parses parsivel disdrometer data from ARM netcdf
+    files. These conform to document (Need Document).
 
     Use the read_parsivel_arm_netcdf() function to interface with this.
     '''
 
     def __init__(self, filename):
         '''
-        Handles setting up a APU Reader
+        Handles setting up a APU Reader.
         '''
 
         self.time = []  # Time in minutes from start of recording
@@ -57,10 +60,13 @@ class ARM_APU_reader(object):
         self.nc_dataset = Dataset(filename)
 
         self.diameter = self.nc_dataset.variables['particle_size'][:]
-        self.time = self.nc_dataset.variables['time'][:]
-        self.Nd = self.nc_dataset.variables['number_density_drops'][:]
+        self.time = np.ma.array(self.nc_dataset.variables['time'][:])
+        self.Nd = np.ma.array(
+            self.nc_dataset.variables['number_density_drops'][:])
         self.spread = self.nc_dataset.variables['class_size_width'][:]
-        self.velocity = self.nc_dataset.variables['fall_velocity_calculated'][:]
-        self.rain_rate = self.nc_dataset.variables['precip_rate'][:]
+        self.velocity = np.ma.array(
+            self.nc_dataset.variables['fall_velocity_calculated'][:])
+        self.rain_rate = np.ma.array(
+            self.nc_dataset.variables['precip_rate'][:])
 
         self.bin_edges = np.hstack((0, self.diameter + np.array(self.spread) / 2))

@@ -104,7 +104,7 @@ class NASA_APU_reader(object):
         except:
             raise ValueError('Conversion to Epoch did not work!')
             self.time = np.array(self.time)
-        self.Nd = np.array(self.Nd)
+        self.Nd = np.ma.array(self.Nd)
         self.bin_edges = np.hstack(
             (0, self.diameter + np.array(self.spread) / 2))
 

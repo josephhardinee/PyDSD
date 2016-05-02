@@ -59,7 +59,7 @@ class TwoDSReader(object):
     This class reads and parses data from 2DS data files. Use the read_2ds() function to interface with this.
     '''
 
-    def __init__(self, filename, campaign='acapex'): 
+    def __init__(self, filename, campaign='acapex'):
         ''' Initializer for a 2DS Cloud Probe class.
 
             Read and process a 2DS Cloud Probe data file. This should only be called by the read_2ds() function.
@@ -94,8 +94,8 @@ class TwoDSReader(object):
             time.append(float(row[0].split()[0]))
             Nd.append(map(float,row[10:71]))
 
-        Nd = np.array(Nd)
-        time = np.array(time)
+        Nd = np.ma.array(Nd)
+        time = np.ma.array(time)
 
         header = header_l.split(",")
         bins = header[10:71]
@@ -109,7 +109,7 @@ class TwoDSReader(object):
             bin_edge_str.append(s1)
 
         #Loop over the list of strings containing bin edges, turn them into integers
-        
+
         bin_edge_int = []
         bin_edge_int.append(float(bin_edge_str[0][0]))
         for sbins in bin_edge_str:

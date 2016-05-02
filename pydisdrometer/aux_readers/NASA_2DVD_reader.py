@@ -104,7 +104,7 @@ class NASA_2DVD_sav_reader(object):
         record = scipy.io.readsav(filename)['dsd_struct']
 
         self.diameter = record.diam[0]
-        self.velocity = 9.65 - 10.3*np.exp(-0.6*self.diameter)  # Atlas1973
+        self.velocity = 9.65 - 10.3 * np.exp(-0.6 * self.diameter)  # Atlas1973
         self.velocity = 0.808  # The above equation not completely
                                # stable so we use Atlas 1977
         self.notes.append('Velocities from formula, not disdrometer\n')
@@ -120,7 +120,7 @@ class NASA_2DVD_sav_reader(object):
     def _parse_time(self, record):
         # For now we just drop the day stuff, Eventually we'll make this a
         # proper time
-        hour = 60.0*np.array([float(hr) for hr in record.hour[0]])
+        hour = 60.0 * np.array([float(hr) for hr in record.hour[0]])
         minute = np.array([float(mn) for mn in record.minute[0]])
         return hour + minute
 
@@ -142,7 +142,7 @@ class NASA_2DVD_dsd_reader(object):
         '''
         MIN_IN_DAY = 1440
 #        self.time = np.arange(MIN_IN_DAY)  # Time in minutes
-        self.Nd = np.zeros((MIN_IN_DAY, 50))
+        self.Nd = np.ma.zeros((MIN_IN_DAY, 50))
         self.notes = []
 
         if not campaign in self.supported_campaigns:
