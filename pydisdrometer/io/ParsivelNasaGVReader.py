@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from ..DropSizeDistribution import DropSizeDistribution
-
 import itertools
 import scipy.optimize
 from pytmatrix.psd import GammaPSD
@@ -10,6 +8,7 @@ import datetime
 import time
 from netCDF4 import num2date, date2num
 
+from ..DropSizeDistribution import DropSizeDistribution
 from . import common
 
 
@@ -47,9 +46,10 @@ def read_parsivel_nasa_gv(filename, campaign='ifloods', skip_header=None):
     reader = NASA_APU_reader(filename, campaign, skip_header)
 
     if reader:
-        dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
-                                   velocity=reader.velocity, diameter=reader.diameter,
-                                   bin_edges=reader.bin_edges)
+##        dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
+##                                   velocity=reader.velocity, diameter=reader.diameter,
+##                                   bin_edges=reader.bin_edges)
+        dsd = DropSizeDistribution(reader)
         return dsd
 
     else:
@@ -98,22 +98,32 @@ class NASA_APU_reader(object):
                 self.time.append(self._parse_time(map(int, (row[0].split()[0:4]))))
                 self.Nd.append([float(x) for x in row[0].split()[4:]])
 
-        try:
-            self.time = self._get_epoch_time(self.time)
-        except:
-            raise ValueError('Conversion to Epoch did not work!')
-            self.time = np.array(self.time)
-        self.Nd = np.ma.array(self.Nd)
+        self._prep_data()
+
         self.bin_edges = np.hstack(
             (0, self.diameter + np.array(self.spread) / 2))
 
         self.f.close()
 
+
+    def _prep_data(self):
+        self.fields = {}
+        self.fields['Nd'] = common._var_to_dict(
+            'Nd', np.ma.array(self.Nd), 'm^-3',
+            'Liquid water particle concentration')
+
+        try:
+            self.time = self._get_epoch_time(self.time)
+        except:
+            raise ValueError('Conversion to Epoch did not work!')
+            self.time = {'data': np.array(self.time), 'units': None,
+                         'title': 'Time', 'full_name': 'Native file time'}
+
     def _regenerate_rainfall(self):
         '''
         The goal of this function is to recreate the rainfall that the
         NASA processing removes. The alternative is to merge the dsd and
-        raintables files together. We might add that later
+        raintables files together.
         '''
         print('Not implemented yet')
         pass
@@ -134,7 +144,7 @@ class NASA_APU_reader(object):
         # Once again convert this data into a datetime instance
         time_unaware = num2date(sample_time, common.EPOCH_UNITS)
         eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
-                'title': 'Time', 'full_name': 'Time (UTC)'}
+                  'title': 'Time', 'full_name': 'Time (UTC)'}
         return eptime
 
     spread = [

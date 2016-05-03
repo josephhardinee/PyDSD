@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+from netCDF4 import num2date, date2num
+
 from ..DropSizeDistribution import DropSizeDistribution
+from . import common
 
 
 def read_parsivel(filename):
@@ -17,10 +20,11 @@ def read_parsivel(filename):
     '''
 
     reader = ParsivelReader(filename)
-    dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
-                               rain_rate=reader.rain_rate, velocity=reader.velocity,
-                               Z=reader.Z, num_particles=reader.num_particles,
-                               bin_edges=reader.bin_edges, diameter=reader.diameter)
+##    dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
+##                               rain_rate=reader.rain_rate, velocity=reader.velocity,
+##                               Z=reader.Z, num_particles=reader.num_particles,
+##                               bin_edges=reader.bin_edges, diameter=reader.diameter)
+    dsd = DropSizeDistribution(reader)
 
     dsd.fields['raw_matrix'] = {'data': reader.raw}
     dsd.fields['filtered_raw_matrix'] = {'data': reader.filtered_raw_matrix}
@@ -94,18 +98,58 @@ class ParsivelReader(object):
                 self.pcm, np.reshape(self.raw[i], (32, 32)))
 
     def _prep_data(self):
-        self.rain_rate = np.ma.array(self.rain_rate)
-        self.Z = ma.masked_equal(self.Z, -9.999)
-        self.nd = np.ma.array(self.nd)
-        self.nd[self.nd == -9.999] = 0
-        self.Nd = np.ma.array(self.nd)
-        self.num_particles = np.ma.array(self.num_particles)
-        self.time = np.ma.array(self.time)
-        self.velocity = self.vd  # np.ndarray(self.vd)
+        self.fields = {}
+#        self.rain_rate = np.ma.array(self.rain_rate)
+#        self.Z = ma.masked_equal(self.Z, -9.999)
+#        self.nd = np.ma.array(self.nd)
+#        self.nd[self.nd == -9.999] = 0
+#        self.Nd = np.ma.array(self.nd)
+#        self.num_particles = np.ma.array(self.num_particles)
+#        self.time = np.ma.array(self.time)
+#        self.velocity = self.vd  # np.ndarray(self.vd)
         #self.raw = np.power(10, np.ndarray(self.raw))
+
+        self.fields['rain_rate'] = common._var_to_dict(
+            'Rain rate', np.ma.array(self.rain_rate), 'mm/h', 'Rain rate')
+        self.fields['reflectivity'] = common._var_to_dict(
+            'Reflectivity', np.ma.masked_equal(self.Z, -9.999), 'dBZ',
+            'Equivalent reflectivity factor')
+        self.nd[self.nd == -9.999] = 0
+        self.nd[self.nd == -9.999] = 0
+        self.fields['Nd'] = common._var_to_dict(
+            'Nd', np.ma.array(self.nd), 'm^-3',
+            'Liquid water particle concentration')
+        self.fields['num_particles'] = common._var_to_dict(
+            'Number of Particles', np.ma.array(self.num_particles),
+            '', 'Number of particles')
+        self.fields['terminal_velocity'] = common._var_to_dict(
+            'Terminal Fall Velocity', self.vd,  # np.ndarray(self.vd),
+            'm/s', 'Terminal fall velocity for each bin')
+
+        try:
+            self.time = self._get_epoch_time(self.time)
+        except:
+            raise ValueError('Conversion to Epoch did not work!')
+            self.time = {'data': np.array(self.time), 'units': None,
+                         'title': 'Time', 'full_name': 'Native file time'}
 
     def get_sec(self, s):
         return int(s[0]) * 3600 + int(s[1]) * 60 + int(s[2])
+
+    def _get_epoch_time(self, sample_time):
+        '''
+        Convert the time to an Epoch time using package standard.
+        '''
+        # Convert the time array into a datetime instance
+        dt_units = 'minutes since ' + StartDate + '00:00:00+0:00'
+        dtMin = num2date(time, dt_units)
+        # Convert this datetime instance into a number of seconds since Epoch
+        TimeSec = date2num(dtMin, common.EPOCH_UNITS)
+        # Once again convert this data into a datetime instance
+        time_unaware = num2date(TimeSec, common.EPOCH_UNITS)
+        eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
+                  'title': 'Time', 'full_name': 'Time (UTC)'}
+        return eptime
 
     diameter = [
         0.06, 0.19, 0.32, 0.45, 0.58, 0.71, 0.84, 0.96, 1.09, 1.22, 1.42, 1.67,

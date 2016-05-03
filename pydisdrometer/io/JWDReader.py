@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+from netCDF4 import num2date, date2num
+
 from ..DropSizeDistribution import DropSizeDistribution
-#from .common import _get_epoch_time
 
 
 def read_jwd(filename):
@@ -21,6 +22,7 @@ def read_jwd(filename):
     dsd = DropSizeDistribution(reader.time, reader.Nd, spread=reader.spread,
                                diameter=reader.diameter, rain_rate=reader.rain_rate,
                                bin_edges=reader.bin_edges)
+    dsd = DropSizeDistribution(reader)
     return dsd
 
 
@@ -56,8 +58,8 @@ class JWDReader(object):
         if int(l[0]) < start_hh:
             return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2]) + 86400
         elif int(l[0]) == start_hh and int(l[1]) < start_mm:
-	    return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2]) + 86400
-	else:
+            return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2]) + 86400
+        else:
             return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2])
 
     def conv_md_to_nd(self, Nd):
@@ -93,8 +95,37 @@ class JWDReader(object):
                     self.rain_rate.append(
                          float(line.split()[24]))
 
+    def _get_epoch_time(self, sample_time):
+        '''
+        Convert the time to an Epoch time using package standard.
+        '''
+        # Convert the time array into a datetime instance
+        dt_units = 'seconds since ' + StartDate + '00:00:00+0:00'
+        dtMin = num2date(time, dt_units)
+        # Convert this datetime instance into a number of seconds since Epoch
+        TimeSec = date2num(dtMin, common.EPOCH_UNITS)
+        # Once again convert this data into a datetime instance
+        time_unaware = num2date(TimeSec, common.EPOCH_UNITS)
+        eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
+                  'title': 'Time', 'full_name': 'Time (UTC)'}
+        return eptime
+
     def _prep_data(self):
-        self.Nd = np.ma.array(self.Nd)
+        fields = {}
+##        self.Nd = np.ma.array(self.Nd)
+##        self.rain_rate = np.ma.array(self.rain_rate)
         self.time = np.ma.array(self.time)
         self.time = self.time - self.time[0]
-        self.rain_rate = np.ma.array(self.rain_rate)
+
+        self.fields['Nd'] = common._var_to_dict(
+            'Nd', np.ma.array(self.Nd), 'm^-3',
+            'Liquid water particle concentration')
+        self.fields['rain_rate'] = common._var_to_dict(
+            'Rain rate', np.ma.array(self.rain_rate), 'mm/h', 'Rain rate')
+
+        try:
+            self.time = self._get_epoch_time(self.time)
+        except:
+            raise ValueError('Conversion to Epoch did not work!')
+            self.time = {'data': np.array(self.time), 'units': None,
+                         'title': 'Time', 'full_name': 'Native file time'}
