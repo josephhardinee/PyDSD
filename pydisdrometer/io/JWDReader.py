@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from DropSizeDistribution import DropSizeDistribution
+from ..DropSizeDistribution import DropSizeDistribution
 #from .common import _get_epoch_time
 
 

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-import numpy.ma as ma
-from DropSizeDistribution import DropSizeDistribution
+from ..DropSizeDistribution import DropSizeDistribution
 
 
 def read_parsivel(filename):

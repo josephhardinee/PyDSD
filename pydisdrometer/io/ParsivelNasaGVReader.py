@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-import numpy.ma as ma
-from DropSizeDistribution import DropSizeDistribution
+from ..DropSizeDistribution import DropSizeDistribution
 
 import itertools
 import scipy.optimize
@@ -11,7 +10,7 @@ import datetime
 import time
 from netCDF4 import num2date, date2num
 
-from .io import common
+from . import common
 
 
 def read_parsivel_nasa_gv(filename, campaign='ifloods', skip_header=None):
