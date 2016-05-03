@@ -95,17 +95,17 @@ class JWDReader(object):
                     self.rain_rate.append(
                          float(line.split()[24]))
 
-    def _get_epoch_time(self, sample_time):
+    def _get_epoch_time(self):
         '''
         Convert the time to an Epoch time using package standard.
         '''
         # Convert the time array into a datetime instance
         dt_units = 'seconds since ' + StartDate + '00:00:00+0:00'
-        dtMin = num2date(time, dt_units)
+        dtMin = num2date(self.time, dt_units)
         # Convert this datetime instance into a number of seconds since Epoch
-        TimeSec = date2num(dtMin, common.EPOCH_UNITS)
+        timesec = date2num(dtMin, common.EPOCH_UNITS)
         # Once again convert this data into a datetime instance
-        time_unaware = num2date(TimeSec, common.EPOCH_UNITS)
+        time_unaware = num2date(timesec, common.EPOCH_UNITS)
         eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
                   'title': 'Time', 'full_name': 'Time (UTC)'}
         return eptime
@@ -117,14 +117,14 @@ class JWDReader(object):
         self.time = np.ma.array(self.time)
         self.time = self.time - self.time[0]
 
-        self.fields['Nd'] = common._var_to_dict(
+        self.fields['Nd'] = common.var_to_dict(
             'Nd', np.ma.array(self.Nd), 'm^-3',
             'Liquid water particle concentration')
-        self.fields['rain_rate'] = common._var_to_dict(
+        self.fields['rain_rate'] = common.var_to_dict(
             'Rain rate', np.ma.array(self.rain_rate), 'mm/h', 'Rain rate')
 
         try:
-            self.time = self._get_epoch_time(self.time)
+            self.time = self._get_epoch_time()
         except:
             raise ValueError('Conversion to Epoch did not work!')
             self.time = {'data': np.array(self.time), 'units': None,

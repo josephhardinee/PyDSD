@@ -110,14 +110,14 @@ class Image2DReader(object):
 
         # Read the size bins
         varmatch = [s for s in ncFile.variables.keys() if "corr_bin_mid" in s]
-        self.diameter = common._ncvar_to_dict(ncFile.variables[varmatch[0]])
+        self.diameter = common.ncvar_to_dict(ncFile.variables[varmatch[0]])
         varmin = [s for s in ncFile.variables.keys() if "corr_bin_min" in s]
         varmax = [s for s in ncFile.variables.keys() if "corr_bin_max" in s]
         bin_edges = np.hstack((ncFile.variables[varmin[0]][0],
                           ncFile.variables[varmax[0]]))
-##        self.bin_edges = common._var_to_dict('bin_edges',  bin_edges,
+##        self.bin_edges = common.var_to_dict('bin_edges',  bin_edges,
 ##                                      'micron', 'particle size bin edges')
-##        self.spread = common._var_to_dict('spread', np.diff(bin_edges),
+##        self.spread = common.var_to_dict('spread', np.diff(bin_edges),
 ##                                   self.bin_edges['units'], 'Bin spread size')
         self.bin_edges = bin_edges / 1000.
         self.spread = np.diff(bin_edges) / 1000.
@@ -125,7 +125,7 @@ class Image2DReader(object):
         # Retrieve concentration convert from cm^-3 to m^-3
         varNd = [s for s in ncFile.variables.keys() if "corr_conc" in s]
         nd = ncFile.variables[varNd[0]][:] * 1E6
-        self.fields['Nd'] = common._var_to_dict(
+        self.fields['Nd'] = common.var_to_dict(
             'Nd', np.ma.array(nd), 'm^-3',
             'Liquid water particle concentration')
 
@@ -136,7 +136,7 @@ class Image2DReader(object):
         #  variable is saved in NetCDF
         t_units = 'seconds since ' + "-".join([yyyy, mm, dd]) + ' 00:00:00'
         # Return a common epoch time dictionary
-        self.time = common._get_epoch_time(HHMMSS, t_units)
+        self.time = _get_epoch_time(HHMMSS, t_units)
 
         # Pull in the aircraft variables of interest if desired
         # Map to imaging probe data
@@ -146,7 +146,7 @@ class Image2DReader(object):
                   sinterp.griddata(flight_time_dict['data'][:],
                                    flight_air_density_dict['data'][:],
                                    Time_unaware[:]))
-                self.fields['air_density'] = common._var_to_dict(
+                self.fields['air_density'] = common.var_to_dict(
                     'Air Density', air_density,
                     flight_air_density_dict['units'], 'Air Density')
 
@@ -155,7 +155,7 @@ class Image2DReader(object):
                   sinterp.griddata(flight_time_dict['data'][:],
                                    flight_vert_wind_dict['data'][:],
                                    Time_unaware[:]))
-                self.fields['vert_wind_velocity'] = common._var_to_dict(
+                self.fields['vert_wind_velocity'] = common.var_to_dict(
                     'Vertical Wind Velocity', vert_wind_velocity,
                     flight_vert_wind_dict['units'], 'Vertical Wind Velocity')
 
@@ -164,7 +164,7 @@ class Image2DReader(object):
                   sinterp.griddata(flight_time_dict['data'][:],
                                    flight_altitude_dict['data'][:],
                                    Time_unaware[:]))
-                self.fields['altitude'] = common._var_to_dict(
+                self.fields['altitude'] = common.var_to_dict(
                     'Altitude', altitude,
                     flight_altitude_dict['units'], 'Altitude')
 
@@ -199,14 +199,14 @@ class Image2DReader(object):
         ncFile = netCDF4.Dataset(self.filename, 'r')
 
         # Read the size bins
-        self.diameter = common._ncvar_to_dict(ncFile.variables['Sizebins'])
+        self.diameter = common.ncvar_to_dict(ncFile.variables['Sizebins'])
         self.diameter['data'] = self.diameter['data'] / 1000.0
         self.diameter['units'] = 'mm'
 
         # Retrieve the time variable
-        eptime = common._ncvar_to_dict(ncFile.variables['EpochTime'])
+        eptime = common.ncvar_to_dict(ncFile.variables['EpochTime'])
         # Return a common epoch time dictionary
-        self.time = common._get_epoch_time(eptime['data'][:], eptime['units'])
+        self.time = _get_epoch_time(eptime['data'][:], eptime['units'])
         self.spread = {'data': np.zeros(len(self.diameter['data'])),
                         'units': 'mm',
                         'Description': 'Bin Width'
@@ -219,10 +219,10 @@ class Image2DReader(object):
 
 
         # Retrieve other variables
-        self.fields['Nd_water'] = common._ncvar_to_dict(ncFile.variables['Water'])
-        self.fields['Nd_ice'] = common._ncvar_to_dict(ncFile.variables['Ice'])
-        self.fields['air_density'] = common._ncvar_to_dict(ncFile.variables['RhoAir'])
-        self.fields['vert_wind_velocity'] = common._ncvar_to_dict(ncFile.variables['vertVel'])
+        self.fields['Nd_water'] = common.ncvar_to_dict(ncFile.variables['Water'])
+        self.fields['Nd_ice'] = common.ncvar_to_dict(ncFile.variables['Ice'])
+        self.fields['air_density'] = common.ncvar_to_dict(ncFile.variables['RhoAir'])
+        self.fields['vert_wind_velocity'] = common.ncvar_to_dict(ncFile.variables['vertVel'])
 
         #Now let's convert to drop counts by dividing by volume.
         vol_per_bin = (1/3.0) * np.pi * np.power(self.diameter['data'], 3)
@@ -230,6 +230,17 @@ class Image2DReader(object):
         self.fields['Nd'] = {'units': '#/mm/m^3', 'Description': 'Calculated Drop Counts'}
         self.fields['Nd']['data'] = np.divide(self.fields['Nd']['data'], vol_per_bin)
 
+    def _get_epoch_time(sample_times, t_units):
+        """Convert time to epoch time and return a dictionary."""
+        # Convert the time array into a datetime instance
+        dts = num2date(sample_times, t_units)
+        # Now convert this datetime instance into a number of seconds since Epoch
+        TimeSec = date2num(dts, common.EPOCH_UNITS)
+        # Now once again convert this data into a datetime instance
+        time_unaware = num2date(TimeSec, common.EPOCH_UNITS)
+        eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
+                  'standard_name': 'Time', 'long_name': 'Time (UTC)'}
+        return eptime
 
     def apply_running_average(self, array, dim=0, num=6):
         '''

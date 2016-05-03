@@ -105,7 +105,6 @@ class NASA_APU_reader(object):
 
         self.f.close()
 
-
     def _prep_data(self):
         self.fields = {}
         self.fields['Nd'] = common._var_to_dict(
@@ -140,7 +139,7 @@ class NASA_APU_reader(object):
         #dt_units = 'minutes since ' + StartDate + '00:00:00+0:00'
         #dtMin = num2date(time, dt_units)
         # Convert this datetime instance into a number of seconds since Epoch
-        #TimeSec = date2num(dtMin, common.EPOCH_UNITS)
+        #timesec = date2num(dtMin, common.EPOCH_UNITS)
         # Once again convert this data into a datetime instance
         time_unaware = num2date(sample_time, common.EPOCH_UNITS)
         eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
