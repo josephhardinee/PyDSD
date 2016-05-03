@@ -107,7 +107,7 @@ class NASA_APU_reader(object):
 
     def _prep_data(self):
         self.fields = {}
-        self.fields['Nd'] = common._var_to_dict(
+        self.fields['Nd'] = common.var_to_dict(
             'Nd', np.ma.array(self.Nd), 'm^-3',
             'Liquid water particle concentration')
 
