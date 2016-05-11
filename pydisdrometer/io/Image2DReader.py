@@ -235,9 +235,9 @@ class Image2DReader(object):
         # Convert the time array into a datetime instance
         dts = num2date(sample_times, t_units)
         # Now convert this datetime instance into a number of seconds since Epoch
-        TimeSec = date2num(dts, common.EPOCH_UNITS)
+        timesec = date2num(dts, common.EPOCH_UNITS)
         # Now once again convert this data into a datetime instance
-        time_unaware = num2date(TimeSec, common.EPOCH_UNITS)
+        time_unaware = num2date(timesec, common.EPOCH_UNITS)
         eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
                   'standard_name': 'Time', 'long_name': 'Time (UTC)'}
         return eptime

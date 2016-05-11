@@ -101,9 +101,9 @@ class JWDReader(object):
         '''
         # Convert the time array into a datetime instance
         dt_units = 'seconds since ' + StartDate + '00:00:00+0:00'
-        dtMin = num2date(self.time, dt_units)
+        dt_minutes = num2date(self.time, dt_units)
         # Convert this datetime instance into a number of seconds since Epoch
-        timesec = date2num(dtMin, common.EPOCH_UNITS)
+        timesec = date2num(dt_minutes, common.EPOCH_UNITS)
         # Once again convert this data into a datetime instance
         time_unaware = num2date(timesec, common.EPOCH_UNITS)
         eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,

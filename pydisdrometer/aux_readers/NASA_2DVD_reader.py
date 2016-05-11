@@ -179,9 +179,9 @@ class NASA_2DVD_dsd_reader(object):
         Convert the time to an Epoch time using package standard.
         '''
         # Convert this datetime instance into a number of seconds since Epoch
-        TimeSec = date2num(dtMin, common.EPOCH_UNITS)
+        timesec = date2num(dtMin, common.EPOCH_UNITS)
         # Once again convert this data into a datetime instance
-        time_unaware = num2date(TimeSec, common.EPOCH_UNITS)
+        time_unaware = num2date(timesec, common.EPOCH_UNITS)
         eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
                 'title': 'Time', 'full_name': 'Time (UTC)'}
         return etpime
