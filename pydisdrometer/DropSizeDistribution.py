@@ -198,7 +198,7 @@ class DropSizeDistribution(object):
         for t in range(self.scatter_start_time, self.scatter_end_time):
             if np.sum(self.Nd['data'][t]) is 0:
                 continue
-            BinnedDSD = pytmatrix.psd.BinnedPSD(self.bin_edges,  self.Nd['data'][t])
+            BinnedDSD = pytmatrix.psd.BinnedPSD(self.bin_edges['data'],  self.Nd['data'][t])
             self.scatterer.psd = BinnedDSD
             self.fields['Zh']['data'][t] = 10 * \
                 np.log10(radar.refl(self.scatterer))
@@ -260,15 +260,15 @@ class DropSizeDistribution(object):
             order of the moment
         '''
 
-        if len(self.spread) > 0:
-            bin_width=self.spread
+        if len(self.spread['data']) > 0:
+            bin_width = self.spread['data']
         else:
-            bin_width = [self.bin_edges[i + 1] - self.bin_edges[i]
-                     for i in range(0, len(self.bin_edges) - 1)]
+            bin_width = [self.bin_edges['data'][i + 1] - self.bin_edges['data'][i]
+                     for i in range(0, len(self.bin_edges['data']) - 1)]
         mth_moment = np.ma.zeros(self.numt)
 
         for t in range(0, self.numt):
-            dmth = np.power(self.diameter, m)
+            dmth = np.power(self.diameter['data'], m)
             mth_moment[t] = np.dot(np.multiply(dmth, self.Nd['data'][t]), bin_width)
 
         return mth_moment
@@ -308,9 +308,9 @@ class DropSizeDistribution(object):
         for t in range(0, self.numt):
             if np.sum(self.Nd['data'][t]) == 0:
                 continue
-            self.fields['Nt']['data'][t] = np.dot(self.spread, self.Nd['data'][t])
-            self.fields['W']['data'][t] = vol_constant * np.dot(np.multiply(self.Nd['data'][t], self.spread),
-                                                                np.array(self.diameter) ** 3)
+            self.fields['Nt']['data'][t] = np.dot(self.spread['data'], self.Nd['data'][t])
+            self.fields['W']['data'][t] = vol_constant * np.dot(np.multiply(self.Nd['data'][t], self.spread['data']),
+                                                                np.array(self.diameter['data']) ** 3)
             self.fields['D0']['data'][t] = self._calculate_D0(self.Nd['data'][t])
             self.fields['Nw']['data'][t] =  256.0 / \
                 (np.pi * rho_w) * np.divide(self.fields['W']['data'][t], self.fields['Dm']['data'][t] ** 4)
@@ -334,7 +334,7 @@ class DropSizeDistribution(object):
         '''
 
         if np.count_nonzero(N):
-            return self.diameter[np.max(N.nonzero())]
+            return self.diameter['data'][np.max(N.nonzero())]
         else:
             return 0
 
@@ -362,13 +362,13 @@ class DropSizeDistribution(object):
             return 0
 
         cum_W = W_const * \
-            np.cumsum([N[k] * self.spread[k] * (self.diameter[k] ** 3)
+            np.cumsum([N[k] * self.spread['data'][k] * (self.diameter['data'][k] ** 3)
                        for k in range(0, len(N))])
         cross_pt = list(cum_W < (cum_W[-1] * 0.5)).index(False) - 1
         slope = (cum_W[cross_pt + 1] - cum_W[cross_pt]) / \
-            (self.diameter[cross_pt + 1] - self.diameter[cross_pt])
+            (self.diameter['data'][cross_pt + 1] - self.diameter['data'][cross_pt])
         run = (0.5 * cum_W[-1] - cum_W[cross_pt]) / slope
-        return self.diameter[cross_pt] + run
+        return self.diameter['data'][cross_pt] + run
 
     def calculate_RR(self):
         '''Calculate instantaneous rain rate.
@@ -377,12 +377,12 @@ class DropSizeDistribution(object):
         '''
         self.fields['rain_rate'] = {'data': np.ma.zeros(self.numt)}
         for t in range(0, self.numt):
-            # self.rain_rate['data'][t] = 0.6*3.1415 * 10**(-3) * np.dot(np.multiply(self.rain_rate['data'],np.multiply(self.Nd['data'][t],self.spread )),
-            #    np.array(self.diameter)**3)
-            velocity = 9.65 - 10.3 * np.exp(-0.6 * self.diameter)
+            # self.rain_rate['data'][t] = 0.6*3.1415 * 10**(-3) * np.dot(np.multiply(self.rain_rate['data'],np.multiply(self.Nd['data'][t],self.spread['data'] )),
+            #    np.array(self.diameter['data'])**3)
+            velocity = 9.65 - 10.3 * np.exp(-0.6 * self.diameter['data'])
             velocity[0] = 0.5
             self.fields['rain_rate']['data'][t] = 0.6 * np.pi * 1e-03 * np.sum(self._mmultiply(
-                velocity, self.Nd['data'][t], self.spread, np.array(self.diameter) ** 3))
+                velocity, self.Nd['data'][t], self.spread['data'], np.array(self.diameter['data']) ** 3))
 
     def calculate_R_Kdp_relationship(self):
         '''
@@ -543,7 +543,7 @@ class DropSizeDistribution(object):
         """
 
         gdsd  = pytmatrix.psd.GammaPSD(self.fields['D0']['data'][idx], self.fields['Nw']['data'][idx],mu)
-        return np.sqrt(np.nansum(np.power(np.abs(self.Nd['data'][idx] - gdsd(self.diameter)),2)))
+        return np.sqrt(np.nansum(np.power(np.abs(self.Nd['data'][idx] - gdsd(self.diameter['data'])),2)))
 
 
 

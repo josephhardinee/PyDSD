@@ -18,12 +18,7 @@ def read_parsivel(filename):
     DropSizeDistrometer object
 
     '''
-
     reader = ParsivelReader(filename)
-##    dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
-##                               rain_rate=reader.rain_rate, velocity=reader.velocity,
-##                               Z=reader.Z, num_particles=reader.num_particles,
-##                               bin_edges=reader.bin_edges, diameter=reader.diameter)
     dsd = DropSizeDistribution(reader)
 
     dsd.fields['raw_matrix'] = {'data': reader.raw}
@@ -38,9 +33,6 @@ class ParsivelReader(object):
     This should be a parsivel raw datafile(output from the parsivel).
 
     '''
-
-
-
     def __init__(self, filename):
         self.filename = filename
         self.rain_rate = []
@@ -99,14 +91,6 @@ class ParsivelReader(object):
 
     def _prep_data(self):
         self.fields = {}
-#        self.rain_rate = np.ma.array(self.rain_rate)
-#        self.Z = ma.masked_equal(self.Z, -9.999)
-#        self.nd = np.ma.array(self.nd)
-#        self.nd[self.nd == -9.999] = 0
-#        self.Nd = np.ma.array(self.nd)
-#        self.num_particles = np.ma.array(self.num_particles)
-#        self.time = np.ma.array(self.time)
-#        self.velocity = self.vd  # np.ndarray(self.vd)
         #self.raw = np.power(10, np.ndarray(self.raw))
 
         self.fields['rain_rate'] = common.var_to_dict(
@@ -117,7 +101,7 @@ class ParsivelReader(object):
         self.nd[self.nd == -9.999] = 0
         self.nd[self.nd == -9.999] = 0
         self.fields['Nd'] = common.var_to_dict(
-            'Nd', np.ma.array(self.nd), 'm^-3',
+            'Nd', np.ma.array(self.nd), 'm^-3 mm^-1',
             'Liquid water particle concentration')
         self.fields['num_particles'] = common.var_to_dict(
             'Number of Particles', np.ma.array(self.num_particles),
@@ -151,20 +135,29 @@ class ParsivelReader(object):
                   'title': 'Time', 'full_name': 'Time (UTC)'}
         return eptime
 
-    diameter = [
-        0.06, 0.19, 0.32, 0.45, 0.58, 0.71, 0.84, 0.96, 1.09, 1.22, 1.42, 1.67,
-        1.93, 2.19, 2.45, 2.83, 3.35, 3.86, 4.38, 4.89, 5.66,
-        6.7, 7.72, 8.76, 9.78, 11.33, 13.39, 15.45, 17.51, 19.57, 22.15, 25.24]
+    diameter = common.var_to_dict(
+        'diameter',
+        np.array(
+            [0.06, 0.19, 0.32, 0.45, 0.58, 0.71, 0.84, 0.96, 1.09, 1.22, 1.42, 1.67,
+             1.93, 2.19, 2.45, 2.83, 3.35, 3.86, 4.38, 4.89, 5.66,
+             6.7, 7.72, 8.76, 9.78, 11.33, 13.39, 15.45, 17.51, 19.57, 22.15, 25.24]),
+        'mm', 'Particle diameter of bins')
 
-    spread = [
+    spread = common.var_to_dict(
+        'spread',
+        [
         0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257,
         0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515, 0.515, 0.515, 1.030, 1.030,
-        1.030, 1.030, 1.030, 2.060, 2.060, 2.060, 2.060, 2.060, 3.090, 3.090]
+        1.030, 1.030, 1.030, 2.060, 2.060, 2.060, 2.060, 2.060, 3.090, 3.090],
+        'mm', 'Bin size spread of bins')
 
-    v = [
-        0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 1.1, 1.3, 1.5, 1.7, 1.9,
-        2.2, 2.6, 3, 3.4, 3.8, 4.4, 5.2, 6.0, 6.8, 7.6, 8.8, 10.4, 12.0, 13.6, 15.2,
-        17.6, 20.8]
+    velocity = common.var_to_dict(
+        'velocity',
+        np.array(
+            [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 1.1, 1.3, 1.5, 1.7, 1.9,
+             2.2, 2.6, 3, 3.4, 3.8, 4.4, 5.2, 6.0, 6.8, 7.6, 8.8, 10.4, 12.0, 13.6, 15.2,
+             17.6, 20.8]),
+        'm s^-1', 'Terminal fall velocity for each bin')
 
     v_spread = [.1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .2, .2, .2, .2, .2, .4,
                 .4, .4, .4, .4, .8, .8, .8, .8, .8, 1.6, 1.6, 1.6, 1.6, 1.6, 3.2, 3.2]

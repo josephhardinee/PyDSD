@@ -115,12 +115,11 @@ class Image2DReader(object):
         varmax = [s for s in ncFile.variables.keys() if "corr_bin_max" in s]
         bin_edges = np.hstack((ncFile.variables[varmin[0]][0],
                           ncFile.variables[varmax[0]]))
-##        self.bin_edges = common.var_to_dict('bin_edges',  bin_edges,
-##                                      'micron', 'particle size bin edges')
-##        self.spread = common.var_to_dict('spread', np.diff(bin_edges),
-##                                   self.bin_edges['units'], 'Bin spread size')
-        self.bin_edges = bin_edges / 1000.
-        self.spread = np.diff(bin_edges) / 1000.
+        self.bin_edges = common.var_to_dict(
+            'bin_edges',  bin_edges/1000., 'mm', 'Particle size bin edges')
+        self.spread = common.var_to_dict(
+            'spread', np.diff(bin_edges/1000.),
+            self.bin_edges['units'], 'Bin spread size')
 
         # Retrieve concentration convert from cm^-3 to m^-3
         varNd = [s for s in ncFile.variables.keys() if "corr_conc" in s]

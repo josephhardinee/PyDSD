@@ -17,13 +17,8 @@ def read_jwd(filename):
     DropSizeDistrometer object
 
     '''
-
     reader = JWDReader(filename)
-    dsd = DropSizeDistribution(reader.time, reader.Nd, spread=reader.spread,
-                               diameter=reader.diameter, rain_rate=reader.rain_rate,
-                               bin_edges=reader.bin_edges)
-    dsd = DropSizeDistribution(reader)
-    return dsd
+    return DropSizeDistribution(reader)
 
 
 class JWDReader(object):
@@ -32,13 +27,19 @@ class JWDReader(object):
     JWDReader class takes takes a filename as it's only argument(for now).
     This should be a Joss-Waldvogel datafile.
     '''
-    diameter = np.array([
-        0.359, 0.455, 0.551, 0.656, 0.771, 0.913, 1.116, 1.331, 1.506, 1.665,
-        1.912, 2.259, 2.584, 2.869, 3.198, 3.544, 3.916, 4.350, 4.859, 5.373])
+    diameter = common.var_to_dict(
+        'diameter',
+        np.array([
+            0.359, 0.455, 0.551, 0.656, 0.771, 0.913, 1.116, 1.331, 1.506, 1.665,
+            1.912, 2.259, 2.584, 2.869, 3.198, 3.544, 3.916, 4.350, 4.859, 5.373]),
+        'mm', 'Particle diameter of bins')
 
-    spread = np.array([
-        0.092, 0.100, 0.091, 0.119, 0.112, 0.172, 0.233, 0.197, 0.153, 0.166,
-        0.329, 0.364, 0.286, 0.284, 0.374, 0.319, 0.423, 0.446, 0.572, 0.455])
+    spread = common.var_to_dict(
+        'spread',
+        np.array([
+            0.092, 0.100, 0.091, 0.119, 0.112, 0.172, 0.233, 0.197, 0.153, 0.166,
+            0.329, 0.364, 0.286, 0.284, 0.374, 0.319, 0.423, 0.446, 0.572, 0.455]),
+        'mm', 'Bin size spread of bins')
 
     def __init__(self, filename):
         self.filename = filename
@@ -50,8 +51,11 @@ class JWDReader(object):
         self._read_file()
         self._prep_data()
 
-        self.bin_edges = np.hstack(
-            (0, self.diameter + np.array(self.spread) / 2))
+        self.bin_edges = common.var_to_dict(
+            'bin_edges', np.hstack(
+                (0, self.diameter['data'] +
+                np.array(self.spread['data']) / 2)) * 0.2,
+            'mm', 'Boundaries of bin sizes')
 
     def getSec(self, s, start_hh, start_mm):
         l = s.split(':')
@@ -112,13 +116,11 @@ class JWDReader(object):
 
     def _prep_data(self):
         fields = {}
-##        self.Nd = np.ma.array(self.Nd)
-##        self.rain_rate = np.ma.array(self.rain_rate)
         self.time = np.ma.array(self.time)
         self.time = self.time - self.time[0]
 
         self.fields['Nd'] = common.var_to_dict(
-            'Nd', np.ma.array(self.Nd), 'm^-3',
+            'Nd', np.ma.array(self.Nd), 'm^-3 mm^-1',
             'Liquid water particle concentration')
         self.fields['rain_rate'] = common.var_to_dict(
             'Rain rate', np.ma.array(self.rain_rate), 'mm/h', 'Rain rate')

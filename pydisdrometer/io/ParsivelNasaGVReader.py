@@ -46,11 +46,7 @@ def read_parsivel_nasa_gv(filename, campaign='ifloods', skip_header=None):
     reader = NASA_APU_reader(filename, campaign, skip_header)
 
     if reader:
-##        dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
-##                                   velocity=reader.velocity, diameter=reader.diameter,
-##                                   bin_edges=reader.bin_edges)
-        dsd = DropSizeDistribution(reader)
-        return dsd
+        return DropSizeDistribution(reader)
 
     else:
         return None
@@ -66,8 +62,6 @@ class NASA_APU_reader(object):
 
     Use the read_parsivel_nasa_gv() function to interface with this.
     '''
-
-
     # Nt      = []
     # T       = []
     # W       = []
@@ -100,8 +94,11 @@ class NASA_APU_reader(object):
 
         self._prep_data()
 
-        self.bin_edges = np.hstack(
-            (0, self.diameter + np.array(self.spread) / 2))
+        self.bin_edges = common.var_to_dict(
+            'bin_edges',
+            np.hstack(
+                (0, self.diameter + np.array(self.spread) / 2)),
+            'mm', 'Boundaries of bin sizes')
 
         self.f.close()
 
@@ -146,20 +143,29 @@ class NASA_APU_reader(object):
                   'title': 'Time', 'full_name': 'Time (UTC)'}
         return eptime
 
-    spread = [
+    spread = common.var_to_dict(
+        'spread',
+        [
         0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257,
         0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515, 0.515, 0.515, 1.030, 1.030,
-        1.030, 1.030, 1.030, 2.060, 2.060, 2.060, 2.060, 2.060, 3.090, 3.090]
+        1.030, 1.030, 1.030, 2.060, 2.060, 2.060, 2.060, 2.060, 3.090, 3.090],
+        'mm', 'Bin size spread of bins')
 
     supported_campaigns = ['ifloods', 'mc3e_dsd', 'mc3e_raw']
 
-    diameter = np.array(
-        [0.06, 0.19, 0.32, 0.45, 0.58, 0.71, 0.84, 0.96, 1.09, 1.22,
-         1.42, 1.67, 1.93, 2.19, 2.45, 2.83, 3.35, 3.86, 4.38, 4.89,
-         5.66, 6.70, 7.72, 8.76, 9.78, 11.33, 13.39, 15.45, 17.51,
-         19.57, 22.15, 25.24])
+    diameter = common.var_to_dict(
+        'diameter',
+        np.array(
+            [0.06, 0.19, 0.32, 0.45, 0.58, 0.71, 0.84, 0.96, 1.09, 1.22,
+             1.42, 1.67, 1.93, 2.19, 2.45, 2.83, 3.35, 3.86, 4.38, 4.89,
+             5.66, 6.70, 7.72, 8.76, 9.78, 11.33, 13.39, 15.45, 17.51,
+             19.57, 22.15, 25.24]),
+        'mm', 'Particle diameter of bins')
 
-    velocity = np.array(
-        [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.96, 1.13,
-         1.35, 1.59, 1.83, 2.08, 2.40, 2.78, 3.15, 3.50, 3.84, 4.40, 5.20,
-         6.00, 6.80, 7.60, 8.80, 10.40, 12.00, 13.60, 15.20, 17.60, 20.80])
+    velocity = common.var_to_dict(
+        'velocity',
+        np.array(
+            [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.96, 1.13,
+             1.35, 1.59, 1.83, 2.08, 2.40, 2.78, 3.15, 3.50, 3.84, 4.40, 5.20,
+             6.00, 6.80, 7.60, 8.80, 10.40, 12.00, 13.60, 15.20, 17.60, 20.80]),
+        'm s^-1', 'Terminal fall velocity for each bin')
