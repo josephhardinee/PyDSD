@@ -3,7 +3,7 @@ import numpy as np
 from netCDF4 import num2date, date2num
 
 from ..DropSizeDistribution import DropSizeDistribution
-
+from . import common
 
 def read_jwd(filename):
     '''

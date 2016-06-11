@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from ..DropSizeDistribution import DropSizeDistribution
-
 import csv
 import datetime
 
+from ..DropSizeDistribution import DropSizeDistribution
+from ..io import common
 
 def read_gpm_nasa_apu_raw_wallops(filename):
     '''

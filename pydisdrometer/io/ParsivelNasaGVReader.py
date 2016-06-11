@@ -97,7 +97,7 @@ class NASA_APU_reader(object):
         self.bin_edges = common.var_to_dict(
             'bin_edges',
             np.hstack(
-                (0, self.diameter + np.array(self.spread) / 2)),
+                (0, self.diameter['data'] + np.array(self.spread['data']) / 2)),
             'mm', 'Boundaries of bin sizes')
 
         self.f.close()
