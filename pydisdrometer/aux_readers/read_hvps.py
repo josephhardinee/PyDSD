@@ -4,13 +4,13 @@ from __future__ import division
 import csv
 import datetime
 import itertools
-
 import numpy as np
 import numpy.ma as ma
 import scipy.optimize
 
 from pytmatrix.psd import GammaPSD
 from ..DropSizeDistribution import DropSizeDistribution
+from ..io import common
 
 def read_hvps(filename):
     ''' Read a airborne HVPS Cloud Probe File into a DropSizeDistribution Object.
@@ -39,9 +39,7 @@ def read_hvps(filename):
     reader = HVPSReader(filename)
 
     if reader:
-        dsd = DropSizeDistribution(reader.time, reader.Nd, reader.spread,
-                                   diameter=reader.diameter, bin_edges = reader.bin_edges)
-        return dsd
+        return DropSizeDistribution(reader)
 
     else:
         return None
@@ -58,7 +56,7 @@ class HVPSReader(object):
         '''
         Handles settuping up a 2DS H reader
         '''
-
+        self.fields = {}
         time = []
         Nd = []
         bin_edges = np.array([75,225,375,525,675,825,975,1125,1275,1425,1575,1725,1875,2025,2175,2325,
@@ -90,13 +88,35 @@ class HVPSReader(object):
 
         diameter = bin_edges[:-1] + spread/2.0
 
-        #Unit conversions to decimal hours, mm, m^3
-        self.time = time/3600. #seconds since midnight to decimal hours, UTC
-        self.bin_edges = bin_edges/1000. #micrometers to mm
-        self.spread = spread/1000. #micrometers to mm
-        self.diameter = diameter/1000. #micrometers to mm
-        self.Nd = Nd *1000.*1000. # #/L/micrometer to #/m^3/mm
+        # NEED TO GRAB DATE FROM FILE
+        yyyy = os.path.basename(self.filename).split(".")[1][0:4]
+        mm = os.path.basename(self.filename).split(".")[1][4:6]
+        dd = os.path.basename(self.filename).split(".")[1][6:8]
+        t_units = 'seconds since ' + "-".join([yyyy, mm, dd]) + 'T00:00:00'
+        # Return a common epoch time dictionary
+        self.time = _get_epoch_time(time, t_units)
 
+        self.bin_edges = common.var_to_dict(
+            'bin_edges', bin_edges/1000., 'mm', 'Boundaries of bin sizes')
+        self.spread = common.var_to_dict(
+            'spread', spread/1000., 'mm', 'Bin size spread of bins')
+        self.diameter = common.var_to_dict(
+            'diameter', diameter/1000., 'mm', 'Particle diameter of bins')
+        # #/L/micrometer to #/m^3/mm
+        self.fields['Nd'] = common.var_to_dict(
+            'Nd', np.ma.array(Nd *1000.*1000.), 'm^-3 mm^-1',
+            'Liquid water particle concentration')
+
+    def _get_epoch_time(sample_times, t_units):
+        """Convert time to epoch time and return a dictionary."""
+        # Convert the time array into a datetime instance
+        dts = num2date(sample_times, t_units)
+        # Now convert this datetime instance into a number of seconds since Epoch
+        timesec = date2num(dts, common.EPOCH_UNITS)
+        # Now once again convert this data into a datetime instance
+        time_unaware = num2date(timesec, common.EPOCH_UNITS)
+        eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
+                  'standard_name': 'Time', 'long_name': 'Time (UTC)'}
 
 
 
