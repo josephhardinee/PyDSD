@@ -17,6 +17,9 @@ from expfit import expfit, expfit2
 from scipy.optimize import curve_fit
 import scipy
 
+from .utility import dielectric
+
+SPEED_OF_LIGHT=299792458
 
 class DropSizeDistribution(object):
 
@@ -53,11 +56,7 @@ class DropSizeDistribution(object):
 
     '''
 
-#    def __init__(self, time, Nd, spread, rain_rate=None, velocity=None, Z=None,
-#                 num_particles=None, bin_edges=None, diameter=None, time_start = None, location=None,
-#                 scattering_temp = '10C'):
-    def __init__(self, reader, time_start = None, location=None,
-                 scattering_temp = '10C'):
+    def __init__(self, reader, time_start = None, location=None,):
         '''Initializer for the DropSizeDistribution class.
 
         The DropSizeDistribution class holds dsd's returned from the various
@@ -113,7 +112,6 @@ class DropSizeDistribution(object):
             self.velocity = reader.fields['terminal_velocity']
         except:
             self.velocity = None
-        # I need to fix this later, but this is the disdrometer intrinsic Z.
         try:
             self.Z = reader.fields['reflectivity']
         except:
@@ -133,30 +131,29 @@ class DropSizeDistribution(object):
         self.fields = {}
         self.time_start = time_start
 
-        self.m_w_dict = {'0C': refractive.m_w_0C ,'10C': refractive.m_w_10C , '20C':  refractive.m_w_20C  }
-
-        self.m_w = self.m_w_dict[scattering_temp]
-
         self.numt = len(reader.time['data'])
         location = {}
 
         if location:
             self.location = {'latitude': location[0], 'longitude': location[1]}
 
-    def change_scattering_temperature(self, scattering_temp='10C'):
+        self.set_scattering_temperature_and_frequency()
+
+    def set_scattering_temperature_and_frequency(self, scattering_temp=10, scattering_frequency = 9.7e9):
         ''' Change the scattering temperature. After use, re-run calculate_radar_parameters
-        to see the effect this has on the parameters
+        to see the effect this has on the parameters. Temperatures are in Celsius. Defaults to 10C X-band.
 
         Parameters
         ----------
-        temp: optional, string
+        temp: optional, float
             String of temperature to scatter at. Choice of ("0C","10C","20C").
         '''
-        self.m_w = self.m_w_dict[scattering_temp]
+        self.scattering_frequency = scattering_frequency
+        self.scattering_temp = scattering_temp
+        self.m_w = dielectric.get_refractivity(scattering_frequency, scattering_temp) 
 
 
-
-    def calculate_radar_parameters(self, wavelength=tmatrix_aux.wl_X, dsr_func = DSR.bc, scatter_time_range = None ):
+    def calculate_radar_parameters(self, dsr_func = DSR.bc, scatter_time_range = None ):
         ''' Calculates radar parameters for the Drop Size Distribution.
 
         Calculates the radar parameters and stores them in the object.
@@ -176,7 +173,7 @@ class DropSizeDistribution(object):
                 Parameter to restrict the scattering to a time interval. The first element is the start time,
                 while the second is the end time.
         '''
-        self._setup_scattering(wavelength, dsr_func)
+        self._setup_scattering(SPEED_OF_LIGHT/self.scattering_frequency*1000.0, dsr_func)
         self._setup_empty_fields()
 
         if scatter_time_range is None:
@@ -237,7 +234,7 @@ class DropSizeDistribution(object):
 
         '''
         self.scatterer = Scatterer(wavelength=wavelength,
-                                   m=self.m_w[wavelength])
+                                   m=self.m_w)
         self.scatterer.psd_integrator = PSDIntegrator()
         self.scatterer.psd_integrator.axis_ratio_func = lambda D: 1.0 / \
             dsr_func(D)
