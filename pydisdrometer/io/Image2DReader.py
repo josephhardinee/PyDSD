@@ -129,7 +129,7 @@ class Image2DReader(object):
         varNd = [s for s in ncFile.variables.keys() if "corr_conc" in s]
         nd = ncFile.variables[varNd[0]][:] * 1E6
         self.fields['Nd'] = common.var_to_dict(
-            'Nd', np.ma.array(nd), 'm^-3',
+            'Nd', np.rollaxis(np.ma.array(nd), 1), 'm^-3',
             'Liquid water particle concentration')
 
         # First pull out the time variable
