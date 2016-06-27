@@ -139,18 +139,20 @@ class DropSizeDistribution(object):
 
         self.set_scattering_temperature_and_frequency()
 
-    def set_scattering_temperature_and_frequency(self, scattering_temp=10, scattering_frequency = 9.7e9):
+    def set_scattering_temperature_and_frequency(self, scattering_temp=10, scattering_freq = 9.7e9):
         ''' Change the scattering temperature. After use, re-run calculate_radar_parameters
         to see the effect this has on the parameters. Temperatures are in Celsius. Defaults to 10C X-band.
 
         Parameters
         ----------
-        temp: optional, float
-            String of temperature to scatter at. Choice of ("0C","10C","20C").
+        scattering_temp: optional, float
+            Scattering temperature [C].
+        scattering_freq: optional, float
+            Scattering frequency [Hz].
         '''
-        self.scattering_frequency = scattering_frequency
+        self.scattering_freq = scattering_freq
         self.scattering_temp = scattering_temp
-        self.m_w = dielectric.get_refractivity(scattering_frequency, scattering_temp) 
+        self.m_w = dielectric.get_refractivity(scattering_freq, scattering_temp)
 
 
     def calculate_radar_parameters(self, dsr_func = DSR.bc, scatter_time_range = None ):
@@ -173,7 +175,7 @@ class DropSizeDistribution(object):
                 Parameter to restrict the scattering to a time interval. The first element is the start time,
                 while the second is the end time.
         '''
-        self._setup_scattering(SPEED_OF_LIGHT/self.scattering_frequency*1000.0, dsr_func)
+        self._setup_scattering(SPEED_OF_LIGHT/self.scattering_freq*1000.0, dsr_func)
         self._setup_empty_fields()
 
         if scatter_time_range is None:
