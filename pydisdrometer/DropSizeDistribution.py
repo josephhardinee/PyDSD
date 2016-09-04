@@ -129,7 +129,7 @@ class DropSizeDistribution(object):
             self.diameter = reader.diameter
         except:
             self.diameter = None
-        self.fields = {}
+        self.fields = reader.fields
         self.time_start = time_start
 
         self.numt = len(reader.time['data'])
@@ -333,7 +333,7 @@ class DropSizeDistribution(object):
             last nonzero entry in an array.
         '''
 
-        if np.count_nonzero(N):
+        if np.ma.count(N):
             return self.diameter['data'][np.max(N.nonzero())]
         else:
             return 0
@@ -544,12 +544,5 @@ class DropSizeDistribution(object):
 
         gdsd  = pytmatrix.psd.GammaPSD(self.fields['D0']['data'][idx], self.fields['Nw']['data'][idx],mu)
         return np.sqrt(np.nansum(np.power(np.abs(self.Nd['data'][idx] - gdsd(self.diameter['data'])),2)))
-
-
-
-
-
-
-
 
 
