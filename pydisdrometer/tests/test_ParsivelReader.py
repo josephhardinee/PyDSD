@@ -30,6 +30,6 @@ class TestParsivelReader(unittest.TestCase):
         self.assertEqual(len(self.dsd.fields['D0']['data']), 6, 'Wrong number of samples in D0')
 
     def test_time_same_length_as_Nd(self):
-        self.assertEqual(len(self.dsd.time['data']), self.dsd.fields['Nd']['data'].shape[0])
+        self.assertEqual(len(self.dsd.time['data']), self.dsd.fields['Nd']['data'].shape[0], 'Different number of samples for time and Nd')
 
 
