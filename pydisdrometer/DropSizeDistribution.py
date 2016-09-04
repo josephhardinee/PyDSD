@@ -8,15 +8,16 @@ simulations on itself.
 
 import numpy as np
 import pytmatrix
+import scipy
+from scipy.optimize import curve_fit
+
 from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
-from . import DSR
 from datetime import date
-from expfit import expfit, expfit2
-from scipy.optimize import curve_fit
-import scipy
+from .expfit import expfit, expfit2
 
+from . import DSR
 from .utility import dielectric
 
 SPEED_OF_LIGHT=299792458
