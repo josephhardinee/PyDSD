@@ -21,8 +21,8 @@ def read_parsivel(filename):
     reader = ParsivelReader(filename)
     dsd = DropSizeDistribution(reader)
 
-    dsd.fields['raw_matrix'] = {'data': reader.raw}
-    dsd.fields['filtered_raw_matrix'] = {'data': reader.filtered_raw_matrix}
+    #dsd.fields['raw_matrix'] = {'data': reader.raw}
+    #dsd.fields['filtered_raw_matrix'] = {'data': reader.filtered_raw_matrix}
     return dsd
 
 
@@ -47,15 +47,21 @@ class ParsivelReader(object):
 
         self.ndt = []
 
-        #pcm_matrix_file = open('parsivel_conditional_matrix.txt')
         self.pcm = np.reshape(self.pcm_matrix, (32, 32))
 
         self._read_file()
         self._prep_data()
 
         self.bin_edges = np.hstack(
-            (0, self.diameter + np.array(self.spread) / 2))
+            (0, self.diameter['data'] + np.array(self.spread['data']) / 2))
+
+        self.bin_edges = common.var_to_dict(
+            'bin_edges',
+            self.bin_edges,
+            'mm', 'Bin Edges')
+
         self._apply_pcm_matrix()
+
 
     def _read_file(self):
         with open(self.filename) as f:
@@ -98,11 +104,11 @@ class ParsivelReader(object):
         self.fields['reflectivity'] = common.var_to_dict(
             'Reflectivity', np.ma.masked_equal(self.Z, -9.999), 'dBZ',
             'Equivalent reflectivity factor')
-        self.nd[self.nd == -9.999] = 0
-        self.nd[self.nd == -9.999] = 0
         self.fields['Nd'] = common.var_to_dict(
-            'Nd', np.ma.array(self.nd), 'm^-3 mm^-1',
+            'Nd', np.ma.masked_equal(self.nd, np.power(10, -9.999)), 'm^-3 mm^-1',
             'Liquid water particle concentration')
+        self.fields['Nd']['data'].set_fill_value(0)
+
         self.fields['num_particles'] = common.var_to_dict(
             'Number of Particles', np.ma.array(self.num_particles),
             '', 'Number of particles')
@@ -111,7 +117,7 @@ class ParsivelReader(object):
             'm/s', 'Terminal fall velocity for each bin')
 
         try:
-            self.time = self._get_epoch_time(self.time)
+            self.time = self._get_epoch_time()
         except:
             raise ValueError('Conversion to Epoch did not work!')
             self.time = {'data': np.array(self.time), 'units': None,
@@ -124,13 +130,7 @@ class ParsivelReader(object):
         '''
         Convert the time to an Epoch time using package standard.
         '''
-        # Convert the time array into a datetime instance
-        dt_units = 'minutes since ' + StartDate + '00:00:00+0:00'
-        dtminute = num2date(self.time, dt_units)
-        # Convert this datetime instance into a number of seconds since Epoch
-        timesec = date2num(dtminute, common.EPOCH_UNITS)
-        # Once again convert this data into a datetime instance
-        time_unaware = num2date(timesec, common.EPOCH_UNITS)
+        time_unaware = num2date(self.time, common.EPOCH_UNITS)
         eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
                   'title': 'Time', 'full_name': 'Time (UTC)'}
         return eptime

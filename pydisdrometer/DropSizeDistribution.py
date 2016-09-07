@@ -8,15 +8,16 @@ simulations on itself.
 
 import numpy as np
 import pytmatrix
+import scipy
+from scipy.optimize import curve_fit
+
 from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
-from . import DSR
 from datetime import date
-from expfit import expfit, expfit2
-from scipy.optimize import curve_fit
-import scipy
+from .expfit import expfit, expfit2
 
+from . import DSR
 from .utility import dielectric
 
 SPEED_OF_LIGHT=299792458
@@ -128,7 +129,7 @@ class DropSizeDistribution(object):
             self.diameter = reader.diameter
         except:
             self.diameter = None
-        self.fields = {}
+        self.fields = reader.fields
         self.time_start = time_start
 
         self.numt = len(reader.time['data'])
@@ -332,7 +333,7 @@ class DropSizeDistribution(object):
             last nonzero entry in an array.
         '''
 
-        if np.count_nonzero(N):
+        if np.ma.count(N):
             return self.diameter['data'][np.max(N.nonzero())]
         else:
             return 0
@@ -543,12 +544,5 @@ class DropSizeDistribution(object):
 
         gdsd  = pytmatrix.psd.GammaPSD(self.fields['D0']['data'][idx], self.fields['Nw']['data'][idx],mu)
         return np.sqrt(np.nansum(np.power(np.abs(self.Nd['data'][idx] - gdsd(self.diameter['data'])),2)))
-
-
-
-
-
-
-
 
 
