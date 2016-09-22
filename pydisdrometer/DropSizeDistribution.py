@@ -19,7 +19,7 @@ from .expfit import expfit, expfit2
 
 from . import DSR
 from .utility import dielectric
-
+from .utility import configuration
 SPEED_OF_LIGHT=299792458
 
 class DropSizeDistribution(object):
@@ -57,7 +57,7 @@ class DropSizeDistribution(object):
 
     '''
 
-    def __init__(self, reader, time_start = None, location=None,):
+    def __init__(self, reader, time_start = None, location=None):
         '''Initializer for the DropSizeDistribution class.
 
         The DropSizeDistribution class holds dsd's returned from the various
@@ -65,36 +65,12 @@ class DropSizeDistribution(object):
 
         Parameters
         ----------
-#         time: array_like
-#             An array of times corresponding to the time each dsd was sampled in minutes relative to time_start.
-#         Nd : 2d Array
-#             A list of drop size distributions
-#         spread: array_like
-#             Array giving the bin spread size for each size bin of the
-#             disdrometer.
-#         velocity: optional, array_like
-#             Terminal Fall Velocity for each size bin. This is based on the
-#             disdrometer assumptions.
-#         Z: optional, array_like
-#             The equivalent reflectivity factory from the disdrometer. Often
-#             taken as D**6.
-#         num_particles: optional, array_like
-#             Number of measured particles for each time instant.
-#         bin_edges: optional, array_like
-#             N+1 sized array of the boundaries of each size bin. For 30 bins
-#             for instance, there will be 31 different bin boundaries.
-#         diameter: optional, array_like
-#             The center size for each dsd bin.
-
         reader: object
             Object returned by package readers.
         time_start: datetime
             Recording Start time.
         location: tuple
             (Latitude, Longitude) pair in decimal format.
-        scattering_temp: optional, string
-            Scattering temperature string. One of ("0C","10C","20C").
-            Defaults to "10C"
 
         Returns
         -------
@@ -102,6 +78,9 @@ class DropSizeDistribution(object):
             Drop Size Distribution instance.
 
         '''
+
+        self.config = configuration.Configuration() 
+
         self.time = reader.time
         self.Nd = reader.fields['Nd']
         self.spread = reader.spread
@@ -210,16 +189,15 @@ class DropSizeDistribution(object):
         for t in range(self.scatter_start_time, self.scatter_end_time):
             self.fields['Kdp']['data'][t] = radar.Kdp(self.scatterer)
             self.fields['Ai']['data'][t] = radar.Ai(self.scatterer)
-            self.fields['Ad']['data'][t] = radar.Ai(self.scatterer) -radar.Ai(self.scatterer, h_pol=False)
+            self.fields['Adr']['data'][t] = radar.Ai(self.scatterer) -radar.Ai(self.scatterer, h_pol=False)
 
-    def _setup_empty_fields(self, ):
+    def _setup_empty_fields(self ):
         ''' Preallocate arrays of zeros for the radar moments
         '''
-        self.fields['Zh'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['Zdr'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['Kdp'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['Ai'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['Ad'] = {'data': np.ma.zeros(self.numt)}
+        params_list = ['Zh', 'Zdr', 'Kdp', 'Ai', 'Adr']
+
+        for param in params_list:
+            self.fields[param] = self.config.fill_in_metadata(param, np.ma.zeros(self.numt))
 
     def _setup_scattering(self, wavelength, dsr_func):
         ''' Internal Function to create scattering tables.
@@ -292,15 +270,10 @@ class DropSizeDistribution(object):
 
         '''
 
-        self.fields['Nt'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['W'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['D0'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['Nw'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['Dmax'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['Dm'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['Nw'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['N0'] = {'data': np.ma.zeros(self.numt)}
-        self.fields['mu'] = {'data': np.ma.zeros(self.numt)}
+        params_list = ['D0', 'Dmax', 'Dm', 'Nt', 'Nw', 'N0', 'W', 'mu']
+
+        for param in params_list:
+            self.fields[param] = self.config.fill_in_metadata(param, np.ma.zeros(self.numt))
 
         rho_w = 1e-03  # grams per mm cubed Density of Water
         vol_constant = np.pi / 6.0 * rho_w
