@@ -1,0 +1,88 @@
+{
+    "D0":
+    {
+        "standard_name": "median_drop_diameter",
+        "units": "mm",
+        "long_name": "Median Drop Diameter"
+    },
+    "Dmax":
+    {
+        "standard_name": "maximum_drop_diameter",
+        "units": "mm",
+        "long_name" :"Maximum Drop Diameter"
+    },
+    "Dm":
+    {
+        "standard_name": "mean_drop_diameter",
+        "units": "mm",
+        "long_name" :"Mean Drop Diameter"
+    },
+    "Nw":
+    {
+        "standard_name": "normalized_intercept_parameter",
+        "units": "?",
+        "long_name" :"Normalized Intercept Parameter of a Normalized Gaussian Distribution"
+    },
+    "Nt":
+    {
+        "standard_name": "total_droplet_concentration",
+        "units": "m^-1",
+        "long_name" :"Total Droplet Concentration"
+    },
+    "N0":
+    {
+        "standard_name": "intercept_parameter",
+        "units": "?",
+        "long_name" :"Intercept Parameter of Modeled Drop Size Distribution"
+    },
+    "W":
+    {
+        "standard_name": "water_mass",
+        "units": "g/m^3",
+        "long_name" :"Water Mass of Drop Size Distribution"
+    },
+    "mu":
+    {
+        "standard_name": "shape_parameter",
+        "units": " ",
+        "long_name" :"Shape Parameter of Modeled Drop Size Distribution"
+    },
+    "rain_rate":
+    {
+        "standard_name": "rain_rate",
+        "units": "mm/h",
+        "long_name" :"Instantaneous Rainfall Rate of Water Flux"
+    },
+    "Zh":
+    {
+        "standard_name": "horizontal_reflectivity",
+        "units": "dBZ",
+        "long_name" :"Estimated Horizontal Radar Reflectivity from Drop Size Distribution"
+    },
+    "Zdr":
+    {
+        "standard_name": "differential_reflectivity",
+        "units": "dBZ",
+        "long_name" :"Estimated Differential Radar Reflectivity (H, V) from Drop Size Distribution"
+    },
+    "Kdp":
+    {
+        "standard_name": "specific_differential_phase",
+        "units": "deg",
+        "long_name" :"Specific Differential Phase from Drop Size Distribution"
+    },
+    "Ai":
+    {
+        "standard_name": "specific_attenuation",
+        "units": "dB/km",
+        "long_name": "Specific Attenuation"
+    },
+    "Adr":
+    {
+        "standard_name": "specific_differential_attenuation",
+        "units": "dB/km",
+        "long_name": "Specific Differential Attenuation"
+    }
+}
+
+

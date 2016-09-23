@@ -1,9 +1,16 @@
 from setuptools import setup
 
+MAJOR = 0
+MINOR = 1
+MICRO = 14
+SUB = 0
+ISRELEASED = False
+VERSION = '%d.%d.%d.%d' % (MAJOR, MINOR, MICRO, SUB)
+
 setup(
     name='PyDisdrometer',
-    version='0.1.12.0',
-    author='Joseph C. Hardin',
+    version=VERSION,
+    author='Joseph C. Hardin, Nick Guy',
     author_email='josephhardinee@gmail.com',
     packages=['pydisdrometer',
               'pydisdrometer.aux_readers',
