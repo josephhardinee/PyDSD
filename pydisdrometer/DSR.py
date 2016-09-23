@@ -1,9 +1,11 @@
+from __future__ import division
+import numpy as np
+
 '''
 The DSR module contains different drop shape relationships used in
-pydisdrometer for the scattering calculations.
+PyDisdrometer for the scattering calculations.
 '''
 
-import numpy as np
 
 
 def tb(D_eq):

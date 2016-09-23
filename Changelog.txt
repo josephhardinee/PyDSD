@@ -1,3 +1,14 @@
+v0.14.0:
+	FEATURE: Added a new configuration system to specify metadata
+	FEATURE: Added ability to select arbitrary scattering frequencies and
+	temperatures.
+	ENH: Standardized time across the packages.
+	ENH: Multiple improvements to unit testing, functional tests and standard
+	files.
+	ENH: Started preparations for python3 support.
+	ENH: Data fields are now stored in self documenting dictionaries. 
+	ENH: Data is now stored as masked arrays.
+	BUGFIX: Numerous small bugfixes.
 v0.13.0:
 	FEATURE: Added aoml reader from pyparticle probe
 	MISC: Changed default DMax to 9mm
