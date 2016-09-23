@@ -1,8 +1,9 @@
+from __future__ import division
 import numpy as np
 from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator, GammaPSD
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
-import DSR
+from . import DSR
 
 class DSDProcessor:
 
