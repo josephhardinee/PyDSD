@@ -1,4 +1,0 @@
-v0.1.3, Tuesday April 8th 2014 -- Added DSDProcessor, DSR relatinoships.
-v0.1.2, Tuesday April 8th 2014 -- Added MC3E *_dsd campaign processing
-v0.1.1, Monday April 7th 2014 -- Added Nasa GV file format 
-v0.1.0, Mon March 31 2014 -- Initial Release
