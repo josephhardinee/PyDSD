@@ -1,3 +1,7 @@
+v0.15.0:
+	BUGFIX: Corrected a bug causing forward scattering products to not be
+	calculated.
+	BUGFIX: metadata.json was not being grabbed by setup.py
 v0.14.0:
 	FEATURE: Added a new configuration system to specify metadata
 	FEATURE: Added ability to select arbitrary scattering frequencies and
