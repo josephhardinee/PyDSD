@@ -28,5 +28,6 @@ setup(
         "Development Status :: 3 - Alpha",
         "Environment :: Console"
         ],
+    include_package_data=True
 
 )
