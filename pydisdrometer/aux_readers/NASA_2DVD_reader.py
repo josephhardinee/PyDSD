@@ -2,9 +2,11 @@
 import numpy as np
 import datetime
 import scipy.io
+from netCDF4 import num2date, date2num
 
 from ..DropSizeDistribution import DropSizeDistribution
 from ..io import common
+from ..utility.configuration import Configuration
 
 
 
@@ -36,7 +38,7 @@ def read_2dvd_sav_nasa_gv(filename, campaign='ifloods'):
     del(reader)
 
 
-def read_2dvd_dsd_nasa_gv(filename, campaign='mc3e', skip_header=None):
+def read_2dvd_dsd_nasa_gv(filename, skip_header=None):
     '''
     Takes a filename pointing to a 2D-Video Disdrometer NASA Field Campaign
      _dsd file and returns a drop size distribution object.
@@ -44,17 +46,13 @@ def read_2dvd_dsd_nasa_gv(filename, campaign='mc3e', skip_header=None):
     This reader processes the _dsd files generated.
 
     Usage:
-    dsd = read_2dvd_dsd_nasa_gv(filename, campaign='mc3e')
-
-    Current Options for campaign are:
-
-    'mc3e'
+    dsd = read_2dvd_dsd_nasa_gv(filename)
 
     Returns:
     DropSizeDistrometer object
 
     '''
-    reader = NASA_2DVD_dsd_reader(filename, campaign, skip_header)
+    reader = NASA_2DVD_dsd_reader(filename, skip_header)
 
     if reader:
         return DropSizeDistribution(reader)
@@ -155,35 +153,40 @@ class NASA_2DVD_dsd_reader(object):
     Use the read_2dvd_dsd_nasa_gv() function to interface with this.
     '''
 
-    def __init__(self, filename, campaign, skip_header):
+    def __init__(self, filename, skip_header):
         '''
         Handles setting up a NASA 2DVD Reader  Reader
         '''
-        MIN_IN_DAY = 1440
-#        self.time = np.arange(MIN_IN_DAY)  # Time in minutes
-        Nd = np.ma.zeros((MIN_IN_DAY, 50))
+        self.config = Configuration()
+
+        num_samples = self._get_number_of_samples(filename, skip_header)
+
+        self.Nd = np.ma.zeros((num_samples,50))
         self.notes = []
+        self.fields = {}
 
-        if not campaign in self.supported_campaigns:
-            print('Campaign not supported')
-            return
-
+        # This part is troubling because time strings change in nasa files. So we'll go with what our e
+        # example files have. 
         dt = []
         with open(filename) as input:
             if skip_header is not None:
                 for num in range(0, skip_header):
                     input.readline()
-            for line in input:
+            for idx, line in enumerate(input):
                 data_array = line.split()
-                dt.append(datetime.datetime(
-                    int(data_array[0]), int(data_array[1]),
-                    int(data_array[2]), int(data_array[3])))
-                time_min = int(data_array[2])*60 + int(data_array[3])
-                self.Nd[time_min, :] = [float(value) for value in data_array[4:]]
+                year = int(data_array[0])
+                DOY = int(data_array[1])
+                hour = int(data_array[2])
+                minute = float(data_array[3])
+
+                # TODO: Make this match time handling(units) from other readers.
+                dt.append(datetime.datetime(year, 1, 1) + datetime.timedelta(DOY-1, hours=hour, minutes=minute))
+                self.Nd[idx, :] = [float(value) for value in data_array[4:]]
 
 
+        # TODO: Convert this to use new metadata
         self.fields['Nd'] = common.var_to_dict(
-            'Nd', Nd, 'm^-3 mm^-1',
+            'Nd', self.Nd, 'm^-3 mm^-1',
             'Liquid water particle concentration')
         self.time = self._get_epoch_time(dt)
         velocity =[0.248, 1.144, 2.018, 2.858, 3.649, 4.349, 4.916, 5.424, 5.892, 6.324,
@@ -205,16 +208,25 @@ class NASA_2DVD_dsd_reader(object):
         self.diameter = common.var_to_dict(
             'diameter', np.arange(0.1, 10.1, .2), 'mm', 'Particle diameter of bins')
 
-    def _get_epoch_time(self, datetime):
+    def _get_number_of_samples(self, filename, skip_header):
+        ''' Loop through file counting number of lines to calculate number of samples.'''
+        num_samples = 0
+
+        with open(filename) as input:
+            if skip_header is not None:
+                for num in range(0, skip_header):
+                    input.readline()
+
+            for line in input:
+                num_samples +=1
+
+        return num_samples
+
+    def _get_epoch_time(self, sample_time):
         '''
         Convert the time to an Epoch time using package standard.
         '''
-        # Convert this datetime instance into a number of seconds since Epoch
-        timesec = date2num(dtMin, common.EPOCH_UNITS)
-        # Once again convert this data into a datetime instance
-        time_unaware = num2date(timesec, common.EPOCH_UNITS)
-        eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
-                'title': 'Time', 'full_name': 'Time (UTC)'}
-        return etpime
-
+        eptime = {'data': sample_time, 'units': common.EPOCH_UNITS,
+                  'title': 'Time', 'full_name': 'Time (UTC)'}
+        return eptime
     supported_campaigns = ['mc3e', 'ifloods']
