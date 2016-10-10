@@ -17,6 +17,12 @@
         "units": "mm",
         "long_name" :"Mean Drop Diameter"
     },
+    "Nd":
+    {
+        "standard_name": "Liquid water particle concentration",
+        "units": "m^-3 mm^-1",
+        "long_name": "Drop Concentration per sampling bin"
+    },
     "Nw":
     {
         "standard_name": "normalized_intercept_parameter",
@@ -82,6 +88,24 @@
         "standard_name": "specific_differential_attenuation",
         "units": "dB/km",
         "long_name": "Specific Differential Attenuation"
+    },
+    "bin_edges":
+    {
+        "standard_name": "bin_edges",
+        "units": "mm",
+        "long_name": "Boundaries of Bin Sizes"
+    },
+    "spread":
+    {
+        "standard_name": "bin_spread",
+        "units": "mm",
+        "long_name": "Width of each sampling bin"
+    },
+    "diameter":
+    {
+        "standard_name": "diameter",
+        "units": "mm",
+        "long_name": "Center diameter of sampling bin"
     }
 }
 
