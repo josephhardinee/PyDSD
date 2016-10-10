@@ -111,7 +111,6 @@ class NASA_APU_reader(object):
         try:
             self.time = self._get_epoch_time(self.time)
         except:
-            raise ValueError('Conversion to Epoch did not work!')
             self.time = {'data': np.array(self.time), 'units': None,
                          'title': 'Time', 'full_name': 'Native file time'}
 

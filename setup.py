@@ -2,7 +2,7 @@ from setuptools import setup
 
 MAJOR = 0
 MINOR = 1
-MICRO = 14
+MICRO = 15
 SUB = 0
 ISRELEASED = False
 VERSION = '%d.%d.%d.%d' % (MAJOR, MINOR, MICRO, SUB)
@@ -28,5 +28,6 @@ setup(
         "Development Status :: 3 - Alpha",
         "Environment :: Console"
         ],
+    include_package_data=True
 
 )

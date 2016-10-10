@@ -187,6 +187,8 @@ class DropSizeDistribution(object):
         self.scatterer.set_geometry(tmatrix_aux.geom_horiz_forw)
 
         for t in range(self.scatter_start_time, self.scatter_end_time):
+            BinnedDSD = pytmatrix.psd.BinnedPSD(self.bin_edges['data'],  self.Nd['data'][t])
+            self.scatterer.psd = BinnedDSD
             self.fields['Kdp']['data'][t] = radar.Kdp(self.scatterer)
             self.fields['Ai']['data'][t] = radar.Ai(self.scatterer)
             self.fields['Adr']['data'][t] = radar.Ai(self.scatterer) -radar.Ai(self.scatterer, h_pol=False)
