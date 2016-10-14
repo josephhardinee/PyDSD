@@ -20,15 +20,22 @@ def expfit(x, y):
     pcov: tuple
         Covariance of the fit
 
-
     Notes:
     ------
     There are some stability issues if bad data is passed into it.
 
     '''
 
+    x_array = np.array(x)
+    y_array = np.array(y)
+
+    x_finite_index = np.isfinite(x_array)
+    y_finite_index = np.isfinite(y_array)
+
+    mask = np.logical_and(x_finite_index, y_finite_index)
+
     expfunc = lambda x, a, b: a * np.power(x, b)
-    popt, pcov = curve_fit(expfunc, x, y)
+    popt, pcov = curve_fit(expfunc, x_array[mask], y_array[mask])
     return popt, pcov
 
 
@@ -50,13 +57,22 @@ def expfit2(x, y):
     pcov: tuple
         Covariance of the fit
 
-
     Notes:
     ------
     There are some stability issues if bad data is passed into it.
-
     '''
 
+    x1_array = np.array(x[0])
+    x2_array = np.array(x[1])
+    y_array = np.array(y)
+
+    x1_finite_index = np.isfinite(x1_array)
+    x2_finite_index = np.isfinite(x2_array)
+    y_finite_index = np.isfinite(y_array)
+
+    mask = np.logical_and(x2_finite_index, np.logical_and(x1_finite_index, y_finite_index))
+
+
     expfunc = lambda x, a, b, c: a * np.power(x[0], b) * np.power(x[1], c)
-    popt, pcov = curve_fit(expfunc, x, y)
+    popt, pcov = curve_fit(expfunc, [x1_array[mask], x2_array[mask]], y_array[mask])
     return popt, pcov

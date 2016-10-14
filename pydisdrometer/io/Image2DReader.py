@@ -139,7 +139,7 @@ class Image2DReader(object):
         #  variable is saved in NetCDF
         t_units = 'seconds since ' + "-".join([yyyy, mm, dd]) + ' 00:00:00'
         # Return a common epoch time dictionary
-        self.time = _get_epoch_time(HHMMSS, t_units)
+        self.time = common._get_epoch_time(HHMMSS, t_units)
 
         # Pull in the aircraft variables of interest if desired
         # Map to imaging probe data
