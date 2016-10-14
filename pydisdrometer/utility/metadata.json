@@ -17,12 +17,6 @@
         "units": "mm",
         "long_name" :"Mean Drop Diameter"
     },
-    "Nd":
-    {
-        "standard_name": "Liquid water particle concentration",
-        "units": "m^-3 mm^-1",
-        "long_name": "Drop Concentration per sampling bin"
-    },
     "Nw":
     {
         "standard_name": "normalized_intercept_parameter",
@@ -89,24 +83,54 @@
         "units": "dB/km",
         "long_name": "Specific Differential Attenuation"
     },
-    "bin_edges":
-    {
-        "standard_name": "bin_edges",
-        "units": "mm",
-        "long_name": "Boundaries of Bin Sizes"
+    "Nd":{
+        "standard_name":"drop_size_distribution",
+        "long_name":"Drop Size Distribution",
+        "units":"count per mm per m^3"
     },
-    "spread":
-    {
-        "standard_name": "bin_spread",
-        "units": "mm",
-        "long_name": "Width of each sampling bin"
+    "diameter":{
+        "standard_name":"drop_diameter",
+        "long_name":"Bin Diameter",
+        "units":"mm"
     },
-    "diameter":
+    "velocity":{
+        "standard_name":"drop_fall_velocity",
+        "long_name": "Drop Fall Velocity",
+        "units":"meters per second"
+    },
+    "bin_edges":{
+        "standard_name":"bin_edges",
+        "long_name": "Bin Edges",
+        "units":"mm"
+    },
+    "spread":{
+        "standard_name":"bin_width",
+        "long_name": "Width of Sampling Bin",
+        "units": "mm"
+    },
+    "time":{
+        "standard_name":"time",
+        "long_name":"time_in_seconds_since_volume_start",
+        "calendar":"gregorian"
+    },
+    "LDR":{
+        "standard_name":"log_linear_depolarization_ratio_hv",
+        "long_name":"Linear Depolarization Ratio",
+        "units":"dB"
+    },
+    "specific_differential_phase_hv":
     {
-        "standard_name": "diameter",
-        "units": "mm",
-        "long_name": "Center diameter of sampling bin"
+        "standard_name":"specific_differential_phase_hv",
+        "long_name":"Specific Differential Phase",
+        "units":"degrees per km"
+    },
+    "cross_correlation_ratio_hv":{
+        "standard_name":"cross_correlation_ratio_hv",
+        "long_name":"Co to Cross Polar Correlation Ratio",
+        "units":"unitless"
     }
+
+
 }
 
 
