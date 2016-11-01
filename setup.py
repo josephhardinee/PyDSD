@@ -23,7 +23,7 @@ setup(
     license='LICENSE.txt',
     description='Python Disdrometer Processing',
     long_description=open('description.txt').read(),
-    install_requires=['pytmatrix>=0.2.0'],
+    install_requires=['pytmatrix>=0.2.0', 'numpy'],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Console"
