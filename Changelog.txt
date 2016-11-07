@@ -1,3 +1,6 @@
+v0.16.0:
+	FEATURE: Added 2 new readers to handle ARM Disdrometer formats for
+	parsivel and impact disdrometers.
 v0.15.1:
 	BUGFIX: Fixed a bug in time handling for ParsivelReader
 v0.15.0:
