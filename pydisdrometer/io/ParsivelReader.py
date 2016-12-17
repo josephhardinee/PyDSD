@@ -67,7 +67,7 @@ class ParsivelReader(object):
         Returns: None
 
         """
-        with open(self.filename) as f:
+        with open(self.filename, encoding='ascii', errors="surrogateescape") as f:
             for line in f:
                 code = line.split(':')[0]
                 if code == '01':  # Rain Rate
@@ -83,7 +83,9 @@ class ParsivelReader(object):
                         self.get_sec(line.rstrip('\n\r').split(':')[1:4]))
                 elif code == '21':  # Date string
                     date_tuple = line.rstrip('\n\r').split(':')[1].split('.')
-                    self._base_time.append(datetime(year=int(date_tuple[2]), month=int(date_tuple[1]), day=int(date_tuple[0])))
+                    self._base_time.append(datetime(year=int(date_tuple[2]),
+                                                    month=int(date_tuple[1]),
+                                                    day=int(date_tuple[0])))
                 elif code == '90':  # Nd
                     self.nd.append(
                         np.power(10, map(float, line.rstrip('\n\r;').split(':')[1].split(';'))))
