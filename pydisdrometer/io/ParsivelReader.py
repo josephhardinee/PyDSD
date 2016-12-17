@@ -69,32 +69,33 @@ class ParsivelReader(object):
         """
         with open(self.filename, encoding='ascii', errors="surrogateescape") as f:
             for line in f:
+                line = line.rstrip('\n\r;')
                 code = line.split(':')[0]
                 if code == '01':  # Rain Rate
                     self.rain_rate.append(
-                        float(line.rstrip('\n\r').split(':')[1]))
+                        float(line.split(':')[1]))
                 elif code == '07':  # Reflectivity
-                    self.Z.append(float(line.rstrip('\n\r').split(':')[1]))
+                    self.Z.append(float(line.split(':')[1]))
                 elif code == '11':  # Num Particles
                     self.num_particles.append(
-                        int(line.rstrip('\n\r').split(':')[1]))
+                        int(line.split(':')[1]))
                 elif code == '20':  # Time string
                     self.time.append(
-                        self.get_sec(line.rstrip('\n\r').split(':')[1:4]))
+                        self.get_sec(line.split(':')[1:4]))
                 elif code == '21':  # Date string
-                    date_tuple = line.rstrip('\n\r').split(':')[1].split('.')
+                    date_tuple = line.split(':')[1].split('.')
                     self._base_time.append(datetime(year=int(date_tuple[2]),
                                                     month=int(date_tuple[1]),
                                                     day=int(date_tuple[0])))
                 elif code == '90':  # Nd
                     self.nd.append(
-                        np.power(10, map(float, line.rstrip('\n\r;').split(':')[1].split(';'))))
+                        np.power(10, list(map(float, line.split(':')[1].split(';')))))
                 elif code == '91':  # Vd
                     self.vd.append(
-                        map(float, line.rstrip('\n').split(':')[1].rstrip(';\r').split(';')))
+                        map(float, line.split(':')[1].rstrip(';\r').split(';')))
                 elif code == '93':  # md
                     self.raw.append(
-                        map(int, line.split(':')[1].strip('\r\n;').split(';')))
+                        list(map(int, line.split(':')[1].split(';'))))
 
     def _apply_pcm_matrix(self):
         """ Apply Data Quality matrix from Ali Tokay
