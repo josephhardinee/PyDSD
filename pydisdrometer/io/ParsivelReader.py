@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import io
 import numpy as np
 from netCDF4 import num2date, date2num
 from datetime import datetime, timedelta
@@ -67,7 +68,7 @@ class ParsivelReader(object):
         Returns: None
 
         """
-        with open(self.filename, encoding='ascii', errors="surrogateescape") as f:
+        with io.open(self.filename, encoding='latin-1' ) as f:
             for line in f:
                 line = line.rstrip('\n\r;')
                 code = line.split(':')[0]
@@ -92,7 +93,7 @@ class ParsivelReader(object):
                         np.power(10, list(map(float, line.split(':')[1].split(';')))))
                 elif code == '91':  # Vd
                     self.vd.append(
-                        map(float, line.split(':')[1].rstrip(';\r').split(';')))
+                        list(map(float, line.split(':')[1].rstrip(';\r').split(';'))))
                 elif code == '93':  # md
                     self.raw.append(
                         list(map(int, line.split(':')[1].split(';'))))

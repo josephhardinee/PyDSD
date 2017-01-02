@@ -93,7 +93,7 @@ def cs_partition_islam_2012(rain_rate, r_thresh=10.0, sd_thresh=1.5, window=4):
     windowed_thresh = ts_utility.rolling_window(thresh_left, window)
     windowed_std = np.std(ts_utility.rolling_window(padded_rain_rate, window),1)
 
-    rain_thresh_mask = map(np.all, windowed_thresh)
+    rain_thresh_mask = list(map(np.all, windowed_thresh))
     std_thresh_mask = windowed_std < sd_thresh
     convective_mask = np.logical_and(rain_thresh_mask, std_thresh_mask)
 

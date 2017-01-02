@@ -29,22 +29,21 @@ conda create -n testenv --yes pip python=$PYTHON_VERSION
 source activate testenv
 
 # Install dependencies
-conda install --yes numpy scipy matplotlib netcdf4 nose
+conda install --yes numpy scipy matplotlib netcdf4 nose sphinx numpydoc h5py
+conda install --yes sphinx_rtd_theme
+
 
 if [[ $PYTHON_VERSION == '2.7' ]]; then
-
     conda install --yes sphinx numpydoc h5py
     conda install --yes sphinx_rtd_theme
     pip install sphinxcontrib-bibtex
     pip install xmltodict
     pip install pytmatrix
 fi
-if [[ $PYTHON_VERSION == '3.3' ]]; then
-    conda install --yes basemap
+if [[ $PYTHON_VERSION == '3.4' ]]; then
     pip install pytmatrix
 fi
-if [[ $PYTHON_VERSION == '3.4' ]]; then
-    conda install --yes basemap
+if [[ $PYTHON_VERSION == '3.5' ]]; then
     pip install pytmatrix
 fi
 
