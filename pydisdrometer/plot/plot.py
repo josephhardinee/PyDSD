@@ -35,7 +35,7 @@ def plot_dsd(dsd, range=None, log_scale=True, tighten=True):
 
     fig_handle = plt.figure()
 
-    colors = [('white')] + [(cm.jet(i)) for i in xrange(1, 256)]
+    colors = [('white')] + [(cm.jet(i)) for i in range(1, 256)]
     new_map = matplotlib.colors.LinearSegmentedColormap.from_list('new_map',
                                                                 colors, N=256)
 

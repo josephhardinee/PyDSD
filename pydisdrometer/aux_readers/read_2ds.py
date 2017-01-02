@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import division
+
 
 import csv
 import datetime
@@ -91,7 +91,7 @@ class TwoDSReader(object):
 
         for row in reader:
             time.append(float(row[0].split()[0]))
-            Nd.append(map(float,row[10:71]))
+            Nd.append(list(map(float,row[10:71])))
 
         Nd = np.ma.array(Nd)
         time = np.ma.array(time)

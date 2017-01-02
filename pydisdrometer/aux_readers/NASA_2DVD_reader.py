@@ -111,7 +111,7 @@ class NASA_2DVD_sav_reader(object):
             'Liquid water particle concentration')
 
         self.bin_edges = common.var_to_dict(
-            'bin_edges', np.array(range(0, 42)) * 0.2, 'mm',
+            'bin_edges', np.array(list(range(0, 42))) * 0.2, 'mm',
             'Boundaries of bin sizes')
         self.fields['rain_rate'] = common.var_to_dict(
             'rain_rate', record.rain[0], 'mm h^-1', 'Rain rate')
@@ -198,7 +198,7 @@ class NASA_2DVD_dsd_reader(object):
             'velocity', velocity, 'm s^-1', 'Terminal fall velocity for each bin')
 
         self.bin_edges = common.var_to_dict(
-            'bin_edges', np.array(range(0, 51)) * 0.2, 'mm',
+            'bin_edges', np.array(list(range(0, 51))) * 0.2, 'mm',
             'Boundaries of bin sizes')
 
         self.spread = common.var_to_dict(

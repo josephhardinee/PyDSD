@@ -89,7 +89,7 @@ class NASA_APU_reader(object):
             next(reader, None)
 
         for row in reader:
-                self.time.append(self._parse_time(map(int, (row[0].split()[0:4]))))
+                self.time.append(self._parse_time(list(map(int, (row[0].split()[0:4])))))
                 self.Nd.append([float(x) for x in row[0].split()[4:]])
 
         self._prep_data()

@@ -76,24 +76,24 @@ class JWDReader(object):
         with open(self.filename) as f:
             next(f)
             for i,line in enumerate(f):
-		if i==1:
-		    start_time = line.split()[1]
-	    	    t = start_time.split(':')
-	            start_hh = int(t[0])
-	            start_mm = int(t[1])
+                if i==1:
+                    start_time = line.split()[1]
+                    t = start_time.split(':')
+                    start_hh = int(t[0])
+                    start_mm = int(t[1])
                     self.time.append(
                          float(self.getSec(line.split()[1],start_hh,start_mm)))
                     md = line.split()[3:23]
-                    md_float = np.array(map(float, md))
+                    md_float = np.array(list(map(float, md)))
                     self.Nd.append(
                          self.conv_md_to_nd(md_float))
                     self.rain_rate.append(
                          float(line.split()[24]))
-		elif i>1:
-		    self.time.append(
+                elif i>1:
+                    self.time.append(
                          float(self.getSec(line.split()[1],start_hh,start_mm)))
                     md = line.split()[3:23]
-                    md_float = np.array(map(float, md))
+                    md_float = np.array(list(map(float, md)))
                     self.Nd.append(
                          self.conv_md_to_nd(md_float))
                     self.rain_rate.append(
