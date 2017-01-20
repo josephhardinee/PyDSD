@@ -89,7 +89,7 @@ class NASA_APU_reader(object):
             next(reader, None)
 
         for row in reader:
-                self.time.append(self._parse_time(map(int, (row[0].split()[0:4]))))
+                self.time.append(self._parse_time(list(map(int, (row[0].split()[0:4])))))
                 self.Nd.append([float(x) for x in row[0].split()[4:]])
 
         self._prep_data()
@@ -111,7 +111,6 @@ class NASA_APU_reader(object):
         try:
             self.time = self._get_epoch_time(self.time)
         except:
-            raise ValueError('Conversion to Epoch did not work!')
             self.time = {'data': np.array(self.time), 'units': None,
                          'title': 'Time', 'full_name': 'Native file time'}
 

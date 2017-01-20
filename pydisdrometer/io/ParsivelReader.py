@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+import io
 import numpy as np
 from netCDF4 import num2date, date2num
+from datetime import datetime, timedelta
 
 from ..DropSizeDistribution import DropSizeDistribution
 from . import common
@@ -21,23 +23,22 @@ def read_parsivel(filename):
     reader = ParsivelReader(filename)
     dsd = DropSizeDistribution(reader)
 
-    #dsd.fields['raw_matrix'] = {'data': reader.raw}
-    #dsd.fields['filtered_raw_matrix'] = {'data': reader.filtered_raw_matrix}
     return dsd
 
 
 class ParsivelReader(object):
 
-    '''
+    """
     ParsivelReader class takes takes a filename as it's only argument(for now).
     This should be a parsivel raw datafile(output from the parsivel).
 
-    '''
+    """
     def __init__(self, filename):
         self.filename = filename
         self.rain_rate = []
         self.Z = []
         self.num_particles = []
+        self._base_time = []
 
         self.nd = []
         self.vd = []
@@ -62,33 +63,46 @@ class ParsivelReader(object):
 
         self._apply_pcm_matrix()
 
-
     def _read_file(self):
-        with open(self.filename) as f:
+        """  Read the Parsivel Data file and store it in internal structure.
+        Returns: None
+
+        """
+        with io.open(self.filename, encoding='latin-1' ) as f:
             for line in f:
+                line = line.rstrip('\n\r;')
                 code = line.split(':')[0]
-                if(code == '01'):
+                if code == '01':  # Rain Rate
                     self.rain_rate.append(
-                        float(line.rstrip('\n\r').split(':')[1]))
-                elif(code == '07'):
-                    self.Z.append(float(line.rstrip('\n\r').split(':')[1]))
-                elif(code == '11'):
+                        float(line.split(':')[1]))
+                elif code == '07':  # Reflectivity
+                    self.Z.append(float(line.split(':')[1]))
+                elif code == '11':  # Num Particles
                     self.num_particles.append(
-                        int(line.rstrip('\n\r').split(':')[1]))
-                elif(code == '20'):
+                        int(line.split(':')[1]))
+                elif code == '20':  # Time string
                     self.time.append(
-                        self.get_sec(line.rstrip('\n\r').split(':')[1:4]))
-                elif(code == '90'):
+                        self.get_sec(line.split(':')[1:4]))
+                elif code == '21':  # Date string
+                    date_tuple = line.split(':')[1].split('.')
+                    self._base_time.append(datetime(year=int(date_tuple[2]),
+                                                    month=int(date_tuple[1]),
+                                                    day=int(date_tuple[0])))
+                elif code == '90':  # Nd
                     self.nd.append(
-                        np.power(10, map(float, line.rstrip('\n\r;').split(':')[1].split(';'))))
-                elif(code == '91'):
+                        np.power(10, list(map(float, line.split(':')[1].split(';')))))
+                elif code == '91':  # Vd
                     self.vd.append(
-                        map(float, line.rstrip('\n').split(':')[1].rstrip(';\r').split(';')))
-                elif(code == '93'):
+                        list(map(float, line.split(':')[1].rstrip(';\r').split(';'))))
+                elif code == '93':  # md
                     self.raw.append(
-                        map(int, line.split(':')[1].strip('\r\n;').split(';')))
+                        list(map(int, line.split(':')[1].split(';'))))
 
     def _apply_pcm_matrix(self):
+        """ Apply Data Quality matrix from Ali Tokay
+        Returns: None
+
+        """
         self.filtered_raw_matrix = np.ndarray(shape=(len(self.raw),
                                                      32, 32), dtype=float)
         for i in range(len(self.raw)):
@@ -97,7 +111,6 @@ class ParsivelReader(object):
 
     def _prep_data(self):
         self.fields = {}
-        #self.raw = np.power(10, np.ndarray(self.raw))
 
         self.fields['rain_rate'] = common.var_to_dict(
             'Rain rate', np.ma.array(self.rain_rate), 'mm/h', 'Rain rate')
@@ -119,18 +132,19 @@ class ParsivelReader(object):
         try:
             self.time = self._get_epoch_time()
         except:
-            raise ValueError('Conversion to Epoch did not work!')
             self.time = {'data': np.array(self.time), 'units': None,
                          'title': 'Time', 'full_name': 'Native file time'}
+            print("Conversion to Epoch Time did not work.")
 
     def get_sec(self, s):
         return int(s[0]) * 3600 + int(s[1]) * 60 + int(s[2])
 
     def _get_epoch_time(self):
-        '''
+        """
         Convert the time to an Epoch time using package standard.
-        '''
-        time_unaware = num2date(self.time, common.EPOCH_UNITS)
+        """
+
+        time_unaware = np.array([self._base_time[i] + timedelta(seconds=self.time[i]) for i in range(0, len(self.time))])
         eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
                   'title': 'Time', 'full_name': 'Time (UTC)'}
         return eptime
@@ -161,10 +175,6 @@ class ParsivelReader(object):
 
     v_spread = [.1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .2, .2, .2, .2, .2, .4,
                 .4, .4, .4, .4, .8, .8, .8, .8, .8, 1.6, 1.6, 1.6, 1.6, 1.6, 3.2, 3.2]
-
-    def bc(D_eq):
-        return 1.0048 + 5.7 * 10 ** (-4) - 2.628 * 10 ** (-2) * D_eq * D_eq ** 2 +\
-            3.682 * 10 ** (-3) * D_eq ** 3 - 1.677 * 10 ** -4 * D_eq ** 4
 
     pcm_matrix = (
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

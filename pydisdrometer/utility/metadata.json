@@ -82,7 +82,55 @@
         "standard_name": "specific_differential_attenuation",
         "units": "dB/km",
         "long_name": "Specific Differential Attenuation"
+    },
+    "Nd":{
+        "standard_name":"drop_size_distribution",
+        "long_name":"Drop Size Distribution",
+        "units":"count per mm per m^3"
+    },
+    "diameter":{
+        "standard_name":"drop_diameter",
+        "long_name":"Bin Diameter",
+        "units":"mm"
+    },
+    "velocity":{
+        "standard_name":"drop_fall_velocity",
+        "long_name": "Drop Fall Velocity",
+        "units":"meters per second"
+    },
+    "bin_edges":{
+        "standard_name":"bin_edges",
+        "long_name": "Bin Edges",
+        "units":"mm"
+    },
+    "spread":{
+        "standard_name":"bin_width",
+        "long_name": "Width of Sampling Bin",
+        "units": "mm"
+    },
+    "time":{
+        "standard_name":"time",
+        "long_name":"time_in_seconds_since_volume_start",
+        "calendar":"gregorian"
+    },
+    "LDR":{
+        "standard_name":"log_linear_depolarization_ratio_hv",
+        "long_name":"Linear Depolarization Ratio",
+        "units":"dB"
+    },
+    "specific_differential_phase_hv":
+    {
+        "standard_name":"specific_differential_phase_hv",
+        "long_name":"Specific Differential Phase",
+        "units":"degrees per km"
+    },
+    "cross_correlation_ratio_hv":{
+        "standard_name":"cross_correlation_ratio_hv",
+        "long_name":"Co to Cross Polar Correlation Ratio",
+        "units":"unitless"
     }
+
+
 }
 
 

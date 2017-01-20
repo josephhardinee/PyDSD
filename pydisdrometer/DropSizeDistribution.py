@@ -15,7 +15,7 @@ from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
 from pytmatrix import orientation, radar, tmatrix_aux, refractive
 from datetime import date
-from .expfit import expfit, expfit2
+from .utility.expfit import expfit, expfit2
 
 from . import DSR
 from .utility import dielectric
@@ -187,6 +187,8 @@ class DropSizeDistribution(object):
         self.scatterer.set_geometry(tmatrix_aux.geom_horiz_forw)
 
         for t in range(self.scatter_start_time, self.scatter_end_time):
+            BinnedDSD = pytmatrix.psd.BinnedPSD(self.bin_edges['data'],  self.Nd['data'][t])
+            self.scatterer.psd = BinnedDSD
             self.fields['Kdp']['data'][t] = radar.Kdp(self.scatterer)
             self.fields['Ai']['data'][t] = radar.Ai(self.scatterer)
             self.fields['Adr']['data'][t] = radar.Ai(self.scatterer) -radar.Ai(self.scatterer, h_pol=False)
@@ -286,11 +288,13 @@ class DropSizeDistribution(object):
                                                                 np.array(self.diameter['data']) ** 3)
             self.fields['D0']['data'][t] = self._calculate_D0(self.Nd['data'][t])
             self.fields['Nw']['data'][t] =  256.0 / \
-                (np.pi * rho_w) * np.divide(self.fields['W']['data'][t], self.fields['Dm']['data'][t] ** 4)
+                (np.pi * rho_w) * np.divide(self.fields['W']['data'][t],
+                                            self.fields['Dm']['data'][t] ** 4)
 
             self.fields['Dmax']['data'][t] = self.__get_last_nonzero(self.Nd['data'][t])
 
-        self.fields['mu']['data'][:] = map(self._estimate_mu, range(0,self.numt))
+        self.fields['mu']['data'][:] = list(map(self._estimate_mu,
+                                                list(range(0,self.numt))))
 
     def __get_last_nonzero(self, N):
         ''' Gets last nonzero entry in an array. Gets last non-zero entry in an array.
@@ -366,7 +370,7 @@ class DropSizeDistribution(object):
         gives the covariance matrix of the fit.
         '''
 
-        if 'rain_rate' in self.fields.keys():
+        if 'rain_rate' in list(self.fields.keys()):
             filt = np.logical_and(
                 self.fields['Kdp']['data'] > 0, self.fields['rain_rate']['data'] > 0)
             popt, pcov = expfit(self.fields['Kdp']['data'][filt],
@@ -407,6 +411,7 @@ class DropSizeDistribution(object):
         Zdr > 0
         Kdp > 0
         '''
+
         filt = np.logical_and(
             np.logical_and(self.fields['rain_rate']['data'] > 0, np.greater(self.fields['Zdr']['data'], 0)), self.fields['Kdp']['data'] > 0)
         popt, pcov = expfit2([self._idb(self.fields['Zh']['data'][filt]),
@@ -423,7 +428,7 @@ class DropSizeDistribution(object):
         rain_rate > 0
         Zdr > 0
         Kdp > 0
-       '''
+        '''
 
         filt = np.logical_and(
             np.logical_and(self.fields['rain_rate']['data'] > 0, self.fields['Zdr']['data'] > 0), self.fields['Kdp']['data'] > 0)
@@ -441,7 +446,7 @@ class DropSizeDistribution(object):
         rain_rate > 0
         Zdr > 0
         Kdp > 0
-      '''
+        '''
 
         filt = np.logical_and(np.logical_and(self.fields['rain_rate']['data'] > 0, self.fields['Zdr']['data'] > 0),
                               self.fields['Kdp']['data'] > 0)

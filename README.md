@@ -1,7 +1,8 @@
 # PyDisdrometer
 
-![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.9991.png)   
-[![Coverage Status](https://coveralls.io/repos/josephhardinee/PyDisdrometer/badge.svg?branch=master&service=github)](https://coveralls.io/github/josephhardinee/PyDisdrometer?branch=master)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.9991.svg)](https://doi.org/10.5281/zenodo.9991)
+
+[![Coverage Status](https://coveralls.io/repos/github/josephhardinee/PyDisdrometer/badge.svg?branch=master)](https://coveralls.io/github/josephhardinee/PyDisdrometer?branch=master)
 
 PyDisdrometer is a Python package to process disdrometer files. It currently is capable of reading several different types of disdrometer formats, with more being added regularly. It currently supports the following functionality:
 1) File Reading

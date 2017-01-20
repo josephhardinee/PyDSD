@@ -2,8 +2,8 @@ from setuptools import setup
 
 MAJOR = 0
 MINOR = 1
-MICRO = 14
-SUB = 0
+MICRO = 15
+SUB = 1
 ISRELEASED = False
 VERSION = '%d.%d.%d.%d' % (MAJOR, MINOR, MICRO, SUB)
 
@@ -23,10 +23,11 @@ setup(
     license='LICENSE.txt',
     description='Python Disdrometer Processing',
     long_description=open('description.txt').read(),
-    install_requires=['pytmatrix>=0.2.0'],
+    install_requires=['pytmatrix>=0.2.0', 'numpy'],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Console"
         ],
+    include_package_data=True
 
 )

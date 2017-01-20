@@ -1,10 +1,12 @@
 import numpy as np
 import unittest
+import datetime
 
 from ..io import ParsivelReader
 
+
 class TestParsivelReader(unittest.TestCase):
-    'Test module for the ParsivelReader class in pydisdrometer.io.ParsivelReader'
+    """Test module for the ParsivelReader class in pydisdrometer.io.ParsivelReader """
 
     def setUp(self):
         filename = 'testdata/parsivel_telegraph_testfile.mis'
@@ -30,6 +32,14 @@ class TestParsivelReader(unittest.TestCase):
         self.assertEqual(len(self.dsd.fields['D0']['data']), 6, 'Wrong number of samples in D0')
 
     def test_time_same_length_as_Nd(self):
-        self.assertEqual(len(self.dsd.time['data']), self.dsd.fields['Nd']['data'].shape[0], 'Different number of samples for time and Nd')
+        self.assertEqual(len(self.dsd.time['data']), self.dsd.fields['Nd']['data'].shape[0],
+                         'Different number of samples for time and Nd')
 
+    def test_time_reads_as_datetime_correctly(self):
+        """Test whether the two time fields read in and merge correctly"""
+        base_time = datetime.datetime(year=2011, month=9, day=9)
+        time_deltas = [datetime.timedelta(minutes=s) for s in [0, 1, 2, 3, 4, 5]]
 
+        time_array = np.array(base_time) + np.array(time_deltas)
+
+        self.assertEqual(len(time_array), len(self.dsd.time['data']))
