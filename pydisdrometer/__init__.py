@@ -14,3 +14,4 @@ from .plot.plot import plot_dsd
 
 from . import partition
 from . import utility
+from . import fit
