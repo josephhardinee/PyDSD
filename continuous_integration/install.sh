@@ -29,12 +29,12 @@ conda create -n testenv --yes pip python=$PYTHON_VERSION
 source activate testenv
 
 # Install dependencies
-conda install --yes numpy scipy matplotlib netcdf4 nose sphinx numpydoc h5py
+conda install --yes numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4=4.2.12
 conda install --yes sphinx_rtd_theme
 
 
 if [[ $PYTHON_VERSION == '2.7' ]]; then
-    conda install --yes sphinx numpydoc h5py
+    conda install --yes sphinx numpydoc hdf4=4.2.12
     conda install --yes sphinx_rtd_theme
     pip install sphinxcontrib-bibtex
     pip install xmltodict
@@ -42,10 +42,17 @@ if [[ $PYTHON_VERSION == '2.7' ]]; then
 fi
 if [[ $PYTHON_VERSION == '3.4' ]]; then
     pip install pytmatrix
+    conda install --yes hdf4=4.2.12
 fi
 if [[ $PYTHON_VERSION == '3.5' ]]; then
     pip install pytmatrix
+    conda install --yes hdf4=4.2.12
 fi
+if [[ $PYTHON_VERSION == '3.6' ]]; then
+    pip install pytmatrix
+    conda install --yes hdf4=4.2.12
+fi
+
 
 # install coverage modules
 pip install nose-cov
