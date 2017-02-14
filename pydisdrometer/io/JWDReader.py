@@ -89,8 +89,8 @@ class JWDReader(object):
                          self.conv_md_to_nd(md_float))
                     self.rain_rate.append(
                          float(line.split()[24]))
-                elif i>1:
-                    self.time.append(
+        elif i>1:
+            self.time.append(
                          float(self.getSec(line.split()[1],start_hh,start_mm)))
                     md = line.split()[3:23]
                     md_float = np.array(list(map(float, md)))
