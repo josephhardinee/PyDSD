@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
+
 import netCDF4
+import numpy as np
 import scipy.interpolate as sinterp
 
-from ..DropSizeDistribution import DropSizeDistribution
+from pydisdrometer.io.common import get_epoch_time
 from . import common
+from ..DropSizeDistribution import DropSizeDistribution
 
-import numpy as np
 
 def read_ucsc_netcdf(filename):
     '''
@@ -128,7 +130,7 @@ class Image2DReader(object):
         #  variable is saved in NetCDF
         t_units = 'seconds since ' + "-".join([yyyy, mm, dd]) + ' 00:00:00'
         # Return a common epoch time dictionary
-        self.time = common._get_epoch_time(HHMMSS, t_units)
+        self.time = get_epoch_time(HHMMSS, t_units)
 
         # Pull in the aircraft variables of interest if desired
         # Map to imaging probe data
@@ -200,7 +202,7 @@ class Image2DReader(object):
         # Retrieve the time variable
         eptime = common.ncvar_to_dict(ncFile.variables['EpochTime'])
         # Return a common epoch time dictionary
-        self.time = _get_epoch_time(eptime['data'][:], eptime['units'])
+        self.time = get_epoch_time(eptime['data'][:], eptime['units'])
         self.spread = {'data': np.zeros(len(self.diameter['data'])),
                         'units': 'mm', 'Description': 'Bin Width'}
         self.spread['data'][:] = 0.1 #millimeters for now
@@ -248,14 +250,3 @@ class Image2DReader(object):
             array = tmp[:, ::num]
 
 
-def _get_epoch_time(sample_times, t_units):
-    """Convert time to epoch time and return a dictionary."""
-    # Convert the time array into a datetime instance
-    dts = netCDF4.num2date(sample_times, t_units)
-    # Now convert this datetime instance into a number of seconds since Epoch
-    timesec = netCDF4.date2num(dts, common.EPOCH_UNITS)
-    # Now once again convert this data into a datetime instance
-    time_unaware = netCDF4.num2date(timesec, common.EPOCH_UNITS)
-    eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
-              'standard_name': 'Time', 'long_name': 'Time (UTC)'}
-    return eptime

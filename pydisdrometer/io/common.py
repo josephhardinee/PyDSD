@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import netCDF4
 import numpy as np
 from netCDF4 import num2date, date2num
 
@@ -29,3 +30,16 @@ def ncvar_to_dict(ncvar):
         d['data'] = np.array(d['data'][:])
         d['data'].shape = (1, )
     return d
+
+
+def get_epoch_time(sample_times, t_units):
+    """Convert time to epoch time and return a dictionary."""
+    # Convert the time array into a datetime instance
+    dts = netCDF4.num2date(sample_times, t_units)
+    # Now convert this datetime instance into a number of seconds since Epoch
+    timesec = netCDF4.date2num(dts, EPOCH_UNITS)
+    # Now once again convert this data into a datetime instance
+    time_unaware = netCDF4.num2date(timesec, EPOCH_UNITS)
+    eptime = {'data': time_unaware, 'units': EPOCH_UNITS,
+              'standard_name': 'Time', 'long_name': 'Time (UTC)'}
+    return eptime
