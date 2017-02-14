@@ -110,10 +110,12 @@ class NASA_APU_reader(object):
             'Liquid water particle concentration')
 
         try:
-            self.time = self._get_epoch_time(self.time)
+            time_dict = self._get_epoch_time(self.time)
         except:
-            self.time = {'data': np.array(self.time), 'units': None,
+            time_dict = {'data': np.array(self.time), 'units': None,
                          'title': 'Time', 'full_name': 'Native file time'}
+
+        self.time = time_dict
 
     def _parse_time(self, time_vector):
         epoch_time = datetime.datetime(time_vector[0], 1, 1) + datetime.timedelta(days=time_vector[1]-1, hours=time_vector[2], minutes=time_vector[3])
@@ -136,9 +138,7 @@ class NASA_APU_reader(object):
         epoch = datetime.datetime.utcfromtimestamp(0)
         time_secs = [(timestamp-epoch).total_seconds() for timestamp in time_array]
 
-        eptime = {'data': time_secs, 'units': common.EPOCH_UNITS,
-                  'title': 'Time', 'long_name': 'time'}
-        return eptime
+        return time_secs
 
     spread = common.var_to_dict(
         'spread',
