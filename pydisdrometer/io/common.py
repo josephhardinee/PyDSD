@@ -40,6 +40,9 @@ def get_epoch_time(sample_times, t_units):
     timesec = netCDF4.date2num(dts, EPOCH_UNITS)
     # Now once again convert this data into a datetime instance
     time_unaware = netCDF4.num2date(timesec, EPOCH_UNITS)
-    eptime = {'data': time_unaware, 'units': EPOCH_UNITS,
+    # eptime = {'data': time_unaware, 'units': EPOCH_UNITS,
+    #           'standard_name': 'Time', 'long_name': 'Time (UTC)'}
+
+    eptime = {'data': timesec, 'units': EPOCH_UNITS,
               'standard_name': 'Time', 'long_name': 'Time (UTC)'}
     return eptime
