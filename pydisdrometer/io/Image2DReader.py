@@ -2,7 +2,6 @@
 import os
 import netCDF4
 import scipy.interpolate as sinterp
-#from netCDF4 import (num2date, date2num)
 
 from ..DropSizeDistribution import DropSizeDistribution
 from . import common
@@ -25,16 +24,10 @@ def read_ucsc_netcdf(filename):
     reader = Image2DReader(filename, file_type='ucsc_netcdf')
 
     if reader:
-##        dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd']['data'][:]/1000.0,
-##                               spread=reader.spread['data'][:],
-##                               diameter=reader.diameter['data'][:]/1000.0,
-##                               bin_edges=reader.bin_edges['data'][:]/1000.0)
         dsd = DropSizeDistribution(reader)
         return dsd
     else:
         return None
-
-    del(reader)
 
 def read_noaa_aoml_netcdf(filename):
     '''
@@ -52,10 +45,6 @@ def read_noaa_aoml_netcdf(filename):
     reader = Image2DReader(filename, file_type='noaa_aoml_netcdf')
 
     if reader:
-#     dsd = DropSizeDistribution(reader.time['data'][:], reader.fields['Nd_calc']['data'][:],
-#             spread=reader.spread['data'][:],
-#             diameter=reader.diameter['data'][:],
-#             bin_edges=reader.bin_edges)
         dsd = DropSizeDistribution(reader)
 
     return dsd
