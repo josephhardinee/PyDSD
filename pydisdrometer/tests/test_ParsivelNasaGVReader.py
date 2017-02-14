@@ -43,6 +43,6 @@ class TestParsivelNASAGVReader_ifloods(TestCase):
         self.assertTrue(len(self.dsd.Nd['data'])) == 10
 
     def test_has_10_time_entries(self):
-        self.assertTrue(len(self.dsd.time['data']) == 10, "Test ifloods File for ParsivelNASAGVReader did not have 3 time entries")
+        self.assertTrue(len(self.dsd.time['data']) == 10, "Test ifloods File for ParsivelNASAGVReader did not have 10 time entries")
 
 
