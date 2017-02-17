@@ -5,11 +5,12 @@ Plotting routines for different aspects of the drop size distribution class.
 
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib
+import matplotlib as mpl
 from pylab import cm
 
 
-def plot_dsd(dsd, range=None, log_scale=True, tighten=True, ax=None, fig=None):
+def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
+             vmin=None, vmax=None, cmap=None, ax=None, fig=None):
     '''Plotting function for drop size distribution Nd
 
     plot_dsd creates a pcolormesh based plot for a drop size distribution object's
@@ -19,9 +20,10 @@ def plot_dsd(dsd, range=None, log_scale=True, tighten=True, ax=None, fig=None):
     ----------
     dsd: DropSizeDistribution
         Drop Size Distribution instance containing a `Nd`.
-    range: tuple
-        A tuple containing the range to be plotted in form
-        (x_begin,x_end,y_begin,y_end)
+    xlims: 2-tuple
+        Range of x axis (x_begin, x_end).
+    ylims: 2-tuple
+        Range of y axis (y_begin, y_end).
     log_scale: boolean
         Whether to plot on a log scale, or a linear scale.
     tighten: True
@@ -35,23 +37,36 @@ def plot_dsd(dsd, range=None, log_scale=True, tighten=True, ax=None, fig=None):
     ax =  parse_ax(ax)
     fig = parse_ax(fig)
 
-    colors = [('white')] + [(cm.jet(i)) for i in range(1, 256)]
-    new_map = matplotlib.colors.LinearSegmentedColormap.from_list('new_map',
-                                                                colors, N=256)
+    if cmap is None:
+        colors = [('white')] + [(cm.jet(i)) for i in range(1, 256)]
+        cmap = mpl.colors.LinearSegmentedColormap.from_list(
+            'new_map', colors, N=256)
+
+    if vmin is None:
+        vmin = np.nanmin(dsd.Nd)
+    if vmax is None:
+        vmax = np.nanmax(dsd.Nd)
 
     if log_scale:
-        data = np.log10(dsd.Nd.T)
+        if vmin == 0.:
+            vmin = 0.1
+        norm = mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
     else:
-        data = dsd.Nd.T
-    plt.pcolor(dsd.time, dsd.diameter, data, vmin=0.0,
-                figure=fig_handle, cmap=new_map)
+        norm = None
+    plt.pcolor(dsd.time, dsd.diameter, dsd.Nd.T, vmin=vmin, vmax=vmax,
+                figure=fig_handle, norm=norm, cmap=cmap)
 
     plt.axis('tight')
 
-    if range:
-        plt.axis(range)
+    if xlims is not None:
+        ax.set_xlim(xlims)
     else:
-        plt.axis((0, dsd.time[-1], 0, dsd.diameter[-1]))
+        ax.set_xlim(0., dsd.time[-1])
+
+    if ylims is not None:
+        ax.set_ylim(ylims)
+    else:
+        ax.set_ylim(0., dsd.diameter[-1])
 
     if tighten:
         max_diameter = dsd.diameter[len(dsd.diameter) -
@@ -299,16 +314,16 @@ def plot_ts(dsd, varname, date_format='%H:%M', tz=None, xMinTicker='minute',
 
     ax.xaxis.set_major_formatter(xFmt)
     if xMinTicker == 'second':
-        from  matplotlib.dates import SecondLocator
+        from  mpl.dates import SecondLocator
         ax.xaxis.set_minor_locator(SecondLocator())
     elif xMinTicker == 'minute':
-        from  matplotlib.dates import MinuteLocator
+        from  mpl.dates import MinuteLocator
         ax.xaxis.set_minor_locator(MinuteLocator())
     elif xMinTicker == 'hour':
-        from  matplotlib.dates import HourLocator
+        from  mpl.dates import HourLocator
         ax.xaxis.set_minor_locator(HourLocator())
     elif xMinTicker == 'day':
-        from  matplotlib.dates import DayLocator
+        from  mpl.dates import DayLocator
         ax.xaxis.set_minor_locator(DayLocator())
 
     if title is not None:
@@ -382,17 +397,17 @@ def plotHov(dsd, xvar, datavar, log_scale=False,
 
     ax.yaxis.set_major_formatter(yFmt) # Set the date format
     if yMajTicker == 'second':
-        from  matplotlib.dates import SecondLocator
+        from  mpl.dates import SecondLocator
         ax.yaxis.set_major_locator(SecondLocator())
     elif yMajTicker == 'minute':
-        from  matplotlib.dates import MinuteLocator
+        from  mpl.dates import MinuteLocator
         ax.yaxis.set_major_locator(MinuteLocator())
     elif yMajTicker == 'hour':
-        from  matplotlib.dates import HourLocator,MinuteLocator
+        from  mpl.dates import HourLocator,MinuteLocator
         ax.yaxis.set_major_locator(HourLocator())
         ax.yaxis.set_minor_locator(MinuteLocator(interval=10))
     elif yMajTicker == 'day':
-        from  matplotlib.dates import DayLocator
+        from  mpl.dates import DayLocator
         ax.yaxis.set_major_locator(DayLocator())
 
     if title is not None:
