@@ -283,8 +283,9 @@ def plot_hist2d(xvar, yvar, bins=(80,60), ranges=None, norm=None,
     return fig, ax
 
 
-def plot_ts(dsd, varname, date_format='%H:%M', tz=None, xMinTicker='minute',
-            title=None, ax=None, fig=None, **kwargs):
+def plot_ts(dsd, varname, date_format='%H:%M', tz=None,
+            x_min_tick_format='minute', title=None, ax=None, fig=None,
+            **kwargs):
     """
     Time series plot of variable.
 
@@ -298,7 +299,7 @@ def plot_ts(dsd, varname, date_format='%H:%M', tz=None, xMinTicker='minute',
         Timestring format characters.
     tz : str
         Time zone to uses, see datetime module.
-    xMinTicker : str
+    x_min_tick_format : str
         Minor tick formatting, 'second','minute','hour','day' supported
     title : str
     ax : Matplotlib Axis instance
@@ -308,21 +309,21 @@ def plot_ts(dsd, varname, date_format='%H:%M', tz=None, xMinTicker='minute',
     ax =  parse_ax(ax)
     fig = parse_ax(fig)
 
-    xFmt = DateFormatter(date_format, tz=tz)
+    x_fmt = DateFormatter(date_format, tz=tz)
 
     ax.plot_date(dsd.time['data'], dsd[varname]['data'], **kwargs)
 
-    ax.xaxis.set_major_formatter(xFmt)
-    if xMinTicker == 'second':
+    ax.xaxis.set_major_formatter(x_fmt)
+    if x_min_tick_format == 'second':
         from  mpl.dates import SecondLocator
         ax.xaxis.set_minor_locator(SecondLocator())
-    elif xMinTicker == 'minute':
+    elif x_min_tick_format == 'minute':
         from  mpl.dates import MinuteLocator
         ax.xaxis.set_minor_locator(MinuteLocator())
-    elif xMinTicker == 'hour':
+    elif x_min_tick_format == 'hour':
         from  mpl.dates import HourLocator
         ax.xaxis.set_minor_locator(HourLocator())
-    elif xMinTicker == 'day':
+    elif x_min_tick_format == 'day':
         from  mpl.dates import DayLocator
         ax.xaxis.set_minor_locator(DayLocator())
 
@@ -334,7 +335,7 @@ def plot_ts(dsd, varname, date_format='%H:%M', tz=None, xMinTicker='minute',
 def plotHov(dsd, xvar, datavar, log_scale=False,
             date_format='%H:%M', tz=None,
             clevs=7, vmin=None, vmax=None,
-            title=None, set_major_locator='minute',
+            title=None, y_maj_tick_format='minute',
             colorbar=True, cbor='vertical', clabel=' ',cmap='jet'):
     """
     Hovmoeller plot with time on Y-axis.
@@ -360,8 +361,8 @@ def plotHov(dsd, xvar, datavar, log_scale=False,
     vmax : float
         Maximum contour value to display.
     title : str
-    set_major_locator : str
-        Minor tick formatting, 'second','minute','hour','day' supported.
+    y_maj_tick_format : str
+        Major tick formatting, 'second','minute','hour','day' supported.
     colorbar : bool
         True to include colorbar.
     cbor : str
@@ -376,7 +377,7 @@ def plotHov(dsd, xvar, datavar, log_scale=False,
     ax =  parse_ax(ax)
     fig = parse_ax(fig)
 
-    yFmt = DateFormatter(date_format, tz=tz)
+    y_fmt = DateFormatter(date_format, tz=tz)
 
     if vmin is None:
         vmin = np.nanmin(dsd[varname]['data'])
@@ -395,18 +396,18 @@ def plotHov(dsd, xvar, datavar, log_scale=False,
 
     plt.xscale('log') # Make X-axis logarithmic
 
-    ax.yaxis.set_major_formatter(yFmt) # Set the date format
-    if yMajTicker == 'second':
+    ax.yaxis.set_major_formatter(y_fmt)
+    if y_maj_tick_format == 'second':
         from  mpl.dates import SecondLocator
         ax.yaxis.set_major_locator(SecondLocator())
-    elif yMajTicker == 'minute':
+    elif y_maj_tick_format == 'minute':
         from  mpl.dates import MinuteLocator
         ax.yaxis.set_major_locator(MinuteLocator())
-    elif yMajTicker == 'hour':
+    elif y_maj_tick_format == 'hour':
         from  mpl.dates import HourLocator,MinuteLocator
         ax.yaxis.set_major_locator(HourLocator())
         ax.yaxis.set_minor_locator(MinuteLocator(interval=10))
-    elif yMajTicker == 'day':
+    elif y_maj_tick_format == 'day':
         from  mpl.dates import DayLocator
         ax.yaxis.set_major_locator(DayLocator())
 
