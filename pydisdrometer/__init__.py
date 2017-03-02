@@ -9,7 +9,7 @@ from .aux_readers.NASA_2DVD_reader import read_2dvd_dsd_nasa_gv
 from .aux_readers.ARM_APU_reader import read_parsivel_arm_netcdf
 from .aux_readers.read_2ds import read_2ds
 from .aux_readers.read_hvps import read_hvps
-
+from .aux_readers.ARM_JWD_Reader import read_arm_jwd_b1
 from .plot.plot import plot_dsd
 
 from . import partition
