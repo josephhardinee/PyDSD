@@ -33,7 +33,6 @@ def read_parsivel_arm_netcdf(filename):
     else:
         return None
 
-    del(reader)
 
 
 class ARM_APU_reader(object):
