@@ -111,6 +111,11 @@ class DropSizeDistribution(object):
         self.fields = reader.fields
         self.time_start = time_start
 
+        try:
+            self.info = reader.info
+        except:
+            self.info = {}
+
         self.numt = len(reader.time['data'])
         location = {}
 

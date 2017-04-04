@@ -35,11 +35,13 @@ class TestParsivelReader(unittest.TestCase):
         self.assertEqual(len(self.dsd.time['data']), self.dsd.fields['Nd']['data'].shape[0],
                          'Different number of samples for time and Nd')
 
-    def test_time_reads_as_datetime_correctly(self):
+    def test_time_reads_as_epoch_time_correctly(self):
         """Test whether the two time fields read in and merge correctly"""
         base_time = datetime.datetime(year=2011, month=9, day=9)
         time_deltas = [datetime.timedelta(minutes=s) for s in [0, 1, 2, 3, 4, 5]]
 
         time_array = np.array(base_time) + np.array(time_deltas)
-
-        self.assertEqual(len(time_array), len(self.dsd.time['data']))
+        epoch = datetime.datetime.utcfromtimestamp(0)
+        time_secs = [(timestamp-epoch).total_seconds() for timestamp in time_array]
+        self.assertEqual(time_secs[0], self.dsd.time['data'][0])
+        # self.assertItemsEqual(time_secs, self.dsd.time['data']) # Might bring this back with six

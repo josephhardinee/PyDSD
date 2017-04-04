@@ -5,8 +5,9 @@ import itertools
 import scipy.optimize
 from pytmatrix.psd import GammaPSD
 import csv
-import datetime
-from netCDF4 import Dataset
+from datetime import datetime
+import os
+from netCDF4 import Dataset, num2date
 
 from ..DropSizeDistribution import DropSizeDistribution
 from ..io import common
@@ -32,7 +33,6 @@ def read_parsivel_arm_netcdf(filename):
     else:
         return None
 
-    del(reader)
 
 
 class ARM_APU_reader(object):
@@ -50,16 +50,19 @@ class ARM_APU_reader(object):
         self.time = []  # Time in minutes from start of recording
         self.Nd = []
 
+        self.filename = filename
         self.nc_dataset = Dataset(filename)
 
         time = np.ma.array(self.nc_dataset.variables['time'][:])
-        # NEED TO GRAB DATE FROM FILE
-        yyyy = os.path.basename(self.filename).split(".")[1][0:4]
-        mm = os.path.basename(self.filename).split(".")[1][4:6]
-        dd = os.path.basename(self.filename).split(".")[1][6:8]
-        t_units = 'minutes since ' + "-".join([yyyy, mm, dd]) + 'T00:00:00'
+        base_time = datetime.strptime(self.nc_dataset['time'].units,"seconds since %Y-%m-%d %H:%M:%S 0:00")
+
         # Return a common epoch time dictionary
-        self.time = _get_epoch_time(time, t_units)
+        self.time = {'data': time + (base_time - datetime(1970,1,1)).total_seconds(),
+                     'units': common.EPOCH_UNITS,
+                     'standard_name': "Time",
+                     'long_name': "Time (UTC)"
+                     }
+        # self.time = self._get_epoch_time(time, t_units)
 
         Nd = np.ma.array(
             self.nc_dataset.variables['number_density_drops'][:])
@@ -68,16 +71,17 @@ class ARM_APU_reader(object):
         rain_rate = np.ma.array(
             self.nc_dataset.variables['precip_rate'][:])
 
-        self.bin_edges = common.var_to_dict(
-            'bin_edges',
-            np.hstack((0, self.diameter + np.array(self.spread) / 2)),
-            'mm', 'Boundaries of bin sizes')
-        self.spread = common.var_to_dict(
-            'spread', self.nc_dataset.variables['class_size_width'][:],
-            'mm', 'Bin size spread of bins')
         self.diameter = common.var_to_dict(
             'diameter', self.nc_dataset.variables['particle_size'][:],
             'mm', 'Particle diameter of bins')
+        self.spread = common.var_to_dict(
+            'spread', self.nc_dataset.variables['class_size_width'][:],
+            'mm', 'Bin size spread of bins')
+        self.bin_edges = common.var_to_dict(
+            'bin_edges',
+            np.hstack((0, self.diameter['data'] + np.array(self.spread['data']) / 2)),
+            'mm', 'Boundaries of bin sizes')
+
 
         self.fields['Nd'] = common.var_to_dict(
             'Nd', Nd, 'm^-3 mm^-1',
@@ -89,7 +93,7 @@ class ARM_APU_reader(object):
             'rain_rate', rain_rate, 'mm h^-1',
             'Rain rate')
 
-    def _get_epoch_time(sample_times, t_units):
+    def _get_epoch_time(self, sample_times, t_units):
         """Convert time to epoch time and return a dictionary."""
         # Convert the time array into a datetime instance
         dts = num2date(sample_times, t_units)

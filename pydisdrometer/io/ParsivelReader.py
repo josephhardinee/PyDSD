@@ -143,10 +143,12 @@ class ParsivelReader(object):
         """
         Convert the time to an Epoch time using package standard.
         """
-
         time_unaware = np.array([self._base_time[i] + timedelta(seconds=self.time[i]) for i in range(0, len(self.time))])
-        eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
-                  'title': 'Time', 'full_name': 'Time (UTC)'}
+        epoch = datetime.utcfromtimestamp(0)
+        time_secs = [(timestamp-epoch).total_seconds() for timestamp in time_unaware]
+
+        eptime = {'data': time_secs, 'units': common.EPOCH_UNITS,
+                  'title': 'Time', 'long_name': 'time'}
         return eptime
 
     diameter = common.var_to_dict(
