@@ -31,11 +31,11 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
 
     Returns
     -------
-    fig_handle: Figure Handle
+    fig: Figure instance
 
     '''
     ax =  parse_ax(ax)
-    fig = parse_ax(fig)
+    fig = parse_fig(fig)
 
     if cmap is None:
         colors = [('white')] + [(cm.jet(i)) for i in range(1, 256)]
@@ -43,9 +43,9 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
             'new_map', colors, N=256)
 
     if vmin is None:
-        vmin = np.nanmin(dsd.Nd)
+        vmin = np.nanmin(dsd['Nd']['data'])
     if vmax is None:
-        vmax = np.nanmax(dsd.Nd)
+        vmax = np.nanmax(dsd['Nd']['data'])
 
     if log_scale:
         if vmin == 0.:
@@ -53,24 +53,26 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
         norm = mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
     else:
         norm = None
-    plt.pcolor(dsd.time, dsd.diameter, dsd.Nd.T, vmin=vmin, vmax=vmax,
-                figure=fig_handle, norm=norm, cmap=cmap)
+    plt.pcolormesh(dsd.time['data'], dsd.diameter['data'], dsd['Nd']['data'].T,
+                   vmin=vmin, vmax=vmax,
+                   figure=fig, norm=norm, cmap=cmap)
 
     plt.axis('tight')
 
     if xlims is not None:
         ax.set_xlim(xlims)
     else:
-        ax.set_xlim(0., dsd.time[-1])
+        ax.set_xlim(0., dsd.time['data'][-1])
 
     if ylims is not None:
         ax.set_ylim(ylims)
     else:
-        ax.set_ylim(0., dsd.diameter[-1])
+        ax.set_ylim(0., dsd.diameter['data'][-1])
 
     if tighten:
-        max_diameter = dsd.diameter[len(dsd.diameter) -
-                            np.argmax(np.nansum(dsd.Nd, axis=0)[::-1] > 0)]
+        max_diameter = dsd.diameter['data'][
+            len(dsd.diameter['data']) -
+            np.argmax(np.nansum(dsd['Nd']['data'], axis=0)[::-1] > 0)]
         plt.ylim(0, max_diameter)
 
     plt.colorbar()
@@ -102,7 +104,7 @@ def plot_NwD0(dsd, col='k',msize=20, edgcolors='none', title=None,
 
     xlab = r'D$_0$ (mm)'
     ylab = r'log$_{10}$[N$_w$] (mm$^{-1}$ m$^{-3}$)'
-    fig, ax = scatter(dsd['Nw'], dsd['D0'], col=col, msize=msize,
+    fig, ax = scatter(dsd['Nw']['data'], dsd['D0']['data'], col=col, msize=msize,
                       edgecolors=edgecolors, title=title, ax=ax, fig=fig,
                       **kwargs)
     ax.set_xlabel(xlab)
@@ -134,13 +136,13 @@ def plot_ZR(dsd, log_scale=False, col='k',msize=20, edgcolors='none',
     fig = parse_ax(fig)
 
     if log_scale:
-        z = dsd['reflectivity']
-        rr = np.log10(dsd['rain_rate'])
+        z = dsd['reflectivity']['data']
+        rr = np.log10(dsd['rain_rate']['data'])
         xlab = r'Reflectivity (dBZ)'
         ylab = r'log$_{10}$(Rainfall Rate (mm h$^{-1}$))'
     else:
-        z = 10.**(dsd['reflectivity']/10.)
-        rr = dsd['rain_rate']
+        z = 10.**(dsd['reflectivity']['data']/10.)
+        rr = dsd['rain_rate']['data']
         xlab = r'Reflectivity (mm$^{6}$ m$^{-3}$)'
         ylab = r'Rainfall Rate (mm h$^{-1}$)'
 
@@ -182,13 +184,13 @@ def plot_ZR_hist2d(dsd, log_scale=False, bins=(80,60), ranges=None, norm=None,
     fig = parse_ax(fig)
 
     if log_scale:
-        z = dsd['reflectivity']
-        rr = np.log10(dsd['rain_rate'])
+        z = dsd['reflectivity']['data']
+        rr = np.log10(dsd['rain_rate']['data'])
         xlab = r'Reflectivity (dBZ)'
         ylab = r'log$_{10}$(Rainfall Rate (mm h$^{-1}$))'
     else:
-        z = 10.**(dsd['reflectivity']/10.)
-        rr = dsd['rain_rate']
+        z = 10.**(dsd['reflectivity']['data']/10.)
+        rr = dsd['rain_rate']['data']
         xlab = r'Reflectivity (mm$^{6}$ m$^{-3}$)'
         ylab = r'Rainfall Rate (mm h$^{-1}$)'
 
