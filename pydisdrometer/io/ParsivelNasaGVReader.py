@@ -99,6 +99,7 @@ class NASA_APU_reader(object):
             np.hstack(
                 (0, self.diameter['data'] + np.array(self.spread['data']) / 2)),
             'mm', 'Boundaries of bin sizes')
+        self.time['data'] = self._datetime_to_epoch_time(self.time['data'])
 
         self.f.close()
 
@@ -109,19 +110,12 @@ class NASA_APU_reader(object):
             'Liquid water particle concentration')
 
         try:
-            self.time = self._get_epoch_time(self.time)
+            time_dict = self._get_epoch_time(self.time)
         except:
-            self.time = {'data': np.array(self.time), 'units': None,
+            time_dict = {'data': np.array(self.time), 'units': None,
                          'title': 'Time', 'full_name': 'Native file time'}
 
-    def _regenerate_rainfall(self):
-        '''
-        The goal of this function is to recreate the rainfall that the
-        NASA processing removes. The alternative is to merge the dsd and
-        raintables files together.
-        '''
-        print('Not implemented yet')
-        pass
+        self.time = time_dict
 
     def _parse_time(self, time_vector):
         epoch_time = datetime.datetime(time_vector[0], 1, 1) + datetime.timedelta(days=time_vector[1]-1, hours=time_vector[2], minutes=time_vector[3])
@@ -132,15 +126,19 @@ class NASA_APU_reader(object):
         Convert the time to an Epoch time using package standard.
         '''
         # Convert the time array into a datetime instance
-        #dt_units = 'minutes since ' + StartDate + '00:00:00+0:00'
-        #dtMin = num2date(time, dt_units)
-        # Convert this datetime instance into a number of seconds since Epoch
-        #timesec = date2num(dtMin, common.EPOCH_UNITS)
-        # Once again convert this data into a datetime instance
         time_unaware = num2date(sample_time, common.EPOCH_UNITS)
         eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
                   'title': 'Time', 'full_name': 'Time (UTC)'}
         return eptime
+
+    def _datetime_to_epoch_time(self, time_array):
+        '''
+        Convert the time to an Epoch time using package standard.
+        '''
+        epoch = datetime.datetime.utcfromtimestamp(0)
+        time_secs = [(timestamp-epoch).total_seconds() for timestamp in time_array]
+
+        return time_secs
 
     spread = common.var_to_dict(
         'spread',
