@@ -78,7 +78,7 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
     plt.colorbar()
     plt.xlabel('Time(m)')
     plt.ylabel('Diameter(mm)')
-    return fig
+    return fig, ax
 
 
 def plot_NwD0(dsd, col='k',msize=20, edgcolors='none', title=None,
@@ -426,6 +426,7 @@ def plotHov(dsd, xvar, datavar, log_scale=False,
         cb.set_label(clabel)
     return fig, ax
 
+
 def plot_hexbin(xvar, yvar, grid=(80,60), min_count=0.01, title=None,
                 reduce_function=np.sum, add_colorbar=True,
                 clabel='Normalized Counts', ax=None, fig=None):
@@ -496,6 +497,7 @@ def get_masked_hist2d(xvar, yvar, bins=(25,25), ranges=None, norm=False):
     hist2d, xedges, yedges = np.histogram2d(
         qx, qy, bins=bins, range=ranges, normed=norm)
     return hist2d, xedges, yedges
+
 
 def set_ax_limits(xlim=None, ylim=None, ax=None):
     """Convenience function to set x, y limits."""
