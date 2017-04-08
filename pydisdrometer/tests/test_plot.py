@@ -2,6 +2,7 @@ import numpy as np
 import unittest
 
 from ..plot import plot
+from ..aux_readers import ARM_JWD_Reader
 
 
 class TestPlot(unittest.TestCase):
