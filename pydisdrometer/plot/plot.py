@@ -7,6 +7,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from pylab import cm
+from matplotlib.dates import DateFormatter
+from matplotlib.dates import SecondLocator, MinuteLocator, HourLocator, DayLocator
 
 
 def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
@@ -34,7 +36,7 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
     fig: Figure instance
 
     '''
-    ax =  parse_ax(ax)
+    ax = parse_ax(ax)
     fig = parse_fig(fig)
 
     if cmap is None:
@@ -43,9 +45,9 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
             'new_map', colors, N=256)
 
     if vmin is None:
-        vmin = np.nanmin(dsd['Nd']['data'])
+        vmin = np.nanmin(dsd.fields['Nd']['data'])
     if vmax is None:
-        vmax = np.nanmax(dsd['Nd']['data'])
+        vmax = np.nanmax(dsd.fields['Nd']['data'])
 
     if log_scale:
         if vmin == 0.:
@@ -53,7 +55,7 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
         norm = mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
     else:
         norm = None
-    plt.pcolormesh(dsd.time['data'], dsd.diameter['data'], dsd['Nd']['data'].T,
+    plt.pcolormesh(dsd.time['data'], dsd.diameter['data'], dsd.fields['Nd']['data'].T,
                    vmin=vmin, vmax=vmax,
                    figure=fig, norm=norm, cmap=cmap)
 
@@ -72,7 +74,7 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
     if tighten:
         max_diameter = dsd.diameter['data'][
             len(dsd.diameter['data']) -
-            np.argmax(np.nansum(dsd['Nd']['data'], axis=0)[::-1] > 0)]
+            np.argmax(np.nansum(dsd.fields['Nd']['data'], axis=0)[::-1] > 0)]
         plt.ylim(0, max_diameter)
 
     plt.colorbar()
@@ -81,7 +83,7 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
     return fig, ax
 
 
-def plot_NwD0(dsd, col='k',msize=20, edgcolors='none', title=None,
+def plot_NwD0(dsd, col='k', msize=20, edgecolors='none', title=None,
               ax=None, fig=None, **kwargs):
     """
     Create Normalized Intercept Parameter- median volume diameter scatterplot.
@@ -99,12 +101,12 @@ def plot_NwD0(dsd, col='k',msize=20, edgcolors='none', title=None,
     fig : Matplotlib Figure instance
     **kwargs : Dictionary to pass to matplotlib
     """
-    ax =  parse_ax(ax)
+    ax = parse_ax(ax)
     fig = parse_ax(fig)
 
     xlab = r'D$_0$ (mm)'
     ylab = r'log$_{10}$[N$_w$] (mm$^{-1}$ m$^{-3}$)'
-    fig, ax = scatter(dsd['Nw']['data'], dsd['D0']['data'], col=col, msize=msize,
+    fig, ax = scatter(dsd.fields['Nw']['data'], dsd.fields['D0']['data'], col=col, msize=msize,
                       edgecolors=edgecolors, title=title, ax=ax, fig=fig,
                       **kwargs)
     ax.set_xlabel(xlab)
@@ -112,7 +114,7 @@ def plot_NwD0(dsd, col='k',msize=20, edgcolors='none', title=None,
     return fig, ax
 
 
-def plot_ZR(dsd, log_scale=False, col='k',msize=20, edgcolors='none',
+def plot_ZR(dsd, log_scale=False, col='k', msize=20, edgecolors='none',
             title=None, ax=None, fig=None, **kwargs):
     """
     Create reflectivity - rainfall rate scatterplot.
@@ -132,17 +134,17 @@ def plot_ZR(dsd, log_scale=False, col='k',msize=20, edgcolors='none',
     fig : Matplotlib Figure instance
     **kwargs : Dictionary to pass to matplotlib
     """
-    ax =  parse_ax(ax)
+    ax = parse_ax(ax)
     fig = parse_ax(fig)
 
     if log_scale:
-        z = dsd['reflectivity']['data']
-        rr = np.log10(dsd['rain_rate']['data'])
+        z = dsd.fields['Zh']['data']
+        rr = np.log10(dsd.fields['rain_rate']['data'])
         xlab = r'Reflectivity (dBZ)'
         ylab = r'log$_{10}$(Rainfall Rate (mm h$^{-1}$))'
     else:
-        z = 10.**(dsd['reflectivity']['data']/10.)
-        rr = dsd['rain_rate']['data']
+        z = 10. ** (dsd.fields['Zh']['data'] / 10.)
+        rr = dsd.fields['rain_rate']['data']
         xlab = r'Reflectivity (mm$^{6}$ m$^{-3}$)'
         ylab = r'Rainfall Rate (mm h$^{-1}$)'
 
@@ -154,9 +156,9 @@ def plot_ZR(dsd, log_scale=False, col='k',msize=20, edgcolors='none',
     return fig, ax
 
 
-def plot_ZR_hist2d(dsd, log_scale=False, bins=(80,60), ranges=None, norm=None,
+def plot_ZR_hist2d(dsd, log_scale=False, bins=(80, 60), ranges=None, norm=None,
                    xlims=None, ylims=None, title=None,
-                   add_colorbar=True, clabel='Normalized Counts',
+                   colorbar=True, clabel='Normalized Counts',
                    ax=None, fig=None, **kwargs):
     """
     Create reflectivity - rainfall rate scatterplot.
@@ -174,29 +176,29 @@ def plot_ZR_hist2d(dsd, log_scale=False, bins=(80,60), ranges=None, norm=None,
     xlims : 2-tuple (Xmin, Xmax)
     ylims : 2-tuple (Ymin, Ymax)
     title : str
-    add_colorbar : bool
+    colorbar : bool
     clabel: colorbar label
     ax : Matplotlib Axis instance
     fig : Matplotlib Figure instance
     kwargs : Keyword arguments to pass to pcolormesh
     """
-    ax =  parse_ax(ax)
+    ax = parse_ax(ax)
     fig = parse_ax(fig)
 
     if log_scale:
-        z = dsd['reflectivity']['data']
-        rr = np.log10(dsd['rain_rate']['data'])
+        z = dsd.fields['Zh']['data']
+        rr = np.log10(dsd.fields['rain_rate']['data'])
         xlab = r'Reflectivity (dBZ)'
         ylab = r'log$_{10}$(Rainfall Rate (mm h$^{-1}$))'
     else:
-        z = 10.**(dsd['reflectivity']['data']/10.)
-        rr = dsd['rain_rate']['data']
+        z = np.power(10, (dsd.fields['Zh']['data'] / 10.0))
+        rr = dsd.fields['rain_rate']['data']
         xlab = r'Reflectivity (mm$^{6}$ m$^{-3}$)'
         ylab = r'Rainfall Rate (mm h$^{-1}$)'
 
     fig, ax = plot_hist2d(z, rr, bins=bins, ranges=ranges, norm=norm,
                           xlims=xlims, ylims=ylims, title=title,
-                          add_colorbar=add_colorbar,
+                          colorbar=colorbar,
                           clabel=clabel,
                           ax=ax, fig=fig, **kwargs)
 
@@ -205,7 +207,7 @@ def plot_ZR_hist2d(dsd, log_scale=False, bins=(80,60), ranges=None, norm=None,
     return fig, ax
 
 
-def scatter(xvar, yvar, col='k',msize=20, edgecolors='none', title=None,
+def scatter(xvar, yvar, col='k', msize=20, edgecolors='none', title=None,
             ax=None, fig=None, **kwargs):
     """
     Create a scatterplot two variables.
@@ -221,7 +223,7 @@ def scatter(xvar, yvar, col='k',msize=20, edgecolors='none', title=None,
     fig : Matplotlib Figure instance
     **kwargs : Dictionary to pass to matplotlib
     """
-    ax =  parse_ax(ax)
+    ax = parse_ax(ax)
     fig = parse_ax(fig)
 
     ax.scatter(xvar, yvar, c=col, s=msize, edgecolors=edgecolors, **kwargs)
@@ -231,7 +233,7 @@ def scatter(xvar, yvar, col='k',msize=20, edgecolors='none', title=None,
     return fig, ax
 
 
-def plot_hist2d(xvar, yvar, bins=(80,60), ranges=None, norm=None,
+def plot_hist2d(xvar, yvar, bins=(80, 60), ranges=None, norm=None,
                 xlims=None, ylims=None, title=None, colorbar=True,
                 clabel='Normalized Counts', ax=None, fig=None, **kwargs):
     """
@@ -252,7 +254,7 @@ def plot_hist2d(xvar, yvar, bins=(80,60), ranges=None, norm=None,
     fig : Matplotlib Figure instance
     kwargs : Keyword arguments to pass to pcolormesh
     """
-    ax =  parse_ax(ax)
+    ax = parse_ax(ax)
     fig = parse_ax(fig)
 
     if xlims is None:
@@ -274,13 +276,13 @@ def plot_hist2d(xvar, yvar, bins=(80,60), ranges=None, norm=None,
     x2d, y2d = np.meshgrid(xedges, yedges)
 
     # Plot the data using colormesh
-    ax.pcolormesh(x2d, y2d, hist2d, **kwargs)
+    pc = ax.pcolormesh(x2d, y2d, hist2d, **kwargs)
 
     if title is not None:
         ax.set_title(title)
 
     if colorbar:
-        cb = fig.colorbar(shrink=0.85)
+        cb = plt.colorbar(pc, shrink=0.85)
         cb.set_label(clabel)
     return fig, ax
 
@@ -308,25 +310,21 @@ def plot_ts(dsd, varname, date_format='%H:%M', tz=None,
     fig : Matplotlib Figure instance
     kwkargs : Keyword arguments to pass to pcolormesh
     """
-    ax =  parse_ax(ax)
+    ax = parse_ax(ax)
     fig = parse_ax(fig)
 
     x_fmt = DateFormatter(date_format, tz=tz)
 
-    ax.plot_date(dsd.time['data'], dsd[varname]['data'], **kwargs)
+    ax.plot_date(dsd.time['data'], dsd.fields[varname]['data'], **kwargs)
 
     ax.xaxis.set_major_formatter(x_fmt)
     if x_min_tick_format == 'second':
-        from  mpl.dates import SecondLocator
         ax.xaxis.set_minor_locator(SecondLocator())
     elif x_min_tick_format == 'minute':
-        from  mpl.dates import MinuteLocator
         ax.xaxis.set_minor_locator(MinuteLocator())
     elif x_min_tick_format == 'hour':
-        from  mpl.dates import HourLocator
         ax.xaxis.set_minor_locator(HourLocator())
     elif x_min_tick_format == 'day':
-        from  mpl.dates import DayLocator
         ax.xaxis.set_minor_locator(DayLocator())
 
     if title is not None:
@@ -338,7 +336,8 @@ def plotHov(dsd, xvar, datavar, log_scale=False,
             date_format='%H:%M', tz=None,
             clevs=7, vmin=None, vmax=None,
             title=None, y_maj_tick_format='minute',
-            colorbar=True, cbor='vertical', clabel=' ',cmap='jet'):
+            colorbar=True, cbor='vertical', clabel=' ',
+            cmap='jet', ax=None, fig=None):
     """
     Hovmoeller plot with time on Y-axis.
 
@@ -376,27 +375,27 @@ def plotHov(dsd, xvar, datavar, log_scale=False,
     fig : Matplotlib Figure instance
     kwkargs : Keyword arguments to pass to pcolormesh
     """
-    ax =  parse_ax(ax)
+    ax = parse_ax(ax)
     fig = parse_ax(fig)
 
     y_fmt = DateFormatter(date_format, tz=tz)
 
     if vmin is None:
-        vmin = np.nanmin(dsd[varname]['data'])
+        vmin = np.nanmin(dsd.fields[datavar]['data'])
     if vmax is None:
-        vmax = np.nanmax(dsd[varname]['data'])
-    clevels = np.logspace(vmin,vmax,clevs)
+        vmax = np.nanmax(dsd.fields[datavar]['data'])
+    clevels = np.logspace(vmin, vmax, clevs)
 
     if log_scale:
-        data = np.log10(dsd[datavar]['data'])
-        norm=LogNorm()
+        data = np.log10(dsd.fields[datavar]['data'])
+        norm = LogNorm()
     else:
-        data = dsd[datavar]['data']
-        norm=None
-    cs = ax.contourf(dsd[xvarname]['data'], dsd.time['data'], data,
+        data = dsd.fields[datavar]['data']
+        norm = None
+    cs = ax.contourf(dsd.fields[xvar]['data'], dsd.time['data'], data,
                      clevels, norm=norm, cmap=cmap)
 
-    plt.xscale('log') # Make X-axis logarithmic
+    plt.xscale('log')  # Make X-axis logarithmic
 
     ax.yaxis.set_major_formatter(y_fmt)
     if y_maj_tick_format == 'second':
@@ -406,7 +405,7 @@ def plotHov(dsd, xvar, datavar, log_scale=False,
         from  mpl.dates import MinuteLocator
         ax.yaxis.set_major_locator(MinuteLocator())
     elif y_maj_tick_format == 'hour':
-        from  mpl.dates import HourLocator,MinuteLocator
+        from  mpl.dates import HourLocator, MinuteLocator
         ax.yaxis.set_major_locator(HourLocator())
         ax.yaxis.set_minor_locator(MinuteLocator(interval=10))
     elif y_maj_tick_format == 'day':
@@ -427,7 +426,7 @@ def plotHov(dsd, xvar, datavar, log_scale=False,
     return fig, ax
 
 
-def plot_hexbin(xvar, yvar, grid=(80,60), min_count=0.01, title=None,
+def plot_hexbin(xvar, yvar, grid=(80, 60), min_count=0.01, title=None,
                 reduce_function=np.sum, add_colorbar=True,
                 clabel='Normalized Counts', ax=None, fig=None):
     """
@@ -449,7 +448,7 @@ def plot_hexbin(xvar, yvar, grid=(80,60), min_count=0.01, title=None,
     fig : Matplotlib Figure instance
     """
     if ax is None:
-        ax =  parse_ax(ax)
+        ax = parse_ax(ax)
     if fig is None:
         fig = parse_ax(fig)
 
@@ -459,7 +458,7 @@ def plot_hexbin(xvar, yvar, grid=(80,60), min_count=0.01, title=None,
 
     # Create the hex plot
     ax.hexbin(xvar, yvar, C=c, gridsize=grid, mincnt=min_count,
-                   reduce_C_function=reduce_function)
+              reduce_C_function=reduce_function)
 
     if title is not None:
         ax.set_title(title)
@@ -471,7 +470,7 @@ def plot_hexbin(xvar, yvar, grid=(80,60), min_count=0.01, title=None,
     return fig, ax
 
 
-def get_masked_hist2d(xvar, yvar, bins=(25,25), ranges=None, norm=False):
+def get_masked_hist2d(xvar, yvar, bins=(25, 25), ranges=None, norm=False):
     """
     Calculate a 2D histogram.
 
@@ -486,13 +485,13 @@ def get_masked_hist2d(xvar, yvar, bins=(25,25), ranges=None, norm=False):
     norm : bool Whether to normalize the output
     """
     # Apply existing masks if possible
-    qx = Var1.copy()
-    qy = Var2.copy()
+    qx = xvar.copy()
+    qy = yvar.copy()
     qx = np.ma.masked_where(np.ma.getmask(qy), qx).compressed()
     qy = np.ma.masked_where(np.ma.getmask(qx), qy).compressed()
 
     if ranges is None:
-        ranges = ([qx.min(),qx.max()],[qy.min(),qy.max()])
+        ranges = ([qx.min(), qx.max()], [qy.min(), qy.max()])
 
     hist2d, xedges, yedges = np.histogram2d(
         qx, qy, bins=bins, range=ranges, normed=norm)
