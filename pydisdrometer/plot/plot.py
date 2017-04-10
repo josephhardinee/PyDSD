@@ -44,6 +44,7 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
         cmap = mpl.colors.LinearSegmentedColormap.from_list(
             'new_map', colors, N=256)
 
+
     if vmin is None:
         vmin = np.nanmin(dsd.fields['Nd']['data'])
     if vmax is None:
@@ -64,7 +65,7 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
     if xlims is not None:
         ax.set_xlim(xlims)
     else:
-        ax.set_xlim(0., dsd.time['data'][-1])
+        ax.set_xlim(dsd.time['data'][0], dsd.time['data'][-1])
 
     if ylims is not None:
         ax.set_ylim(ylims)
