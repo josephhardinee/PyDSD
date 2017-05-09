@@ -8,12 +8,12 @@ cd "$TRAVIS_BUILD_DIR"
 echo "Building Docs"
 conda install -q sphinx
 
-mv "$TRAVIS_BUILD_DIR"/doc /tmp
-cd /tmp/doc
+mv "$TRAVIS_BUILD_DIR"/docs /tmp
+cd /tmp/docs
 make html
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ $TRAVIS_SECURE_ENV_VARS == 'true' ]; then
-    cd /tmp/doc/build/html
+    cd /tmp/docs/build/html
     git config --global user.email "pydisdrometer-docs-bot@example.com"
     git config --global user.name "pydisdrometer-docs-bot"
 
