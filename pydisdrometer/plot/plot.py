@@ -332,143 +332,142 @@ def plot_ts(dsd, varname, date_format='%H:%M', tz=None,
         ax.set_title(title)
     return fig, ax
 
+# def plotHov(dsd, xvar, datavar, log_scale=False,
+#             date_format='%H:%M', tz=None,
+#             clevs=7, vmin=None, vmax=None,
+#             title=None, y_maj_tick_format='minute',
+#             colorbar=True, cbor='vertical', clabel=' ',
+#             cmap='jet', ax=None, fig=None):
+#     """
+#     Hovmoeller plot with time on Y-axis.
+#
+#     Parameters
+#     ----------
+#     dsd : dict
+#         PyDSD dictionary.
+#     xvar : str
+#         Variable name for x-axis.
+#     datavar : str
+#         Variable name(s) to plot.
+#     log_scale : str
+#         True for log, Fale for 'linear' variables.
+#     date_format : str
+#         Timestring format characters.
+#     tz : str
+#         Time zone to uses, see datetime module.
+#     clevs : int
+#         Number of contour levels.
+#     vmin : float
+#         Minimum contour value to display.
+#     vmax : float
+#         Maximum contour value to display.
+#     title : str
+#     y_maj_tick_format : str
+#         Major tick formatting, 'second','minute','hour','day' supported.
+#     colorbar : bool
+#         True to include colorbar.
+#     cbor : str
+#         Colorbar orientation 'vertical' or 'horizontal'.
+#     cblab : str
+#         Colorbar label.
+#     cmap : Colormap name or instance
+#     ax : Matplotlib Axis instance
+#     fig : Matplotlib Figure instance
+#     kwkargs : Keyword arguments to pass to pcolormesh
+#     """
+#     ax = parse_ax(ax)
+#     fig = parse_ax(fig)
+#
+#     y_fmt = DateFormatter(date_format, tz=tz)
+#
+#     if vmin is None:
+#         vmin = np.nanmin(dsd.fields[datavar]['data'])
+#     if vmax is None:
+#         vmax = np.nanmax(dsd.fields[datavar]['data'])
+#     clevels = np.logspace(vmin, vmax, clevs)
+#
+#     if log_scale:
+#         data = np.log10(dsd.fields[datavar]['data'])
+#         norm = LogNorm()
+#     else:
+#         data = dsd.fields[datavar]['data']
+#         norm = None
+#     cs = ax.contourf(dsd.fields[xvar]['data'], dsd.time['data'], data,
+#                      clevels, norm=norm, cmap=cmap)
+#
+#     plt.xscale('log')  # Make X-axis logarithmic
+#
+#     ax.yaxis.set_major_formatter(y_fmt)
+#     if y_maj_tick_format == 'second':
+#         from  mpl.dates import SecondLocator
+#         ax.yaxis.set_major_locator(SecondLocator())
+#     elif y_maj_tick_format == 'minute':
+#         from  mpl.dates import MinuteLocator
+#         ax.yaxis.set_major_locator(MinuteLocator())
+#     elif y_maj_tick_format == 'hour':
+#         from  mpl.dates import HourLocator, MinuteLocator
+#         ax.yaxis.set_major_locator(HourLocator())
+#         ax.yaxis.set_minor_locator(MinuteLocator(interval=10))
+#     elif y_maj_tick_format == 'day':
+#         from  mpl.dates import DayLocator
+#         ax.yaxis.set_major_locator(DayLocator())
+#
+#     if title is not None:
+#         ax.set_title(title)
+#
+#     if colorbar:
+#         if log_scale:
+#             l_f = mtic.LogFormatter(10, labelOnlyBase=False)
+#         if cbor == 'vertical':
+#             frac = 0.05
+#             shrink = 0.6
+#         cb = plt.colorbar(cs, orientation=cbor, fraction=frac, pad=.05)
+#         cb.set_label(clabel)
+#     return fig, ax
 
-def plotHov(dsd, xvar, datavar, log_scale=False,
-            date_format='%H:%M', tz=None,
-            clevs=7, vmin=None, vmax=None,
-            title=None, y_maj_tick_format='minute',
-            colorbar=True, cbor='vertical', clabel=' ',
-            cmap='jet', ax=None, fig=None):
-    """
-    Hovmoeller plot with time on Y-axis.
 
-    Parameters
-    ----------
-    dsd : dict
-        PyDSD dictionary.
-    xvar : str
-        Variable name for x-axis.
-    datavar : str
-        Variable name(s) to plot.
-    log_scale : str
-        True for log, Fale for 'linear' variables.
-    date_format : str
-        Timestring format characters.
-    tz : str
-        Time zone to uses, see datetime module.
-    clevs : int
-        Number of contour levels.
-    vmin : float
-        Minimum contour value to display.
-    vmax : float
-        Maximum contour value to display.
-    title : str
-    y_maj_tick_format : str
-        Major tick formatting, 'second','minute','hour','day' supported.
-    colorbar : bool
-        True to include colorbar.
-    cbor : str
-        Colorbar orientation 'vertical' or 'horizontal'.
-    cblab : str
-        Colorbar label.
-    cmap : Colormap name or instance
-    ax : Matplotlib Axis instance
-    fig : Matplotlib Figure instance
-    kwkargs : Keyword arguments to pass to pcolormesh
-    """
-    ax = parse_ax(ax)
-    fig = parse_ax(fig)
-
-    y_fmt = DateFormatter(date_format, tz=tz)
-
-    if vmin is None:
-        vmin = np.nanmin(dsd.fields[datavar]['data'])
-    if vmax is None:
-        vmax = np.nanmax(dsd.fields[datavar]['data'])
-    clevels = np.logspace(vmin, vmax, clevs)
-
-    if log_scale:
-        data = np.log10(dsd.fields[datavar]['data'])
-        norm = LogNorm()
-    else:
-        data = dsd.fields[datavar]['data']
-        norm = None
-    cs = ax.contourf(dsd.fields[xvar]['data'], dsd.time['data'], data,
-                     clevels, norm=norm, cmap=cmap)
-
-    plt.xscale('log')  # Make X-axis logarithmic
-
-    ax.yaxis.set_major_formatter(y_fmt)
-    if y_maj_tick_format == 'second':
-        from  mpl.dates import SecondLocator
-        ax.yaxis.set_major_locator(SecondLocator())
-    elif y_maj_tick_format == 'minute':
-        from  mpl.dates import MinuteLocator
-        ax.yaxis.set_major_locator(MinuteLocator())
-    elif y_maj_tick_format == 'hour':
-        from  mpl.dates import HourLocator, MinuteLocator
-        ax.yaxis.set_major_locator(HourLocator())
-        ax.yaxis.set_minor_locator(MinuteLocator(interval=10))
-    elif y_maj_tick_format == 'day':
-        from  mpl.dates import DayLocator
-        ax.yaxis.set_major_locator(DayLocator())
-
-    if title is not None:
-        ax.set_title(title)
-
-    if colorbar:
-        if log_scale:
-            l_f = mtic.LogFormatter(10, labelOnlyBase=False)
-        if cbor == 'vertical':
-            frac = 0.05
-            shrink = 0.6
-        cb = plt.colorbar(cs, orientation=cbor, fraction=frac, pad=.05)
-        cb.set_label(clabel)
-    return fig, ax
-
-
-def plot_hexbin(xvar, yvar, grid=(80, 60), min_count=0.01, title=None,
-                reduce_function=np.sum, add_colorbar=True,
-                clabel='Normalized Counts', ax=None, fig=None):
-    """
-    Density scatterplot using the hex bin method.
-
-    The color marker is based upon density of value population.
-
-    Parameters
-    ----------
-    xvar : array
-    yvar : array
-    grid : tuple, (x,y) bin size
-    min_count : float, display minimum
-    title : str
-    reduce_function : func
-    add_colorbar : bool
-    clabel: colorbar label
-    ax : Matplotlib Axis instance
-    fig : Matplotlib Figure instance
-    """
-    if ax is None:
-        ax = parse_ax(ax)
-    if fig is None:
-        fig = parse_ax(fig)
-
-    # This will plot a hex bin plot (density scatter plot)
-    # Establish an array from 0-100 to show colors as density
-    c = np.ones_like(xvar) * 100 / len(Z)
-
-    # Create the hex plot
-    ax.hexbin(xvar, yvar, C=c, gridsize=grid, mincnt=min_count,
-              reduce_C_function=reduce_function)
-
-    if title is not None:
-        ax.set_title(title)
-
-    # Add colorbar
-    if add_colorbar:
-        cb = fig.colorbar(shrink=0.85)
-        cb.set_label(clabel)
-    return fig, ax
+# def plot_hexbin(xvar, yvar, grid=(80, 60), min_count=0.01, title=None,
+#                 reduce_function=np.sum, add_colorbar=True,
+#                 clabel='Normalized Counts', ax=None, fig=None):
+#     """
+#     Density scatterplot using the hex bin method.
+#
+#     The color marker is based upon density of value population.
+#
+#     Parameters
+#     ----------
+#     xvar : array
+#     yvar : array
+#     grid : tuple, (x,y) bin size
+#     min_count : float, display minimum
+#     title : str
+#     reduce_function : func
+#     add_colorbar : bool
+#     clabel: colorbar label
+#     ax : Matplotlib Axis instance
+#     fig : Matplotlib Figure instance
+#     """
+#     if ax is None:
+#         ax = parse_ax(ax)
+#     if fig is None:
+#         fig = parse_ax(fig)
+#
+#     # This will plot a hex bin plot (density scatter plot)
+#     # Establish an array from 0-100 to show colors as density
+#     c = np.ones_like(xvar) * 100 / len(Z)
+#
+#     # Create the hex plot
+#     ax.hexbin(xvar, yvar, C=c, gridsize=grid, mincnt=min_count,
+#               reduce_C_function=reduce_function)
+#
+#     if title is not None:
+#         ax.set_title(title)
+#
+#     # Add colorbar
+#     if add_colorbar:
+#         cb = fig.colorbar(shrink=0.85)
+#         cb.set_label(clabel)
+#     return fig, ax
 
 
 def get_masked_hist2d(xvar, yvar, bins=(25, 25), ranges=None, norm=False):
