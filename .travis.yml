@@ -2,7 +2,7 @@ sudo: false
 env:
   global:
   - LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgfortran.so.3
-  - secure: csYZ/PWRc45ANhzKTYnk+/I9exfkl/oXBeseTbEWDYWiJ8Pd6iT+5ELSPmkVZjKnd+2chwFWGqoJRIvZNvRMokFCfeVK9Wy/rQ4LAt3Bc8Y/1aITS8MIFspUqp4zZaKkGy4VdD4ahIAkWfjkHYXSJUiFarHxjflXLXIKzJO7U1E=
+  - secure: "HC56kqcyplnfsHFZpM122GVdG8j0b6M1uexIJKVCpy8YS6u7ooS8Oh9jp6OxDyg47OtGJGRPeGvQJ2bMuKhbNz+3YHNxf08AJVApwPq+25PpfGedMWMgmZI42zAzN6RYVUDjYEZb3Y52j4Kw8UaFwfdxoPVFhTiRCgr054laZFc="
 addons:
   apt:
     packages:
