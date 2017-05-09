@@ -9,7 +9,9 @@ Welcome to PyDisdrometer's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+
+   auto_examples/index
 
    pydisdrometer.rst
    pydisdrometer.aux_readers.rst
