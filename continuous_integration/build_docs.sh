@@ -6,7 +6,7 @@ set -e
 cd "$TRAVIS_BUILD_DIR"
 
 echo "Building Docs"
-conda install -q sphinx, PIL
+conda install -q sphinx PIL
 
 cd "$TRAVIS_BUILD_DIR"/docs
 make html
