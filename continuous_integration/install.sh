@@ -33,6 +33,7 @@ conda install --yes numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4=4.2
 conda install --yes sphinx_rtd_theme
 
 
+pip install git+https://github.com/jleinonen/pytmatrix.git
 if [[ $PYTHON_VERSION == '2.7' ]]; then
     conda install --yes sphinx numpydoc hdf4=4.2.12
     conda install --yes sphinx_rtd_theme
