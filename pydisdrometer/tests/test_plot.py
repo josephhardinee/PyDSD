@@ -48,17 +48,17 @@ class TestPlot(unittest.TestCase):
         fig, ax = plot.plot_ts(self.dsd, 'Nd')
         plt.close()
 
-    def test_plotHov(self):
-        self.dsd.calculate_dsd_parameterization() # Bad form to rely on this, but not a better way right now.
-        fig, ax = plot.plotHov(self.dsd, 'D0', 'Nd')
-        plt.close()
-
-    def test_plot_hexbin(self):
-        self.dsd.calculate_dsd_parameterization() # Bad form to rely on this, but not a better way right now.
-        x = self.dsd.fields['Nd']['data']
-        y = self.dsd.fields['D0']['data']
-        fig, ax = plot.plot_hexbin(x, y)
-        plt.close()
+    # def test_plotHov(self):
+    #     self.dsd.calculate_dsd_parameterization() # Bad form to rely on this, but not a better way right now.
+    #     fig, ax = plot.plotHov(self.dsd, 'D0', 'Nd')
+    #     plt.close()
+    #
+    # def test_plot_hexbin(self):
+    #     self.dsd.calculate_dsd_parameterization() # Bad form to rely on this, but not a better way right now.
+    #     x = self.dsd.fields['Nd']['data']
+    #     y = self.dsd.fields['D0']['data']
+    #     fig, ax = plot.plot_hexbin(x, y)
+    #     plt.close()
 
     def test_methods(self):
         # Should we test every submethod?
