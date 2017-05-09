@@ -6,7 +6,7 @@ set -e
 cd "$TRAVIS_BUILD_DIR"
 
 echo "Building Docs"
-conda install -q sphinx pillow
+conda install --yes sphinx pillow
 
 cd "$TRAVIS_BUILD_DIR"/docs
 make html
