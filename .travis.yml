@@ -8,6 +8,8 @@ addons:
             - gfortran
 language: python
 
+cache: pip
+
 matrix:
   include:
       - python: "2.7"
