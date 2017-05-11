@@ -31,6 +31,7 @@ source activate testenv
 # Install dependencies
 conda install --yes numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4=4.2.12
 conda install --yes sphinx_rtd_theme
+pip install sphinx-gallery
 
 
 pip install git+https://github.com/jleinonen/pytmatrix.git

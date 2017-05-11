@@ -1,45 +1,47 @@
 sudo: false
 env:
-    global:
-        - LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgfortran.so.3
+  global:
+  - LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgfortran.so.3
+  - secure: "HC56kqcyplnfsHFZpM122GVdG8j0b6M1uexIJKVCpy8YS6u7ooS8Oh9jp6OxDyg47OtGJGRPeGvQJ2bMuKhbNz+3YHNxf08AJVApwPq+25PpfGedMWMgmZI42zAzN6RYVUDjYEZb3Y52j4Kw8UaFwfdxoPVFhTiRCgr054laZFc="
 addons:
-    apt:
-        packages:
-            - gfortran
+  apt:
+    packages:
+    - gfortran
 language: python
-
 matrix:
   include:
-      - python: "2.7"
-        env: 
-        - PYTHON_VERSION="2.7"
-        - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
-        - COVERALLS="true"
-      - python: "3.4"
-        env: 
-        - PYTHON_VERSION="3.4"
-        - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
-        - COVERALLS="true"
-      - python: "3.5"
-        env: 
-        - PYTHON_VERSION="3.5"
-        - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
-        - COVERALLS="true"
-      - python: "3.6"
-        env: 
-        - PYTHON_VERSION="3.6"
-        - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
-        - COVERALLS="true"
-
-
-
+  - python: '2.7'
+    env:
+    - PYTHON_VERSION="2.7"
+    - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+    - COVERALLS="true"
+  - python: '3.4'
+    env:
+    - PYTHON_VERSION="3.4"
+    - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+    - COVERALLS="true"
+  - python: '3.5'
+    env:
+    - PYTHON_VERSION="3.5"
+    - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+    - COVERALLS="true"
+  - python: '3.6'
+    env:
+    - PYTHON_VERSION="3.6"
+    - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+    - COVERALLS="true"
+  - python: '3.6'
+    env:
+    - PYTHON_VERSION="3.6"
+    - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+    - COVERALLS="true"
+    - DOC_BUILD="true"
 before_install:
-    - pip install pytest pytest-cov
-    - pip install coveralls
-
+- pip install pytest pytest-cov
+- pip install coveralls
 install: source continuous_integration/install.sh
-
 script: eval xvfb-run nosetests $NOSE_ARGS
-
 after_success:
-    - coveralls
+- coveralls
+- if [[ "$DOC_BUILD" == "true" ]]; then cd $TRAVIS_BUILD_DIR; source continuous_integration/build_docs.sh;
+  fi
