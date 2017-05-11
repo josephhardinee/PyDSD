@@ -11,7 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
-   auto_examples/index
+   source/auto_examples/index
 
    pydisdrometer.rst
    pydisdrometer.aux_readers.rst
