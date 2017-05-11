@@ -60,16 +60,8 @@ ParsivelReader module
     :undoc-members:
     :show-inheritance:
 
-UtilityDisplay module
------------------------------------
-
-.. automodule:: pydisdrometer.UtilityDisplay
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 expfit module
----------------------------
+--------------------------
 
 .. automodule:: pydisdrometer.utility.expfit
     :members:
