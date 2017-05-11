@@ -6,29 +6,32 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pydisdrometer.plot &mdash; PyDisdrometer 1.0 documentation</title>
+    <title>pydisdrometer.plot &#8212; PyDisdrometer 0.1.7 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0',
+        VERSION:     '0.1.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PyDisdrometer 1.0 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="pydisdrometer.aux_readers" href="pydisdrometer.aux_readers.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -40,30 +43,149 @@
         <li class="right" >
           <a href="pydisdrometer.aux_readers.html" title="pydisdrometer.aux_readers"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PyDisdrometer 1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="pydisdrometer.html" accesskey="U">pydisdrometer package</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="pydisdrometer-plot">
-<h1><a class="reference internal" href="#module-pydisdrometer.plot" title="pydisdrometer.plot"><tt class="xref py py-mod docutils literal"><span class="pre">pydisdrometer.plot</span></tt></a><a class="headerlink" href="#pydisdrometer-plot" title="Permalink to this headline">¶</a></h1>
+<h1><a class="reference internal" href="#module-pydisdrometer.plot" title="pydisdrometer.plot"><code class="xref py py-mod docutils literal"><span class="pre">pydisdrometer.plot</span></code></a><a class="headerlink" href="#pydisdrometer-plot" title="Permalink to this headline">¶</a></h1>
 <p>This module contains plotting functions for the <cite>DropSizeDistribution</cite> object.</p>
 <div class="section" id="module-pydisdrometer.plot">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydisdrometer.plot" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pydisdrometer.plot.plot">
-<span id="dsd-plots"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">dsd_plots</span></tt><a class="headerlink" href="#module-pydisdrometer.plot.plot" title="Permalink to this headline">¶</a></h2>
-<p>Plotting routines for different aspects of the drop size distribution class.
-This may eventually be moved into the class itself.</p>
+<span id="dsd-plots"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">dsd_plots</span></code><a class="headerlink" href="#module-pydisdrometer.plot.plot" title="Permalink to this headline">¶</a></h2>
+<p>Plotting routines for different aspects of the drop size distribution class.</p>
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.get_masked_hist2d">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">get_masked_hist2d</code><span class="sig-paren">(</span><em>xvar</em>, <em>yvar</em>, <em>bins=(25</em>, <em>25)</em>, <em>ranges=None</em>, <em>norm=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#get_masked_hist2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.get_masked_hist2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate a 2D histogram.</p>
+<p>Remove missing values and calculate a numpy histogram.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xvar</strong> : array</p>
+<p><strong>yvar</strong> : array</p>
+<p><strong>bins</strong> : 2-tuple</p>
+<p><strong>ranges</strong> : array [Xmin, Xmax, Ymin, Ymax]</p>
+<p class="last"><strong>norm</strong> : bool Whether to normalize the output</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.parse_ax">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">parse_ax</code><span class="sig-paren">(</span><em>ax</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#parse_ax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.parse_ax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse and return ax instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.parse_fig">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">parse_fig</code><span class="sig-paren">(</span><em>fig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#parse_fig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.parse_fig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse and return fig instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.plot_NwD0">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">plot_NwD0</code><span class="sig-paren">(</span><em>dsd</em>, <em>col='k'</em>, <em>msize=20</em>, <em>edgecolors='none'</em>, <em>title=None</em>, <em>ax=None</em>, <em>fig=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#plot_NwD0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.plot_NwD0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Normalized Intercept Parameter- median volume diameter scatterplot.</p>
+<p>Convenience function calls scatter plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dsd</strong> : dict</p>
+<blockquote>
+<div><p>PyDSD dictionary.</p>
+</div></blockquote>
+<p><strong>col</strong> : str</p>
+<p><strong>msize</strong> : int</p>
+<p><strong>title</strong> : str</p>
+<p><strong>ax</strong> : Matplotlib Axis instance</p>
+<p><strong>fig</strong> : Matplotlib Figure instance</p>
+<p class="last"><strong>**kwargs</strong> : Dictionary to pass to matplotlib</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.plot_ZR">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">plot_ZR</code><span class="sig-paren">(</span><em>dsd</em>, <em>log_scale=False</em>, <em>col='k'</em>, <em>msize=20</em>, <em>edgecolors='none'</em>, <em>title=None</em>, <em>ax=None</em>, <em>fig=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#plot_ZR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.plot_ZR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create reflectivity - rainfall rate scatterplot.</p>
+<p>Convenience function calls scatter plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dsd</strong> : dict</p>
+<blockquote>
+<div><p>PyDSD dictionary.</p>
+</div></blockquote>
+<p><strong>log_scale</strong> : str</p>
+<blockquote>
+<div><p>True for log, Fale for &#8216;linear&#8217; variables.</p>
+</div></blockquote>
+<p><strong>col</strong> : str</p>
+<p><strong>msize</strong> : int</p>
+<p><strong>title</strong> : str</p>
+<p><strong>ax</strong> : Matplotlib Axis instance</p>
+<p><strong>fig</strong> : Matplotlib Figure instance</p>
+<p class="last"><strong>**kwargs</strong> : Dictionary to pass to matplotlib</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.plot_ZR_hist2d">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">plot_ZR_hist2d</code><span class="sig-paren">(</span><em>dsd</em>, <em>log_scale=False</em>, <em>bins=(80</em>, <em>60)</em>, <em>ranges=None</em>, <em>norm=None</em>, <em>xlims=None</em>, <em>ylims=None</em>, <em>title=None</em>, <em>colorbar=True</em>, <em>clabel='Normalized Counts'</em>, <em>ax=None</em>, <em>fig=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#plot_ZR_hist2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.plot_ZR_hist2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create reflectivity - rainfall rate scatterplot.</p>
+<p>Convenience function calls scatter plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dsd</strong> : dict</p>
+<blockquote>
+<div><p>PyDSD dictionary.</p>
+</div></blockquote>
+<p><strong>log_scale</strong> : str</p>
+<blockquote>
+<div><p>True for log, Fale for &#8216;linear&#8217; variables.</p>
+</div></blockquote>
+<p><strong>bins</strong> : tuple, (x,y) bin size</p>
+<p><strong>norm</strong> : bool Normalize output</p>
+<p><strong>xlims</strong> : 2-tuple (Xmin, Xmax)</p>
+<p><strong>ylims</strong> : 2-tuple (Ymin, Ymax)</p>
+<p><strong>title</strong> : str</p>
+<p><strong>colorbar</strong> : bool</p>
+<p><strong>clabel: colorbar label</strong></p>
+<p><strong>ax</strong> : Matplotlib Axis instance</p>
+<p><strong>fig</strong> : Matplotlib Figure instance</p>
+<p class="last"><strong>kwargs</strong> : Keyword arguments to pass to pcolormesh</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="function">
 <dt id="pydisdrometer.plot.plot.plot_dsd">
-<tt class="descclassname">pydisdrometer.plot.plot.</tt><tt class="descname">plot_dsd</tt><big>(</big><em>dsd</em>, <em>range=None</em>, <em>log_scale=True</em>, <em>tighten=True</em><big>)</big><a class="headerlink" href="#pydisdrometer.plot.plot.plot_dsd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">plot_dsd</code><span class="sig-paren">(</span><em>dsd</em>, <em>xlims=None</em>, <em>ylims=None</em>, <em>log_scale=True</em>, <em>tighten=True</em>, <em>vmin=None</em>, <em>vmax=None</em>, <em>cmap=None</em>, <em>ax=None</em>, <em>fig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#plot_dsd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.plot_dsd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plotting function for drop size distribution Nd</p>
-<p>plot_dsd creates a pcolor based plot for a drop size distribution object&#8217;s
+<p>plot_dsd creates a pcolormesh based plot for a drop size distribution object&#8217;s
 <cite>Nd</cite> field.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -73,10 +195,13 @@ This may eventually be moved into the class itself.</p>
 <blockquote>
 <div><p>Drop Size Distribution instance containing a <cite>Nd</cite>.</p>
 </div></blockquote>
-<p><strong>range: tuple</strong></p>
+<p><strong>xlims: 2-tuple</strong></p>
 <blockquote>
-<div><p>A tuple containing the range to be plotted in form
-(x_begin,x_end,y_begin,y_end)</p>
+<div><p>Range of x axis (x_begin, x_end).</p>
+</div></blockquote>
+<p><strong>ylims: 2-tuple</strong></p>
+<blockquote>
+<div><p>Range of y axis (y_begin, y_end).</p>
 </div></blockquote>
 <p><strong>log_scale: boolean</strong></p>
 <blockquote>
@@ -88,11 +213,133 @@ This may eventually be moved into the class itself.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">fig_handle: Figure Handle</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">fig: Figure instance</p>
 </td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.plot_hist2d">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">plot_hist2d</code><span class="sig-paren">(</span><em>xvar</em>, <em>yvar</em>, <em>bins=(80</em>, <em>60)</em>, <em>ranges=None</em>, <em>norm=None</em>, <em>xlims=None</em>, <em>ylims=None</em>, <em>title=None</em>, <em>colorbar=True</em>, <em>clabel='Normalized Counts'</em>, <em>ax=None</em>, <em>fig=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#plot_hist2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.plot_hist2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>2-D histogram plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xvar</strong> : array</p>
+<p><strong>yvar</strong> : array</p>
+<p><strong>bins</strong> : tuple, (x,y) bin size</p>
+<p><strong>norm</strong> : bool Normalize output</p>
+<p><strong>xlims</strong> : 2-tuple (Xmin, Xmax)</p>
+<p><strong>ylims</strong> : 2-tuple (Ymin, Ymax)</p>
+<p><strong>title</strong> : str</p>
+<p><strong>colorbar</strong> : bool</p>
+<p><strong>clabel: colorbar label</strong></p>
+<p><strong>ax</strong> : Matplotlib Axis instance</p>
+<p><strong>fig</strong> : Matplotlib Figure instance</p>
+<p class="last"><strong>kwargs</strong> : Keyword arguments to pass to pcolormesh</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.plot_ts">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">plot_ts</code><span class="sig-paren">(</span><em>dsd</em>, <em>varname</em>, <em>date_format='%H:%M'</em>, <em>tz=None</em>, <em>x_min_tick_format='minute'</em>, <em>title=None</em>, <em>ax=None</em>, <em>fig=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#plot_ts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.plot_ts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time series plot of variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dsd</strong> : dict</p>
+<blockquote>
+<div><p>PyDSD dictionary.</p>
+</div></blockquote>
+<p><strong>varname</strong> : str or list</p>
+<blockquote>
+<div><p>Variable name(s) to plot.</p>
+</div></blockquote>
+<p><strong>date_format</strong> : str</p>
+<blockquote>
+<div><p>Timestring format characters.</p>
+</div></blockquote>
+<p><strong>tz</strong> : str</p>
+<blockquote>
+<div><p>Time zone to uses, see datetime module.</p>
+</div></blockquote>
+<p><strong>x_min_tick_format</strong> : str</p>
+<blockquote>
+<div><p>Minor tick formatting, &#8216;second&#8217;,&#8217;minute&#8217;,&#8217;hour&#8217;,&#8217;day&#8217; supported</p>
+</div></blockquote>
+<p><strong>title</strong> : str</p>
+<p><strong>ax</strong> : Matplotlib Axis instance</p>
+<p><strong>fig</strong> : Matplotlib Figure instance</p>
+<p class="last"><strong>kwkargs</strong> : Keyword arguments to pass to pcolormesh</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.scatter">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">scatter</code><span class="sig-paren">(</span><em>xvar</em>, <em>yvar</em>, <em>col='k'</em>, <em>msize=20</em>, <em>edgecolors='none'</em>, <em>title=None</em>, <em>ax=None</em>, <em>fig=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.scatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a scatterplot two variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xvar</strong> : array</p>
+<p><strong>yvar</strong> : array</p>
+<p><strong>col</strong> : str</p>
+<p><strong>msize</strong> : int</p>
+<p><strong>title</strong> : str</p>
+<p><strong>ax</strong> : Matplotlib Axis instance</p>
+<p><strong>fig</strong> : Matplotlib Figure instance</p>
+<p class="last"><strong>**kwargs</strong> : Dictionary to pass to matplotlib</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.set_ax_limits">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">set_ax_limits</code><span class="sig-paren">(</span><em>xlim=None</em>, <em>ylim=None</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#set_ax_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.set_ax_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function to set x, y limits.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.set_major_ticks">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">set_major_ticks</code><span class="sig-paren">(</span><em>x=None</em>, <em>y=None</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#set_major_ticks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.set_major_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function to adjust major tick spacing.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.set_minor_ticks">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">set_minor_ticks</code><span class="sig-paren">(</span><em>x=None</em>, <em>y=None</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#set_minor_ticks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.set_minor_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function to adjust minor tick spacing.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.set_xlabel">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">set_xlabel</code><span class="sig-paren">(</span><em>label</em>, <em>pad=None</em>, <em>fontsize=None</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#set_xlabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.set_xlabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function to adjust x-axis label.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.set_ylabel">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">set_ylabel</code><span class="sig-paren">(</span><em>label</em>, <em>pad=None</em>, <em>fontsize=None</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#set_ylabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.set_ylabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function to adjust x-axis label.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydisdrometer.plot.plot.turn_ticks_out">
+<code class="descclassname">pydisdrometer.plot.plot.</code><code class="descname">turn_ticks_out</code><span class="sig-paren">(</span><em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/plot/plot.html#turn_ticks_out"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.plot.plot.turn_ticks_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function to turn ticks outward.</p>
 </dd></dl>
 
 </div>
@@ -102,43 +349,42 @@ This may eventually be moved into the class itself.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">pydisdrometer.plot</span></tt></a><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">pydisdrometer.plot</span></code></a><ul>
 <li><a class="reference internal" href="#module-pydisdrometer.plot">Module contents</a></li>
-<li><a class="reference internal" href="#module-pydisdrometer.plot.plot"><tt class="docutils literal"><span class="pre">dsd_plots</span></tt></a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.plot.plot"><code class="docutils literal"><span class="pre">dsd_plots</span></code></a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="pydisdrometer.aux_readers.html"
-                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">pydisdrometer.aux_readers</span></tt></a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/pydisdrometer.plot.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+                        title="previous chapter"><code class="docutils literal"><span class="pre">pydisdrometer.aux_readers</span></code></a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pydisdrometer.plot.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -150,12 +396,13 @@ This may eventually be moved into the class itself.</p>
         <li class="right" >
           <a href="pydisdrometer.aux_readers.html" title="pydisdrometer.aux_readers"
              >previous</a> |</li>
-        <li><a href="index.html">PyDisdrometer 1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="pydisdrometer.html" >pydisdrometer package</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Joseph C. Hardin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.4.
     </div>
   </body>
 </html>

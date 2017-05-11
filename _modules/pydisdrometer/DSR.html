@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pydisdrometer.DSR &#8212; PyDisdrometer 0.1.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pydisdrometer.DSR</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">The DSR module contains different drop shape relationships used in</span>
+<span class="sd">PyDisdrometer for the scattering calculations.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+
+<div class="viewcode-block" id="tb"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DSR.tb">[docs]</a><span class="k">def</span> <span class="nf">tb</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Thurai and Bringi Drop Shape relationship model.</span>
+
+<span class="sd">    Implementation of the Thurai and Bringi Drop Shape model given in [1]</span>
+<span class="sd">    . This gives the ratio of the major to minor axis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    D_eq: float</span>
+<span class="sd">        Volume Equivalent Drop Diameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    axis_ratio: float</span>
+<span class="sd">        The ratio of the major to minor axis.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pb : Pruppacher and Beard DSR</span>
+<span class="sd">    bc : Beard and Chuang DSR</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1]  Thurai, Merhala, V. N. Bringi, &quot;Drop axis ratios from a 2D</span>
+<span class="sd">       video disdrometer.&quot; J. Atmos. Oceanic Technol., 22, 966 - 978. 2005</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">D_eq</span> <span class="o">&lt;</span> <span class="mf">0.7</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">D_eq</span> <span class="o">&lt;</span> <span class="mf">1.5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.173</span> <span class="o">-</span> <span class="mf">0.5165</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">+</span> <span class="mf">0.4698</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.1317</span> <span class="o">*</span> \
+            <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">8.5e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.065</span> <span class="o">-</span> <span class="mf">6.25e-2</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">-</span> <span class="mf">3.99e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">7.66e-4</span> <span class="o">*</span> \
+            <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">4.095e-5</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span></div>
+
+
+<div class="viewcode-block" id="pb"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DSR.pb">[docs]</a><span class="k">def</span> <span class="nf">pb</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Pruppacher and Beard Drop Shape relationship model.</span>
+
+<span class="sd">    Implementation of the Pruppacher and Beard Drop Shape model given in [1]</span>
+<span class="sd">    . This gives the ratio of the major to minor axis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    D_eq: float</span>
+<span class="sd">        Volume Equivalent Drop Diameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    axis_ratio: float</span>
+<span class="sd">        The ratio of the major to minor axis.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    tb : Thurai and Bringi DSR</span>
+<span class="sd">    bc : Beard and Chuang DSR</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ..[1] Pruppacher, H. R. and Beard, K. V. (1970), A wind tunnel</span>
+<span class="sd">      investigation of the internal circulation and shape of water drops</span>
+<span class="sd">      falling at terminal velocity in air. Q.J.R. Meteorol. Soc., 96:</span>
+<span class="sd">      247-256</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">return</span> <span class="mf">1.03</span> <span class="o">-</span> <span class="mf">0.062</span> <span class="o">*</span> <span class="n">D_eq</span></div>
+
+
+<div class="viewcode-block" id="bc"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DSR.bc">[docs]</a><span class="k">def</span> <span class="nf">bc</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Beard and Chuang Drop Shape relationship model.</span>
+
+<span class="sd">    Implementation of the Beard and Chuang Drop Shape model given in [1]</span>
+<span class="sd">    . This gives the ratio of the major to minor axis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    D_eq: float</span>
+<span class="sd">        Volume Equivalent Drop Diameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    axis_ratio: float</span>
+<span class="sd">        The ratio of the major to minor axis.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    tb : Thurai and Bringi DSR</span>
+<span class="sd">    pb : Pruppacher and Beard DSR</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ..[1]  Beard, Kenneth V., Catherine Chuang, 1987: A New Model for the</span>
+<span class="sd">    Equilibrium Shape of Raindrops. J. Atmos. Sci., 44, 1509-1524.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">return</span> <span class="mf">1.0048</span> <span class="o">+</span> <span class="mf">5.7e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> \
+        <span class="mf">2.628e-02</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.682e-03</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-</span> \
+        <span class="mf">1.677e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Joseph C. Hardin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.4.
+    </div>
+  </body>
+</html>

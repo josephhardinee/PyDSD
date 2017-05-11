@@ -6,30 +6,33 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pydisdrometer package &mdash; PyDisdrometer 1.0 documentation</title>
+    <title>pydisdrometer package &#8212; PyDisdrometer 0.1.7 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0',
+        VERSION:     '0.1.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PyDisdrometer 1.0 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pydisdrometer.aux_readers" href="pydisdrometer.aux_readers.html" />
     <link rel="prev" title="Welcome to PyDisdrometer’s documentation!" href="index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,14 +47,14 @@
         <li class="right" >
           <a href="index.html" title="Welcome to PyDisdrometer’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PyDisdrometer 1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="pydisdrometer-package">
 <h1>pydisdrometer package<a class="headerlink" href="#pydisdrometer-package" title="Permalink to this headline">¶</a></h1>
@@ -59,10 +62,15 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pydisdrometer.aux_readers.html"><tt class="docutils literal"><span class="pre">pydisdrometer.aux_readers</span></tt></a><ul>
+<li class="toctree-l1"><a class="reference internal" href="pydisdrometer.aux_readers.html"><code class="docutils literal"><span class="pre">pydisdrometer.aux_readers</span></code></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pydisdrometer.aux_readers.html#module-pydisdrometer.aux_readers">Module contents</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydisdrometer.aux_readers.html#module-pydisdrometer.aux_readers.GPMApuWallopsRawReader"><tt class="docutils literal"><span class="pre">GPMApuWallopsRawReader</span></tt></a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydisdrometer.aux_readers.html#module-pydisdrometer.aux_readers.NASA_2DVD_reader"><tt class="docutils literal"><span class="pre">NASA_2DVD_reader</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydisdrometer.aux_readers.html#module-pydisdrometer.aux_readers.GPMApuWallopsRawReader"><code class="docutils literal"><span class="pre">GPMApuWallopsRawReader</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydisdrometer.aux_readers.html#module-pydisdrometer.aux_readers.NASA_2DVD_reader"><code class="docutils literal"><span class="pre">NASA_2DVD_reader</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pydisdrometer.plot.html"><code class="docutils literal"><span class="pre">pydisdrometer.plot</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pydisdrometer.plot.html#module-pydisdrometer.plot">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydisdrometer.plot.html#module-pydisdrometer.plot.plot"><code class="docutils literal"><span class="pre">dsd_plots</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -72,25 +80,24 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pydisdrometer.DSDProcessor">
-<span id="pydisdrometer-dsdprocessor-module"></span><h2>pydisdrometer.DSDProcessor module<a class="headerlink" href="#module-pydisdrometer.DSDProcessor" title="Permalink to this headline">¶</a></h2>
+<span id="dsdprocessor-module"></span><h2>DSDProcessor module<a class="headerlink" href="#module-pydisdrometer.DSDProcessor" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pydisdrometer.DSDProcessor.DSDProcessor">
-<em class="property">class </em><tt class="descclassname">pydisdrometer.DSDProcessor.</tt><tt class="descname">DSDProcessor</tt><big>(</big><em>wl=33.3</em>, <em>dr=1</em>, <em>shape='bc'</em><big>)</big><a class="headerlink" href="#pydisdrometer.DSDProcessor.DSDProcessor" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<em class="property">class </em><code class="descclassname">pydisdrometer.DSDProcessor.</code><code class="descname">DSDProcessor</code><span class="sig-paren">(</span><em>wl=33.3</em>, <em>dr=1</em>, <em>shape='bc'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DSDProcessor.html#DSDProcessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DSDProcessor.DSDProcessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
 <dt id="pydisdrometer.DSDProcessor.DSDProcessor.calcParameters">
-<tt class="descname">calcParameters</tt><big>(</big><em>D0</em>, <em>Nw</em>, <em>mu</em><big>)</big><a class="headerlink" href="#pydisdrometer.DSDProcessor.DSDProcessor.calcParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">calcParameters</code><span class="sig-paren">(</span><em>D0</em>, <em>Nw</em>, <em>mu</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DSDProcessor.html#DSDProcessor.calcParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DSDProcessor.DSDProcessor.calcParameters" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-pydisdrometer.DSR">
-<span id="pydisdrometer-dsr-module"></span><h2>pydisdrometer.DSR module<a class="headerlink" href="#module-pydisdrometer.DSR" title="Permalink to this headline">¶</a></h2>
-<p>The DSR module contains different drop shape relationships used in
-pydisdrometer for the scattering calculations.</p>
+<span id="dsr-module"></span><h2>DSR module<a class="headerlink" href="#module-pydisdrometer.DSR" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pydisdrometer.DSR.bc">
-<tt class="descclassname">pydisdrometer.DSR.</tt><tt class="descname">bc</tt><big>(</big><em>D_eq</em><big>)</big><a class="headerlink" href="#pydisdrometer.DSR.bc" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pydisdrometer.DSR.</code><code class="descname">bc</code><span class="sig-paren">(</span><em>D_eq</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DSR.html#bc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DSR.bc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Beard and Chuang Drop Shape relationship model.</p>
 <p>Implementation of the Beard and Chuang Drop Shape model given in [1]
 . This gives the ratio of the major to minor axis.</p>
@@ -115,9 +122,9 @@ pydisdrometer for the scattering calculations.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="#pydisdrometer.DSR.tb" title="pydisdrometer.DSR.tb"><tt class="xref py py-obj docutils literal"><span class="pre">tb</span></tt></a></dt>
+<dt><a class="reference internal" href="#pydisdrometer.DSR.tb" title="pydisdrometer.DSR.tb"><code class="xref py py-obj docutils literal"><span class="pre">tb</span></code></a></dt>
 <dd>Thurai and Bringi DSR</dd>
-<dt><a class="reference internal" href="#pydisdrometer.DSR.pb" title="pydisdrometer.DSR.pb"><tt class="xref py py-obj docutils literal"><span class="pre">pb</span></tt></a></dt>
+<dt><a class="reference internal" href="#pydisdrometer.DSR.pb" title="pydisdrometer.DSR.pb"><code class="xref py py-obj docutils literal"><span class="pre">pb</span></code></a></dt>
 <dd>Pruppacher and Beard DSR</dd>
 </dl>
 </div>
@@ -128,7 +135,7 @@ Equilibrium Shape of Raindrops. J. Atmos. Sci., 44, 1509-1524.</p>
 
 <dl class="function">
 <dt id="pydisdrometer.DSR.pb">
-<tt class="descclassname">pydisdrometer.DSR.</tt><tt class="descname">pb</tt><big>(</big><em>D_eq</em><big>)</big><a class="headerlink" href="#pydisdrometer.DSR.pb" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pydisdrometer.DSR.</code><code class="descname">pb</code><span class="sig-paren">(</span><em>D_eq</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DSR.html#pb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DSR.pb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pruppacher and Beard Drop Shape relationship model.</p>
 <p>Implementation of the Pruppacher and Beard Drop Shape model given in [1]
 . This gives the ratio of the major to minor axis.</p>
@@ -153,9 +160,9 @@ Equilibrium Shape of Raindrops. J. Atmos. Sci., 44, 1509-1524.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="#pydisdrometer.DSR.tb" title="pydisdrometer.DSR.tb"><tt class="xref py py-obj docutils literal"><span class="pre">tb</span></tt></a></dt>
+<dt><a class="reference internal" href="#pydisdrometer.DSR.tb" title="pydisdrometer.DSR.tb"><code class="xref py py-obj docutils literal"><span class="pre">tb</span></code></a></dt>
 <dd>Thurai and Bringi DSR</dd>
-<dt><a class="reference internal" href="#pydisdrometer.DSR.bc" title="pydisdrometer.DSR.bc"><tt class="xref py py-obj docutils literal"><span class="pre">bc</span></tt></a></dt>
+<dt><a class="reference internal" href="#pydisdrometer.DSR.bc" title="pydisdrometer.DSR.bc"><code class="xref py py-obj docutils literal"><span class="pre">bc</span></code></a></dt>
 <dd>Beard and Chuang DSR</dd>
 </dl>
 </div>
@@ -170,7 +177,7 @@ falling at terminal velocity in air. Q.J.R. Meteorol. Soc., 96:
 
 <dl class="function">
 <dt id="pydisdrometer.DSR.tb">
-<tt class="descclassname">pydisdrometer.DSR.</tt><tt class="descname">tb</tt><big>(</big><em>D_eq</em><big>)</big><a class="headerlink" href="#pydisdrometer.DSR.tb" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pydisdrometer.DSR.</code><code class="descname">tb</code><span class="sig-paren">(</span><em>D_eq</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DSR.html#tb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DSR.tb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Thurai and Bringi Drop Shape relationship model.</p>
 <p>Implementation of the Thurai and Bringi Drop Shape model given in [1]
 . This gives the ratio of the major to minor axis.</p>
@@ -195,9 +202,9 @@ falling at terminal velocity in air. Q.J.R. Meteorol. Soc., 96:
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="#pydisdrometer.DSR.pb" title="pydisdrometer.DSR.pb"><tt class="xref py py-obj docutils literal"><span class="pre">pb</span></tt></a></dt>
+<dt><a class="reference internal" href="#pydisdrometer.DSR.pb" title="pydisdrometer.DSR.pb"><code class="xref py py-obj docutils literal"><span class="pre">pb</span></code></a></dt>
 <dd>Pruppacher and Beard DSR</dd>
-<dt><a class="reference internal" href="#pydisdrometer.DSR.bc" title="pydisdrometer.DSR.bc"><tt class="xref py py-obj docutils literal"><span class="pre">bc</span></tt></a></dt>
+<dt><a class="reference internal" href="#pydisdrometer.DSR.bc" title="pydisdrometer.DSR.bc"><code class="xref py py-obj docutils literal"><span class="pre">bc</span></code></a></dt>
 <dd>Beard and Chuang DSR</dd>
 </dl>
 </div>
@@ -213,22 +220,51 @@ video disdrometer.&#8221; J. Atmos. Oceanic Technol., 22, 966 - 978. 2005</td></
 
 </div>
 <div class="section" id="module-pydisdrometer.DropSizeDistribution">
-<span id="pydisdrometer-dropsizedistribution-module"></span><h2>pydisdrometer.DropSizeDistribution module<a class="headerlink" href="#module-pydisdrometer.DropSizeDistribution" title="Permalink to this headline">¶</a></h2>
+<span id="dropsizedistribution-module"></span><h2>DropSizeDistribution module<a class="headerlink" href="#module-pydisdrometer.DropSizeDistribution" title="Permalink to this headline">¶</a></h2>
 <p>The Drop Size Distribution model contains the DropSizeDistribution class.
 This class represents drop size distributions returned from the various
 readers in the io module. The class knows how to perform scattering
 simulations on itself.</p>
 <dl class="class">
 <dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution">
-<em class="property">class </em><tt class="descclassname">pydisdrometer.DropSizeDistribution.</tt><tt class="descname">DropSizeDistribution</tt><big>(</big><em>time</em>, <em>Nd</em>, <em>spread</em>, <em>rain_rate=None</em>, <em>velocity=None</em>, <em>Z=None</em>, <em>num_particles=None</em>, <em>bin_edges=None</em>, <em>diameter=None</em><big>)</big><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">pydisdrometer.DropSizeDistribution.</code><code class="descname">DropSizeDistribution</code><span class="sig-paren">(</span><em>reader</em>, <em>time_start=None</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DropSizeDistribution.html#DropSizeDistribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>DropSizeDistribution class to hold DSD&#8217;s and calculate parameters
 and relationships. Should be returned from the disdrometer*reader style
 functions.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="2%" />
+<col width="98%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>time: array_like</td>
+<td>An array of times corresponding to the time each dsd was sampled in minutes relative to time_start. time_start: datetime A datetime object indicated start of disdrometer recording. fields: dictionary Dictionary of scattered components. Nd : 2d Array A list of drop size distributions spread: array_like Array giving the bin spread size for each size bin of the disdrometer. velocity: array_like Terminal Fall Velocity for each size bin. This is based on the disdrometer assumptions. Z: array_like The equivalent reflectivity factory from the disdrometer. Often taken as D**6.  bin_edges: array_like N+1 sized array of the boundaries of each size bin. For 30 bins for instance, there will be 31 different bin boundaries. diameter: array_like The center size for each dsd bin.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
-<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_R_Zdr_Kdp_relationship">
-<tt class="descname">calc_R_Zdr_Kdp_relationship</tt><big>(</big><big>)</big><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_R_Zdr_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
-<dd><p>calc_R_Zdr_Kdp_relationship calculates the power law fit for Zdr,Kdp
+<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_RR">
+<code class="descname">calculate_RR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DropSizeDistribution.html#DropSizeDistribution.calculate_RR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_RR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate instantaneous rain rate.</p>
+<p>This calculates instantaneous rain rate based on the flux of water.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Kdp_relationship">
+<code class="descname">calculate_R_Kdp_relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Kdp_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate_R_kdp_relationship calculates a power fit for the rainfall-kdp
+relationship based upon the calculated radar parameters(which should
+have already been run). It returns the scale and exponential
+parameter a and b in the first tuple, and the second returned argument
+gives the covariance matrix of the fit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zdr_Kdp_relationship">
+<code class="descname">calculate_R_Zdr_Kdp_relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zdr_Kdp_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zdr_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate_R_Zdr_Kdp_relationship calculates the power law fit for Zdr,Kdp
 based upon scattered radar parameters. It returns the scale and
 exponential parameters a, b, and c in the first tuple, and the
 second returned argument gives the covariance matrix of the fit.
@@ -238,9 +274,9 @@ Kdp &gt; 0</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_R_Zh_Kdp_relationship">
-<tt class="descname">calc_R_Zh_Kdp_relationship</tt><big>(</big><big>)</big><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_R_Zh_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
-<dd><p>calc_R_Zh_Kdp_relationship calculates the power law fit for Zh,Kdp
+<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Kdp_relationship">
+<code class="descname">calculate_R_Zh_Kdp_relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zh_Kdp_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate_R_Zh_Kdp_relationship calculates the power law fit for Zh,Kdp
 based upon scattered radar parameters. It returns the scale and
 exponential parameters a, b, and c in the first tuple, and the
 second returned argument gives the covariance matrix of the fit.
@@ -250,9 +286,9 @@ Kdp &gt; 0</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_R_Zh_Zdr_relationship">
-<tt class="descname">calc_R_Zh_Zdr_relationship</tt><big>(</big><big>)</big><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_R_Zh_Zdr_relationship" title="Permalink to this definition">¶</a></dt>
-<dd><p>calc_R_Zh_Zdr_relationship calculates the power law fit for Zh,Zdr
+<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Zdr_relationship">
+<code class="descname">calculate_R_Zh_Zdr_relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zh_Zdr_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Zdr_relationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate_R_Zh_Zdr_relationship calculates the power law fit for Zh,Zdr
 based upon scattered radar parameters. It returns the scale and
 exponential parameters a, b, and c in the first tuple, and the
 second returned argument gives the covariance matrix of the fit.
@@ -263,78 +299,106 @@ Kdp &gt; 0</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_R_Zh_relationship">
-<tt class="descname">calc_R_Zh_relationship</tt><big>(</big><big>)</big><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_R_Zh_relationship" title="Permalink to this definition">¶</a></dt>
-<dd><p>calc_R_Zh_relationship calculates the power law fit for Zh based
+<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_relationship">
+<code class="descname">calculate_R_Zh_relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zh_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_relationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate_R_Zh_relationship calculates the power law fit for Zh based
 upon scattered radar parameters. It returns the scale and exponential
 parameter a and b in the first tuple, and the second returned argument
 gives the covariance matrix of the fit.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_R_kdp_relationship">
-<tt class="descname">calc_R_kdp_relationship</tt><big>(</big><big>)</big><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_R_kdp_relationship" title="Permalink to this definition">¶</a></dt>
-<dd><p>calc_R_kdp_relationship calculates a power fit for the rainfall-kdp
-relationship based upon the calculated radar parameters(which should
-have already been run). It returns the scale and exponential
-parameter a and b in the first tuple, and the second returned argument
-gives the covariance matrix of the fit.</p>
+<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_dsd_parameterization">
+<code class="descname">calculate_dsd_parameterization</code><span class="sig-paren">(</span><em>method='bringi'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DropSizeDistribution.html#DropSizeDistribution.calculate_dsd_parameterization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_dsd_parameterization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates DSD Parameterization.</p>
+<p>This calculates the dsd parameterization and stores the result in the fields dictionary.
+This includes the following parameters:
+Nt, W, D0, Nw, Dmax, Dm, N0, mu</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_radar_parameters">
-<tt class="descname">calc_radar_parameters</tt><big>(</big><em>wavelength=33.3</em><big>)</big><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calc_radar_parameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the radar parameters and stores them in the object.
+<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters">
+<code class="descname">calculate_radar_parameters</code><span class="sig-paren">(</span><em>dsr_func=&lt;function bc&gt;</em>, <em>scatter_time_range=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DropSizeDistribution.html#DropSizeDistribution.calculate_radar_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates radar parameters for the Drop Size Distribution.</p>
+<p>Calculates the radar parameters and stores them in the object.
 Defaults to X-Band,Beard and Chuang 10C setup.</p>
 <dl class="docutils">
-<dt>Sets object radar parameters:</dt>
-<dd>Zh, Zdr, Kdp, Ai</dd>
-<dt>Parameter:</dt>
-<dd>wavelength = pytmatrix supported wavelength.</dd>
+<dt>Sets the dictionary parameters in fields dictionary:</dt>
+<dd>Zh, Zdr, Kdp, Ai(Attenuation)</dd>
 </dl>
+<blockquote>
+<div><dl class="docutils">
+<dt>wavelength: optional, pytmatrix wavelength</dt>
+<dd>Wavelength to calculate scattering coefficients at.</dd>
+<dt>dsr_func: optional, function</dt>
+<dd>Drop Shape Relationship function. Several are availab le in the <cite>DSR</cite> module.
+Defaults to Beard and Chuang</dd>
+<dt>scatter_time_range: optional, tuple</dt>
+<dd>Parameter to restrict the scattering to a time interval. The first element is the start time,
+while the second is the end time.</dd>
+</dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="method">
-<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_RR">
-<tt class="descname">calculate_RR</tt><big>(</big><big>)</big><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_RR" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="pydisdrometer.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency">
+<code class="descname">set_scattering_temperature_and_frequency</code><span class="sig-paren">(</span><em>scattering_temp=10</em>, <em>scattering_freq=9700000000.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/DropSizeDistribution.html#DropSizeDistribution.set_scattering_temperature_and_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the scattering temperature. After use, re-run calculate_radar_parameters
+to see the effect this has on the parameters. Temperatures are in Celsius. Defaults to 10C X-band.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>scattering_temp: optional, float</strong></p>
+<blockquote>
+<div><p>Scattering temperature [C].</p>
+</div></blockquote>
+<p><strong>scattering_freq: optional, float</strong></p>
+<blockquote class="last">
+<div><p>Scattering frequency [Hz].</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-pydisdrometer.JWDReader">
-<span id="pydisdrometer-jwdreader-module"></span><h2>pydisdrometer.JWDReader module<a class="headerlink" href="#module-pydisdrometer.JWDReader" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pydisdrometer.io.JWDReader">
+<span id="jwdreader-module"></span><h2>JWDReader module<a class="headerlink" href="#module-pydisdrometer.io.JWDReader" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="pydisdrometer.JWDReader.JWDReader">
-<em class="property">class </em><tt class="descclassname">pydisdrometer.JWDReader.</tt><tt class="descname">JWDReader</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#pydisdrometer.JWDReader.JWDReader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dt id="pydisdrometer.io.JWDReader.JWDReader">
+<em class="property">class </em><code class="descclassname">pydisdrometer.io.JWDReader.</code><code class="descname">JWDReader</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/io/JWDReader.html#JWDReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.io.JWDReader.JWDReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>JWDReader class takes takes a filename as it&#8217;s only argument(for now).
 This should be a Joss-Waldvogel datafile.</p>
 <dl class="method">
-<dt id="pydisdrometer.JWDReader.JWDReader.conv_md_to_nd">
-<tt class="descname">conv_md_to_nd</tt><big>(</big><em>Nd</em><big>)</big><a class="headerlink" href="#pydisdrometer.JWDReader.JWDReader.conv_md_to_nd" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.JWDReader.JWDReader.conv_md_to_nd">
+<code class="descname">conv_md_to_nd</code><span class="sig-paren">(</span><em>Nd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/io/JWDReader.html#JWDReader.conv_md_to_nd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.io.JWDReader.JWDReader.conv_md_to_nd" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="pydisdrometer.JWDReader.JWDReader.diameter">
-<tt class="descname">diameter</tt><em class="property"> = array([ 0.359,  0.455,  0.551,  0.656,  0.771,  0.913,  1.116,  1.331,         1.506,  1.665,  1.912,  2.259,  2.584,  2.869,  3.198,  3.544,         3.916,  4.35 ,  4.859,  5.373])</em><a class="headerlink" href="#pydisdrometer.JWDReader.JWDReader.diameter" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.JWDReader.JWDReader.diameter">
+<code class="descname">diameter</code><em class="property"> = {'data': array([ 0.359,  0.455,  0.551,  0.656,  0.771,  0.913,  1.116,  1.331,         1.506,  1.665,  1.912,  2.259,  2.584,  2.869,  3.198,  3.544,         3.916,  4.35 ,  4.859,  5.373]), 'units': 'mm', 'long_name': 'Particle diameter of bins', 'standard_name': 'diameter'}</em><a class="headerlink" href="#pydisdrometer.io.JWDReader.JWDReader.diameter" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pydisdrometer.JWDReader.JWDReader.getSec">
-<tt class="descname">getSec</tt><big>(</big><em>s</em>, <em>start_hh</em>, <em>start_mm</em><big>)</big><a class="headerlink" href="#pydisdrometer.JWDReader.JWDReader.getSec" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.JWDReader.JWDReader.getSec">
+<code class="descname">getSec</code><span class="sig-paren">(</span><em>s</em>, <em>start_hh</em>, <em>start_mm</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/io/JWDReader.html#JWDReader.getSec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.io.JWDReader.JWDReader.getSec" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="pydisdrometer.JWDReader.JWDReader.spread">
-<tt class="descname">spread</tt><em class="property"> = array([ 0.092,  0.1  ,  0.091,  0.119,  0.112,  0.172,  0.233,  0.197,         0.153,  0.166,  0.329,  0.364,  0.286,  0.284,  0.374,  0.319,         0.423,  0.446,  0.572,  0.455])</em><a class="headerlink" href="#pydisdrometer.JWDReader.JWDReader.spread" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.JWDReader.JWDReader.spread">
+<code class="descname">spread</code><em class="property"> = {'data': array([ 0.092,  0.1  ,  0.091,  0.119,  0.112,  0.172,  0.233,  0.197,         0.153,  0.166,  0.329,  0.364,  0.286,  0.284,  0.374,  0.319,         0.423,  0.446,  0.572,  0.455]), 'units': 'mm', 'long_name': 'Bin size spread of bins', 'standard_name': 'spread'}</em><a class="headerlink" href="#pydisdrometer.io.JWDReader.JWDReader.spread" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="pydisdrometer.JWDReader.read_jwd">
-<tt class="descclassname">pydisdrometer.JWDReader.</tt><tt class="descname">read_jwd</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#pydisdrometer.JWDReader.read_jwd" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.JWDReader.read_jwd">
+<code class="descclassname">pydisdrometer.io.JWDReader.</code><code class="descname">read_jwd</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/io/JWDReader.html#read_jwd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.io.JWDReader.read_jwd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a filename pointing to a Joss-WaldVogel file and returns
 a drop size distribution object.</p>
 <p>Usage:
@@ -344,102 +408,119 @@ DropSizeDistrometer object</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-pydisdrometer.ParsivelNasaGVReader">
-<span id="pydisdrometer-parsivelnasagvreader-module"></span><h2>pydisdrometer.ParsivelNasaGVReader module<a class="headerlink" href="#module-pydisdrometer.ParsivelNasaGVReader" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pydisdrometer.io.ParsivelNasaGVReader">
+<span id="parsivelnasagvreader-module"></span><h2>ParsivelNasaGVReader module<a class="headerlink" href="#module-pydisdrometer.io.ParsivelNasaGVReader" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="pydisdrometer.ParsivelNasaGVReader.NASA_APU_reader">
-<em class="property">class </em><tt class="descclassname">pydisdrometer.ParsivelNasaGVReader.</tt><tt class="descname">NASA_APU_reader</tt><big>(</big><em>filename</em>, <em>campaign</em><big>)</big><a class="headerlink" href="#pydisdrometer.ParsivelNasaGVReader.NASA_APU_reader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>This class reads and parses parsivel disdrometer data from nasa ground campaigns. These conform to document</p>
+<dt id="pydisdrometer.io.ParsivelNasaGVReader.NASA_APU_reader">
+<em class="property">class </em><code class="descclassname">pydisdrometer.io.ParsivelNasaGVReader.</code><code class="descname">NASA_APU_reader</code><span class="sig-paren">(</span><em>filename</em>, <em>campaign</em>, <em>skip_header</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/io/ParsivelNasaGVReader.html#NASA_APU_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.io.ParsivelNasaGVReader.NASA_APU_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>This class reads and parses parsivel disdrometer data from NASA ground
+validation campaigns. These conform to document ???</p>
 <p>Use the read_parsivel_nasa_gv() function to interface with this.</p>
 <dl class="attribute">
-<dt id="pydisdrometer.ParsivelNasaGVReader.NASA_APU_reader.diameter">
-<tt class="descname">diameter</tt><em class="property"> = array([  0.06,   0.19,   0.32,   0.45,   0.58,   0.71,   0.84,   0.96,          1.09,   1.22,   1.42,   1.67,   1.93,   2.19,   2.45,   2.83,          3.35,   3.86,   4.38,   4.89,   5.66,   6.7 ,   7.72,   8.76,          9.78,  11.33,  13.39,  15.45,  17.51,  19.57,  22.15,  25.24])</em><a class="headerlink" href="#pydisdrometer.ParsivelNasaGVReader.NASA_APU_reader.diameter" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelNasaGVReader.NASA_APU_reader.diameter">
+<code class="descname">diameter</code><em class="property"> = {'data': array([  0.06,   0.19,   0.32,   0.45,   0.58,   0.71,   0.84,   0.96,          1.09,   1.22,   1.42,   1.67,   1.93,   2.19,   2.45,   2.83,          3.35,   3.86,   4.38,   4.89,   5.66,   6.7 ,   7.72,   8.76,          9.78,  11.33,  13.39,  15.45,  17.51,  19.57,  22.15,  25.24]), 'units': 'mm', 'long_name': 'Particle diameter of bins', 'standard_name': 'diameter'}</em><a class="headerlink" href="#pydisdrometer.io.ParsivelNasaGVReader.NASA_APU_reader.diameter" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="pydisdrometer.ParsivelNasaGVReader.NASA_APU_reader.spread">
-<tt class="descname">spread</tt><em class="property"> = [0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257, 0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515, 0.515, 0.515, 1.03, 1.03, 1.03, 1.03, 1.03, 2.06, 2.06, 2.06, 2.06, 2.06, 3.09, 3.09]</em><a class="headerlink" href="#pydisdrometer.ParsivelNasaGVReader.NASA_APU_reader.spread" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelNasaGVReader.NASA_APU_reader.spread">
+<code class="descname">spread</code><em class="property"> = {'data': array([ 0.129,  0.129,  0.129,  0.129,  0.129,  0.129,  0.129,  0.129,         0.129,  0.129,  0.257,  0.257,  0.257,  0.257,  0.257,  0.515,         0.515,  0.515,  0.515,  0.515,  1.03 ,  1.03 ,  1.03 ,  1.03 ,         1.03 ,  2.06 ,  2.06 ,  2.06 ,  2.06 ,  2.06 ,  3.09 ,  3.09 ]), 'units': 'mm', 'long_name': 'Bin size spread of bins', 'standard_name': 'spread'}</em><a class="headerlink" href="#pydisdrometer.io.ParsivelNasaGVReader.NASA_APU_reader.spread" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="pydisdrometer.ParsivelNasaGVReader.NASA_APU_reader.supported_campaigns">
-<tt class="descname">supported_campaigns</tt><em class="property"> = ['ifloods', 'mc3e_dsd', 'mc3e_raw']</em><a class="headerlink" href="#pydisdrometer.ParsivelNasaGVReader.NASA_APU_reader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelNasaGVReader.NASA_APU_reader.supported_campaigns">
+<code class="descname">supported_campaigns</code><em class="property"> = ['ifloods', 'mc3e_dsd', 'mc3e_raw']</em><a class="headerlink" href="#pydisdrometer.io.ParsivelNasaGVReader.NASA_APU_reader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="pydisdrometer.ParsivelNasaGVReader.NASA_APU_reader.velocity">
-<tt class="descname">velocity</tt><em class="property"> = array([  0.05,   0.15,   0.25,   0.35,   0.45,   0.55,   0.65,   0.75,          0.85,   0.96,   1.13,   1.35,   1.59,   1.83,   2.08,   2.4 ,          2.78,   3.15,   3.5 ,   3.84,   4.4 ,   5.2 ,   6.  ,   6.8 ,          7.6 ,   8.8 ,  10.4 ,  12.  ,  13.6 ,  15.2 ,  17.6 ,  20.8 ])</em><a class="headerlink" href="#pydisdrometer.ParsivelNasaGVReader.NASA_APU_reader.velocity" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelNasaGVReader.NASA_APU_reader.velocity">
+<code class="descname">velocity</code><em class="property"> = {'data': array([  0.05,   0.15,   0.25,   0.35,   0.45,   0.55,   0.65,   0.75,          0.85,   0.96,   1.13,   1.35,   1.59,   1.83,   2.08,   2.4 ,          2.78,   3.15,   3.5 ,   3.84,   4.4 ,   5.2 ,   6.  ,   6.8 ,          7.6 ,   8.8 ,  10.4 ,  12.  ,  13.6 ,  15.2 ,  17.6 ,  20.8 ]), 'units': 'm s^-1', 'long_name': 'Terminal fall velocity for each bin', 'standard_name': 'velocity'}</em><a class="headerlink" href="#pydisdrometer.io.ParsivelNasaGVReader.NASA_APU_reader.velocity" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="pydisdrometer.ParsivelNasaGVReader.read_parsivel_nasa_gv">
-<tt class="descclassname">pydisdrometer.ParsivelNasaGVReader.</tt><tt class="descname">read_parsivel_nasa_gv</tt><big>(</big><em>filename</em>, <em>campaign='ifloods'</em><big>)</big><a class="headerlink" href="#pydisdrometer.ParsivelNasaGVReader.read_parsivel_nasa_gv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes a filename pointing to a Parsivel NASA Field Campaign file and returns
-a drop size distribution object.</p>
-<p>Usage:
-dsd = read_parsivel_nasa_gv(filename, campaign=&#8217;MC3E_dsd&#8217;)</p>
-<p>Current Options for campaign are:</p>
-<p>&#8216;ifloods&#8217;
-&#8216;mc3e_dsd&#8217;
-&#8216;mc3e_raw&#8217;</p>
-<p>Returns:
-DropSizeDistrometer object</p>
-<p>Note: NASA&#8217;s processing strips out rain rate so we have to
-recalculate it based upon a fall speed relationship.</p>
+<dt id="pydisdrometer.io.ParsivelNasaGVReader.read_parsivel_nasa_gv">
+<code class="descclassname">pydisdrometer.io.ParsivelNasaGVReader.</code><code class="descname">read_parsivel_nasa_gv</code><span class="sig-paren">(</span><em>filename</em>, <em>campaign='ifloods'</em>, <em>skip_header=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/io/ParsivelNasaGVReader.html#read_parsivel_nasa_gv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.io.ParsivelNasaGVReader.read_parsivel_nasa_gv" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename: str</strong></p>
+<blockquote>
+<div><p>Data file name.</p>
+</div></blockquote>
+<p><strong>campaign: str</strong></p>
+<blockquote>
+<div><p>Campaign identifier that reads file based upon the format used
+to produce that data.</p>
+</div></blockquote>
+<p><strong>skip_header: int</strong></p>
+<blockquote>
+<div><p>A number of header lines to skip when reading the file.</p>
+</div></blockquote>
+<p><strong>Takes a filename pointing to a Parsivel NASA Field Campaign file and returns</strong></p>
+<p><strong>a drop size distribution object.</strong></p>
+<p><strong>Usage:</strong></p>
+<p><strong>dsd = read_parsivel_nasa_gv(filename, campaign=&#8217;MC3E_dsd&#8217;)</strong></p>
+<p><strong>Current Options for campaign are:</strong></p>
+<p><strong>&#8216;ifloods&#8217;</strong></p>
+<p><strong>&#8216;mc3e_dsd&#8217;</strong></p>
+<p><strong>&#8216;mc3e_raw&#8217;</strong></p>
+<p><strong>Returns:</strong></p>
+<p><strong>DropSizeDistrometer object</strong></p>
+<p><strong>Note: NASA&#8217;s processing strips out rain rate so we have to</strong></p>
+<p class="last"><strong>recalculate it based upon a fall speed relationship.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
-<div class="section" id="module-pydisdrometer.ParsivelReader">
-<span id="pydisdrometer-parsivelreader-module"></span><h2>pydisdrometer.ParsivelReader module<a class="headerlink" href="#module-pydisdrometer.ParsivelReader" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pydisdrometer.io.ParsivelReader">
+<span id="parsivelreader-module"></span><h2>ParsivelReader module<a class="headerlink" href="#module-pydisdrometer.io.ParsivelReader" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="pydisdrometer.ParsivelReader.ParsivelReader">
-<em class="property">class </em><tt class="descclassname">pydisdrometer.ParsivelReader.</tt><tt class="descname">ParsivelReader</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#pydisdrometer.ParsivelReader.ParsivelReader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dt id="pydisdrometer.io.ParsivelReader.ParsivelReader">
+<em class="property">class </em><code class="descclassname">pydisdrometer.io.ParsivelReader.</code><code class="descname">ParsivelReader</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/io/ParsivelReader.html#ParsivelReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.io.ParsivelReader.ParsivelReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>ParsivelReader class takes takes a filename as it&#8217;s only argument(for now).
 This should be a parsivel raw datafile(output from the parsivel).</p>
-<dl class="method">
-<dt id="pydisdrometer.ParsivelReader.ParsivelReader.bc">
-<tt class="descname">bc</tt><big>(</big><em>D_eq</em><big>)</big><a class="headerlink" href="#pydisdrometer.ParsivelReader.ParsivelReader.bc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="attribute">
-<dt id="pydisdrometer.ParsivelReader.ParsivelReader.diameter">
-<tt class="descname">diameter</tt><em class="property"> = [0.06, 0.19, 0.32, 0.45, 0.58, 0.71, 0.84, 0.96, 1.09, 1.22, 1.42, 1.67, 1.93, 2.19, 2.45, 2.83, 3.35, 3.86, 4.38, 4.89, 5.66, 6.7, 7.72, 8.76, 9.78, 11.33, 13.39, 15.45, 17.51, 19.57, 22.15, 25.24]</em><a class="headerlink" href="#pydisdrometer.ParsivelReader.ParsivelReader.diameter" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelReader.ParsivelReader.diameter">
+<code class="descname">diameter</code><em class="property"> = {'data': array([  0.06,   0.19,   0.32,   0.45,   0.58,   0.71,   0.84,   0.96,          1.09,   1.22,   1.42,   1.67,   1.93,   2.19,   2.45,   2.83,          3.35,   3.86,   4.38,   4.89,   5.66,   6.7 ,   7.72,   8.76,          9.78,  11.33,  13.39,  15.45,  17.51,  19.57,  22.15,  25.24]), 'units': 'mm', 'long_name': 'Particle diameter of bins', 'standard_name': 'diameter'}</em><a class="headerlink" href="#pydisdrometer.io.ParsivelReader.ParsivelReader.diameter" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pydisdrometer.ParsivelReader.ParsivelReader.get_sec">
-<tt class="descname">get_sec</tt><big>(</big><em>s</em><big>)</big><a class="headerlink" href="#pydisdrometer.ParsivelReader.ParsivelReader.get_sec" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelReader.ParsivelReader.get_sec">
+<code class="descname">get_sec</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/io/ParsivelReader.html#ParsivelReader.get_sec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.io.ParsivelReader.ParsivelReader.get_sec" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="pydisdrometer.ParsivelReader.ParsivelReader.pcm_matrix">
-<tt class="descname">pcm_matrix</tt><em class="property"> = (1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)</em><a class="headerlink" href="#pydisdrometer.ParsivelReader.ParsivelReader.pcm_matrix" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelReader.ParsivelReader.pcm_matrix">
+<code class="descname">pcm_matrix</code><em class="property"> = (1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)</em><a class="headerlink" href="#pydisdrometer.io.ParsivelReader.ParsivelReader.pcm_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="pydisdrometer.ParsivelReader.ParsivelReader.spread">
-<tt class="descname">spread</tt><em class="property"> = [0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257, 0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515, 0.515, 0.515, 1.03, 1.03, 1.03, 1.03, 1.03, 2.06, 2.06, 2.06, 2.06, 2.06, 3.09, 3.09]</em><a class="headerlink" href="#pydisdrometer.ParsivelReader.ParsivelReader.spread" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelReader.ParsivelReader.spread">
+<code class="descname">spread</code><em class="property"> = {'data': [0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257, 0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515, 0.515, 0.515, 1.03, 1.03, 1.03, 1.03, 1.03, 2.06, 2.06, 2.06, 2.06, 2.06, 3.09, 3.09], 'units': 'mm', 'long_name': 'Bin size spread of bins', 'standard_name': 'spread'}</em><a class="headerlink" href="#pydisdrometer.io.ParsivelReader.ParsivelReader.spread" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="pydisdrometer.ParsivelReader.ParsivelReader.v">
-<tt class="descname">v</tt><em class="property"> = [0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 1.1, 1.3, 1.5, 1.7, 1.9, 2.2, 2.6, 3, 3.4, 3.8, 4.4, 5.2, 6.0, 6.8, 7.6, 8.8, 10.4, 12.0, 13.6, 15.2, 17.6, 20.8]</em><a class="headerlink" href="#pydisdrometer.ParsivelReader.ParsivelReader.v" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelReader.ParsivelReader.v_spread">
+<code class="descname">v_spread</code><em class="property"> = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.8, 0.8, 0.8, 0.8, 0.8, 1.6, 1.6, 1.6, 1.6, 1.6, 3.2, 3.2]</em><a class="headerlink" href="#pydisdrometer.io.ParsivelReader.ParsivelReader.v_spread" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="pydisdrometer.ParsivelReader.ParsivelReader.v_spread">
-<tt class="descname">v_spread</tt><em class="property"> = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.8, 0.8, 0.8, 0.8, 0.8, 1.6, 1.6, 1.6, 1.6, 1.6, 3.2, 3.2]</em><a class="headerlink" href="#pydisdrometer.ParsivelReader.ParsivelReader.v_spread" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelReader.ParsivelReader.velocity">
+<code class="descname">velocity</code><em class="property"> = {'data': array([  0.05,   0.15,   0.25,   0.35,   0.45,   0.55,   0.65,   0.75,          0.85,   0.95,   1.1 ,   1.3 ,   1.5 ,   1.7 ,   1.9 ,   2.2 ,          2.6 ,   3.  ,   3.4 ,   3.8 ,   4.4 ,   5.2 ,   6.  ,   6.8 ,          7.6 ,   8.8 ,  10.4 ,  12.  ,  13.6 ,  15.2 ,  17.6 ,  20.8 ]), 'units': 'm s^-1', 'long_name': 'Terminal fall velocity for each bin', 'standard_name': 'velocity'}</em><a class="headerlink" href="#pydisdrometer.io.ParsivelReader.ParsivelReader.velocity" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="pydisdrometer.ParsivelReader.read_parsivel">
-<tt class="descclassname">pydisdrometer.ParsivelReader.</tt><tt class="descname">read_parsivel</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#pydisdrometer.ParsivelReader.read_parsivel" title="Permalink to this definition">¶</a></dt>
+<dt id="pydisdrometer.io.ParsivelReader.read_parsivel">
+<code class="descclassname">pydisdrometer.io.ParsivelReader.</code><code class="descname">read_parsivel</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/io/ParsivelReader.html#read_parsivel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.io.ParsivelReader.read_parsivel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a filename pointing to a parsivel raw file and returns
 a drop size distribution object.</p>
 <p>Usage:
@@ -449,131 +530,41 @@ DropSizeDistrometer object</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-pydisdrometer.UtilityDisplay">
-<span id="pydisdrometer-utilitydisplay-module"></span><h2>pydisdrometer.UtilityDisplay module<a class="headerlink" href="#module-pydisdrometer.UtilityDisplay" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pydisdrometer.UtilityDisplay.UtilityDisplay">
-<em class="property">class </em><tt class="descclassname">pydisdrometer.UtilityDisplay.</tt><tt class="descname">UtilityDisplay</tt><a class="headerlink" href="#pydisdrometer.UtilityDisplay.UtilityDisplay" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>UtilityDisplay class provides plots for some common workflows.</p>
-<dl class="method">
-<dt id="pydisdrometer.UtilityDisplay.UtilityDisplay.compare_cumulative_rr">
-<tt class="descname">compare_cumulative_rr</tt><big>(</big><em>dsd</em><big>)</big><a class="headerlink" href="#pydisdrometer.UtilityDisplay.UtilityDisplay.compare_cumulative_rr" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="utilitydisplay-module">
+<h2>UtilityDisplay module<a class="headerlink" href="#utilitydisplay-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pydisdrometer.expfit">
-<span id="pydisdrometer-expfit-module"></span><h2>pydisdrometer.expfit module<a class="headerlink" href="#module-pydisdrometer.expfit" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pydisdrometer.utility.expfit">
+<span id="expfit-module"></span><h2>expfit module<a class="headerlink" href="#module-pydisdrometer.utility.expfit" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="pydisdrometer.expfit.expfit">
-<tt class="descclassname">pydisdrometer.expfit.</tt><tt class="descname">expfit</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pydisdrometer.expfit.expfit" title="Permalink to this definition">¶</a></dt>
-<dd><p>expfit calculates an exponential power law fit.
-Note: There are some stability issues if bad data is passed into it.</p>
+<dt id="pydisdrometer.utility.expfit.expfit">
+<code class="descclassname">pydisdrometer.utility.expfit.</code><code class="descname">expfit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/utility/expfit.html#expfit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.utility.expfit.expfit" title="Permalink to this definition">¶</a></dt>
+<dd><p>expfit calculates an exponential power law fit based upon levenburg-marquardt minimization. Fits
+are of the form. y = ax**b
+Parameters:
+&#8212;&#8212;&#8212;&#8211;
+x: array_like</p>
+<blockquote>
+<div>independent variable</div></blockquote>
+<dl class="docutils">
+<dt>y: array_like</dt>
+<dd>dependent variable</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
-<dt id="pydisdrometer.expfit.expfit2">
-<tt class="descclassname">pydisdrometer.expfit.</tt><tt class="descname">expfit2</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#pydisdrometer.expfit.expfit2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exponential Fitting for 2 parameters.
-Note: There are some stability issues if bad data is pased into it.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-pydisdrometer.process_NASA_APU">
-<span id="pydisdrometer-process-nasa-apu-module"></span><h2>pydisdrometer.process_NASA_APU module<a class="headerlink" href="#module-pydisdrometer.process_NASA_APU" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader">
-<em class="property">class </em><tt class="descclassname">pydisdrometer.process_NASA_APU.</tt><tt class="descname">NASA_APU_reader</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.D0">
-<tt class="descname">D0</tt><em class="property"> = []</em><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.D0" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.Nd">
-<tt class="descname">Nd</tt><em class="property"> = []</em><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.Nd" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.Nt">
-<tt class="descname">Nt</tt><em class="property"> = []</em><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.Nt" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.Nw">
-<tt class="descname">Nw</tt><em class="property"> = []</em><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.Nw" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.T">
-<tt class="descname">T</tt><em class="property"> = []</em><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.T" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.W">
-<tt class="descname">W</tt><em class="property"> = []</em><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.W" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.calculate_D0">
-<tt class="descname">calculate_D0</tt><big>(</big><em>N</em><big>)</big><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.calculate_D0" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.calculate_scattering">
-<tt class="descname">calculate_scattering</tt><big>(</big><em>wavelength='X'</em>, <em>shape='bc'</em><big>)</big><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.calculate_scattering" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the radar moments based upon the DSDs. This uses the binned
-DSD and not the parameterized DSD.
-returns: Dictionary of radar moments</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.f_func">
-<tt class="descname">f_func</tt><big>(</big><em>mu</em><big>)</big><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.f_func" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.gamma_dsd_n">
-<tt class="descname">gamma_dsd_n</tt><big>(</big><em>D</em>, <em>Dm</em>, <em>mu</em><big>)</big><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.gamma_dsd_n" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.mu">
-<tt class="descname">mu</tt><em class="property"> = []</em><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.mu" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.mu_cost">
-<tt class="descname">mu_cost</tt><big>(</big><em>mu</em>, <em>N</em>, <em>D0</em>, <em>Nw</em>, <em>debug=False</em><big>)</big><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.mu_cost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.plot_day">
-<tt class="descname">plot_day</tt><big>(</big><em>log_scale=True</em>, <em>focus=True</em><big>)</big><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.plot_day" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.process_data">
-<tt class="descname">process_data</tt><big>(</big><em>calculate_mu=False</em><big>)</big><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.process_data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.rho_w">
-<tt class="descname">rho_w</tt><em class="property"> = 1</em><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.rho_w" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.spread">
-<tt class="descname">spread</tt><em class="property"> = [0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257, 0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515, 0.515, 0.515, 1.03, 1.03, 1.03, 1.03, 1.03, 2.06, 2.06, 2.06, 2.06, 2.06, 3.09, 3.09]</em><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.spread" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pydisdrometer.process_NASA_APU.NASA_APU_reader.time">
-<tt class="descname">time</tt><em class="property"> = []</em><a class="headerlink" href="#pydisdrometer.process_NASA_APU.NASA_APU_reader.time" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dt id="pydisdrometer.utility.expfit.expfit2">
+<code class="descclassname">pydisdrometer.utility.expfit.</code><code class="descname">expfit2</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydisdrometer/utility/expfit.html#expfit2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydisdrometer.utility.expfit.expfit2" title="Permalink to this definition">¶</a></dt>
+<dd><p>expfit2 calculates an exponential power law fit based upon levenburg-marquardt minimization. Fits
+are of the form. y = a(x[0]**b)(x[1]**c)
+Parameters:
+&#8212;&#8212;&#8212;&#8211;
+x: array_like</p>
+<blockquote>
+<div>independent variables packed. x[0] is first independent variable tuple, x[1] the second.</div></blockquote>
+<dl class="docutils">
+<dt>y: array_like</dt>
+<dd>dependent variable</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -586,24 +577,21 @@ returns: Dictionary of radar moments</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">pydisdrometer package</a><ul>
-<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-</ul>
-</li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-pydisdrometer.DSDProcessor">pydisdrometer.DSDProcessor module</a></li>
-<li><a class="reference internal" href="#module-pydisdrometer.DSR">pydisdrometer.DSR module</a></li>
-<li><a class="reference internal" href="#module-pydisdrometer.DropSizeDistribution">pydisdrometer.DropSizeDistribution module</a></li>
-<li><a class="reference internal" href="#module-pydisdrometer.JWDReader">pydisdrometer.JWDReader module</a></li>
-<li><a class="reference internal" href="#module-pydisdrometer.ParsivelNasaGVReader">pydisdrometer.ParsivelNasaGVReader module</a></li>
-<li><a class="reference internal" href="#module-pydisdrometer.ParsivelReader">pydisdrometer.ParsivelReader module</a></li>
-<li><a class="reference internal" href="#module-pydisdrometer.UtilityDisplay">pydisdrometer.UtilityDisplay module</a></li>
-<li><a class="reference internal" href="#module-pydisdrometer.expfit">pydisdrometer.expfit module</a></li>
-<li><a class="reference internal" href="#module-pydisdrometer.process_NASA_APU">pydisdrometer.process_NASA_APU module</a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.DSDProcessor">DSDProcessor module</a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.DSR">DSR module</a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.DropSizeDistribution">DropSizeDistribution module</a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.io.JWDReader">JWDReader module</a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.io.ParsivelNasaGVReader">ParsivelNasaGVReader module</a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.io.ParsivelReader">ParsivelReader module</a></li>
+<li><a class="reference internal" href="#utilitydisplay-module">UtilityDisplay module</a></li>
+<li><a class="reference internal" href="#module-pydisdrometer.utility.expfit">expfit module</a></li>
 <li><a class="reference internal" href="#module-pydisdrometer">Module contents</a></li>
 </ul>
 </li>
@@ -614,30 +602,29 @@ returns: Dictionary of radar moments</p>
                         title="previous chapter">Welcome to PyDisdrometer&#8217;s documentation!</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="pydisdrometer.aux_readers.html"
-                        title="next chapter"><tt class="docutils literal"><span class="pre">pydisdrometer.aux_readers</span></tt></a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/pydisdrometer.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+                        title="next chapter"><code class="docutils literal"><span class="pre">pydisdrometer.aux_readers</span></code></a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pydisdrometer.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -652,12 +639,12 @@ returns: Dictionary of radar moments</p>
         <li class="right" >
           <a href="index.html" title="Welcome to PyDisdrometer’s documentation!"
              >previous</a> |</li>
-        <li><a href="index.html">PyDisdrometer 1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Joseph C. Hardin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.4.
     </div>
   </body>
 </html>

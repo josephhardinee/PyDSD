@@ -1,0 +1,623 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pydisdrometer.DropSizeDistribution &#8212; PyDisdrometer 0.1.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pydisdrometer.DropSizeDistribution</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">The Drop Size Distribution model contains the DropSizeDistribution class.</span>
+<span class="sd">This class represents drop size distributions returned from the various</span>
+<span class="sd">readers in the io module. The class knows how to perform scattering</span>
+<span class="sd">simulations on itself.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pytmatrix</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">curve_fit</span>
+
+<span class="kn">from</span> <span class="nn">pytmatrix.tmatrix</span> <span class="k">import</span> <span class="n">Scatterer</span>
+<span class="kn">from</span> <span class="nn">pytmatrix.psd</span> <span class="k">import</span> <span class="n">PSDIntegrator</span>
+<span class="kn">from</span> <span class="nn">pytmatrix</span> <span class="k">import</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">radar</span><span class="p">,</span> <span class="n">tmatrix_aux</span><span class="p">,</span> <span class="n">refractive</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">date</span>
+<span class="kn">from</span> <span class="nn">.utility.expfit</span> <span class="k">import</span> <span class="n">expfit</span><span class="p">,</span> <span class="n">expfit2</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">DSR</span>
+<span class="kn">from</span> <span class="nn">.utility</span> <span class="k">import</span> <span class="n">dielectric</span>
+<span class="kn">from</span> <span class="nn">.utility</span> <span class="k">import</span> <span class="n">configuration</span>
+<span class="n">SPEED_OF_LIGHT</span><span class="o">=</span><span class="mi">299792458</span>
+
+<div class="viewcode-block" id="DropSizeDistribution"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution">[docs]</a><span class="k">class</span> <span class="nc">DropSizeDistribution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    DropSizeDistribution class to hold DSD&#39;s and calculate parameters</span>
+<span class="sd">    and relationships. Should be returned from the disdrometer*reader style</span>
+<span class="sd">    functions.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">        time: array_like</span>
+<span class="sd">            An array of times corresponding to the time each dsd was sampled in minutes relative to time_start.</span>
+<span class="sd">        time_start: datetime</span>
+<span class="sd">            A datetime object indicated start of disdrometer recording.</span>
+<span class="sd">        fields: dictionary</span>
+<span class="sd">            Dictionary of scattered components.</span>
+<span class="sd">        Nd : 2d Array</span>
+<span class="sd">            A list of drop size distributions</span>
+<span class="sd">        spread: array_like</span>
+<span class="sd">            Array giving the bin spread size for each size bin of the</span>
+<span class="sd">            disdrometer.</span>
+<span class="sd">        velocity: array_like</span>
+<span class="sd">            Terminal Fall Velocity for each size bin. This is based on the</span>
+<span class="sd">            disdrometer assumptions.</span>
+<span class="sd">        Z: array_like</span>
+<span class="sd">            The equivalent reflectivity factory from the disdrometer. Often</span>
+<span class="sd">            taken as D**6.</span>
+
+<span class="sd">        bin_edges: array_like</span>
+<span class="sd">            N+1 sized array of the boundaries of each size bin. For 30 bins</span>
+<span class="sd">            for instance, there will be 31 different bin boundaries.</span>
+<span class="sd">        diameter: array_like</span>
+<span class="sd">            The center size for each dsd bin.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">,</span> <span class="n">time_start</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Initializer for the DropSizeDistribution class.</span>
+
+<span class="sd">        The DropSizeDistribution class holds dsd&#39;s returned from the various</span>
+<span class="sd">        readers in the io module.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        reader: object</span>
+<span class="sd">            Object returned by package readers.</span>
+<span class="sd">        time_start: datetime</span>
+<span class="sd">            Recording Start time.</span>
+<span class="sd">        location: tuple</span>
+<span class="sd">            (Latitude, Longitude) pair in decimal format.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dsd: `DropSizeDistribution` instance</span>
+<span class="sd">            Drop Size Distribution instance.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Configuration</span><span class="p">()</span> 
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Nd&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spread</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">spread</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rain_rate</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rain_rate</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;terminal_velocity&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;reflectivity&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_particles</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;num_particles&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_particles</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bin_edges</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">bin_edges</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bin_edges</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">diameter</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">fields</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="n">time_start</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">info</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">numt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">location</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="n">location</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="n">location</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_scattering_temperature_and_frequency</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DropSizeDistribution.set_scattering_temperature_and_frequency"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">set_scattering_temperature_and_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scattering_temp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scattering_freq</span> <span class="o">=</span> <span class="mf">9.7e9</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Change the scattering temperature. After use, re-run calculate_radar_parameters</span>
+<span class="sd">        to see the effect this has on the parameters. Temperatures are in Celsius. Defaults to 10C X-band.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        scattering_temp: optional, float</span>
+<span class="sd">            Scattering temperature [C].</span>
+<span class="sd">        scattering_freq: optional, float</span>
+<span class="sd">            Scattering frequency [Hz].</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_freq</span> <span class="o">=</span> <span class="n">scattering_freq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_temp</span> <span class="o">=</span> <span class="n">scattering_temp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_w</span> <span class="o">=</span> <span class="n">dielectric</span><span class="o">.</span><span class="n">get_refractivity</span><span class="p">(</span><span class="n">scattering_freq</span><span class="p">,</span> <span class="n">scattering_temp</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DropSizeDistribution.calculate_radar_parameters"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_radar_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dsr_func</span> <span class="o">=</span> <span class="n">DSR</span><span class="o">.</span><span class="n">bc</span><span class="p">,</span> <span class="n">scatter_time_range</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Calculates radar parameters for the Drop Size Distribution.</span>
+
+<span class="sd">        Calculates the radar parameters and stores them in the object.</span>
+<span class="sd">        Defaults to X-Band,Beard and Chuang 10C setup.</span>
+
+<span class="sd">        Sets the dictionary parameters in fields dictionary:</span>
+<span class="sd">            Zh, Zdr, Kdp, Ai(Attenuation)</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        ----------</span>
+<span class="sd">            wavelength: optional, pytmatrix wavelength</span>
+<span class="sd">                Wavelength to calculate scattering coefficients at.</span>
+<span class="sd">            dsr_func: optional, function</span>
+<span class="sd">                Drop Shape Relationship function. Several are availab le in the `DSR` module.</span>
+<span class="sd">                Defaults to Beard and Chuang</span>
+<span class="sd">            scatter_time_range: optional, tuple</span>
+<span class="sd">                Parameter to restrict the scattering to a time interval. The first element is the start time,</span>
+<span class="sd">                while the second is the end time.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setup_scattering</span><span class="p">(</span><span class="n">SPEED_OF_LIGHT</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">scattering_freq</span><span class="o">*</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">dsr_func</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setup_empty_fields</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">scatter_time_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scatter_start_time</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scatter_end_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">numt</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">scatter_time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid Start time specified, aborting&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scatter_start_time</span> <span class="o">=</span> <span class="n">scatter_time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scatter_end_time</span> <span class="o">=</span> <span class="n">scatter_time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">scatter_time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">numt</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;End of Scatter time is greater than end of file. Scattering to end of included time.&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scatter_end_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">numt</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_back</span><span class="p">)</span> <span class="c1"># We break up scattering to avoid regenerating table.</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatter_start_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scatter_end_time</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">])</span> <span class="ow">is</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">BinnedDSD</span> <span class="o">=</span> <span class="n">pytmatrix</span><span class="o">.</span><span class="n">psd</span><span class="o">.</span><span class="n">BinnedPSD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bin_edges</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span>  <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd</span> <span class="o">=</span> <span class="n">BinnedDSD</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zh&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> \
+                <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">radar</span><span class="o">.</span><span class="n">refl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zdr&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> \
+                <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">radar</span><span class="o">.</span><span class="n">Zdr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatter_start_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scatter_end_time</span><span class="p">):</span>
+            <span class="n">BinnedDSD</span> <span class="o">=</span> <span class="n">pytmatrix</span><span class="o">.</span><span class="n">psd</span><span class="o">.</span><span class="n">BinnedPSD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bin_edges</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span>  <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd</span> <span class="o">=</span> <span class="n">BinnedDSD</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Kdp&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">radar</span><span class="o">.</span><span class="n">Kdp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Ai&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">radar</span><span class="o">.</span><span class="n">Ai</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Adr&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">radar</span><span class="o">.</span><span class="n">Ai</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span> <span class="o">-</span><span class="n">radar</span><span class="o">.</span><span class="n">Ai</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">,</span> <span class="n">h_pol</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_setup_empty_fields</span><span class="p">(</span><span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Preallocate arrays of zeros for the radar moments</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">params_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Zh&#39;</span><span class="p">,</span> <span class="s1">&#39;Zdr&#39;</span><span class="p">,</span> <span class="s1">&#39;Kdp&#39;</span><span class="p">,</span> <span class="s1">&#39;Ai&#39;</span><span class="p">,</span> <span class="s1">&#39;Adr&#39;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fill_in_metadata</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numt</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_setup_scattering</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">dsr_func</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Internal Function to create scattering tables.</span>
+
+<span class="sd">        This internal function sets up the scattering table. It takes a</span>
+<span class="sd">        wavelength as an argument where wavelength is one of the pytmatrix</span>
+<span class="sd">        accepted wavelengths.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
+<span class="sd">            wavelength : tmatrix wavelength</span>
+<span class="sd">                PyTmatrix wavelength.</span>
+<span class="sd">            dsr_func : function</span>
+<span class="sd">                Drop Shape Relationship function. Several built-in are available in the `DSR` module.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span> <span class="o">=</span> <span class="n">Scatterer</span><span class="p">(</span><span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
+                                   <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">m_w</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span> <span class="o">=</span> <span class="n">PSDIntegrator</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">axis_ratio_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">D</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">/</span> \
+            <span class="n">dsr_func</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dsr_func</span> <span class="o">=</span> <span class="n">dsr_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">D_max</span> <span class="o">=</span> <span class="mf">10.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">geometries</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_back</span><span class="p">,</span> <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">or_pdf</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">gaussian_pdf</span><span class="p">(</span><span class="mf">20.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">orient</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">orient_averaged_fixed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">init_scatter_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_calc_mth_moment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Calculates the mth moment of the drop size distribution.</span>
+
+<span class="sd">        Returns the mth moment of the drop size distribution E[D^m].</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
+<span class="sd">        m: float</span>
+<span class="sd">            order of the moment</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">bin_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bin_width</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bin_edges</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_edges</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bin_edges</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="n">mth_moment</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numt</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numt</span><span class="p">):</span>
+            <span class="n">dmth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">m</span><span class="p">)</span>
+            <span class="n">mth_moment</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">dmth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]),</span> <span class="n">bin_width</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mth_moment</span>
+
+<div class="viewcode-block" id="DropSizeDistribution.calculate_dsd_parameterization"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_dsd_parameterization">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_dsd_parameterization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;bringi&#39;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Calculates DSD Parameterization.</span>
+
+<span class="sd">        This calculates the dsd parameterization and stores the result in the fields dictionary.</span>
+<span class="sd">        This includes the following parameters:</span>
+<span class="sd">        Nt, W, D0, Nw, Dmax, Dm, N0, mu</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
+<span class="sd">        method: optional, string</span>
+<span class="sd">            Method to use for DSD estimation</span>
+
+
+<span class="sd">        Further Info:</span>
+<span class="sd">        ------</span>
+<span class="sd">        For D0 and Nw we use the method due to Bringi and Chandrasekar.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">params_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;D0&#39;</span><span class="p">,</span> <span class="s1">&#39;Dmax&#39;</span><span class="p">,</span> <span class="s1">&#39;Dm&#39;</span><span class="p">,</span> <span class="s1">&#39;Nt&#39;</span><span class="p">,</span> <span class="s1">&#39;Nw&#39;</span><span class="p">,</span> <span class="s1">&#39;N0&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="s1">&#39;mu&#39;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fill_in_metadata</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numt</span><span class="p">))</span>
+
+        <span class="n">rho_w</span> <span class="o">=</span> <span class="mf">1e-03</span>  <span class="c1"># grams per mm cubed Density of Water</span>
+        <span class="n">vol_constant</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">6.0</span> <span class="o">*</span> <span class="n">rho_w</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Dm&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calc_mth_moment</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc_mth_moment</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numt</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Nt&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">vol_constant</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]),</span>
+                                                                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;D0&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_D0</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Nw&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">256.0</span> <span class="o">/</span> \
+                <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">rho_w</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Dm&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">**</span> <span class="mi">4</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Dmax&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_last_nonzero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimate_mu</span><span class="p">,</span>
+                                                <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">numt</span><span class="p">))))</span></div>
+
+    <span class="k">def</span> <span class="nf">__get_last_nonzero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Gets last nonzero entry in an array. Gets last non-zero entry in an array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        N: array_like</span>
+<span class="sd">            Array to find nonzero entry in</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        max: int</span>
+<span class="sd">            last nonzero entry in an array.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">N</span><span class="o">.</span><span class="n">nonzero</span><span class="p">())]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">_calculate_D0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Calculate Median Drop diameter.</span>
+
+<span class="sd">        Calculates the median drop diameter for the array N. This assumes diameter and bin widths in the</span>
+<span class="sd">        dsd object have been properly set.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
+<span class="sd">        N: array_like</span>
+<span class="sd">            Array of drop counts for each size bin.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">        ------</span>
+<span class="sd">        This works by calculating the two bins where cumulative water content goes over 0.5, and then interpolates</span>
+<span class="sd">        the correct D0 value between these two bins.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">rho_w</span> <span class="o">=</span> <span class="mf">1e-3</span>
+        <span class="n">W_const</span> <span class="o">=</span> <span class="n">rho_w</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">6.0</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">cum_W</span> <span class="o">=</span> <span class="n">W_const</span> <span class="o">*</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">([</span><span class="n">N</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">N</span><span class="p">))])</span>
+        <span class="n">cross_pt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cum_W</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">cum_W</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">))</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">slope</span> <span class="o">=</span> <span class="p">(</span><span class="n">cum_W</span><span class="p">[</span><span class="n">cross_pt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">cum_W</span><span class="p">[</span><span class="n">cross_pt</span><span class="p">])</span> <span class="o">/</span> \
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">cross_pt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">cross_pt</span><span class="p">])</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">cum_W</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">cum_W</span><span class="p">[</span><span class="n">cross_pt</span><span class="p">])</span> <span class="o">/</span> <span class="n">slope</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">cross_pt</span><span class="p">]</span> <span class="o">+</span> <span class="n">run</span>
+
+<div class="viewcode-block" id="DropSizeDistribution.calculate_RR"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_RR">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_RR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Calculate instantaneous rain rate.</span>
+
+<span class="sd">        This calculates instantaneous rain rate based on the flux of water.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numt</span><span class="p">)}</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numt</span><span class="p">):</span>
+            <span class="c1"># self.rain_rate[&#39;data&#39;][t] = 0.6*3.1415 * 10**(-3) * np.dot(np.multiply(self.rain_rate[&#39;data&#39;],np.multiply(self.Nd[&#39;data&#39;][t],self.spread[&#39;data&#39;] )),</span>
+            <span class="c1">#    np.array(self.diameter[&#39;data&#39;])**3)</span>
+            <span class="n">velocity</span> <span class="o">=</span> <span class="mf">9.65</span> <span class="o">-</span> <span class="mf">10.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.6</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+            <span class="n">velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">1e-03</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mmultiply</span><span class="p">(</span>
+                <span class="n">velocity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">3</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Kdp_relationship"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Kdp_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Kdp_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        calculate_R_kdp_relationship calculates a power fit for the rainfall-kdp</span>
+<span class="sd">        relationship based upon the calculated radar parameters(which should</span>
+<span class="sd">        have already been run). It returns the scale and exponential</span>
+<span class="sd">        parameter a and b in the first tuple, and the second returned argument</span>
+<span class="sd">        gives the covariance matrix of the fit.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="s1">&#39;rain_rate&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">filt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Kdp&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">expfit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Kdp&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">],</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">])</span>
+
+            <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please run calculate_RR() function first.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zh_relationship"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zh_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        calculate_R_Zh_relationship calculates the power law fit for Zh based</span>
+<span class="sd">        upon scattered radar parameters. It returns the scale and exponential</span>
+<span class="sd">        parameter a and b in the first tuple, and the second returned argument</span>
+<span class="sd">        gives the covariance matrix of the fit.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        --------</span>
+<span class="sd">        popt: tuple</span>
+<span class="sd">            a,b,c fits for relationship.</span>
+<span class="sd">        pcov: array</span>
+<span class="sd">            Covariance matrix of fits.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">expfit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zh&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">rain_rate</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]),</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
+
+<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zh_Zdr_relationship"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Zdr_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zh_Zdr_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        calculate_R_Zh_Zdr_relationship calculates the power law fit for Zh,Zdr</span>
+<span class="sd">        based upon scattered radar parameters. It returns the scale and</span>
+<span class="sd">        exponential parameters a, b, and c in the first tuple, and the</span>
+<span class="sd">        second returned argument gives the covariance matrix of the fit.</span>
+<span class="sd">        Uses a set of filters to remove bad data:</span>
+<span class="sd">        rain_rate &gt; 0</span>
+<span class="sd">        Zdr &gt; 0</span>
+<span class="sd">        Kdp &gt; 0</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">filt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">greater</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zdr&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Kdp&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">expfit2</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_idb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zh&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">]),</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">_idb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zdr&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">])],</span>
+                             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
+
+<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zh_Kdp_relationship"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Kdp_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zh_Kdp_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        calculate_R_Zh_Kdp_relationship calculates the power law fit for Zh,Kdp</span>
+<span class="sd">        based upon scattered radar parameters. It returns the scale and</span>
+<span class="sd">        exponential parameters a, b, and c in the first tuple, and the</span>
+<span class="sd">        second returned argument gives the covariance matrix of the fit.</span>
+<span class="sd">        rain_rate &gt; 0</span>
+<span class="sd">        Zdr &gt; 0</span>
+<span class="sd">        Kdp &gt; 0</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">filt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zdr&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Kdp&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">expfit2</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_idb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zh&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">]),</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Kdp&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">]],</span>
+                             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
+
+<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zdr_Kdp_relationship"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zdr_Kdp_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zdr_Kdp_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        calculate_R_Zdr_Kdp_relationship calculates the power law fit for Zdr,Kdp</span>
+<span class="sd">        based upon scattered radar parameters. It returns the scale and</span>
+<span class="sd">        exponential parameters a, b, and c in the first tuple, and the</span>
+<span class="sd">        second returned argument gives the covariance matrix of the fit.</span>
+<span class="sd">        rain_rate &gt; 0</span>
+<span class="sd">        Zdr &gt; 0</span>
+<span class="sd">        Kdp &gt; 0</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">filt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zdr&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Kdp&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">expfit2</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_idb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zdr&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">]),</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Kdp&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">]],</span>
+                             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
+
+    <span class="k">def</span> <span class="nf">_idb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Converts dB to linear scale.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">db</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_mmultiply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        _mmultiply extends numpy multiply to arbitrary number of same</span>
+<span class="sd">        sized matrices. Multiplication is elementwise.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
+<span class="sd">        *args: matrices</span>
+<span class="sd">            Matrices to multiply. Must be same shape.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">i_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="n">i_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">i_value</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">i_value</span>
+
+    <span class="k">def</span> <span class="nf">_estimate_mu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Estimate $\mu$ for a single drop size distribution</span>
+
+<span class="sd">        Estimate the shape parameter $\mu$ for the drop size distribution `Nd`. This uses the method</span>
+<span class="sd">        due to Bringi and Chandrasekar. It is a minimization of the MSE error of a created gamma and</span>
+<span class="sd">        measured DSD.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Nd : array_like</span>
+<span class="sd">            A drop size distribution</span>
+<span class="sd">        D0: optional, float</span>
+<span class="sd">            Median drop diameter in mm. If none is given, it will be estimated.</span>
+<span class="sd">        Nw: optional, float</span>
+<span class="sd">            Normalized Intercept Parameter. If none is given, it will be estimated.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        mu: integer</span>
+<span class="sd">            Best estimate for DSD shape parameter $\mu$.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">idx</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize_scalar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mu_cost</span><span class="p">,</span> <span class="n">bounds</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">idx</span><span class="p">,),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;bounded&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mu_cost</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="ow">or</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
+
+    <span class="k">def</span> <span class="nf">_mu_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Cost function for goodness of fit of a distribution.</span>
+
+<span class="sd">        Calculates the MSE cost comparison of two distributions to fit $\mu$.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        idx: integer</span>
+<span class="sd">            index into DSD field</span>
+<span class="sd">        mu: float</span>
+<span class="sd">            Potential Mu value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">gdsd</span>  <span class="o">=</span> <span class="n">pytmatrix</span><span class="o">.</span><span class="n">psd</span><span class="o">.</span><span class="n">GammaPSD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;D0&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">idx</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Nw&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">idx</span><span class="p">],</span><span class="n">mu</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">gdsd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])),</span><span class="mi">2</span><span class="p">)))</span></div>
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Joseph C. Hardin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.4.
+    </div>
+  </body>
+</html>

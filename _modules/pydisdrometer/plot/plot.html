@@ -1,0 +1,657 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pydisdrometer.plot.plot &#8212; PyDisdrometer 0.1.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pydisdrometer.plot.plot</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Plotting routines for different aspects of the drop size distribution class.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">from</span> <span class="nn">pylab</span> <span class="k">import</span> <span class="n">cm</span>
+<span class="kn">from</span> <span class="nn">matplotlib.dates</span> <span class="k">import</span> <span class="n">DateFormatter</span>
+<span class="kn">from</span> <span class="nn">matplotlib.dates</span> <span class="k">import</span> <span class="n">SecondLocator</span><span class="p">,</span> <span class="n">MinuteLocator</span><span class="p">,</span> <span class="n">HourLocator</span><span class="p">,</span> <span class="n">DayLocator</span>
+
+
+<div class="viewcode-block" id="plot_dsd"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.plot_dsd">[docs]</a><span class="k">def</span> <span class="nf">plot_dsd</span><span class="p">(</span><span class="n">dsd</span><span class="p">,</span> <span class="n">xlims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tighten</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+             <span class="n">vmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Plotting function for drop size distribution Nd</span>
+
+<span class="sd">    plot_dsd creates a pcolormesh based plot for a drop size distribution object&#39;s</span>
+<span class="sd">    `Nd` field.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsd: DropSizeDistribution</span>
+<span class="sd">        Drop Size Distribution instance containing a `Nd`.</span>
+<span class="sd">    xlims: 2-tuple</span>
+<span class="sd">        Range of x axis (x_begin, x_end).</span>
+<span class="sd">    ylims: 2-tuple</span>
+<span class="sd">        Range of y axis (y_begin, y_end).</span>
+<span class="sd">    log_scale: boolean</span>
+<span class="sd">        Whether to plot on a log scale, or a linear scale.</span>
+<span class="sd">    tighten: True</span>
+<span class="sd">        Whether to restrict plot to areas with data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fig: Figure instance</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">parse_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cmap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;white&#39;</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[(</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">256</span><span class="p">)]</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span>
+            <span class="s1">&#39;new_map&#39;</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">vmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Nd&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">vmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Nd&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">log_scale</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">vmin</span> <span class="o">==</span> <span class="mf">0.</span><span class="p">:</span>
+            <span class="n">vmin</span> <span class="o">=</span> <span class="mf">0.1</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">dsd</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Nd&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                   <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span>
+                   <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">xlims</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlims</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">dsd</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">ylims</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylims</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dsd</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">tighten</span><span class="p">:</span>
+        <span class="n">max_diameter</span> <span class="o">=</span> <span class="n">dsd</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="o">-</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Nd&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_diameter</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time(m)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Diameter(mm)&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_NwD0"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.plot_NwD0">[docs]</a><span class="k">def</span> <span class="nf">plot_NwD0</span><span class="p">(</span><span class="n">dsd</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">msize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create Normalized Intercept Parameter- median volume diameter scatterplot.</span>
+
+<span class="sd">    Convenience function calls scatter plot.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsd : dict</span>
+<span class="sd">        PyDSD dictionary.</span>
+<span class="sd">    col : str</span>
+<span class="sd">    msize : int</span>
+<span class="sd">    title : str</span>
+<span class="sd">    ax : Matplotlib Axis instance</span>
+<span class="sd">    fig : Matplotlib Figure instance</span>
+<span class="sd">    **kwargs : Dictionary to pass to matplotlib</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="n">xlab</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;D$_0$ (mm)&#39;</span>
+    <span class="n">ylab</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;log$_</span><span class="si">{10}</span><span class="s1">$[N$_w$] (mm$^{-1}$ m$^{-3}$)&#39;</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Nw&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;D0&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">col</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">msize</span><span class="o">=</span><span class="n">msize</span><span class="p">,</span>
+                      <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlab</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylab</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_ZR"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.plot_ZR">[docs]</a><span class="k">def</span> <span class="nf">plot_ZR</span><span class="p">(</span><span class="n">dsd</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">msize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create reflectivity - rainfall rate scatterplot.</span>
+
+<span class="sd">    Convenience function calls scatter plot.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsd : dict</span>
+<span class="sd">        PyDSD dictionary.</span>
+<span class="sd">    log_scale : str</span>
+<span class="sd">        True for log, Fale for &#39;linear&#39; variables.</span>
+<span class="sd">    col : str</span>
+<span class="sd">    msize : int</span>
+<span class="sd">    title : str</span>
+<span class="sd">    ax : Matplotlib Axis instance</span>
+<span class="sd">    fig : Matplotlib Figure instance</span>
+<span class="sd">    **kwargs : Dictionary to pass to matplotlib</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">log_scale</span><span class="p">:</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zh&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+        <span class="n">xlab</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Reflectivity (dBZ)&#39;</span>
+        <span class="n">ylab</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;log$_</span><span class="si">{10}</span><span class="s1">$(Rainfall Rate (mm h$^{-1}$))&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="mf">10.</span> <span class="o">**</span> <span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zh&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">10.</span><span class="p">)</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">xlab</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Reflectivity (mm$^</span><span class="si">{6}</span><span class="s1">$ m$^{-3}$)&#39;</span>
+        <span class="n">ylab</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Rainfall Rate (mm h$^{-1}$)&#39;</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">col</span><span class="p">,</span>
+                      <span class="n">msize</span><span class="o">=</span><span class="n">msize</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                      <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlab</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylab</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_ZR_hist2d"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.plot_ZR_hist2d">[docs]</a><span class="k">def</span> <span class="nf">plot_ZR_hist2d</span><span class="p">(</span><span class="n">dsd</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="n">ranges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">xlims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">clabel</span><span class="o">=</span><span class="s1">&#39;Normalized Counts&#39;</span><span class="p">,</span>
+                   <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create reflectivity - rainfall rate scatterplot.</span>
+
+<span class="sd">    Convenience function calls scatter plot.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsd : dict</span>
+<span class="sd">        PyDSD dictionary.</span>
+<span class="sd">    log_scale : str</span>
+<span class="sd">        True for log, Fale for &#39;linear&#39; variables.</span>
+<span class="sd">    bins : tuple, (x,y) bin size</span>
+<span class="sd">    norm : bool Normalize output</span>
+<span class="sd">    xlims : 2-tuple (Xmin, Xmax)</span>
+<span class="sd">    ylims : 2-tuple (Ymin, Ymax)</span>
+<span class="sd">    title : str</span>
+<span class="sd">    colorbar : bool</span>
+<span class="sd">    clabel: colorbar label</span>
+<span class="sd">    ax : Matplotlib Axis instance</span>
+<span class="sd">    fig : Matplotlib Figure instance</span>
+<span class="sd">    kwargs : Keyword arguments to pass to pcolormesh</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">log_scale</span><span class="p">:</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zh&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+        <span class="n">xlab</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Reflectivity (dBZ)&#39;</span>
+        <span class="n">ylab</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;log$_</span><span class="si">{10}</span><span class="s1">$(Rainfall Rate (mm h$^{-1}$))&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Zh&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">))</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">xlab</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Reflectivity (mm$^</span><span class="si">{6}</span><span class="s1">$ m$^{-3}$)&#39;</span>
+        <span class="n">ylab</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Rainfall Rate (mm h$^{-1}$)&#39;</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_hist2d</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">ranges</span><span class="o">=</span><span class="n">ranges</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
+                          <span class="n">xlims</span><span class="o">=</span><span class="n">xlims</span><span class="p">,</span> <span class="n">ylims</span><span class="o">=</span><span class="n">ylims</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                          <span class="n">colorbar</span><span class="o">=</span><span class="n">colorbar</span><span class="p">,</span>
+                          <span class="n">clabel</span><span class="o">=</span><span class="n">clabel</span><span class="p">,</span>
+                          <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlab</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylab</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="scatter"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.scatter">[docs]</a><span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="n">xvar</span><span class="p">,</span> <span class="n">yvar</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">msize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a scatterplot two variables.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvar : array</span>
+<span class="sd">    yvar : array</span>
+<span class="sd">    col : str</span>
+<span class="sd">    msize : int</span>
+<span class="sd">    title : str</span>
+<span class="sd">    ax : Matplotlib Axis instance</span>
+<span class="sd">    fig : Matplotlib Figure instance</span>
+<span class="sd">    **kwargs : Dictionary to pass to matplotlib</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xvar</span><span class="p">,</span> <span class="n">yvar</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">msize</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_hist2d"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.plot_hist2d">[docs]</a><span class="k">def</span> <span class="nf">plot_hist2d</span><span class="p">(</span><span class="n">xvar</span><span class="p">,</span> <span class="n">yvar</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="n">ranges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">xlims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">clabel</span><span class="o">=</span><span class="s1">&#39;Normalized Counts&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    2-D histogram plot.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvar : array</span>
+<span class="sd">    yvar : array</span>
+<span class="sd">    bins : tuple, (x,y) bin size</span>
+<span class="sd">    norm : bool Normalize output</span>
+<span class="sd">    xlims : 2-tuple (Xmin, Xmax)</span>
+<span class="sd">    ylims : 2-tuple (Ymin, Ymax)</span>
+<span class="sd">    title : str</span>
+<span class="sd">    colorbar : bool</span>
+<span class="sd">    clabel: colorbar label</span>
+<span class="sd">    ax : Matplotlib Axis instance</span>
+<span class="sd">    fig : Matplotlib Figure instance</span>
+<span class="sd">    kwargs : Keyword arguments to pass to pcolormesh</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">xlims</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xlims</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">xvar</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">xvar</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">ylims</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ylims</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">yvar</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">yvar</span><span class="p">))</span>
+
+    <span class="n">hist2d</span><span class="p">,</span> <span class="n">xedges</span><span class="p">,</span> <span class="n">yedges</span> <span class="o">=</span> <span class="n">get_masked_hist2d</span><span class="p">(</span>
+        <span class="n">xvar</span><span class="p">,</span> <span class="n">yvar</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">ranges</span><span class="o">=</span><span class="p">(</span><span class="n">ylims</span><span class="p">,</span> <span class="n">xlims</span><span class="p">),</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span>
+
+    <span class="c1"># Replace any zero values with missing data for nice plots</span>
+    <span class="n">hist2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_equal</span><span class="p">(</span><span class="n">hist2d</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Flip and rotate the 2D Histogram</span>
+    <span class="n">hist2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">hist2d</span><span class="p">)</span>
+    <span class="n">hist2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">hist2d</span><span class="p">)</span>
+
+    <span class="c1"># Create 2D arrays from xedges, yedges</span>
+    <span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xedges</span><span class="p">,</span> <span class="n">yedges</span><span class="p">)</span>
+
+    <span class="c1"># Plot the data using colormesh</span>
+    <span class="n">pc</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">hist2d</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">colorbar</span><span class="p">:</span>
+        <span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+        <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">clabel</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_ts"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.plot_ts">[docs]</a><span class="k">def</span> <span class="nf">plot_ts</span><span class="p">(</span><span class="n">dsd</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;%H:%M&#39;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">x_min_tick_format</span><span class="o">=</span><span class="s1">&#39;minute&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Time series plot of variable.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsd : dict</span>
+<span class="sd">        PyDSD dictionary.</span>
+<span class="sd">    varname : str or list</span>
+<span class="sd">        Variable name(s) to plot.</span>
+<span class="sd">    date_format : str</span>
+<span class="sd">        Timestring format characters.</span>
+<span class="sd">    tz : str</span>
+<span class="sd">        Time zone to uses, see datetime module.</span>
+<span class="sd">    x_min_tick_format : str</span>
+<span class="sd">        Minor tick formatting, &#39;second&#39;,&#39;minute&#39;,&#39;hour&#39;,&#39;day&#39; supported</span>
+<span class="sd">    title : str</span>
+<span class="sd">    ax : Matplotlib Axis instance</span>
+<span class="sd">    fig : Matplotlib Figure instance</span>
+<span class="sd">    kwkargs : Keyword arguments to pass to pcolormesh</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="n">x_fmt</span> <span class="o">=</span> <span class="n">DateFormatter</span><span class="p">(</span><span class="n">date_format</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">tz</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot_date</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">varname</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">x_fmt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x_min_tick_format</span> <span class="o">==</span> <span class="s1">&#39;second&#39;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">SecondLocator</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">x_min_tick_format</span> <span class="o">==</span> <span class="s1">&#39;minute&#39;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">MinuteLocator</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">x_min_tick_format</span> <span class="o">==</span> <span class="s1">&#39;hour&#39;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">HourLocator</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">x_min_tick_format</span> <span class="o">==</span> <span class="s1">&#39;day&#39;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">DayLocator</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+<span class="c1"># def plotHov(dsd, xvar, datavar, log_scale=False,</span>
+<span class="c1">#             date_format=&#39;%H:%M&#39;, tz=None,</span>
+<span class="c1">#             clevs=7, vmin=None, vmax=None,</span>
+<span class="c1">#             title=None, y_maj_tick_format=&#39;minute&#39;,</span>
+<span class="c1">#             colorbar=True, cbor=&#39;vertical&#39;, clabel=&#39; &#39;,</span>
+<span class="c1">#             cmap=&#39;jet&#39;, ax=None, fig=None):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Hovmoeller plot with time on Y-axis.</span>
+<span class="c1">#</span>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     dsd : dict</span>
+<span class="c1">#         PyDSD dictionary.</span>
+<span class="c1">#     xvar : str</span>
+<span class="c1">#         Variable name for x-axis.</span>
+<span class="c1">#     datavar : str</span>
+<span class="c1">#         Variable name(s) to plot.</span>
+<span class="c1">#     log_scale : str</span>
+<span class="c1">#         True for log, Fale for &#39;linear&#39; variables.</span>
+<span class="c1">#     date_format : str</span>
+<span class="c1">#         Timestring format characters.</span>
+<span class="c1">#     tz : str</span>
+<span class="c1">#         Time zone to uses, see datetime module.</span>
+<span class="c1">#     clevs : int</span>
+<span class="c1">#         Number of contour levels.</span>
+<span class="c1">#     vmin : float</span>
+<span class="c1">#         Minimum contour value to display.</span>
+<span class="c1">#     vmax : float</span>
+<span class="c1">#         Maximum contour value to display.</span>
+<span class="c1">#     title : str</span>
+<span class="c1">#     y_maj_tick_format : str</span>
+<span class="c1">#         Major tick formatting, &#39;second&#39;,&#39;minute&#39;,&#39;hour&#39;,&#39;day&#39; supported.</span>
+<span class="c1">#     colorbar : bool</span>
+<span class="c1">#         True to include colorbar.</span>
+<span class="c1">#     cbor : str</span>
+<span class="c1">#         Colorbar orientation &#39;vertical&#39; or &#39;horizontal&#39;.</span>
+<span class="c1">#     cblab : str</span>
+<span class="c1">#         Colorbar label.</span>
+<span class="c1">#     cmap : Colormap name or instance</span>
+<span class="c1">#     ax : Matplotlib Axis instance</span>
+<span class="c1">#     fig : Matplotlib Figure instance</span>
+<span class="c1">#     kwkargs : Keyword arguments to pass to pcolormesh</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     ax = parse_ax(ax)</span>
+<span class="c1">#     fig = parse_ax(fig)</span>
+<span class="c1">#</span>
+<span class="c1">#     y_fmt = DateFormatter(date_format, tz=tz)</span>
+<span class="c1">#</span>
+<span class="c1">#     if vmin is None:</span>
+<span class="c1">#         vmin = np.nanmin(dsd.fields[datavar][&#39;data&#39;])</span>
+<span class="c1">#     if vmax is None:</span>
+<span class="c1">#         vmax = np.nanmax(dsd.fields[datavar][&#39;data&#39;])</span>
+<span class="c1">#     clevels = np.logspace(vmin, vmax, clevs)</span>
+<span class="c1">#</span>
+<span class="c1">#     if log_scale:</span>
+<span class="c1">#         data = np.log10(dsd.fields[datavar][&#39;data&#39;])</span>
+<span class="c1">#         norm = LogNorm()</span>
+<span class="c1">#     else:</span>
+<span class="c1">#         data = dsd.fields[datavar][&#39;data&#39;]</span>
+<span class="c1">#         norm = None</span>
+<span class="c1">#     cs = ax.contourf(dsd.fields[xvar][&#39;data&#39;], dsd.time[&#39;data&#39;], data,</span>
+<span class="c1">#                      clevels, norm=norm, cmap=cmap)</span>
+<span class="c1">#</span>
+<span class="c1">#     plt.xscale(&#39;log&#39;)  # Make X-axis logarithmic</span>
+<span class="c1">#</span>
+<span class="c1">#     ax.yaxis.set_major_formatter(y_fmt)</span>
+<span class="c1">#     if y_maj_tick_format == &#39;second&#39;:</span>
+<span class="c1">#         from  mpl.dates import SecondLocator</span>
+<span class="c1">#         ax.yaxis.set_major_locator(SecondLocator())</span>
+<span class="c1">#     elif y_maj_tick_format == &#39;minute&#39;:</span>
+<span class="c1">#         from  mpl.dates import MinuteLocator</span>
+<span class="c1">#         ax.yaxis.set_major_locator(MinuteLocator())</span>
+<span class="c1">#     elif y_maj_tick_format == &#39;hour&#39;:</span>
+<span class="c1">#         from  mpl.dates import HourLocator, MinuteLocator</span>
+<span class="c1">#         ax.yaxis.set_major_locator(HourLocator())</span>
+<span class="c1">#         ax.yaxis.set_minor_locator(MinuteLocator(interval=10))</span>
+<span class="c1">#     elif y_maj_tick_format == &#39;day&#39;:</span>
+<span class="c1">#         from  mpl.dates import DayLocator</span>
+<span class="c1">#         ax.yaxis.set_major_locator(DayLocator())</span>
+<span class="c1">#</span>
+<span class="c1">#     if title is not None:</span>
+<span class="c1">#         ax.set_title(title)</span>
+<span class="c1">#</span>
+<span class="c1">#     if colorbar:</span>
+<span class="c1">#         if log_scale:</span>
+<span class="c1">#             l_f = mtic.LogFormatter(10, labelOnlyBase=False)</span>
+<span class="c1">#         if cbor == &#39;vertical&#39;:</span>
+<span class="c1">#             frac = 0.05</span>
+<span class="c1">#             shrink = 0.6</span>
+<span class="c1">#         cb = plt.colorbar(cs, orientation=cbor, fraction=frac, pad=.05)</span>
+<span class="c1">#         cb.set_label(clabel)</span>
+<span class="c1">#     return fig, ax</span>
+
+
+<span class="c1"># def plot_hexbin(xvar, yvar, grid=(80, 60), min_count=0.01, title=None,</span>
+<span class="c1">#                 reduce_function=np.sum, add_colorbar=True,</span>
+<span class="c1">#                 clabel=&#39;Normalized Counts&#39;, ax=None, fig=None):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Density scatterplot using the hex bin method.</span>
+<span class="c1">#</span>
+<span class="c1">#     The color marker is based upon density of value population.</span>
+<span class="c1">#</span>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     xvar : array</span>
+<span class="c1">#     yvar : array</span>
+<span class="c1">#     grid : tuple, (x,y) bin size</span>
+<span class="c1">#     min_count : float, display minimum</span>
+<span class="c1">#     title : str</span>
+<span class="c1">#     reduce_function : func</span>
+<span class="c1">#     add_colorbar : bool</span>
+<span class="c1">#     clabel: colorbar label</span>
+<span class="c1">#     ax : Matplotlib Axis instance</span>
+<span class="c1">#     fig : Matplotlib Figure instance</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     if ax is None:</span>
+<span class="c1">#         ax = parse_ax(ax)</span>
+<span class="c1">#     if fig is None:</span>
+<span class="c1">#         fig = parse_ax(fig)</span>
+<span class="c1">#</span>
+<span class="c1">#     # This will plot a hex bin plot (density scatter plot)</span>
+<span class="c1">#     # Establish an array from 0-100 to show colors as density</span>
+<span class="c1">#     c = np.ones_like(xvar) * 100 / len(Z)</span>
+<span class="c1">#</span>
+<span class="c1">#     # Create the hex plot</span>
+<span class="c1">#     ax.hexbin(xvar, yvar, C=c, gridsize=grid, mincnt=min_count,</span>
+<span class="c1">#               reduce_C_function=reduce_function)</span>
+<span class="c1">#</span>
+<span class="c1">#     if title is not None:</span>
+<span class="c1">#         ax.set_title(title)</span>
+<span class="c1">#</span>
+<span class="c1">#     # Add colorbar</span>
+<span class="c1">#     if add_colorbar:</span>
+<span class="c1">#         cb = fig.colorbar(shrink=0.85)</span>
+<span class="c1">#         cb.set_label(clabel)</span>
+<span class="c1">#     return fig, ax</span>
+
+
+<div class="viewcode-block" id="get_masked_hist2d"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.get_masked_hist2d">[docs]</a><span class="k">def</span> <span class="nf">get_masked_hist2d</span><span class="p">(</span><span class="n">xvar</span><span class="p">,</span> <span class="n">yvar</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="n">ranges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate a 2D histogram.</span>
+
+<span class="sd">    Remove missing values and calculate a numpy histogram.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xvar : array</span>
+<span class="sd">    yvar : array</span>
+<span class="sd">    bins : 2-tuple</span>
+<span class="sd">    ranges : array [Xmin, Xmax, Ymin, Ymax]</span>
+<span class="sd">    norm : bool Whether to normalize the output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Apply existing masks if possible</span>
+    <span class="n">qx</span> <span class="o">=</span> <span class="n">xvar</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">qy</span> <span class="o">=</span> <span class="n">yvar</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">qx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">qy</span><span class="p">),</span> <span class="n">qx</span><span class="p">)</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span>
+    <span class="n">qy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">qx</span><span class="p">),</span> <span class="n">qy</span><span class="p">)</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">ranges</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="p">([</span><span class="n">qx</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">qx</span><span class="o">.</span><span class="n">max</span><span class="p">()],</span> <span class="p">[</span><span class="n">qy</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">qy</span><span class="o">.</span><span class="n">max</span><span class="p">()])</span>
+
+    <span class="n">hist2d</span><span class="p">,</span> <span class="n">xedges</span><span class="p">,</span> <span class="n">yedges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram2d</span><span class="p">(</span>
+        <span class="n">qx</span><span class="p">,</span> <span class="n">qy</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">ranges</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hist2d</span><span class="p">,</span> <span class="n">xedges</span><span class="p">,</span> <span class="n">yedges</span></div>
+
+
+<div class="viewcode-block" id="set_ax_limits"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.set_ax_limits">[docs]</a><span class="k">def</span> <span class="nf">set_ax_limits</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convenience function to set x, y limits.&quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">xlim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_minor_ticks"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.set_minor_ticks">[docs]</a><span class="k">def</span> <span class="nf">set_minor_ticks</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convenience function to adjust minor tick spacing.&quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">mtic</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">mtic</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="set_major_ticks"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.set_major_ticks">[docs]</a><span class="k">def</span> <span class="nf">set_major_ticks</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convenience function to adjust major tick spacing.&quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mtic</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mtic</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="set_xlabel"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.set_xlabel">[docs]</a><span class="k">def</span> <span class="nf">set_xlabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convenience function to adjust x-axis label.&quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="n">pad</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fonstize</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_ylabel"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.set_ylabel">[docs]</a><span class="k">def</span> <span class="nf">set_ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convenience function to adjust x-axis label.&quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="n">pad</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fonstize</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="turn_ticks_out"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.turn_ticks_out">[docs]</a><span class="k">def</span> <span class="nf">turn_ticks_out</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convenience function to turn ticks outward.&quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;out&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="parse_ax"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.parse_ax">[docs]</a><span class="k">def</span> <span class="nf">parse_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Parse and return ax instance. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="parse_fig"><a class="viewcode-back" href="../../../pydisdrometer.plot.html#pydisdrometer.plot.plot.parse_fig">[docs]</a><span class="k">def</span> <span class="nf">parse_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Parse and return fig instance. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">fig</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Joseph C. Hardin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.4.
+    </div>
+  </body>
+</html>
