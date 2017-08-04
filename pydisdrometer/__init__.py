@@ -15,3 +15,8 @@ from . import partition
 from . import utility
 from . import fit
 from .plot import plot
+
+
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions

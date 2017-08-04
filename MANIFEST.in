@@ -1,1 +1,3 @@
 include pydisdrometer/utility/metadata.json
+include versioneer.py
+include pydisdrometer/_version.py
