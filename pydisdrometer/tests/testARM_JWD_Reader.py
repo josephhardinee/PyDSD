@@ -34,6 +34,6 @@ class TestArmJwdReader(unittest.TestCase):
         self.assertEqual(len(self.dsd.time['data']), self.dsd.fields['Nd']['data'].shape[0], 'Different number of samples for time and Nd')
 
     def test_time_is_in_epoch(self):
-        self.assertEqual(self.dsd.time['data'][0],1303859040+3360) # Basetime + first start time
+        self.assertEqual(self.dsd.time['data'][0], 1303859040+3360) # Basetime + first start time
 
 

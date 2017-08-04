@@ -10,6 +10,7 @@ from netCDF4 import Dataset
 
 from ..DropSizeDistribution import DropSizeDistribution
 from ..io import common
+from ..utility import configuration
 import os
 
 
@@ -50,6 +51,7 @@ class ArmJwdReader(object):
         '''
         self.fields = {}
         self.info = {}
+        config = configuration.Configuration()
 
         self.nc_dataset = Dataset(filename)
         self.filename = filename
@@ -57,52 +59,29 @@ class ArmJwdReader(object):
         time = np.ma.array(self.nc_dataset.variables['time_offset'][:] + self.nc_dataset.variables['base_time'][:])
         self.time = self._get_epoch_time(time)
 
-        Nd = np.ma.array(
-                self.nc_dataset.variables['nd'][:])
-        velocity = np.ma.array(
-                self.nc_dataset.variables['fall_vel'][:])
         rain_rate = np.ma.array(
                 self.nc_dataset.variables['rain_rate'][:])
         self.diameter = np.ma.array(self.nc_dataset.variables['mean_diam_drop_class'][:])
         self.spread = np.ma.array(self.nc_dataset.variables['delta_diam'][:])
 
-        # TODO: Move this to new metadata utility, and just add information from raw netcdf where appropriate
-        self.bin_edges = common.var_to_dict(
-                'bin_edges',
-                np.hstack((0, self.diameter + np.array(self.spread) / 2)),
-                'mm', 'Boundaries of bin sizes')
-        self.spread = common.var_to_dict(
-                'spread', self.spread,
-                'mm', 'Bin size spread of bins')
-        self.diameter = common.var_to_dict(
-                'diameter', self.diameter,
-                'mm', 'Particle diameter of bins')
+        self.bin_edges = config.fill_in_metadata("bin_edges", np.hstack((0, self.diameter + np.array(self.spread) / 2)))
+        self.spread = config.fill_in_metadata("spread", self.spread)
+        self.diameter = config.fill_in_metadata("diameter", self.diameter)
+        self.fields['Nd'] = config.fill_in_metadata("Nd", self.nc_dataset.variables['nd'][:])
+        self.fields['velocity'] = config.fill_in_metadata("velocity", self.nc_dataset.variables['fall_vel'][:])
+        self.fields['rain_rate'] = config.fill_in_metadata("rain_rate", rain_rate)
 
-        self.fields['Nd'] = common.var_to_dict(
-                'Nd', Nd, 'm^-3 mm^-1',
-                'Liquid water particle concentration')
-        self.fields['velocity'] = common.var_to_dict(
-                'velocity', velocity, 'm s^-1',
-                'Terminal fall velocity for each bin')
-        self.fields['rain_rate'] = common.var_to_dict(
-                'rain_rate', rain_rate, 'mm h^-1',
-                'Rain rate')
-
-        self.fields['num_drop'] = common.var_to_dict(
-                "num_drop", self.nc_dataset.variables['num_drop'][:], '#',
+        self.fields['md'] = common.var_to_dict(
+                "Md", self.nc_dataset.variables['num_drop'][:], '#/Drop Class',
                 "Number of Drops")
 
-        self.fields['d_max'] = common.var_to_dict(
-            "d_max", self.nc_dataset.variables['d_max'][:],"mm",
-            "Diameter of largest drop"
-        )
+        self.fields['Dmax'] = config.fill_in_metadata("Dmax", self.nc_dataset.variables['d_max'][:])
         self.fields['liq_water'] = common.var_to_dict(
             "liq_water", self.nc_dataset.variables['liq_water'][:],
             "gm/m^3", "Liquid water content")
 
-        self.fields['n_0'] = common.var_to_dict(
-            "n_0", self.nc_dataset.variables['n_0'][:],
-            "1/(m^3-mm)", "Distribution Intercept")
+        self.fields['N0'] = config.fill_in_metadata("N0", self.nc_dataset.variables['n_0'][:])
+
         self.fields['lambda'] = common.var_to_dict(
             "lambda", self.nc_dataset.variables['lambda'][:],
             "1/mm", "Distribution Slope")
@@ -110,8 +89,15 @@ class ArmJwdReader(object):
         for key in self.nc_dataset.ncattrs():
             self.info[key] =self.nc_dataset.getncattr(key)
 
+        self.extra_fields = {}
+        for field in _extra_fields:
+            self.extra_fields[field] = self.nc_dataset.variables[field]
+
+
     def _get_epoch_time(self, sample_times):
         """Convert time to epoch time and return a dictionary."""
         eptime = {'data': sample_times, 'units': common.EPOCH_UNITS,
                   'standard_name': 'Time', 'long_name': 'Time (UTC)'}
         return eptime
+
+_extra_fields = ["qc_precip_dis", "qc_rain_rate", "Z", "ef", "qc_time" ]

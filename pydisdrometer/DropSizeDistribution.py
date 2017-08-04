@@ -122,6 +122,15 @@ class DropSizeDistribution(object):
         if location:
             self.location = {'latitude': location[0], 'longitude': location[1]}
 
+        try:
+            self.extra_fields = reader.extra_fields
+        except:
+            pass
+
+        self.scattering_freq = None
+        self.scattering_temp = None
+        self.m_w = None
+
         self.set_scattering_temperature_and_frequency()
 
     def set_scattering_temperature_and_frequency(self, scattering_temp=10, scattering_freq = 9.7e9):
