@@ -40,7 +40,7 @@ def read_arm_jwd_b1(filename):
 class ArmJwdReader(object):
     '''
     This class reads and parses parsivel disdrometer data from ARM netcdf
-    files. These conform to document (Need Document).
+    files.
 
     Use the read_arm_jwd_b1() function to interface with this.
     '''
