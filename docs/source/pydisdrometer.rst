@@ -39,7 +39,7 @@ DropSizeDistribution module
 JWDReader module
 ------------------------------
 
-.. automodule:: pydisdrometer.JWDReader
+.. automodule:: pydisdrometer.io.JWDReader
     :members:
     :undoc-members:
     :show-inheritance:
@@ -47,7 +47,7 @@ JWDReader module
 ParsivelNasaGVReader module
 -----------------------------------------
 
-.. automodule:: pydisdrometer.ParsivelNasaGVReader
+.. automodule:: pydisdrometer.io.ParsivelNasaGVReader
     :members:
     :undoc-members:
     :show-inheritance:
@@ -55,31 +55,15 @@ ParsivelNasaGVReader module
 ParsivelReader module
 -----------------------------------
 
-.. automodule:: pydisdrometer.ParsivelReader
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-UtilityDisplay module
------------------------------------
-
-.. automodule:: pydisdrometer.UtilityDisplay
+.. automodule:: pydisdrometer.io.ParsivelReader
     :members:
     :undoc-members:
     :show-inheritance:
 
 expfit module
----------------------------
+--------------------------
 
-.. automodule:: pydisdrometer.expfit
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-process_NASA_APU module
--------------------------------------
-
-.. automodule:: pydisdrometer.process_NASA_APU
+.. automodule:: pydisdrometer.utility.expfit
     :members:
     :undoc-members:
     :show-inheritance:
