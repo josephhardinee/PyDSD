@@ -2,14 +2,14 @@
 Simple Example
 --------------
 
-A simple example using PyDisdrometer. This example reads in a OTT APU Disdrometer file, calculates the radar variables, and plots a few of them.
+A simple example using PyDSD. This example reads in a OTT APU Disdrometer file, calculates the radar variables, and plots a few of them.
 Author: Joseph C. Hardin
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-import pydisdrometer as pyd
+import pydsd as pyd
 
 filename = '../testdata/sgpdisdrometerC1.b1.20110427.000000_test_jwd_b1.cdf'
 filename = '/Users/hard505/Dropbox/research/parsivel_apu14_mc3e_N363558.62_W0972534.21_20110425_dsd.txt'

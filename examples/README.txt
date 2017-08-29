@@ -1,4 +1,4 @@
-PyDisdrometer Example Gallery
+PyDSD Example Gallery
 -----------------------------
 
-PyDisdrometer Example Gallery.
+PyDSD Example Gallery.
