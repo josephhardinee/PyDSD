@@ -3,7 +3,6 @@ import versioneer
 
 setup(
     name='PyDSD',
-    version=VERSION,
     author='Joseph C. Hardin, Nick Guy',
     author_email='josephhardinee@gmail.com',
     packages=['pydsd',
@@ -22,6 +21,7 @@ setup(
         "Development Status :: 3 - Alpha",
         "Environment :: Console"
         ],
-    include_package_data=True
-
+    include_package_data=True,
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass()
 )
