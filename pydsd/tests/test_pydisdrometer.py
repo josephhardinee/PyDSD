@@ -1,9 +1,9 @@
-import pydisdrometer
+import pydsd
 from unittest import TestCase
 
 
-class TestPyDisdrometerOverall(TestCase):
+class TestPyDSDOverall(TestCase):
 
     def test_import(self):
-        """ PyDisdrometerOverall: Test whether the PyDisdrometer can be imported properly"""
-        import pydisdrometer
+        """ PyDSDOverall: Test whether the PyDSD can be imported properly"""
+        import pydsd

@@ -1,7 +1,7 @@
 import numpy as np
 import unittest
 
-import pydisdrometer.fit.ua98 as ua98
+import pydsd.fit.ua98 as ua98
 from ..fit import ua98
 
 class TestDSDFits(unittest.TestCase):

@@ -1,5 +1,5 @@
-import pydisdrometer
+import pydsd
 
 
 def test_tb():
-    assert pydisdrometer.DSR.tb(2) > 0
+    assert pydsd.DSR.tb(2) > 0
