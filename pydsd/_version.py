@@ -42,8 +42,8 @@ def get_config():
     cfg.VCS = "git"
     cfg.style = "pep440"
     cfg.tag_prefix = ""
-    cfg.parentdir_prefix = "pydisdrometer-"
-    cfg.versionfile_source = "pydisdrometer/_version.py"
+    cfg.parentdir_prefix = "pydsd-"
+    cfg.versionfile_source = "pydsd/_version.py"
     cfg.verbose = False
     return cfg
 
