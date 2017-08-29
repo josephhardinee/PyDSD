@@ -12,7 +12,7 @@ setup(
               'pydsd.partition',
               'pydsd.plot',
               'pydsd.utility',
-              'pydsd.fit']
+              'pydsd.fit'],
     url='http://pypi.python.org/pypi/PyDisdrometer/',
     license='LICENSE.txt',
     description='Python Disdrometer Processing',
