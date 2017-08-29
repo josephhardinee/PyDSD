@@ -12,7 +12,7 @@ PyDSD is a Python package to process disdrometer files. It currently is capable 
 
 It currently supports OTT Parsivel disdrometers, Joss Waldvogel Disdrometers, 2DVD files, and HVPS and 2DS airborne disdrometers.
 
-Author: Joseph C. Hardin
+Author: Joseph C. Hardin, Nick Guy
 
 ## Usage
 
