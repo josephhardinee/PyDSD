@@ -107,7 +107,7 @@ def plot_NwD0(dsd, col='k', msize=20, edgecolors='none', title=None,
 
     xlab = r'D$_0$ (mm)'
     ylab = r'log$_{10}$[N$_w$] (mm$^{-1}$ m$^{-3}$)'
-    fig, ax = scatter(dsd.fields['Nw']['data'], dsd.fields['D0']['data'], col=col, msize=msize,
+    fig, ax = scatter(np.log10(dsd.fields['Nw']['data']), dsd.fields['D0']['data'], col=col, msize=msize,
                       edgecolors=edgecolors, title=title, ax=ax, fig=fig,
                       **kwargs)
     ax.set_xlabel(xlab)
