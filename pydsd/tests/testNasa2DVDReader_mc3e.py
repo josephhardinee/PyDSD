@@ -4,7 +4,7 @@ import unittest
 from ..aux_readers import NASA_2DVD_reader
 
 class TestNasa2DvdReaderMc3eSubcase(unittest.TestCase):
-    'Test module for the NASA_2DVD_reader class in pydisdrometer.aux_io.NASA_2DVD_reader for mc3e files'
+    'Test module for the NASA_2DVD_reader class in pydsd.aux_io.NASA_2DVD_reader for mc3e files'
 
     def setUp(self):
         filename = 'testdata/nasa_gv_mc3e_2dvd_test.txt'
