@@ -5,7 +5,7 @@ import netCDF4
 import numpy as np
 import scipy.interpolate as sinterp
 
-from pydisdrometer.io.common import get_epoch_time
+from pydsd.io.common import get_epoch_time
 from . import common
 from ..DropSizeDistribution import DropSizeDistribution
 
