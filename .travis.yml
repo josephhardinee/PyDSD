@@ -13,27 +13,27 @@ matrix:
   - python: '2.7'
     env:
     - PYTHON_VERSION="2.7"
-    - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+    - NOSE_ARGS="-v --no-skip --with-cov --cov pydsd pydsd"
     - COVERALLS="true"
   - python: '3.4'
     env:
     - PYTHON_VERSION="3.4"
-    - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+    - NOSE_ARGS="-v --no-skip --with-cov --cov pydsd pydsd"
     - COVERALLS="true"
   - python: '3.5'
     env:
     - PYTHON_VERSION="3.5"
-    - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+    - NOSE_ARGS="-v --no-skip --with-cov --cov pydsd pydsd"
     - COVERALLS="true"
   - python: '3.6'
     env:
     - PYTHON_VERSION="3.6"
-    - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+    - NOSE_ARGS="-v --no-skip --with-cov --cov pydsd pydsd"
     - COVERALLS="true"
   - python: '3.6'
     env:
     - PYTHON_VERSION="3.6"
-    - NOSE_ARGS="-v --no-skip --with-cov --cov pydisdrometer pydisdrometer"
+    - NOSE_ARGS="-v --no-skip --with-cov --cov pydsd pydsd"
     - COVERALLS="true"
     - DOC_BUILD="true"
 before_install:
