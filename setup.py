@@ -11,6 +11,7 @@ setup(
               'pydisdrometer.aux_readers',
               'pydisdrometer.plot',
               'pydisdrometer.io',
+              'pydisdrometer.fit',
               'pydisdrometer.partition',
               'pydisdrometer.plot',
               'pydisdrometer.utility'],
