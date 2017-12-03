@@ -56,7 +56,8 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
         norm = mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
     else:
         norm = None
-    plt.pcolormesh(dsd.time['data'], dsd.diameter['data'], dsd.fields['Nd']['data'].T,
+        import pdb; pdb.set_trace()
+    plt.pcolormesh(dsd.time['data'].filled(), dsd.diameter['data'].filled(), dsd.fields['Nd']['data'].T,
                    vmin=vmin, vmax=vmax,
                    figure=fig, norm=norm, cmap=cmap)
 
@@ -107,7 +108,7 @@ def plot_NwD0(dsd, col='k', msize=20, edgecolors='none', title=None,
 
     xlab = r'D$_0$ (mm)'
     ylab = r'log$_{10}$[N$_w$] (mm$^{-1}$ m$^{-3}$)'
-    fig, ax = scatter(dsd.fields['Nw']['data'], dsd.fields['D0']['data'], col=col, msize=msize,
+    fig, ax = scatter(np.log10(dsd.fields['Nw']['data']), dsd.fields['D0']['data'], col=col, msize=msize,
                       edgecolors=edgecolors, title=title, ax=ax, fig=fig,
                       **kwargs)
     ax.set_xlabel(xlab)

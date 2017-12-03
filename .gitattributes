@@ -1,1 +1,2 @@
 pydisdrometer/_version.py export-subst
+pydsd/_version.py export-subst

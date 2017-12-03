@@ -1,4 +1,4 @@
-pydisdrometer package
+pydsd package
 =====================
 
 Subpackages
@@ -6,8 +6,8 @@ Subpackages
 
 .. toctree::
 
-    pydisdrometer.aux_readers
-    pydisdrometer.plot
+    pydsd.aux_readers
+    pydsd.plot
 
 Submodules
 ----------
@@ -15,7 +15,7 @@ Submodules
 DSDProcessor module
 ---------------------------------
 
-.. automodule:: pydisdrometer.DSDProcessor
+.. automodule:: pydsd.DSDProcessor
     :members:
     :undoc-members:
     :show-inheritance:
@@ -23,7 +23,7 @@ DSDProcessor module
 DSR module
 ------------------------
 
-.. automodule:: pydisdrometer.DSR
+.. automodule:: pydsd.DSR
     :members:
     :undoc-members:
     :show-inheritance:
@@ -31,7 +31,7 @@ DSR module
 DropSizeDistribution module
 -----------------------------------------
 
-.. automodule:: pydisdrometer.DropSizeDistribution
+.. automodule:: pydsd.DropSizeDistribution
     :members:
     :undoc-members:
     :show-inheritance:
@@ -39,7 +39,7 @@ DropSizeDistribution module
 JWDReader module
 ------------------------------
 
-.. automodule:: pydisdrometer.io.JWDReader
+.. automodule:: pydsd.io.JWDReader
     :members:
     :undoc-members:
     :show-inheritance:
@@ -47,7 +47,7 @@ JWDReader module
 ParsivelNasaGVReader module
 -----------------------------------------
 
-.. automodule:: pydisdrometer.io.ParsivelNasaGVReader
+.. automodule:: pydsd.io.ParsivelNasaGVReader
     :members:
     :undoc-members:
     :show-inheritance:
@@ -55,7 +55,7 @@ ParsivelNasaGVReader module
 ParsivelReader module
 -----------------------------------
 
-.. automodule:: pydisdrometer.io.ParsivelReader
+.. automodule:: pydsd.io.ParsivelReader
     :members:
     :undoc-members:
     :show-inheritance:
@@ -63,7 +63,7 @@ ParsivelReader module
 expfit module
 --------------------------
 
-.. automodule:: pydisdrometer.utility.expfit
+.. automodule:: pydsd.utility.expfit
     :members:
     :undoc-members:
     :show-inheritance:
@@ -72,7 +72,7 @@ expfit module
 Module contents
 ---------------
 
-.. automodule:: pydisdrometer
+.. automodule:: pydsd
     :members:
     :undoc-members:
     :show-inheritance:
