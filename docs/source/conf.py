@@ -242,7 +242,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pydisdrometer', u'PyDSD Documentation',
+    ('index', 'pydsd', u'PyDSD Documentation',
      [u'Joseph C. Hardin'], 1)
 ]
 
