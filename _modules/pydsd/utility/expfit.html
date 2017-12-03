@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pydisdrometer.utility.expfit &#8212; PyDisdrometer 0.1.7 documentation</title>
+    <title>pydsd.utility.expfit &#8212; PyDSD 0.1.7 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyDSD 0.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -46,12 +46,12 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for pydisdrometer.utility.expfit</h1><div class="highlight"><pre>
+  <h1>Source code for pydsd.utility.expfit</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">curve_fit</span>
 
 
-<div class="viewcode-block" id="expfit"><a class="viewcode-back" href="../../../pydisdrometer.html#pydisdrometer.utility.expfit.expfit">[docs]</a><span class="k">def</span> <span class="nf">expfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="expfit"><a class="viewcode-back" href="../../../pydsd.html#pydsd.utility.expfit.expfit">[docs]</a><span class="k">def</span> <span class="nf">expfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    expfit calculates an exponential power law fit based upon levenburg-marquardt minimization. Fits</span>
 <span class="sd">    are of the form. y = ax**b</span>
@@ -88,7 +88,7 @@
     <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
 
 
-<div class="viewcode-block" id="expfit2"><a class="viewcode-back" href="../../../pydisdrometer.html#pydisdrometer.utility.expfit.expfit2">[docs]</a><span class="k">def</span> <span class="nf">expfit2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="expfit2"><a class="viewcode-back" href="../../../pydsd.html#pydsd.utility.expfit.expfit2">[docs]</a><span class="k">def</span> <span class="nf">expfit2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    expfit2 calculates an exponential power law fit based upon levenburg-marquardt minimization. Fits</span>
 <span class="sd">    are of the form. y = a(x[0]**b)(x[1]**c)</span>
@@ -155,7 +155,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyDSD 0.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

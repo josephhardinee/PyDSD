@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pydisdrometer.DropSizeDistribution &#8212; PyDisdrometer 0.1.7 documentation</title>
+    <title>pydsd.DropSizeDistribution &#8212; PyDSD 0.1.7 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDSD 0.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -46,7 +46,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for pydisdrometer.DropSizeDistribution</h1><div class="highlight"><pre>
+  <h1>Source code for pydsd.DropSizeDistribution</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">The Drop Size Distribution model contains the DropSizeDistribution class.</span>
@@ -71,7 +71,7 @@
 <span class="kn">from</span> <span class="nn">.utility</span> <span class="k">import</span> <span class="n">configuration</span>
 <span class="n">SPEED_OF_LIGHT</span><span class="o">=</span><span class="mi">299792458</span>
 
-<div class="viewcode-block" id="DropSizeDistribution"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution">[docs]</a><span class="k">class</span> <span class="nc">DropSizeDistribution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution">[docs]</a><span class="k">class</span> <span class="nc">DropSizeDistribution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    DropSizeDistribution class to hold DSD&#39;s and calculate parameters</span>
@@ -173,7 +173,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_scattering_temperature_and_frequency</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DropSizeDistribution.set_scattering_temperature_and_frequency"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">set_scattering_temperature_and_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scattering_temp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scattering_freq</span> <span class="o">=</span> <span class="mf">9.7e9</span><span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution.set_scattering_temperature_and_frequency"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">set_scattering_temperature_and_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scattering_temp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scattering_freq</span> <span class="o">=</span> <span class="mf">9.7e9</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Change the scattering temperature. After use, re-run calculate_radar_parameters</span>
 <span class="sd">        to see the effect this has on the parameters. Temperatures are in Celsius. Defaults to 10C X-band.</span>
 
@@ -189,7 +189,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">m_w</span> <span class="o">=</span> <span class="n">dielectric</span><span class="o">.</span><span class="n">get_refractivity</span><span class="p">(</span><span class="n">scattering_freq</span><span class="p">,</span> <span class="n">scattering_temp</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="DropSizeDistribution.calculate_radar_parameters"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_radar_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dsr_func</span> <span class="o">=</span> <span class="n">DSR</span><span class="o">.</span><span class="n">bc</span><span class="p">,</span> <span class="n">scatter_time_range</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution.calculate_radar_parameters"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_radar_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dsr_func</span> <span class="o">=</span> <span class="n">DSR</span><span class="o">.</span><span class="n">bc</span><span class="p">,</span> <span class="n">scatter_time_range</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Calculates radar parameters for the Drop Size Distribution.</span>
 
 <span class="sd">        Calculates the radar parameters and stores them in the object.</span>
@@ -307,7 +307,7 @@
 
         <span class="k">return</span> <span class="n">mth_moment</span>
 
-<div class="viewcode-block" id="DropSizeDistribution.calculate_dsd_parameterization"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_dsd_parameterization">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_dsd_parameterization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;bringi&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution.calculate_dsd_parameterization"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_dsd_parameterization">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_dsd_parameterization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;bringi&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Calculates DSD Parameterization.</span>
 
 <span class="sd">        This calculates the dsd parameterization and stores the result in the fields dictionary.</span>
@@ -401,7 +401,7 @@
         <span class="n">run</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">cum_W</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">cum_W</span><span class="p">[</span><span class="n">cross_pt</span><span class="p">])</span> <span class="o">/</span> <span class="n">slope</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">cross_pt</span><span class="p">]</span> <span class="o">+</span> <span class="n">run</span>
 
-<div class="viewcode-block" id="DropSizeDistribution.calculate_RR"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_RR">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_RR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution.calculate_RR"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_RR">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_RR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Calculate instantaneous rain rate.</span>
 
 <span class="sd">        This calculates instantaneous rain rate based on the flux of water.</span>
@@ -415,7 +415,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">1e-03</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mmultiply</span><span class="p">(</span>
                 <span class="n">velocity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">3</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Kdp_relationship"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Kdp_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Kdp_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Kdp_relationship"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Kdp_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Kdp_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calculate_R_kdp_relationship calculates a power fit for the rainfall-kdp</span>
 <span class="sd">        relationship based upon the calculated radar parameters(which should</span>
@@ -435,7 +435,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please run calculate_RR() function first.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zh_relationship"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zh_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zh_relationship"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zh_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calculate_R_Zh_relationship calculates the power law fit for Zh based</span>
 <span class="sd">        upon scattered radar parameters. It returns the scale and exponential</span>
@@ -454,7 +454,7 @@
                             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
 
-<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zh_Zdr_relationship"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Zdr_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zh_Zdr_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zh_Zdr_relationship"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Zdr_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zh_Zdr_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calculate_R_Zh_Zdr_relationship calculates the power law fit for Zh,Zdr</span>
 <span class="sd">        based upon scattered radar parameters. It returns the scale and</span>
@@ -473,7 +473,7 @@
                              <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
 
-<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zh_Kdp_relationship"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Kdp_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zh_Kdp_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zh_Kdp_relationship"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Kdp_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zh_Kdp_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calculate_R_Zh_Kdp_relationship calculates the power law fit for Zh,Kdp</span>
 <span class="sd">        based upon scattered radar parameters. It returns the scale and</span>
@@ -491,7 +491,7 @@
                              <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;rain_rate&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">filt</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
 
-<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zdr_Kdp_relationship"><a class="viewcode-back" href="../../pydisdrometer.html#pydisdrometer.DropSizeDistribution.DropSizeDistribution.calculate_R_Zdr_Kdp_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zdr_Kdp_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution.calculate_R_Zdr_Kdp_relationship"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zdr_Kdp_relationship">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_R_Zdr_Kdp_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calculate_R_Zdr_Kdp_relationship calculates the power law fit for Zdr,Kdp</span>
 <span class="sd">        based upon scattered radar parameters. It returns the scale and</span>
@@ -608,7 +608,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDSD 0.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

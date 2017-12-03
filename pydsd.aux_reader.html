@@ -1,0 +1,218 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>pydsd.aux_readers &#8212; PyDSD 0.1.7 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDSD 0.1.7 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pydsd-aux-readers">
+<h1><a class="reference internal" href="#module-pydsd.aux_readers" title="pydsd.aux_readers"><code class="xref py py-mod docutils literal"><span class="pre">pydsd.aux_readers</span></code></a><a class="headerlink" href="#pydsd-aux-readers" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pydsd.aux_readers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydsd.aux_readers" title="Permalink to this headline">¶</a></h2>
+<p>Auxillary Readers Module.</p>
+</div>
+<div class="section" id="module-pydsd.aux_readers.GPMApuWallopsRawReader">
+<span id="gpmapuwallopsrawreader"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">GPMApuWallopsRawReader</span></code><a class="headerlink" href="#module-pydsd.aux_readers.GPMApuWallopsRawReader" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader">
+<em class="property">class </em><code class="descclassname">pydsd.aux_readers.GPMApuWallopsRawReader.</code><code class="descname">GPMApuWallopsRawReader</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/GPMApuWallopsRawReader.html#GPMApuWallopsRawReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>This class reads and parses parsivel disdrometer data from
+nasa ground campaigns. These conform to document.</p>
+<dl class="method">
+<dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.conv_md_to_nd">
+<code class="descname">conv_md_to_nd</code><span class="sig-paren">(</span><em>Md</em>, <em>t=0.16666666666666666</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/GPMApuWallopsRawReader.html#GPMApuWallopsRawReader.conv_md_to_nd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.conv_md_to_nd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.diameter">
+<code class="descname">diameter</code><em class="property"> = {'data': array([  0.06,   0.19,   0.32,   0.45,   0.58,   0.71,   0.84,   0.96,          1.09,   1.22,   1.42,   1.67,   1.93,   2.19,   2.45,   2.83,          3.35,   3.86,   4.38,   4.89,   5.66,   6.7 ,   7.72,   8.76,          9.78,  11.33,  13.39,  15.45,  17.51,  19.57,  22.15,  25.24]), 'units': 'mm', 'long_name': 'Particle diameter of bins', 'standard_name': 'diameter'}</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.diameter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.spread">
+<code class="descname">spread</code><em class="property"> = {'data': array([ 0.129,  0.129,  0.129,  0.129,  0.129,  0.129,  0.129,  0.129,         0.129,  0.129,  0.257,  0.257,  0.257,  0.257,  0.257,  0.515,         0.515,  0.515,  0.515,  0.515,  1.03 ,  1.03 ,  1.03 ,  1.03 ,         1.03 ,  2.06 ,  2.06 ,  2.06 ,  2.06 ,  2.06 ,  3.09 ,  3.09 ]), 'units': 'mm', 'long_name': 'Bin size spread of bins', 'standard_name': 'spread'}</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.spread" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.supported_campaigns">
+<code class="descname">supported_campaigns</code><em class="property"> = ['ifloods', 'mc3e_dsd', 'mc3e_raw']</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.velocity">
+<code class="descname">velocity</code><em class="property"> = {'data': array([  0.05,   0.15,   0.25,   0.35,   0.45,   0.55,   0.65,   0.75,          0.85,   0.96,   1.13,   1.35,   1.59,   1.83,   2.08,   2.4 ,          2.78,   3.15,   3.5 ,   3.84,   4.4 ,   5.2 ,   6.  ,   6.8 ,          7.6 ,   8.8 ,  10.4 ,  12.  ,  13.6 ,  15.2 ,  17.6 ,  20.8 ]), 'units': 'm s^-1', 'long_name': 'Terminal fall velocity for each bin', 'standard_name': 'velocity'}</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.velocity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsd.aux_readers.GPMApuWallopsRawReader.read_gpm_nasa_apu_raw_wallops">
+<code class="descclassname">pydsd.aux_readers.GPMApuWallopsRawReader.</code><code class="descname">read_gpm_nasa_apu_raw_wallops</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/GPMApuWallopsRawReader.html#read_gpm_nasa_apu_raw_wallops"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.read_gpm_nasa_apu_raw_wallops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a filename pointing to a parsivel NASA Field Campaign file with RAW Data and returns
+a drop size distribution object.</p>
+<p>Usage:
+dsd = read_gpm_nasa_apu_raw_wallops(filename)</p>
+<p>Returns:
+DropSizeDistrometer object</p>
+<p>Note: NASA’s processing strips out rain rate so we have to
+recalculate it based upon a fall speed relationship.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pydsd.aux_readers.NASA_2DVD_reader">
+<span id="nasa-2dvd-reader"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">NASA_2DVD_reader</span></code><a class="headerlink" href="#module-pydsd.aux_readers.NASA_2DVD_reader" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader">
+<em class="property">class </em><code class="descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="descname">NASA_2DVD_dsd_reader</code><span class="sig-paren">(</span><em>filename</em>, <em>skip_header</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#NASA_2DVD_dsd_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>This class reads and parses 2dvd disdrometer data from NASA ground
+campaigns. It works with the _dropCounts files from IFloodS.</p>
+<p>Use the read_2dvd_dsd_nasa_gv() function to interface with this.</p>
+<dl class="attribute">
+<dt id="pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader.supported_campaigns">
+<code class="descname">supported_campaigns</code><em class="property"> = ['mc3e', 'ifloods']</em><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader">
+<em class="property">class </em><code class="descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="descname">NASA_2DVD_sav_reader</code><span class="sig-paren">(</span><em>filename</em>, <em>campaign</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#NASA_2DVD_sav_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>This class reads and parses 2dvd disdrometer data from nasa ground
+campaigns.</p>
+<p>Use the read_2dvd_sav_nasa_gv() function to interface with this.</p>
+<dl class="attribute">
+<dt id="pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader.supported_campaigns">
+<code class="descname">supported_campaigns</code><em class="property"> = ['ifloods']</em><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_dsd_nasa_gv">
+<code class="descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="descname">read_2dvd_dsd_nasa_gv</code><span class="sig-paren">(</span><em>filename</em>, <em>skip_header=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#read_2dvd_dsd_nasa_gv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_dsd_nasa_gv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Takes a filename pointing to a 2D-Video Disdrometer NASA Field Campaign</dt>
+<dd>_dsd file and returns a drop size distribution object.</dd>
+</dl>
+<p>This reader processes the _dsd files generated.</p>
+<p>Usage:
+dsd = read_2dvd_dsd_nasa_gv(filename)</p>
+<p>Returns:
+DropSizeDistrometer object</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_sav_nasa_gv">
+<code class="descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="descname">read_2dvd_sav_nasa_gv</code><span class="sig-paren">(</span><em>filename</em>, <em>campaign='ifloods'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#read_2dvd_sav_nasa_gv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_sav_nasa_gv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a filename pointing to a 2D-Video Disdrometer NASA Field Campaign
+file and returns a drop size distribution object.</p>
+<p>This reader processes the .sav files generated.</p>
+<p>Usage:
+dsd = read_2dvd_sav_nasa_gv(filename, campaign=’ifloods’)</p>
+<p>Current Options for campaign are:</p>
+<p>‘ifloods’</p>
+<p>Returns:
+DropSizeDistrometer object</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">pydsd.aux_readers</span></code></a><ul>
+<li><a class="reference internal" href="#module-pydsd.aux_readers">Module contents</a></li>
+<li><a class="reference internal" href="#module-pydsd.aux_readers.GPMApuWallopsRawReader"><code class="docutils literal"><span class="pre">GPMApuWallopsRawReader</span></code></a></li>
+<li><a class="reference internal" href="#module-pydsd.aux_readers.NASA_2DVD_reader"><code class="docutils literal"><span class="pre">NASA_2DVD_reader</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pydsd.aux_reader.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDSD 0.1.7 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Joseph C. Hardin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>

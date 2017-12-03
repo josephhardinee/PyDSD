@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pydisdrometer.io.JWDReader &#8212; PyDisdrometer 0.1.7 documentation</title>
+    <title>pydsd.io.JWDReader &#8212; PyDSD 0.1.7 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyDSD 0.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -46,7 +46,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for pydisdrometer.io.JWDReader</h1><div class="highlight"><pre>
+  <h1>Source code for pydsd.io.JWDReader</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">netCDF4</span> <span class="k">import</span> <span class="n">num2date</span><span class="p">,</span> <span class="n">date2num</span>
@@ -54,7 +54,7 @@
 <span class="kn">from</span> <span class="nn">..DropSizeDistribution</span> <span class="k">import</span> <span class="n">DropSizeDistribution</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">common</span>
 
-<div class="viewcode-block" id="read_jwd"><a class="viewcode-back" href="../../../pydisdrometer.html#pydisdrometer.io.JWDReader.read_jwd">[docs]</a><span class="k">def</span> <span class="nf">read_jwd</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="read_jwd"><a class="viewcode-back" href="../../../pydsd.html#pydsd.io.JWDReader.read_jwd">[docs]</a><span class="k">def</span> <span class="nf">read_jwd</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Takes a filename pointing to a Joss-WaldVogel file and returns</span>
 <span class="sd">    a drop size distribution object.</span>
@@ -70,7 +70,7 @@
     <span class="k">return</span> <span class="n">DropSizeDistribution</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JWDReader"><a class="viewcode-back" href="../../../pydisdrometer.html#pydisdrometer.io.JWDReader.JWDReader">[docs]</a><span class="k">class</span> <span class="nc">JWDReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="JWDReader"><a class="viewcode-back" href="../../../pydsd.html#pydsd.io.JWDReader.JWDReader">[docs]</a><span class="k">class</span> <span class="nc">JWDReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    JWDReader class takes takes a filename as it&#39;s only argument(for now).</span>
@@ -106,7 +106,7 @@
                 <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span>
             <span class="s1">&#39;mm&#39;</span><span class="p">,</span> <span class="s1">&#39;Boundaries of bin sizes&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="JWDReader.getSec"><a class="viewcode-back" href="../../../pydisdrometer.html#pydisdrometer.io.JWDReader.JWDReader.getSec">[docs]</a>    <span class="k">def</span> <span class="nf">getSec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">start_hh</span><span class="p">,</span> <span class="n">start_mm</span><span class="p">):</span>
+<div class="viewcode-block" id="JWDReader.getSec"><a class="viewcode-back" href="../../../pydsd.html#pydsd.io.JWDReader.JWDReader.getSec">[docs]</a>    <span class="k">def</span> <span class="nf">getSec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">start_hh</span><span class="p">,</span> <span class="n">start_mm</span><span class="p">):</span>
         <span class="n">l</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">start_hh</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="mi">86400</span>
@@ -115,7 +115,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="JWDReader.conv_md_to_nd"><a class="viewcode-back" href="../../../pydisdrometer.html#pydisdrometer.io.JWDReader.JWDReader.conv_md_to_nd">[docs]</a>    <span class="k">def</span> <span class="nf">conv_md_to_nd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nd</span><span class="p">):</span>
+<div class="viewcode-block" id="JWDReader.conv_md_to_nd"><a class="viewcode-back" href="../../../pydsd.html#pydsd.io.JWDReader.JWDReader.conv_md_to_nd">[docs]</a>    <span class="k">def</span> <span class="nf">conv_md_to_nd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nd</span><span class="p">):</span>
         <span class="n">F</span> <span class="o">=</span> <span class="mf">0.005</span>
         <span class="n">t</span> <span class="o">=</span> <span class="mf">30.0</span>
         <span class="n">v</span> <span class="o">=</span> <span class="mf">9.65</span> <span class="o">-</span> <span class="mf">10.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.6</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">)</span>
@@ -214,7 +214,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyDisdrometer 0.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyDSD 0.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

@@ -1,6 +1,6 @@
 
 
-.. _sphx_glr_source_auto_examples_plot_basic_example.py:
+.. _sphx_glr_source_auto_examples_plot_dsd.py:
 
 
 Simple Example
@@ -12,7 +12,7 @@ Author: Joseph C. Hardin
 
 
 
-.. image:: /source/auto_examples/images/sphx_glr_plot_basic_example_001.png
+.. image:: /source/auto_examples/images/sphx_glr_plot_dsd_001.png
     :align: center
 
 
@@ -27,19 +27,23 @@ Author: Joseph C. Hardin
 
     import pydsd as pyd
 
-
     filename = '../testdata/sgpdisdrometerC1.b1.20110427.000000_test_jwd_b1.cdf'
-    dsd = pyd.aux_readers.ARM_JWD_Reader.read_arm_jwd_b1(filename)
+    dsd = pyd.read_arm_jwd_b1(filename)
+    #dsd = pyd.read_parsivel_nasa_gv(filename)
     #Read in the Parsivel File
+    dsd.calculate_dsd_parameterization()
     fig = plt.figure(figsize=(8,8))
-    plt.plot(dsd.fields['Nd']['data'][0])
+
+    # pyd.plot.plot_dsd(dsd)
+    pyd.plot.plot_NwD0(dsd)
+    plt.title('Drop Size Distribution')
 
     plt.show()
 
 
 
 
-**Total running time of the script:** ( 0 minutes  0.297 seconds)
+**Total running time of the script:** ( 0 minutes  0.225 seconds)
 
 
 
@@ -50,13 +54,13 @@ Author: Joseph C. Hardin
 
   .. container:: sphx-glr-download
 
-     :download:`Download Python source code: plot_basic_example.py <plot_basic_example.py>`
+     :download:`Download Python source code: plot_dsd.py <plot_dsd.py>`
 
 
 
   .. container:: sphx-glr-download
 
-     :download:`Download Jupyter notebook: plot_basic_example.ipynb <plot_basic_example.ipynb>`
+     :download:`Download Jupyter notebook: plot_dsd.ipynb <plot_dsd.ipynb>`
 
 
 .. only:: html

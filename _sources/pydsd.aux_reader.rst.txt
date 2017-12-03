@@ -1,11 +1,11 @@
-:mod:`pydisdrometer.aux_readers`
+:mod:`pydsd.aux_readers`
 =================================
 
 
 Module contents
 ---------------
 
-.. automodule:: pydisdrometer.aux_readers
+.. automodule:: pydsd.aux_readers
     :members:
     :undoc-members:
     :show-inheritance:
@@ -13,7 +13,7 @@ Module contents
 :mod:`GPMApuWallopsRawReader`
 --------------------------------------------------------
 
-.. automodule:: pydisdrometer.aux_readers.GPMApuWallopsRawReader
+.. automodule:: pydsd.aux_readers.GPMApuWallopsRawReader
     :members:
     :undoc-members:
     :show-inheritance:
@@ -21,7 +21,7 @@ Module contents
 :mod:`NASA_2DVD_reader`
 -------------------------------------------------
 
-.. automodule:: pydisdrometer.aux_readers.NASA_2DVD_reader
+.. automodule:: pydsd.aux_readers.NASA_2DVD_reader
     :members:
     :undoc-members:
     :show-inheritance:
