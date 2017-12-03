@@ -12,7 +12,8 @@ import matplotlib.pyplot as plt
 import pydsd as pyd
 
 filename = '../testdata/sgpdisdrometerC1.b1.20110427.000000_test_jwd_b1.cdf'
-dsd = pyd.read_parsivel_nasa_gv(filename)
+dsd = pyd.read_arm_jwd_b1(filename)
+#dsd = pyd.read_parsivel_nasa_gv(filename)
 #Read in the Parsivel File
 dsd.calculate_dsd_parameterization()
 fig = plt.figure(figsize=(8,8))
