@@ -56,7 +56,8 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
         norm = mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
     else:
         norm = None
-    plt.pcolormesh(dsd.time['data'], dsd.diameter['data'], dsd.fields['Nd']['data'].T,
+        import pdb; pdb.set_trace()
+    plt.pcolormesh(dsd.time['data'].filled(), dsd.diameter['data'].filled(), dsd.fields['Nd']['data'].T,
                    vmin=vmin, vmax=vmax,
                    figure=fig, norm=norm, cmap=cmap)
 
