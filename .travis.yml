@@ -15,7 +15,6 @@ deploy:
     secure: RXHwdpCq99AiCzO+uM8PFGUAP382tGEtPS0QnlbaAWN+6sCnHfpPyy9YClsv5N+PhIqKnHuX5O3nx/XlQVyaHMqbUxzReHYPvJFbbqNErlZ36DXNYxVWkqUgnNz1EbGxKQ08oTmBlTym138umsK1Wqu5+Mv913QaSQa6g1D6Kl4=
   on:
       tags: true
-      branch: release
 
 matrix:
   include:
