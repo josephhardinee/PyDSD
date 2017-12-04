@@ -2,12 +2,21 @@ sudo: false
 env:
   global:
   - LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgfortran.so.3
-  - secure: "HC56kqcyplnfsHFZpM122GVdG8j0b6M1uexIJKVCpy8YS6u7ooS8Oh9jp6OxDyg47OtGJGRPeGvQJ2bMuKhbNz+3YHNxf08AJVApwPq+25PpfGedMWMgmZI42zAzN6RYVUDjYEZb3Y52j4Kw8UaFwfdxoPVFhTiRCgr054laZFc="
+  - secure: HC56kqcyplnfsHFZpM122GVdG8j0b6M1uexIJKVCpy8YS6u7ooS8Oh9jp6OxDyg47OtGJGRPeGvQJ2bMuKhbNz+3YHNxf08AJVApwPq+25PpfGedMWMgmZI42zAzN6RYVUDjYEZb3Y52j4Kw8UaFwfdxoPVFhTiRCgr054laZFc=
 addons:
   apt:
     packages:
     - gfortran
 language: python
+deploy:
+  provider: pypi
+  user: joseph.hardin
+  password:
+    secure: RXHwdpCq99AiCzO+uM8PFGUAP382tGEtPS0QnlbaAWN+6sCnHfpPyy9YClsv5N+PhIqKnHuX5O3nx/XlQVyaHMqbUxzReHYPvJFbbqNErlZ36DXNYxVWkqUgnNz1EbGxKQ08oTmBlTym138umsK1Wqu5+Mv913QaSQa6g1D6Kl4=
+  on:
+      tags: true
+      branch: release
+
 matrix:
   include:
   - python: '2.7'
