@@ -13,7 +13,7 @@ setup(
               'pydsd.plot',
               'pydsd.utility',
               'pydsd.fit'],
-    url='http://pypi.python.org/pypi/PyDisdrometer/',
+    url='http://pypi.python.org/pypi/PyDSD/',
     license='LICENSE.txt',
     description='Python Disdrometer Processing',
     long_description=""" A python library for working with drop size distributions, disdrometers, and particle probes.""",
