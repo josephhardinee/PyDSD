@@ -6,7 +6,7 @@ from ..io import ParsivelReader
 
 
 class TestParsivelReader(unittest.TestCase):
-    """Test module for the ParsivelReader class in pydisdrometer.io.ParsivelReader """
+    """Test module for the ParsivelReader class in pydsd.io.ParsivelReader """
 
     def setUp(self):
         filename = 'testdata/parsivel_telegraph_testfile.mis'

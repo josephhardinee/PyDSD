@@ -1,6 +1,6 @@
 import numpy as np
 from unittest import TestCase
-import pydisdrometer
+import pydsd
 
 from .. import read_parsivel_nasa_gv
 import datetime
