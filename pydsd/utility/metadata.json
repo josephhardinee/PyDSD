@@ -20,7 +20,7 @@
     "Nw":
     {
         "standard_name": "normalized_intercept_parameter",
-        "units": "?",
+        "units": "",
         "long_name" :"Normalized Intercept Parameter of a Normalized Gaussian Distribution"
     },
     "Nt":

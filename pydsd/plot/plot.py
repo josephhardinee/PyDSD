@@ -321,7 +321,8 @@ def plot_ts(dsd, varname, date_format='%H:%M', tz=None,
 
     x_fmt = DateFormatter(date_format, tz=tz)
 
-    ax.plot_date(dsd.time['data'], dsd.fields[varname]['data'], **kwargs)
+    times=[dt.datetime.fromtimestamp(ts) for ts in dsd.time['data']]
+    ax.plot_date(times, dsd.fields[varname]['data'], **kwargs)
 
     ax.xaxis.set_major_formatter(x_fmt)
     if x_min_tick_format == 'second':
@@ -332,6 +333,9 @@ def plot_ts(dsd, varname, date_format='%H:%M', tz=None,
         ax.xaxis.set_minor_locator(HourLocator())
     elif x_min_tick_format == 'day':
         ax.xaxis.set_minor_locator(DayLocator())
+
+    if 'units' in dsd.fields[varname]:
+        ax.set_ylabel(dsd.fields[varname]['units'])
 
     if title is not None:
         ax.set_title(title)
