@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 from ..plot import plot
 from ..aux_readers import ARM_JWD_Reader
+from ..aux_readers.ARM_APU_reader import read_parsivel_arm_netcdf
 
 
 class TestPlot(unittest.TestCase):
@@ -65,4 +66,10 @@ class TestPlot(unittest.TestCase):
         fig, ax = plot.plot_dsd(self.dsd)
         plot.set_ax_limits(xlim=(0, 100), ylim=(0, 100), ax=ax)
         plt.close()
+
+    def test_plot_dsd_on_pars2_data(self):
+        """ Plot pars2 data and test to make sure it worked """
+        filename = 'testdata/acxpars2S1.b1.20150124.000000.cdf'
+        dsd = read_parsivel_arm_netcdf(filename)
+        fig, ax = plot.plot_dsd(dsd)
 

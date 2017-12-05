@@ -2,27 +2,19 @@
 Simple Example
 --------------
 
-A simple example using PyDSD. This example reads in a OTT APU Disdrometer file, calculates the radar variables, and plots a few of them.
+This reads in a OTT Parsivel file in ARM .b1 format. It then plots the DSD.
 Author: Joseph C. Hardin
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-import pydsd as pyd
+import pydsd
 
-filename = '../testdata/sgpdisdrometerC1.b1.20110427.000000_test_jwd_b1.cdf'
-dsd = pyd.read_arm_jwd_b1(filename)
-#dsd = pyd.read_parsivel_nasa_gv(filename)
-#Read in the Parsivel File
-dsd.calculate_dsd_parameterization()
-fig = plt.figure(figsize=(8,8))
+filename = '../testdata/acxpars2S1.b1.20150124.000000.cdf'
+dsd = pydsd.read_parsivel_arm_netcdf(filename)
 
-# pyd.plot.plot_dsd(dsd)
-pyd.plot.plot_NwD0(dsd)
+fig, ax = pydsd.plot.plot_dsd(dsd, cmap='viridis')
 plt.title('Drop Size Distribution')
 
 plt.show()
-
-
-

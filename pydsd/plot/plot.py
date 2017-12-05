@@ -9,6 +9,7 @@ import matplotlib as mpl
 from pylab import cm
 from matplotlib.dates import DateFormatter
 from matplotlib.dates import SecondLocator, MinuteLocator, HourLocator, DayLocator
+import datetime as dt
 
 
 def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
@@ -56,8 +57,8 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
         norm = mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
     else:
         norm = None
-        import pdb; pdb.set_trace()
-    plt.pcolormesh(dsd.time['data'].filled(), dsd.diameter['data'].filled(), dsd.fields['Nd']['data'].T,
+    times=[dt.datetime.fromtimestamp(ts) for ts in dsd.time['data']]
+    plt.pcolormesh(times, dsd.diameter['data'].filled(), dsd.fields['Nd']['data'].T,
                    vmin=vmin, vmax=vmax,
                    figure=fig, norm=norm, cmap=cmap)
 
@@ -66,12 +67,14 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
     if xlims is not None:
         ax.set_xlim(xlims)
     else:
-        ax.set_xlim(dsd.time['data'][0], dsd.time['data'][-1])
-
+        ax.set_xlim(times[0], times[-1])
+        #ax.set_xlim(dsd.time['data'][0], dsd.time['data'][-1])
     if ylims is not None:
         ax.set_ylim(ylims)
     else:
         ax.set_ylim(0., dsd.diameter['data'][-1])
+    
+    plt.gcf().autofmt_xdate()
 
     if tighten:
         max_diameter = dsd.diameter['data'][
@@ -79,7 +82,8 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
             np.argmax(np.nansum(dsd.fields['Nd']['data'], axis=0)[::-1] > 0)]
         plt.ylim(0, max_diameter)
 
-    plt.colorbar()
+    cbar = plt.colorbar()
+    cbar.set_label('Drop Density (mm/m^3)')
     plt.xlabel('Time(m)')
     plt.ylabel('Diameter(mm)')
     return fig, ax

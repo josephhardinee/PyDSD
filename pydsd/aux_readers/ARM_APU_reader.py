@@ -72,7 +72,7 @@ class ARM_APU_reader(object):
             self.nc_dataset.variables['precip_rate'][:])
 
         self.diameter = common.var_to_dict(
-            'diameter', self.nc_dataset.variables['particle_size'][:],
+            'diameter', np.ma.array(self.nc_dataset.variables['particle_size'][:]),
             'mm', 'Particle diameter of bins')
         self.spread = common.var_to_dict(
             'spread', self.nc_dataset.variables['class_size_width'][:],
