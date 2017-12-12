@@ -12,7 +12,7 @@ PyDSD is an open source Python package to work with disdrometer, particle probe,
 2. [PyDSD Documentation](http://josephhardinee.github.io/PyDSD)
 3. [Example Gallery](http://josephhardinee.github.io/PyDSD/source/auto_examples/index.html)
 4. [Mailing List](https://groups.google.com/forum/#!forum/pydisdrometer-user-group)
-4. [Issues](http://josephhardinee.github.io/PyDSD/issues/)
+4. [Issues](https://github.com/josephhardinee/PyDSD/issues)
 
 ## Citing
 Currently the best way to cite PyDSD is to cite our software DOI as:
