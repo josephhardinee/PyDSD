@@ -4,49 +4,56 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/josephhardinee/PyDSD/badge.svg?branch=master)](https://coveralls.io/github/josephhardinee/PyDSD?branch=master)
 
-PyDSD is a Python package to process disdrometer files. It currently is capable of reading several different types of disdrometer formats, with more being added regularly. It currently supports the following functionality:
-1) File Reading
-2) Microphysics Estimation
-3) T-Matrix Scattering of Radar Parameters
-4) QPE Relationship Estimation.
+PyDSD is an open source Python package to work with disdrometer, particle probe, and DSD data. It is meant to make complex workflows easy. It includes support for different aspects of the research and operational workflow. This includes parametric fitting for different distributions, file reading, and scattering support.   
 
-It currently supports OTT Parsivel disdrometers, Joss Waldvogel Disdrometers, 2DVD files, and HVPS and 2DS airborne disdrometers.
+## Import Links   
 
-Author: Joseph C. Hardin, Nick Guy
+1. [Source Code Repository](https://github.com/josephhardinee/PyDSD)
+2. [PyDSD Documentation](http://josephhardinee.github.io/PyDSD)
+3. [Example Gallery](http://josephhardinee.github.io/PyDSD/source/auto_examples/index.html)
+4. [Mailing List](https://groups.google.com/forum/#!forum/pydisdrometer-user-group)
+4. [Issues](https://github.com/josephhardinee/PyDSD/issues)
+
+## Citing
+Currently the best way to cite PyDSD is to cite our software DOI as:
+Joseph Hardin, Nick Guy. (2017, December). PyDSD , doi: http://doi.org/10.5281/zenodo.9991
 
 ## Usage
-
-An quick example of using the pydisrometer package to read in a parsivel data file and calculate radar scattered parameters is: 
+PyDSD is currently capable of reading several different file formats. As a quick example of usage:
 
 ```python
-dsd = pydisdrometer.read_parsivel(filename)
+import pydsd
+dsd = pydsd.read_parsivel(filename)
 
-dsd.calculate_radar_parameters() 
+dsd.calculate_dsd_parameters() 
 ```
 
-If using NASA Ground Validation Parsivel Disdrometer Data from the IFloodS campaign, usage is 
+PyDSD includes several different readers in the io and aux_readers categories. If you are unable to find the correct reader please contact us or post an issue. 
+
+PyDSD also supports scattering to simulate radar measured fields. The scattered fields will be stored in the fields dictionary of the dsd object. So to plot the reflectivity one can run
 
 ```python
-dsd = pydisdrometer.read_parsivel_gv(filename, campaign='ifloods')
-```
 
-The scattered fields will be stored in the fields dictionary of the dsd object. So to plot the reflectivity one can run
-
-```python
+import pydsd
+dsd = pydsd.read_parsivel(filename)
+dsd.calculate_dsd_parameters() 
 plot(dsd.time, dsd.fields['Zh']['data'])
 ```
-
-For more information, please see the examples in the Notebooks directory. Additionally you can find some initial documentation at [PyDSD Documentation](http://josephhardinee.github.io/PyDSD)
+PyDSD also has built in plotting routines. Please see the example gallery linked above as well as the documentation. 
 
 Requirements:
     This library currently requires the normal scientific python stack(numpy+scipy+matplotlib)
-    It also requires the [PyTMatrix Package](https://github.com/jleinonen/pytmatrix). 
+    It also requires the [PyTMatrix Package](https://github.com/jleinonen/pytmatrix) for scattering calculations. 
 
-We welcome contributions from all users. Please see the examples in Notebooks for a more indepth guide on how to use PyDSD.
+## Contributing
+__Imposter syndrome disclaimer__: We want your help. No, really.
 
-## User Group
-There is now a pydisdrometer user group mailing list at
-https://groups.google.com/forum/#!forum/pydisdrometer-user-group
+There may be a little voice inside your head that is telling you that you're not ready to be an open source contributor; that your skills aren't nearly good enough to contribute. What could you possibly offer a project like this one?
 
+We assure you - the little voice in your head is wrong. If you can write code at all, you can contribute code to open source. Contributing to open source projects is a fantastic way to advance one's coding skills. Writing perfect code isn't the measure of a good developer (that would disqualify all of us!); it's trying to create something, making mistakes, and learning from those mistakes. That's how we all improve, and we are happy to help others learn.
+
+Being an open source contributor doesn't just mean writing code, either. You can help out by writing documentation, tests, or even giving feedback about the project (and yes - that includes giving feedback about the contribution process). Some of these contributions may be the most valuable to the project as a whole, because you're coming to the project with fresh eyes, so you can see the errors and assumptions that seasoned contributors have glossed over.
+
+Contact us, we'll walk you through how to make a change and add it to PyDSD. Just have a complaint, notice a typo, or a rant? We love those too!
 
 
