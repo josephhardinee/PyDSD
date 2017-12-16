@@ -32,6 +32,7 @@ class ParsivelReader(object):
     This should be a parsivel raw datafile(output from the parsivel).
 
     """
+
     def __init__(self, filename):
         self.filename = filename
         self.rain_rate = []
@@ -67,7 +68,7 @@ class ParsivelReader(object):
         Returns: None
 
         """
-        with io.open(self.filename, encoding='latin-1' ) as f:
+        with io.open(self.filename, encoding='latin-1') as f:
             for line in f:
                 line = line.rstrip('\n\r;')
                 code = line.split(':')[0]
@@ -117,7 +118,8 @@ class ParsivelReader(object):
             'Reflectivity', np.ma.masked_equal(self.Z, -9.999), 'dBZ',
             'Equivalent reflectivity factor')
         self.fields['Nd'] = common.var_to_dict(
-            'Nd', np.ma.masked_equal(self.nd, np.power(10, -9.999)), 'm^-3 mm^-1',
+            'Nd', np.ma.masked_equal(
+                self.nd, np.power(10, -9.999)), 'm^-3 mm^-1',
             'Liquid water particle concentration')
         self.fields['Nd']['data'].set_fill_value(0)
 
@@ -142,9 +144,11 @@ class ParsivelReader(object):
         """
         Convert the time to an Epoch time using package standard.
         """
-        time_unaware = np.array([self._base_time[i] + timedelta(seconds=self.time[i]) for i in range(0, len(self.time))])
+        time_unaware = np.array(
+            [self._base_time[i] + timedelta(seconds=self.time[i]) for i in range(0, len(self.time))])
         epoch = datetime.utcfromtimestamp(0)
-        time_secs = [(timestamp-epoch).total_seconds() for timestamp in time_unaware]
+        time_secs = [(timestamp - epoch).total_seconds()
+                     for timestamp in time_unaware]
 
         eptime = {'data': time_secs, 'units': common.EPOCH_UNITS,
                   'title': 'Time', 'long_name': 'time'}
@@ -161,9 +165,9 @@ class ParsivelReader(object):
     spread = common.var_to_dict(
         'spread',
         [
-        0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257,
-        0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515, 0.515, 0.515, 1.030, 1.030,
-        1.030, 1.030, 1.030, 2.060, 2.060, 2.060, 2.060, 2.060, 3.090, 3.090],
+            0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.257,
+            0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515, 0.515, 0.515, 1.030, 1.030,
+            1.030, 1.030, 1.030, 2.060, 2.060, 2.060, 2.060, 2.060, 3.090, 3.090],
         'mm', 'Bin size spread of bins')
 
     velocity = common.var_to_dict(
