@@ -8,6 +8,7 @@ addons:
     packages:
     - gfortran
 language: python
+cache: pip
 deploy:
   provider: pypi
   user: joseph.hardin
