@@ -4,29 +4,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>pydsd.DSR &#8212; PyDSD 0.1.7 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.1.7',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -90,8 +81,8 @@
         <span class="k">return</span> <span class="mf">1.173</span> <span class="o">-</span> <span class="mf">0.5165</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">+</span> <span class="mf">0.4698</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.1317</span> <span class="o">*</span> \
             <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">8.5e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mf">1.065</span> <span class="o">-</span> <span class="mf">6.25e-2</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">-</span> <span class="mf">3.99e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">7.66e-4</span> <span class="o">*</span> \
-            <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">4.095e-5</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span></div>
+        <span class="k">return</span> <span class="mf">1.065</span> <span class="o">-</span> <span class="mf">6.25e-2</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">-</span> <span class="mf">3.99e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">7.66e-4</span> <span class="o">*</span> \</div>
+            <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">4.095e-5</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span>
 
 
 <div class="viewcode-block" id="pb"><a class="viewcode-back" href="../../pydsd.html#pydsd.DSR.pb">[docs]</a><span class="k">def</span> <span class="nf">pb</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
@@ -122,8 +113,8 @@
 <span class="sd">      falling at terminal velocity in air. Q.J.R. Meteorol. Soc., 96:</span>
 <span class="sd">      247-256</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-
-    <span class="k">return</span> <span class="mf">1.03</span> <span class="o">-</span> <span class="mf">0.062</span> <span class="o">*</span> <span class="n">D_eq</span></div>
+</div>
+    <span class="k">return</span> <span class="mf">1.03</span> <span class="o">-</span> <span class="mf">0.062</span> <span class="o">*</span> <span class="n">D_eq</span>
 
 
 <div class="viewcode-block" id="bc"><a class="viewcode-back" href="../../pydsd.html#pydsd.DSR.bc">[docs]</a><span class="k">def</span> <span class="nf">bc</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
@@ -154,8 +145,8 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">return</span> <span class="mf">1.0048</span> <span class="o">+</span> <span class="mf">5.7e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> \
-        <span class="mf">2.628e-02</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.682e-03</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-</span> \
-        <span class="mf">1.677e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
+        <span class="mf">2.628e-02</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.682e-03</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-</span> \</div>
+        <span class="mf">1.677e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 </pre></div>
 
           </div>
@@ -165,12 +156,14 @@
         <div class="sphinxsidebarwrapper">
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -192,7 +185,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.0.
     </div>
   </body>
 </html>
