@@ -45,6 +45,21 @@ Requirements:
     This library currently requires the normal scientific python stack(numpy+scipy+matplotlib)
     It also requires the [PyTMatrix Package](https://github.com/jleinonen/pytmatrix) for scattering calculations. 
 
+## Installing
+There are two methods of installing PyDSD:
+
+#### From Source:
+```
+git clone https://github.com/josephhardinee/PyDSD
+cd PyDSD
+python setup.py install
+```
+#### Using Anaconda Python Distribution
+Simply type 
+```conda install -c conda-forge pydsd```
+
+This installs the latest package version and dependencies. 
+
 ## Contributing
 __Imposter syndrome disclaimer__: We want your help. No, really.
 
