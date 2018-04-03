@@ -81,8 +81,8 @@
         <span class="k">return</span> <span class="mf">1.173</span> <span class="o">-</span> <span class="mf">0.5165</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">+</span> <span class="mf">0.4698</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.1317</span> <span class="o">*</span> \
             <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">8.5e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mf">1.065</span> <span class="o">-</span> <span class="mf">6.25e-2</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">-</span> <span class="mf">3.99e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">7.66e-4</span> <span class="o">*</span> \</div>
-            <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">4.095e-5</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="mf">1.065</span> <span class="o">-</span> <span class="mf">6.25e-2</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">-</span> <span class="mf">3.99e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">7.66e-4</span> <span class="o">*</span> \
+            <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">4.095e-5</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span></div>
 
 
 <div class="viewcode-block" id="pb"><a class="viewcode-back" href="../../pydsd.html#pydsd.DSR.pb">[docs]</a><span class="k">def</span> <span class="nf">pb</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
@@ -113,8 +113,8 @@
 <span class="sd">      falling at terminal velocity in air. Q.J.R. Meteorol. Soc., 96:</span>
 <span class="sd">      247-256</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-</div>
-    <span class="k">return</span> <span class="mf">1.03</span> <span class="o">-</span> <span class="mf">0.062</span> <span class="o">*</span> <span class="n">D_eq</span>
+
+    <span class="k">return</span> <span class="mf">1.03</span> <span class="o">-</span> <span class="mf">0.062</span> <span class="o">*</span> <span class="n">D_eq</span></div>
 
 
 <div class="viewcode-block" id="bc"><a class="viewcode-back" href="../../pydsd.html#pydsd.DSR.bc">[docs]</a><span class="k">def</span> <span class="nf">bc</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
@@ -145,8 +145,8 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">return</span> <span class="mf">1.0048</span> <span class="o">+</span> <span class="mf">5.7e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> \
-        <span class="mf">2.628e-02</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.682e-03</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-</span> \</div>
-        <span class="mf">1.677e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="mf">2.628e-02</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.682e-03</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-</span> \
+        <span class="mf">1.677e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -185,7 +185,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

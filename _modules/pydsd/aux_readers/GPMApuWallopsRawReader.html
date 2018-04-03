@@ -66,8 +66,8 @@
     <span class="c1">#return reader</span>
     <span class="k">if</span> <span class="n">reader</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DropSizeDistribution</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span></div>
-        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="GPMApuWallopsRawReader"><a class="viewcode-back" href="../../../pydsd.aux_reader.html#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader">[docs]</a><span class="k">class</span> <span class="nc">GPMApuWallopsRawReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -141,8 +141,8 @@
         <span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)):</span>
             <span class="n">Nd_mat</span><span class="p">[</span><span class="n">ti</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
                 <span class="n">Md</span><span class="p">[</span><span class="n">ti</span><span class="p">],</span> <span class="p">(</span><span class="n">F</span> <span class="o">*</span> <span class="mi">60</span><span class="o">*</span><span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">vel_mat</span><span class="p">,</span> <span class="n">spread_mat</span><span class="p">)))</span>
-            <span class="n">Nd_array</span><span class="p">[</span><span class="n">ti</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd_mat</span><span class="p">[</span><span class="n">ti</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">Nd_array</span>
+            <span class="n">Nd_array</span><span class="p">[</span><span class="n">ti</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd_mat</span><span class="p">[</span><span class="n">ti</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Nd_array</span></div>
 
     <span class="k">def</span> <span class="nf">_get_epoch_time</span><span class="p">(</span><span class="n">sample_times</span><span class="p">,</span> <span class="n">t_units</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert time to epoch time and return a dictionary.&quot;&quot;&quot;</span>
@@ -180,8 +180,8 @@
              <span class="mf">1.35</span><span class="p">,</span> <span class="mf">1.59</span><span class="p">,</span> <span class="mf">1.83</span><span class="p">,</span> <span class="mf">2.08</span><span class="p">,</span> <span class="mf">2.40</span><span class="p">,</span> <span class="mf">2.78</span><span class="p">,</span> <span class="mf">3.15</span><span class="p">,</span> <span class="mf">3.50</span><span class="p">,</span> <span class="mf">3.84</span><span class="p">,</span> <span class="mf">4.40</span><span class="p">,</span> <span class="mf">5.20</span><span class="p">,</span>
              <span class="mf">6.00</span><span class="p">,</span> <span class="mf">6.80</span><span class="p">,</span> <span class="mf">7.60</span><span class="p">,</span> <span class="mf">8.80</span><span class="p">,</span> <span class="mf">10.40</span><span class="p">,</span> <span class="mf">12.00</span><span class="p">,</span> <span class="mf">13.60</span><span class="p">,</span> <span class="mf">15.20</span><span class="p">,</span> <span class="mf">17.60</span><span class="p">,</span> <span class="mf">20.80</span><span class="p">]),</span>
         <span class="s1">&#39;m s^-1&#39;</span><span class="p">,</span> <span class="s1">&#39;Terminal fall velocity for each bin&#39;</span><span class="p">)</span>
-</div>
-    <span class="n">supported_campaigns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ifloods&#39;</span><span class="p">,</span> <span class="s1">&#39;mc3e_dsd&#39;</span><span class="p">,</span> <span class="s1">&#39;mc3e_raw&#39;</span><span class="p">]</span>
+
+    <span class="n">supported_campaigns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ifloods&#39;</span><span class="p">,</span> <span class="s1">&#39;mc3e_dsd&#39;</span><span class="p">,</span> <span class="s1">&#39;mc3e_raw&#39;</span><span class="p">]</span></div>
 </pre></div>
 
           </div>
@@ -220,7 +220,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

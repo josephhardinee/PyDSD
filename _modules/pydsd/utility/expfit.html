@@ -75,8 +75,8 @@
     <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">x_finite_index</span><span class="p">,</span> <span class="n">y_finite_index</span><span class="p">)</span>
 
     <span class="n">expfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-    <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">expfunc</span><span class="p">,</span> <span class="n">x_array</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">y_array</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span></div>
-    <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span>
+    <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">expfunc</span><span class="p">,</span> <span class="n">x_array</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">y_array</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
 
 
 <div class="viewcode-block" id="expfit2"><a class="viewcode-back" href="../../../pydsd.html#pydsd.utility.expfit.expfit2">[docs]</a><span class="k">def</span> <span class="nf">expfit2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
@@ -114,8 +114,8 @@
 
 
     <span class="n">expfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">)</span>
-    <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">expfunc</span><span class="p">,</span> <span class="p">[</span><span class="n">x1_array</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">x2_array</span><span class="p">[</span><span class="n">mask</span><span class="p">]],</span> <span class="n">y_array</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span></div>
-    <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span>
+    <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">expfunc</span><span class="p">,</span> <span class="p">[</span><span class="n">x1_array</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">x2_array</span><span class="p">[</span><span class="n">mask</span><span class="p">]],</span> <span class="n">y_array</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
 </pre></div>
 
           </div>
@@ -154,7 +154,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

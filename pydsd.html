@@ -87,16 +87,18 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>D_eq: float</strong></p>
-<blockquote>
-<div><p>Volume Equivalent Drop Diameter</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>D_eq: float</strong></dt>
+<dd><p class="first last">Volume Equivalent Drop Diameter</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">axis_ratio: float</p>
-<blockquote class="last">
-<div><p>The ratio of the major to minor axis.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>axis_ratio: float</strong></dt>
+<dd><p class="first last">The ratio of the major to minor axis.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -125,16 +127,18 @@ Equilibrium Shape of Raindrops. J. Atmos. Sci., 44, 1509-1524.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>D_eq: float</strong></p>
-<blockquote>
-<div><p>Volume Equivalent Drop Diameter</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>D_eq: float</strong></dt>
+<dd><p class="first last">Volume Equivalent Drop Diameter</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">axis_ratio: float</p>
-<blockquote class="last">
-<div><p>The ratio of the major to minor axis.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>axis_ratio: float</strong></dt>
+<dd><p class="first last">The ratio of the major to minor axis.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -167,16 +171,18 @@ falling at terminal velocity in air. Q.J.R. Meteorol. Soc., 96:
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>D_eq: float</strong></p>
-<blockquote>
-<div><p>Volume Equivalent Drop Diameter</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>D_eq: float</strong></dt>
+<dd><p class="first last">Volume Equivalent Drop Diameter</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">axis_ratio: float</p>
-<blockquote class="last">
-<div><p>The ratio of the major to minor axis.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>axis_ratio: float</strong></dt>
+<dd><p class="first last">The ratio of the major to minor axis.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -191,10 +197,10 @@ falling at terminal velocity in air. Q.J.R. Meteorol. Soc., 96:
 </dl>
 </div>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r1" rules="none">
+<table class="docutils citation" frame="void" id="r10ca3636091f-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R1]</a></td><td>Thurai, Merhala, V. N. Bringi, “Drop axis ratios from a 2D
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Thurai, Merhala, V. N. Bringi, “Drop axis ratios from a 2D
 video disdrometer.” J. Atmos. Oceanic Technol., 22, 966 - 978. 2005</td></tr>
 </tbody>
 </table>
@@ -214,15 +220,48 @@ simulations on itself.</p>
 <p>DropSizeDistribution class to hold DSD’s and calculate parameters
 and relationships. Should be returned from the disdrometer*reader style
 functions.</p>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="3%" />
-<col width="97%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>time: array_like</strong></td>
-<td>An array of times corresponding to the time each dsd was sampled in minutes relative to time_start. time_start: datetime A datetime object indicated start of disdrometer recording. fields: dictionary Dictionary of scattered components. Nd : 2d Array A list of drop size distributions spread: array_like Array giving the bin spread size for each size bin of the disdrometer. velocity: array_like Terminal Fall Velocity for each size bin. This is based on the disdrometer assumptions. Z: array_like The equivalent reflectivity factory from the disdrometer. Often taken as D**6.  bin_edges: array_like N+1 sized array of the boundaries of each size bin. For 30 bins for instance, there will be 31 different bin boundaries. diameter: array_like The center size for each dsd bin.</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>time: array_like</strong></dt>
+<dd><blockquote class="first">
+<div><p>An array of times corresponding to the time each dsd was sampled in minutes relative to time_start.</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt>time_start: datetime</dt>
+<dd><p class="first last">A datetime object indicated start of disdrometer recording.</p>
+</dd>
+<dt>fields: dictionary</dt>
+<dd><p class="first last">Dictionary of scattered components.</p>
+</dd>
+<dt>Nd <span class="classifier-delimiter">:</span> <span class="classifier">2d Array</span></dt>
+<dd><p class="first last">A list of drop size distributions</p>
+</dd>
+<dt>spread: array_like</dt>
+<dd><p class="first last">Array giving the bin spread size for each size bin of the
+disdrometer.</p>
+</dd>
+<dt>velocity: array_like</dt>
+<dd><p class="first last">Terminal Fall Velocity for each size bin. This is based on the
+disdrometer assumptions.</p>
+</dd>
+<dt>Z: array_like</dt>
+<dd><p class="first last">The equivalent reflectivity factory from the disdrometer. Often
+taken as D**6.</p>
+</dd>
+<dt>bin_edges: array_like</dt>
+<dd><p class="first last">N+1 sized array of the boundaries of each size bin. For 30 bins
+for instance, there will be 31 different bin boundaries.</p>
+</dd>
+<dt>diameter: array_like</dt>
+<dd><p class="first last">The center size for each dsd bin.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -331,14 +370,14 @@ to see the effect this has on the parameters. Temperatures are in Celsius. Defau
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>scattering_temp: optional, float</strong></p>
-<blockquote>
-<div><p>Scattering temperature [C].</p>
-</div></blockquote>
-<p><strong>scattering_freq: optional, float</strong></p>
-<blockquote class="last">
-<div><p>Scattering frequency [Hz].</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>scattering_temp: optional, float</strong></dt>
+<dd><p class="first last">Scattering temperature [C].</p>
+</dd>
+<dt><strong>scattering_freq: optional, float</strong></dt>
+<dd><p class="first last">Scattering frequency [Hz].</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -441,31 +480,42 @@ validation campaigns. These conform to document ???</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename: str</strong></p>
-<blockquote>
-<div><p>Data file name.</p>
-</div></blockquote>
-<p><strong>campaign: str</strong></p>
-<blockquote>
-<div><p>Campaign identifier that reads file based upon the format used
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename: str</strong></dt>
+<dd><p class="first last">Data file name.</p>
+</dd>
+<dt><strong>campaign: str</strong></dt>
+<dd><p class="first last">Campaign identifier that reads file based upon the format used
 to produce that data.</p>
-</div></blockquote>
-<p><strong>skip_header: int</strong></p>
-<blockquote>
-<div><p>A number of header lines to skip when reading the file.</p>
-</div></blockquote>
-<p><strong>Takes a filename pointing to a Parsivel NASA Field Campaign file and returns</strong></p>
-<p><strong>a drop size distribution object.</strong></p>
-<p><strong>Usage:</strong></p>
-<p><strong>dsd = read_parsivel_nasa_gv(filename, campaign=’MC3E_dsd’)</strong></p>
-<p><strong>Current Options for campaign are:</strong></p>
-<p><strong>‘ifloods’</strong></p>
-<p><strong>‘mc3e_dsd’</strong></p>
-<p><strong>‘mc3e_raw’</strong></p>
-<p><strong>Returns:</strong></p>
-<p><strong>DropSizeDistrometer object</strong></p>
-<p><strong>Note: NASA’s processing strips out rain rate so we have to</strong></p>
-<p class="last"><strong>recalculate it based upon a fall speed relationship.</strong></p>
+</dd>
+<dt><strong>skip_header: int</strong></dt>
+<dd><p class="first last">A number of header lines to skip when reading the file.</p>
+</dd>
+<dt><strong>Takes a filename pointing to a Parsivel NASA Field Campaign file and returns</strong></dt>
+<dd></dd>
+<dt><strong>a drop size distribution object.</strong></dt>
+<dd></dd>
+<dt><strong>Usage:</strong></dt>
+<dd></dd>
+<dt><strong>dsd = read_parsivel_nasa_gv(filename, campaign=’MC3E_dsd’)</strong></dt>
+<dd></dd>
+<dt><strong>Current Options for campaign are:</strong></dt>
+<dd></dd>
+<dt><strong>‘ifloods’</strong></dt>
+<dd></dd>
+<dt><strong>‘mc3e_dsd’</strong></dt>
+<dd></dd>
+<dt><strong>‘mc3e_raw’</strong></dt>
+<dd></dd>
+<dt><strong>Returns:</strong></dt>
+<dd></dd>
+<dt><strong>DropSizeDistrometer object</strong></dt>
+<dd></dd>
+<dt><strong>Note: NASA’s processing strips out rain rate so we have to</strong></dt>
+<dd></dd>
+<dt><strong>recalculate it based upon a fall speed relationship.</strong></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -643,7 +693,7 @@ x: array_like</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

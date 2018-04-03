@@ -59,11 +59,18 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xvar</strong> : array</p>
-<p><strong>yvar</strong> : array</p>
-<p><strong>bins</strong> : 2-tuple</p>
-<p><strong>ranges</strong> : array [Xmin, Xmax, Ymin, Ymax]</p>
-<p class="last"><strong>norm</strong> : bool Whether to normalize the output</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>xvar</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd></dd>
+<dt><strong>yvar</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd></dd>
+<dt><strong>bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">2-tuple</span></dt>
+<dd></dd>
+<dt><strong>ranges</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array [Xmin, Xmax, Ymin, Ymax]</span></dt>
+<dd></dd>
+<dt><strong>norm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool Whether to normalize the output</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -91,16 +98,23 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dsd</strong> : dict</p>
-<blockquote>
-<div><p>PyDSD dictionary.</p>
-</div></blockquote>
-<p><strong>col</strong> : str</p>
-<p><strong>msize</strong> : int</p>
-<p><strong>title</strong> : str</p>
-<p><strong>ax</strong> : Matplotlib Axis instance</p>
-<p><strong>fig</strong> : Matplotlib Figure instance</p>
-<p class="last"><strong>**kwargs</strong> : Dictionary to pass to matplotlib</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dsd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">PyDSD dictionary.</p>
+</dd>
+<dt><strong>col</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>msize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd></dd>
+<dt><strong>title</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>ax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Axis instance</span></dt>
+<dd></dd>
+<dt><strong>fig</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Figure instance</span></dt>
+<dd></dd>
+<dt><strong>**kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary to pass to matplotlib</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -116,20 +130,26 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dsd</strong> : dict</p>
-<blockquote>
-<div><p>PyDSD dictionary.</p>
-</div></blockquote>
-<p><strong>log_scale</strong> : str</p>
-<blockquote>
-<div><p>True for log, Fale for ‘linear’ variables.</p>
-</div></blockquote>
-<p><strong>col</strong> : str</p>
-<p><strong>msize</strong> : int</p>
-<p><strong>title</strong> : str</p>
-<p><strong>ax</strong> : Matplotlib Axis instance</p>
-<p><strong>fig</strong> : Matplotlib Figure instance</p>
-<p class="last"><strong>**kwargs</strong> : Dictionary to pass to matplotlib</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dsd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">PyDSD dictionary.</p>
+</dd>
+<dt><strong>log_scale</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">True for log, Fale for ‘linear’ variables.</p>
+</dd>
+<dt><strong>col</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>msize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd></dd>
+<dt><strong>title</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>ax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Axis instance</span></dt>
+<dd></dd>
+<dt><strong>fig</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Figure instance</span></dt>
+<dd></dd>
+<dt><strong>**kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary to pass to matplotlib</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -145,24 +165,34 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dsd</strong> : dict</p>
-<blockquote>
-<div><p>PyDSD dictionary.</p>
-</div></blockquote>
-<p><strong>log_scale</strong> : str</p>
-<blockquote>
-<div><p>True for log, Fale for ‘linear’ variables.</p>
-</div></blockquote>
-<p><strong>bins</strong> : tuple, (x,y) bin size</p>
-<p><strong>norm</strong> : bool Normalize output</p>
-<p><strong>xlims</strong> : 2-tuple (Xmin, Xmax)</p>
-<p><strong>ylims</strong> : 2-tuple (Ymin, Ymax)</p>
-<p><strong>title</strong> : str</p>
-<p><strong>colorbar</strong> : bool</p>
-<p><strong>clabel: colorbar label</strong></p>
-<p><strong>ax</strong> : Matplotlib Axis instance</p>
-<p><strong>fig</strong> : Matplotlib Figure instance</p>
-<p class="last"><strong>kwargs</strong> : Keyword arguments to pass to pcolormesh</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dsd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">PyDSD dictionary.</p>
+</dd>
+<dt><strong>log_scale</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">True for log, Fale for ‘linear’ variables.</p>
+</dd>
+<dt><strong>bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple, (x,y) bin size</span></dt>
+<dd></dd>
+<dt><strong>norm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool Normalize output</span></dt>
+<dd></dd>
+<dt><strong>xlims</strong> <span class="classifier-delimiter">:</span> <span class="classifier">2-tuple (Xmin, Xmax)</span></dt>
+<dd></dd>
+<dt><strong>ylims</strong> <span class="classifier-delimiter">:</span> <span class="classifier">2-tuple (Ymin, Ymax)</span></dt>
+<dd></dd>
+<dt><strong>title</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>colorbar</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd></dd>
+<dt><strong>clabel: colorbar label</strong></dt>
+<dd></dd>
+<dt><strong>ax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Axis instance</span></dt>
+<dd></dd>
+<dt><strong>fig</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Figure instance</span></dt>
+<dd></dd>
+<dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Keyword arguments to pass to pcolormesh</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -179,29 +209,29 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dsd: DropSizeDistribution</strong></p>
-<blockquote>
-<div><p>Drop Size Distribution instance containing a <cite>Nd</cite>.</p>
-</div></blockquote>
-<p><strong>xlims: 2-tuple</strong></p>
-<blockquote>
-<div><p>Range of x axis (x_begin, x_end).</p>
-</div></blockquote>
-<p><strong>ylims: 2-tuple</strong></p>
-<blockquote>
-<div><p>Range of y axis (y_begin, y_end).</p>
-</div></blockquote>
-<p><strong>log_scale: boolean</strong></p>
-<blockquote>
-<div><p>Whether to plot on a log scale, or a linear scale.</p>
-</div></blockquote>
-<p><strong>tighten: True</strong></p>
-<blockquote>
-<div><p>Whether to restrict plot to areas with data.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>dsd: DropSizeDistribution</strong></dt>
+<dd><p class="first last">Drop Size Distribution instance containing a <cite>Nd</cite>.</p>
+</dd>
+<dt><strong>xlims: 2-tuple</strong></dt>
+<dd><p class="first last">Range of x axis (x_begin, x_end).</p>
+</dd>
+<dt><strong>ylims: 2-tuple</strong></dt>
+<dd><p class="first last">Range of y axis (y_begin, y_end).</p>
+</dd>
+<dt><strong>log_scale: boolean</strong></dt>
+<dd><p class="first last">Whether to plot on a log scale, or a linear scale.</p>
+</dd>
+<dt><strong>tighten: True</strong></dt>
+<dd><p class="first last">Whether to restrict plot to areas with data.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">fig: Figure instance</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>fig: Figure instance</strong></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -216,18 +246,32 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xvar</strong> : array</p>
-<p><strong>yvar</strong> : array</p>
-<p><strong>bins</strong> : tuple, (x,y) bin size</p>
-<p><strong>norm</strong> : bool Normalize output</p>
-<p><strong>xlims</strong> : 2-tuple (Xmin, Xmax)</p>
-<p><strong>ylims</strong> : 2-tuple (Ymin, Ymax)</p>
-<p><strong>title</strong> : str</p>
-<p><strong>colorbar</strong> : bool</p>
-<p><strong>clabel: colorbar label</strong></p>
-<p><strong>ax</strong> : Matplotlib Axis instance</p>
-<p><strong>fig</strong> : Matplotlib Figure instance</p>
-<p class="last"><strong>kwargs</strong> : Keyword arguments to pass to pcolormesh</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>xvar</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd></dd>
+<dt><strong>yvar</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd></dd>
+<dt><strong>bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple, (x,y) bin size</span></dt>
+<dd></dd>
+<dt><strong>norm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool Normalize output</span></dt>
+<dd></dd>
+<dt><strong>xlims</strong> <span class="classifier-delimiter">:</span> <span class="classifier">2-tuple (Xmin, Xmax)</span></dt>
+<dd></dd>
+<dt><strong>ylims</strong> <span class="classifier-delimiter">:</span> <span class="classifier">2-tuple (Ymin, Ymax)</span></dt>
+<dd></dd>
+<dt><strong>title</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>colorbar</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd></dd>
+<dt><strong>clabel: colorbar label</strong></dt>
+<dd></dd>
+<dt><strong>ax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Axis instance</span></dt>
+<dd></dd>
+<dt><strong>fig</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Figure instance</span></dt>
+<dd></dd>
+<dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Keyword arguments to pass to pcolormesh</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -242,30 +286,31 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dsd</strong> : dict</p>
-<blockquote>
-<div><p>PyDSD dictionary.</p>
-</div></blockquote>
-<p><strong>varname</strong> : str or list</p>
-<blockquote>
-<div><p>Variable name(s) to plot.</p>
-</div></blockquote>
-<p><strong>date_format</strong> : str</p>
-<blockquote>
-<div><p>Timestring format characters.</p>
-</div></blockquote>
-<p><strong>tz</strong> : str</p>
-<blockquote>
-<div><p>Time zone to uses, see datetime module.</p>
-</div></blockquote>
-<p><strong>x_min_tick_format</strong> : str</p>
-<blockquote>
-<div><p>Minor tick formatting, ‘second’,’minute’,’hour’,’day’ supported</p>
-</div></blockquote>
-<p><strong>title</strong> : str</p>
-<p><strong>ax</strong> : Matplotlib Axis instance</p>
-<p><strong>fig</strong> : Matplotlib Figure instance</p>
-<p class="last"><strong>kwkargs</strong> : Keyword arguments to pass to pcolormesh</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dsd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">PyDSD dictionary.</p>
+</dd>
+<dt><strong>varname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str or list</span></dt>
+<dd><p class="first last">Variable name(s) to plot.</p>
+</dd>
+<dt><strong>date_format</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Timestring format characters.</p>
+</dd>
+<dt><strong>tz</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Time zone to uses, see datetime module.</p>
+</dd>
+<dt><strong>x_min_tick_format</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Minor tick formatting, ‘second’,’minute’,’hour’,’day’ supported</p>
+</dd>
+<dt><strong>title</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>ax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Axis instance</span></dt>
+<dd></dd>
+<dt><strong>fig</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Figure instance</span></dt>
+<dd></dd>
+<dt><strong>kwkargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Keyword arguments to pass to pcolormesh</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -280,14 +325,24 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xvar</strong> : array</p>
-<p><strong>yvar</strong> : array</p>
-<p><strong>col</strong> : str</p>
-<p><strong>msize</strong> : int</p>
-<p><strong>title</strong> : str</p>
-<p><strong>ax</strong> : Matplotlib Axis instance</p>
-<p><strong>fig</strong> : Matplotlib Figure instance</p>
-<p class="last"><strong>**kwargs</strong> : Dictionary to pass to matplotlib</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>xvar</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd></dd>
+<dt><strong>yvar</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd></dd>
+<dt><strong>col</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>msize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd></dd>
+<dt><strong>title</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>ax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Axis instance</span></dt>
+<dd></dd>
+<dt><strong>fig</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Matplotlib Figure instance</span></dt>
+<dd></dd>
+<dt><strong>**kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary to pass to matplotlib</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -392,7 +447,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

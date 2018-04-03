@@ -57,8 +57,8 @@
 <span class="sd">    DropSizeDistrometer object</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">JWDReader</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
-    <span class="k">return</span> <span class="n">DropSizeDistribution</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">JWDReader</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">DropSizeDistribution</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="JWDReader"><a class="viewcode-back" href="../../../pydsd.html#pydsd.io.JWDReader.JWDReader">[docs]</a><span class="k">class</span> <span class="nc">JWDReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -103,14 +103,14 @@
             <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="mi">86400</span>
         <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">start_hh</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">start_mm</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="mi">86400</span>
-        <span class="k">else</span><span class="p">:</span></div>
-            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="JWDReader.conv_md_to_nd"><a class="viewcode-back" href="../../../pydsd.html#pydsd.io.JWDReader.JWDReader.conv_md_to_nd">[docs]</a>    <span class="k">def</span> <span class="nf">conv_md_to_nd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nd</span><span class="p">):</span>
         <span class="n">F</span> <span class="o">=</span> <span class="mf">0.005</span>
         <span class="n">t</span> <span class="o">=</span> <span class="mf">30.0</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="mf">9.65</span> <span class="o">-</span> <span class="mf">10.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.6</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">Nd</span><span class="p">,</span> <span class="p">(</span><span class="n">F</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">)))</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="mf">9.65</span> <span class="o">-</span> <span class="mf">10.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.6</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">Nd</span><span class="p">,</span> <span class="p">(</span><span class="n">F</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">)))</span></div>
 
     <span class="k">def</span> <span class="nf">_read_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -173,8 +173,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_epoch_time</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Conversion to Epoch did not work!&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">),</span> <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span></div>
-                         <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;full_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Native file time&#39;</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">),</span> <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;full_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Native file time&#39;</span><span class="p">}</span></div>
 </pre></div>
 
           </div>
@@ -213,7 +213,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

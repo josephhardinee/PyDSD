@@ -60,8 +60,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">moments</span><span class="p">[</span><span class="s1">&#39;Kdp&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">radar</span><span class="o">.</span><span class="n">Kdp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">moments</span><span class="p">[</span><span class="s1">&#39;Ah&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">radar</span><span class="o">.</span><span class="n">Ai</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">moments</span><span class="p">[</span><span class="s1">&#39;Adr&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moments</span><span class="p">[</span><span class="s1">&#39;Ah&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">radar</span><span class="o">.</span><span class="n">Ai</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">,</span> <span class="n">h_pol</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">moments</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moments</span><span class="p">[</span><span class="s1">&#39;Adr&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moments</span><span class="p">[</span><span class="s1">&#39;Ah&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">radar</span><span class="o">.</span><span class="n">Ai</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">,</span> <span class="n">h_pol</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">moments</span></div>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wl</span><span class="o">=</span><span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">wl_X</span><span class="p">,</span> <span class="n">dr</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s1">&#39;bc&#39;</span><span class="p">):</span>
         <span class="n">DSR_list</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tb&#39;</span><span class="p">:</span><span class="n">DSR</span><span class="o">.</span><span class="n">tb</span><span class="p">,</span> <span class="s1">&#39;bc&#39;</span><span class="p">:</span> <span class="n">DSR</span><span class="o">.</span><span class="n">bc</span><span class="p">,</span> <span class="s1">&#39;pb&#39;</span><span class="p">:</span> <span class="n">DSR</span><span class="o">.</span><span class="n">pb</span><span class="p">}</span>
@@ -74,8 +74,8 @@
                 <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">or_pdf</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">gaussian_pdf</span><span class="p">(</span><span class="mf">20.0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">orient</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">orient_averaged_fixed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">init_scatter_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span></div>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dr</span><span class="o">=</span><span class="n">dr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">init_scatter_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dr</span><span class="o">=</span><span class="n">dr</span></div>
 
 </pre></div>
 
@@ -115,7 +115,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>
