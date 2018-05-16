@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-'''
+"""
 Plotting routines for different aspects of the drop size distribution class.
-'''
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,9 +11,19 @@ from matplotlib.dates import DateFormatter
 from matplotlib.dates import SecondLocator, MinuteLocator, HourLocator, DayLocator
 
 
-def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
-             vmin=None, vmax=None, cmap=None, ax=None, fig=None):
-    '''Plotting function for drop size distribution Nd
+def plot_dsd(
+    dsd,
+    xlims=None,
+    ylims=None,
+    log_scale=True,
+    tighten=True,
+    vmin=None,
+    vmax=None,
+    cmap=None,
+    ax=None,
+    fig=None,
+):
+    """Plotting function for drop size distribution Nd
 
     plot_dsd creates a pcolormesh based plot for a drop size distribution object's
     `Nd` field.
@@ -35,20 +45,18 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
     -------
     fig: Figure instance
 
-    '''
+    """
     ax = parse_ax(ax)
     fig = parse_fig(fig)
 
     if cmap is None:
-        colors = [('white')] + [(cm.jet(i)) for i in range(1, 256)]
-        cmap = mpl.colors.LinearSegmentedColormap.from_list(
-            'new_map', colors, N=256)
-
+        colors = [("white")] + [(cm.jet(i)) for i in range(1, 256)]
+        cmap = mpl.colors.LinearSegmentedColormap.from_list("new_map", colors, N=256)
 
     if vmin is None:
-        vmin = np.nanmin(dsd.fields['Nd']['data'])
+        vmin = np.nanmin(dsd.fields["Nd"]["data"])
     if vmax is None:
-        vmax = np.nanmax(dsd.fields['Nd']['data'])
+        vmax = np.nanmax(dsd.fields["Nd"]["data"])
 
     if log_scale:
         if vmin == 0.:
@@ -56,37 +64,48 @@ def plot_dsd(dsd, xlims=None, ylims=None, log_scale=True, tighten=True,
         norm = mpl.colors.LogNorm(vmin=vmin, vmax=vmax)
     else:
         norm = None
-        import pdb; pdb.set_trace()
-    plt.pcolormesh(dsd.time['data'].filled(), dsd.diameter['data'].filled(), dsd.fields['Nd']['data'].T,
-                   vmin=vmin, vmax=vmax,
-                   figure=fig, norm=norm, cmap=cmap)
+        import pdb
 
-    plt.axis('tight')
+        pdb.set_trace()
+    plt.pcolormesh(
+        dsd.time["data"].filled(),
+        dsd.diameter["data"].filled(),
+        dsd.fields["Nd"]["data"].T,
+        vmin=vmin,
+        vmax=vmax,
+        figure=fig,
+        norm=norm,
+        cmap=cmap,
+    )
+
+    plt.axis("tight")
 
     if xlims is not None:
         ax.set_xlim(xlims)
     else:
-        ax.set_xlim(dsd.time['data'][0], dsd.time['data'][-1])
+        ax.set_xlim(dsd.time["data"][0], dsd.time["data"][-1])
 
     if ylims is not None:
         ax.set_ylim(ylims)
     else:
-        ax.set_ylim(0., dsd.diameter['data'][-1])
+        ax.set_ylim(0., dsd.diameter["data"][-1])
 
     if tighten:
-        max_diameter = dsd.diameter['data'][
-            len(dsd.diameter['data']) -
-            np.argmax(np.nansum(dsd.fields['Nd']['data'], axis=0)[::-1] > 0)]
+        max_diameter = dsd.diameter["data"][
+            len(dsd.diameter["data"])
+            - np.argmax(np.nansum(dsd.fields["Nd"]["data"], axis=0)[::-1] > 0)
+        ]
         plt.ylim(0, max_diameter)
 
     plt.colorbar()
-    plt.xlabel('Time(m)')
-    plt.ylabel('Diameter(mm)')
+    plt.xlabel("Time(m)")
+    plt.ylabel("Diameter(mm)")
     return fig, ax
 
 
-def plot_NwD0(dsd, col='k', msize=20, edgecolors='none', title=None,
-              ax=None, fig=None, **kwargs):
+def plot_NwD0(
+    dsd, col="k", msize=20, edgecolors="none", title=None, ax=None, fig=None, **kwargs
+):
     """
     Create Normalized Intercept Parameter- median volume diameter scatterplot.
 
@@ -106,18 +125,35 @@ def plot_NwD0(dsd, col='k', msize=20, edgecolors='none', title=None,
     ax = parse_ax(ax)
     fig = parse_ax(fig)
 
-    xlab = r'D$_0$ (mm)'
-    ylab = r'log$_{10}$[N$_w$] (mm$^{-1}$ m$^{-3}$)'
-    fig, ax = scatter(np.log10(dsd.fields['Nw']['data']), dsd.fields['D0']['data'], col=col, msize=msize,
-                      edgecolors=edgecolors, title=title, ax=ax, fig=fig,
-                      **kwargs)
+    xlab = r"D$_0$ (mm)"
+    ylab = r"log$_{10}$[N$_w$] (mm$^{-1}$ m$^{-3}$)"
+    fig, ax = scatter(
+        np.log10(dsd.fields["Nw"]["data"]),
+        dsd.fields["D0"]["data"],
+        col=col,
+        msize=msize,
+        edgecolors=edgecolors,
+        title=title,
+        ax=ax,
+        fig=fig,
+        **kwargs
+    )
     ax.set_xlabel(xlab)
     ax.set_ylabel(ylab)
     return fig, ax
 
 
-def plot_ZR(dsd, log_scale=False, col='k', msize=20, edgecolors='none',
-            title=None, ax=None, fig=None, **kwargs):
+def plot_ZR(
+    dsd,
+    log_scale=False,
+    col="k",
+    msize=20,
+    edgecolors="none",
+    title=None,
+    ax=None,
+    fig=None,
+    **kwargs
+):
     """
     Create reflectivity - rainfall rate scatterplot.
 
@@ -140,28 +176,47 @@ def plot_ZR(dsd, log_scale=False, col='k', msize=20, edgecolors='none',
     fig = parse_ax(fig)
 
     if log_scale:
-        z = dsd.fields['Zh']['data']
-        rr = np.log10(dsd.fields['rain_rate']['data'])
-        xlab = r'Reflectivity (dBZ)'
-        ylab = r'log$_{10}$(Rainfall Rate (mm h$^{-1}$))'
+        z = dsd.fields["Zh"]["data"]
+        rr = np.log10(dsd.fields["rain_rate"]["data"])
+        xlab = r"Reflectivity (dBZ)"
+        ylab = r"log$_{10}$(Rainfall Rate (mm h$^{-1}$))"
     else:
-        z = 10. ** (dsd.fields['Zh']['data'] / 10.)
-        rr = dsd.fields['rain_rate']['data']
-        xlab = r'Reflectivity (mm$^{6}$ m$^{-3}$)'
-        ylab = r'Rainfall Rate (mm h$^{-1}$)'
+        z = 10. ** (dsd.fields["Zh"]["data"] / 10.)
+        rr = dsd.fields["rain_rate"]["data"]
+        xlab = r"Reflectivity (mm$^{6}$ m$^{-3}$)"
+        ylab = r"Rainfall Rate (mm h$^{-1}$)"
 
-    fig, ax = scatter(z, rr, col=col,
-                      msize=msize, edgecolors=edgecolors, title=title,
-                      ax=ax, fig=fig, **kwargs)
+    fig, ax = scatter(
+        z,
+        rr,
+        col=col,
+        msize=msize,
+        edgecolors=edgecolors,
+        title=title,
+        ax=ax,
+        fig=fig,
+        **kwargs
+    )
     ax.set_xlabel(xlab)
     ax.set_ylabel(ylab)
     return fig, ax
 
 
-def plot_ZR_hist2d(dsd, log_scale=False, bins=(80, 60), ranges=None, norm=None,
-                   xlims=None, ylims=None, title=None,
-                   colorbar=True, clabel='Normalized Counts',
-                   ax=None, fig=None, **kwargs):
+def plot_ZR_hist2d(
+    dsd,
+    log_scale=False,
+    bins=(80, 60),
+    ranges=None,
+    norm=None,
+    xlims=None,
+    ylims=None,
+    title=None,
+    colorbar=True,
+    clabel="Normalized Counts",
+    ax=None,
+    fig=None,
+    **kwargs
+):
     """
     Create reflectivity - rainfall rate scatterplot.
 
@@ -188,29 +243,48 @@ def plot_ZR_hist2d(dsd, log_scale=False, bins=(80, 60), ranges=None, norm=None,
     fig = parse_ax(fig)
 
     if log_scale:
-        z = dsd.fields['Zh']['data']
-        rr = np.log10(dsd.fields['rain_rate']['data'])
-        xlab = r'Reflectivity (dBZ)'
-        ylab = r'log$_{10}$(Rainfall Rate (mm h$^{-1}$))'
+        z = dsd.fields["Zh"]["data"]
+        rr = np.log10(dsd.fields["rain_rate"]["data"])
+        xlab = r"Reflectivity (dBZ)"
+        ylab = r"log$_{10}$(Rainfall Rate (mm h$^{-1}$))"
     else:
-        z = np.power(10, (dsd.fields['Zh']['data'] / 10.0))
-        rr = dsd.fields['rain_rate']['data']
-        xlab = r'Reflectivity (mm$^{6}$ m$^{-3}$)'
-        ylab = r'Rainfall Rate (mm h$^{-1}$)'
+        z = np.power(10, (dsd.fields["Zh"]["data"] / 10.0))
+        rr = dsd.fields["rain_rate"]["data"]
+        xlab = r"Reflectivity (mm$^{6}$ m$^{-3}$)"
+        ylab = r"Rainfall Rate (mm h$^{-1}$)"
 
-    fig, ax = plot_hist2d(z, rr, bins=bins, ranges=ranges, norm=norm,
-                          xlims=xlims, ylims=ylims, title=title,
-                          colorbar=colorbar,
-                          clabel=clabel,
-                          ax=ax, fig=fig, **kwargs)
+    fig, ax = plot_hist2d(
+        z,
+        rr,
+        bins=bins,
+        ranges=ranges,
+        norm=norm,
+        xlims=xlims,
+        ylims=ylims,
+        title=title,
+        colorbar=colorbar,
+        clabel=clabel,
+        ax=ax,
+        fig=fig,
+        **kwargs
+    )
 
     ax.set_xlabel(xlab)
     ax.set_ylabel(ylab)
     return fig, ax
 
 
-def scatter(xvar, yvar, col='k', msize=20, edgecolors='none', title=None,
-            ax=None, fig=None, **kwargs):
+def scatter(
+    xvar,
+    yvar,
+    col="k",
+    msize=20,
+    edgecolors="none",
+    title=None,
+    ax=None,
+    fig=None,
+    **kwargs
+):
     """
     Create a scatterplot two variables.
 
@@ -235,9 +309,21 @@ def scatter(xvar, yvar, col='k', msize=20, edgecolors='none', title=None,
     return fig, ax
 
 
-def plot_hist2d(xvar, yvar, bins=(80, 60), ranges=None, norm=None,
-                xlims=None, ylims=None, title=None, colorbar=True,
-                clabel='Normalized Counts', ax=None, fig=None, **kwargs):
+def plot_hist2d(
+    xvar,
+    yvar,
+    bins=(80, 60),
+    ranges=None,
+    norm=None,
+    xlims=None,
+    ylims=None,
+    title=None,
+    colorbar=True,
+    clabel="Normalized Counts",
+    ax=None,
+    fig=None,
+    **kwargs
+):
     """
     2-D histogram plot.
 
@@ -265,7 +351,8 @@ def plot_hist2d(xvar, yvar, bins=(80, 60), ranges=None, norm=None,
         ylims = (np.nanmin(yvar), np.nanmax(yvar))
 
     hist2d, xedges, yedges = get_masked_hist2d(
-        xvar, yvar, bins=bins, ranges=(ylims, xlims), norm=norm)
+        xvar, yvar, bins=bins, ranges=(ylims, xlims), norm=norm
+    )
 
     # Replace any zero values with missing data for nice plots
     hist2d = np.ma.masked_equal(hist2d, 0)
@@ -289,9 +376,17 @@ def plot_hist2d(xvar, yvar, bins=(80, 60), ranges=None, norm=None,
     return fig, ax
 
 
-def plot_ts(dsd, varname, date_format='%H:%M', tz=None,
-            x_min_tick_format='minute', title=None, ax=None, fig=None,
-            **kwargs):
+def plot_ts(
+    dsd,
+    varname,
+    date_format="%H:%M",
+    tz=None,
+    x_min_tick_format="minute",
+    title=None,
+    ax=None,
+    fig=None,
+    **kwargs
+):
     """
     Time series plot of variable.
 
@@ -317,21 +412,22 @@ def plot_ts(dsd, varname, date_format='%H:%M', tz=None,
 
     x_fmt = DateFormatter(date_format, tz=tz)
 
-    ax.plot_date(dsd.time['data'], dsd.fields[varname]['data'], **kwargs)
+    ax.plot_date(dsd.time["data"], dsd.fields[varname]["data"], **kwargs)
 
     ax.xaxis.set_major_formatter(x_fmt)
-    if x_min_tick_format == 'second':
+    if x_min_tick_format == "second":
         ax.xaxis.set_minor_locator(SecondLocator())
-    elif x_min_tick_format == 'minute':
+    elif x_min_tick_format == "minute":
         ax.xaxis.set_minor_locator(MinuteLocator())
-    elif x_min_tick_format == 'hour':
+    elif x_min_tick_format == "hour":
         ax.xaxis.set_minor_locator(HourLocator())
-    elif x_min_tick_format == 'day':
+    elif x_min_tick_format == "day":
         ax.xaxis.set_minor_locator(DayLocator())
 
     if title is not None:
         ax.set_title(title)
     return fig, ax
+
 
 # def plotHov(dsd, xvar, datavar, log_scale=False,
 #             date_format='%H:%M', tz=None,
@@ -495,7 +591,8 @@ def get_masked_hist2d(xvar, yvar, bins=(25, 25), ranges=None, norm=False):
         ranges = ([qx.min(), qx.max()], [qy.min(), qy.max()])
 
     hist2d, xedges, yedges = np.histogram2d(
-        qx, qy, bins=bins, range=ranges, normed=norm)
+        qx, qy, bins=bins, range=ranges, normed=norm
+    )
     return hist2d, xedges, yedges
 
 
@@ -549,7 +646,7 @@ def set_ylabel(label, pad=None, fontsize=None, ax=None):
 def turn_ticks_out(ax=None):
     """Convenience function to turn ticks outward."""
     ax = parse_ax(ax)
-    ax.tick_params(which='both', direction='out')
+    ax.tick_params(which="both", direction="out")
 
 
 def parse_ax(ax):

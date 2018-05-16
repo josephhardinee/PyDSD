@@ -9,9 +9,8 @@ from ..io import common
 from ..utility.configuration import Configuration
 
 
-
-def read_2dvd_sav_nasa_gv(filename, campaign='ifloods'):
-    '''
+def read_2dvd_sav_nasa_gv(filename, campaign="ifloods"):
+    """
     Takes a filename pointing to a 2D-Video Disdrometer NASA Field Campaign
     file and returns a drop size distribution object.
 
@@ -27,7 +26,7 @@ def read_2dvd_sav_nasa_gv(filename, campaign='ifloods'):
     Returns:
     DropSizeDistrometer object
 
-    '''
+    """
     reader = NASA_2DVD_sav_reader(filename, campaign)
 
     if reader:
@@ -35,11 +34,11 @@ def read_2dvd_sav_nasa_gv(filename, campaign='ifloods'):
     else:
         return None
 
-    del(reader)
+    del (reader)
 
 
 def read_2dvd_dsd_nasa_gv(filename, skip_header=None):
-    '''
+    """
     Takes a filename pointing to a 2D-Video Disdrometer NASA Field Campaign
      _dsd file and returns a drop size distribution object.
 
@@ -51,7 +50,7 @@ def read_2dvd_dsd_nasa_gv(filename, skip_header=None):
     Returns:
     DropSizeDistrometer object
 
-    '''
+    """
     reader = NASA_2DVD_dsd_reader(filename, skip_header)
 
     if reader:
@@ -59,22 +58,22 @@ def read_2dvd_dsd_nasa_gv(filename, skip_header=None):
     else:
         return None
 
-    del(reader)
+    del (reader)
 
 
 class NASA_2DVD_sav_reader(object):
 
-    '''
+    """
     This class reads and parses 2dvd disdrometer data from nasa ground
     campaigns.
 
     Use the read_2dvd_sav_nasa_gv() function to interface with this.
-    '''
+    """
 
     def __init__(self, filename, campaign):
-        '''
+        """
         Handles setting up a NASA 2DVD Reader.
-        '''
+        """
         self.fields = {}
 
         self.time = []  # Time in minutes from start of recording
@@ -84,40 +83,51 @@ class NASA_2DVD_sav_reader(object):
         self.notes = []
 
         if not campaign in self.supported_campaigns:
-            print('Campaign type not supported')
+            print("Campaign type not supported")
             return
 
-        record = scipy.io.readsav(filename)['dsd_struct']
+        record = scipy.io.readsav(filename)["dsd_struct"]
 
         self.diameter = common.var_to_dict(
-            'diameter', record.diam[0], 'mm', 'Particle diameter of bins')
+            "diameter", record.diam[0], "mm", "Particle diameter of bins"
+        )
         self.velocity = 9.65 - 10.3 * np.exp(-0.6 * self.diameter)  # Atlas1973
         # The above equation not completely
         self.velocity = common.var_to_dict(
-            'velocity', 0.808, 'm s^-1', 'Terminal fall velocity for each bin')
-                               # stable so we use Atlas 1977
-        self.notes.append('Velocities from formula, not disdrometer\n')
+            "velocity", 0.808, "m s^-1", "Terminal fall velocity for each bin"
+        )
+        # stable so we use Atlas 1977
+        self.notes.append("Velocities from formula, not disdrometer\n")
 
         time = self._parse_time(record)
         try:
             self.time = self._get_epoch_time(time)
         except:
-            raise ValueError('Conversion to Epoch did not work!')
-            self.time = {'data': np.array(time), 'units': None,
-                         'title': 'Time', 'full_name': 'Native file time'}
+            raise ValueError("Conversion to Epoch did not work!")
+            self.time = {
+                "data": np.array(time),
+                "units": None,
+                "title": "Time",
+                "full_name": "Native file time",
+            }
 
-        self.fields['Nd'] = common.var_to_dict(
-            'Nd', record.dsd[0].T, 'm^-3 mm^-1',
-            'Liquid water particle concentration')
+        self.fields["Nd"] = common.var_to_dict(
+            "Nd", record.dsd[0].T, "m^-3 mm^-1", "Liquid water particle concentration"
+        )
 
         self.bin_edges = common.var_to_dict(
-            'bin_edges', np.array(list(range(0, 42))) * 0.2, 'mm',
-            'Boundaries of bin sizes')
-        self.fields['rain_rate'] = common.var_to_dict(
-            'rain_rate', record.rain[0], 'mm h^-1', 'Rain rate')
+            "bin_edges",
+            np.array(list(range(0, 42))) * 0.2,
+            "mm",
+            "Boundaries of bin sizes",
+        )
+        self.fields["rain_rate"] = common.var_to_dict(
+            "rain_rate", record.rain[0], "mm h^-1", "Rain rate"
+        )
 
         self.spread = common.var_to_dict(
-            'spread', np.array([0.2]*42), 'mm', 'Bin size spread of bins')
+            "spread", np.array([0.2] * 42), "mm", "Bin size spread of bins"
+        )
 
     def _parse_time(self, record):
         # For now we just drop the day stuff, Eventually we'll make this a
@@ -127,46 +137,50 @@ class NASA_2DVD_sav_reader(object):
         return hour + minute
 
     def _get_epoch_time(self, sample_time):
-        '''
+        """
         Convert the time to an Epoch time using package standard.
-        '''
+        """
         # Convert the time array into a datetime instance
-        #dt_units = 'minutes since ' + StartDate + '00:00:00+0:00'
-        #dtMin = num2date(time, dt_units)
+        # dt_units = 'minutes since ' + StartDate + '00:00:00+0:00'
+        # dtMin = num2date(time, dt_units)
         # Convert this datetime instance into a number of seconds since Epoch
-        #timesec = date2num(dtMin, common.EPOCH_UNITS)
+        # timesec = date2num(dtMin, common.EPOCH_UNITS)
         # Once again convert this data into a datetime instance
         time_unaware = num2date(sample_time, common.EPOCH_UNITS)
-        eptime = {'data': time_unaware, 'units': common.EPOCH_UNITS,
-                  'title': 'Time', 'full_name': 'Time (UTC)'}
+        eptime = {
+            "data": time_unaware,
+            "units": common.EPOCH_UNITS,
+            "title": "Time",
+            "full_name": "Time (UTC)",
+        }
         return eptime
 
-    supported_campaigns = ['ifloods']
+    supported_campaigns = ["ifloods"]
 
 
 class NASA_2DVD_dsd_reader(object):
 
-    '''
+    """
     This class reads and parses 2dvd disdrometer data from NASA ground
     campaigns. It works with the _dropCounts files from IFloodS.
 
     Use the read_2dvd_dsd_nasa_gv() function to interface with this.
-    '''
+    """
 
     def __init__(self, filename, skip_header):
-        '''
+        """
         Handles setting up a NASA 2DVD Reader  Reader
-        '''
+        """
         self.config = Configuration()
 
         num_samples = self._get_number_of_samples(filename, skip_header)
 
-        self.Nd = np.ma.zeros((num_samples,50))
+        self.Nd = np.ma.zeros((num_samples, 50))
         self.notes = []
         self.fields = {}
 
         # This part is troubling because time strings change in nasa files. So we'll go with what our e
-        # example files have. 
+        # example files have.
         dt = []
         with open(filename) as input:
             if skip_header is not None:
@@ -180,36 +194,90 @@ class NASA_2DVD_dsd_reader(object):
                 minute = float(data_array[3])
 
                 # TODO: Make this match time handling(units) from other readers.
-                dt.append(datetime.datetime(year, 1, 1) + datetime.timedelta(DOY-1, hours=hour, minutes=minute))
+                dt.append(
+                    datetime.datetime(year, 1, 1)
+                    + datetime.timedelta(DOY - 1, hours=hour, minutes=minute)
+                )
                 self.Nd[idx, :] = [float(value) for value in data_array[4:]]
 
-
         # TODO: Convert this to use new metadata
-        self.fields['Nd'] = common.var_to_dict(
-            'Nd', self.Nd, 'm^-3 mm^-1',
-            'Liquid water particle concentration')
+        self.fields["Nd"] = common.var_to_dict(
+            "Nd", self.Nd, "m^-3 mm^-1", "Liquid water particle concentration"
+        )
         self.time = self._get_epoch_time(dt)
-        velocity =[0.248, 1.144, 2.018, 2.858, 3.649, 4.349, 4.916, 5.424, 5.892, 6.324,
-                        6.721, 7.084, 7.411, 7.703, 7.961, 8.187, 8.382, 8.548, 8.688, 8.805,
-                        8.900, 8.977, 9.038, 9.084, 9.118, 9.143, 9.159, 9.169, 9.174, 9.175,
-                        9.385, 9.415, 9.442, 9.465, 9.486, 9.505, 9.521, 9.536, 9.549, 9.560,
-                        9.570, 9.570, 9.570, 9.570, 9.570, 9.570, 9.570, 9.570, 9.570, 9.570]
+        velocity = [
+            0.248,
+            1.144,
+            2.018,
+            2.858,
+            3.649,
+            4.349,
+            4.916,
+            5.424,
+            5.892,
+            6.324,
+            6.721,
+            7.084,
+            7.411,
+            7.703,
+            7.961,
+            8.187,
+            8.382,
+            8.548,
+            8.688,
+            8.805,
+            8.900,
+            8.977,
+            9.038,
+            9.084,
+            9.118,
+            9.143,
+            9.159,
+            9.169,
+            9.174,
+            9.175,
+            9.385,
+            9.415,
+            9.442,
+            9.465,
+            9.486,
+            9.505,
+            9.521,
+            9.536,
+            9.549,
+            9.560,
+            9.570,
+            9.570,
+            9.570,
+            9.570,
+            9.570,
+            9.570,
+            9.570,
+            9.570,
+            9.570,
+            9.570,
+        ]
         self.velocity = common.var_to_dict(
-            'velocity', velocity, 'm s^-1', 'Terminal fall velocity for each bin')
+            "velocity", velocity, "m s^-1", "Terminal fall velocity for each bin"
+        )
 
         self.bin_edges = common.var_to_dict(
-            'bin_edges', np.array(list(range(0, 51))) * 0.2, 'mm',
-            'Boundaries of bin sizes')
+            "bin_edges",
+            np.array(list(range(0, 51))) * 0.2,
+            "mm",
+            "Boundaries of bin sizes",
+        )
 
         self.spread = common.var_to_dict(
-            'spread', np.array([0.2] * 50), 'mm',
-            'Bin size spread of bins')
+            "spread", np.array([0.2] * 50), "mm", "Bin size spread of bins"
+        )
 
         self.diameter = common.var_to_dict(
-            'diameter', np.arange(0.1, 10.1, .2), 'mm', 'Particle diameter of bins')
+            "diameter", np.arange(0.1, 10.1, .2), "mm", "Particle diameter of bins"
+        )
 
     def _get_number_of_samples(self, filename, skip_header):
-        ''' Loop through file counting number of lines to calculate number of samples.'''
+        """ Loop through file counting number of lines to calculate number of samples."""
         num_samples = 0
 
         with open(filename) as input:
@@ -218,15 +286,20 @@ class NASA_2DVD_dsd_reader(object):
                     input.readline()
 
             for line in input:
-                num_samples +=1
+                num_samples += 1
 
         return num_samples
 
     def _get_epoch_time(self, sample_time):
-        '''
+        """
         Convert the time to an Epoch time using package standard.
-        '''
-        eptime = {'data': sample_time, 'units': common.EPOCH_UNITS,
-                  'title': 'Time', 'full_name': 'Time (UTC)'}
+        """
+        eptime = {
+            "data": sample_time,
+            "units": common.EPOCH_UNITS,
+            "title": "Time",
+            "full_name": "Time (UTC)",
+        }
         return eptime
-    supported_campaigns = ['mc3e', 'ifloods']
+
+    supported_campaigns = ["mc3e", "ifloods"]
