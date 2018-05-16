@@ -23,11 +23,6 @@ matrix:
     - PYTHON_VERSION="2.7"
     - PYTEST_ARGS="--cov=pydsd"
     - COVERALLS="true"
-  - python: '3.4'
-    env:
-    - PYTHON_VERSION="3.4"
-    - PYTEST_ARGS="--cov=pydsd"
-    - COVERALLS="true"
   - python: '3.5'
     env:
     - PYTHON_VERSION="3.5"
