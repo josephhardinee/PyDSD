@@ -27,8 +27,8 @@ def get_refractivity(freq, temp):
         Complex refractivity index.
     """
 
-    es = s[0] + s[1] * temp + s[2] * temp**2 + s[3] * temp**3
-    ep = es - (2 * np.pi * freq)**2 * (A_i(0, temp, freq) + A_i(1, temp, freq))
+    es = s[0] + s[1] * temp + s[2] * temp ** 2 + s[3] * temp ** 3
+    ep = es - (2 * np.pi * freq) ** 2 * (A_i(0, temp, freq) + A_i(1, temp, freq))
     epp = 2 * np.pi * freq * (B_i(0, temp, freq) + B_i(1, temp, freq))
 
     return np.sqrt(ep + 1j * epp)
@@ -39,9 +39,9 @@ def A_i(i, temp, freq):
     """
 
     delta = a[i] * np.exp(-1 * b[i] * temp)
-    tau = c[i] * np.exp(d[i]/(temp + tc))
+    tau = c[i] * np.exp(d[i] / (temp + tc))
 
-    return (tau**2 * delta)/(1 + (2 * np.pi * freq * tau)**2)
+    return (tau ** 2 * delta) / (1 + (2 * np.pi * freq * tau) ** 2)
 
 
 def B_i(i, temp, freq):
@@ -49,6 +49,6 @@ def B_i(i, temp, freq):
     """
 
     delta = a[i] * np.exp(-1 * b[i] * temp)
-    tau = c[i] * np.exp(d[i]/(temp + tc))
+    tau = c[i] * np.exp(d[i] / (temp + tc))
 
-    return (tau * delta)/(1 + (2 * np.pi * freq * tau)**2)
+    return (tau * delta) / (1 + (2 * np.pi * freq * tau) ** 2)

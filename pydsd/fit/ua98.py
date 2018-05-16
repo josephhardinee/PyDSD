@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-'''
+"""
 The calc_dsd module contains various fitting functions to calculate dsd parameters
 based on measured drop size distributions. Many of these (all currently) were ported from the 
 pyparticleprobe package. 
-'''
+"""
 
 from __future__ import print_function, division
 
@@ -52,10 +52,11 @@ Adapted by Nick Guy.
 """
 
 # Define various constants that may be used for calculations
-rho0=1.2 # reference density at the surface [kg m^-3]
-rhoL=1000. # density of water [kg m^-3]
+rho0 = 1.2  # reference density at the surface [kg m^-3]
+rhoL = 1000.  # density of water [kg m^-3]
 
-def eta_ratio(M2,M4,M6):
+
+def eta_ratio(M2, M4, M6):
     """Compute the ratio eta using the method of moments
 
     Ulbrich and Atlas (JAM 1998), Eqn 8
@@ -79,10 +80,11 @@ def eta_ratio(M2,M4,M6):
     This particular methodology uses the 2nd, 4th, and 6th moments.
     """
 
-    Eta = M4**2 / (M2 * M6)
+    Eta = M4 ** 2 / (M2 * M6)
     return Eta
 
-def shape(M2,M4,M6):
+
+def shape(M2, M4, M6):
     """Compute the shape parameter mu using the method of moments
 
     Ulbrich and Atlas (JAM 1998), Eqns 8 and 9
@@ -111,21 +113,23 @@ def shape(M2,M4,M6):
   are not calculated.
     """
     # Calculate the eta ratio [eq. 8]
-    eta = eta_ratio(M2,M4,M6)
+    eta = eta_ratio(M2, M4, M6)
 
     # Now calculate the shape parameter [eq. 3]
-    muNumer = (7.0 - 11.0 * eta) - np.sqrt((7.0 - 11.0 * eta)**2.0 - 4.0 * (eta - 1.0)
-                                    * (30. * eta - 12.0))
+    muNumer = (7.0 - 11.0 * eta) - np.sqrt(
+        (7.0 - 11.0 * eta) ** 2.0 - 4.0 * (eta - 1.0) * (30. * eta - 12.0)
+    )
     muDenom = 2.0 * (eta - 1.0)
 
     # Mask any zero or unrealistically low values in denominator
-    muDenom = np.ma.masked_inside(muDenom,-1E-1,1E-1)
+    muDenom = np.ma.masked_inside(muDenom, -1E-1, 1E-1)
 
     mu = muNumer / muDenom
 
     return mu
 
-def slope(M2,M4,mu):
+
+def slope(M2, M4, mu):
     """Compute the slope (Lambda) using the method of moments
 
     Ulbrich and Atlas (JAM 1998), Eqn 10
@@ -151,7 +155,8 @@ def slope(M2,M4,mu):
 
     return Lambda
 
-def intercept(M6,mu,Lambda):
+
+def intercept(M6, mu, Lambda):
     """Compute the intercept parameter (N0) using the method of moments 
 
     Ulbrich and Atlas (JAM 1998), Eqn 6 solved for N0
@@ -176,25 +181,26 @@ def intercept(M6,mu,Lambda):
     """
 
     # Calculate numerator
-    IntNumer = M6 * Lambda**(7. + mu)
+    IntNumer = M6 * Lambda ** (7. + mu)
 
     # Calculate denominator
     # Mask values near 0., otherwise gamma function returns "inf"
-    mucopy = np.ma.masked_inside(mu,-1E-1,1E-1)
+    mucopy = np.ma.masked_inside(mu, -1E-1, 1E-1)
     IntDenom = scifunct.gamma(7 + mucopy)
     # Mask any invalid values
     np.ma.masked_invalid(IntDenom)
 
     # Mask any zero values from Denom (-999. a problem)
-    IntDenom = np.ma.masked_equal(IntDenom,0.)
-    #print(mu(:,0)+"  "+Lambda(:,0)+"  "+IntNumer(:,0)+"  "+IntDenom(:,0))
+    IntDenom = np.ma.masked_equal(IntDenom, 0.)
+    # print(mu(:,0)+"  "+Lambda(:,0)+"  "+IntNumer(:,0)+"  "+IntDenom(:,0))
 
     # Calculate N0
     N0 = IntNumer / IntDenom
 
     return N0
 
-def mom_d0(mu,Lambda):
+
+def mom_d0(mu, Lambda):
     """Compute the median volume diameter (D0) using the method of moments.
 
     Ulbrich and Atlas (JAM 1998), Eqn 11
@@ -215,7 +221,8 @@ def mom_d0(mu,Lambda):
     D0 = (3.67 + mu) / Lambda
     return D0
 
-def zr_a(mu,N0):
+
+def zr_a(mu, N0):
     """Assuming a rainfall parameter relationship of Z=AR^b,
     Compute the A prefactor using gamma distribution.
 
@@ -235,19 +242,20 @@ def zr_a(mu,N0):
     """
 
     # Mask 0. values, otherwise gamma function returns "inf"
-    mucopy = np.ma.masked_equal(mu,0.)
+    mucopy = np.ma.masked_equal(mu, 0.)
 
     # gamma_fix is a patch for versions earlier than NCL v6.2,
     # which cannot handle missing data in the gamma function
-    ANumer = 10E6 * scifunct.gamma(7 + mucopy) * N0**(-2.33/(4.67 + mu))
-    ADenom = (33.31 * scifunct.gamma(4.67 + mucopy))**((7 + mu)/(4.67 + mu))
+    ANumer = 10E6 * scifunct.gamma(7 + mucopy) * N0 ** (-2.33 / (4.67 + mu))
+    ADenom = (33.31 * scifunct.gamma(4.67 + mucopy)) ** ((7 + mu) / (4.67 + mu))
 
     # Mask any zero values from Denom
-    ADenom = np.ma.masked_equal(ADenom,0.)
+    ADenom = np.ma.masked_equal(ADenom, 0.)
 
     A = ANumer / ADenom
 
     return A
+
 
 def zr_b(mu):
     """Assuming a rainfall parameter relationship of Z=AR^b,
@@ -268,7 +276,8 @@ def zr_b(mu):
     b = (7 + mu) / (4.67 + mu)
     return b
 
-def norm_intercept(LWC,Dm):
+
+def norm_intercept(LWC, Dm):
     """Calculates the normalized intercept parameter, which
     is more physically meaningful than N0.
 
@@ -287,6 +296,6 @@ def norm_intercept(LWC,Dm):
         Normalized intercept parameter
     """
     # The factor of 1000 converts the water density from kg/m^3 to g/m^3
-    Nw = (256 / (np.pi * rhoL * 1000.)) * (LWC / Dm**4)
+    Nw = (256 / (np.pi * rhoL * 1000.)) * (LWC / Dm ** 4)
 
     return Nw

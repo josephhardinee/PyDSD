@@ -3,6 +3,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.9991.svg)](https://doi.org/10.5281/zenodo.9991)
 
 [![Coverage Status](https://coveralls.io/repos/github/josephhardinee/PyDSD/badge.svg?branch=master)](https://coveralls.io/github/josephhardinee/PyDSD?branch=master)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 PyDSD is an open source Python package to work with disdrometer, particle probe, and DSD data. It is meant to make complex workflows easy. It includes support for different aspects of the research and operational workflow. This includes parametric fitting for different distributions, file reading, and scattering support.   
 
