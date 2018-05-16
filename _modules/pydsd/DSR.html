@@ -41,15 +41,14 @@
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The DSR module contains different drop shape relationships used in</span>
 <span class="sd">PyDisdrometer for the scattering calculations.</span>
-<span class="sd">&#39;&#39;&#39;</span>
-
+<span class="sd">&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="tb"><a class="viewcode-back" href="../../pydsd.html#pydsd.DSR.tb">[docs]</a><span class="k">def</span> <span class="nf">tb</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Thurai and Bringi Drop Shape relationship model.</span>
+    <span class="sd">&quot;&quot;&quot;Thurai and Bringi Drop Shape relationship model.</span>
 
 <span class="sd">    Implementation of the Thurai and Bringi Drop Shape model given in [1]</span>
 <span class="sd">    . This gives the ratio of the major to minor axis.</span>
@@ -74,19 +73,17 @@
 <span class="sd">    .. [1]  Thurai, Merhala, V. N. Bringi, &quot;Drop axis ratios from a 2D</span>
 <span class="sd">       video disdrometer.&quot; J. Atmos. Oceanic Technol., 22, 966 - 978. 2005</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">D_eq</span> <span class="o">&lt;</span> <span class="mf">0.7</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">1.0</span>
     <span class="k">elif</span> <span class="n">D_eq</span> <span class="o">&lt;</span> <span class="mf">1.5</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mf">1.173</span> <span class="o">-</span> <span class="mf">0.5165</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">+</span> <span class="mf">0.4698</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.1317</span> <span class="o">*</span> \
-            <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">8.5e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="mf">1.173</span> <span class="o">-</span> <span class="mf">0.5165</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">+</span> <span class="mf">0.4698</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.1317</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">8.5e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mf">1.065</span> <span class="o">-</span> <span class="mf">6.25e-2</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">-</span> <span class="mf">3.99e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">7.66e-4</span> <span class="o">*</span> \
-            <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">4.095e-5</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span></div>
+        <span class="k">return</span> <span class="mf">1.065</span> <span class="o">-</span> <span class="mf">6.25e-2</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">-</span> <span class="mf">3.99e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">7.66e-4</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">4.095e-5</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span></div>
 
 
 <div class="viewcode-block" id="pb"><a class="viewcode-back" href="../../pydsd.html#pydsd.DSR.pb">[docs]</a><span class="k">def</span> <span class="nf">pb</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Pruppacher and Beard Drop Shape relationship model.</span>
+    <span class="sd">&quot;&quot;&quot;Pruppacher and Beard Drop Shape relationship model.</span>
 
 <span class="sd">    Implementation of the Pruppacher and Beard Drop Shape model given in [1]</span>
 <span class="sd">    . This gives the ratio of the major to minor axis.</span>
@@ -112,13 +109,13 @@
 <span class="sd">      investigation of the internal circulation and shape of water drops</span>
 <span class="sd">      falling at terminal velocity in air. Q.J.R. Meteorol. Soc., 96:</span>
 <span class="sd">      247-256</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="mf">1.03</span> <span class="o">-</span> <span class="mf">0.062</span> <span class="o">*</span> <span class="n">D_eq</span></div>
 
 
 <div class="viewcode-block" id="bc"><a class="viewcode-back" href="../../pydsd.html#pydsd.DSR.bc">[docs]</a><span class="k">def</span> <span class="nf">bc</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Beard and Chuang Drop Shape relationship model.</span>
+    <span class="sd">&quot;&quot;&quot;Beard and Chuang Drop Shape relationship model.</span>
 
 <span class="sd">    Implementation of the Beard and Chuang Drop Shape model given in [1]</span>
 <span class="sd">    . This gives the ratio of the major to minor axis.</span>
@@ -142,11 +139,15 @@
 <span class="sd">    ----------</span>
 <span class="sd">    ..[1]  Beard, Kenneth V., Catherine Chuang, 1987: A New Model for the</span>
 <span class="sd">    Equilibrium Shape of Raindrops. J. Atmos. Sci., 44, 1509-1524.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="mf">1.0048</span> <span class="o">+</span> <span class="mf">5.7e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> \
-        <span class="mf">2.628e-02</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.682e-03</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-</span> \
-        <span class="mf">1.677e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="mf">1.0048</span> <span class="o">+</span> <span class="mf">5.7e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.628e-02</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
+        <span class="n">D_eq</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="p">)</span> <span class="o">+</span> <span class="mf">3.682e-03</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
+        <span class="n">D_eq</span><span class="p">,</span> <span class="mi">3</span>
+    <span class="p">)</span> <span class="o">-</span> <span class="mf">1.677e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
+        <span class="n">D_eq</span><span class="p">,</span> <span class="mi">4</span>
+    <span class="p">)</span></div>
 </pre></div>
 
           </div>

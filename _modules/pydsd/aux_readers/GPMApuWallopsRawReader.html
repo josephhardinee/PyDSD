@@ -46,8 +46,9 @@
 <span class="kn">from</span> <span class="nn">..DropSizeDistribution</span> <span class="k">import</span> <span class="n">DropSizeDistribution</span>
 <span class="kn">from</span> <span class="nn">..io</span> <span class="k">import</span> <span class="n">common</span>
 
+
 <div class="viewcode-block" id="read_gpm_nasa_apu_raw_wallops"><a class="viewcode-back" href="../../../pydsd.aux_reader.html#pydsd.aux_readers.GPMApuWallopsRawReader.read_gpm_nasa_apu_raw_wallops">[docs]</a><span class="k">def</span> <span class="nf">read_gpm_nasa_apu_raw_wallops</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Takes a filename pointing to a parsivel NASA Field Campaign file with RAW Data and returns</span>
 <span class="sd">    a drop size distribution object.</span>
 
@@ -60,10 +61,10 @@
 
 <span class="sd">    Note: NASA&#39;s processing strips out rain rate so we have to</span>
 <span class="sd">    recalculate it based upon a fall speed relationship.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">reader</span> <span class="o">=</span> <span class="n">GPMApuWallopsRawReader</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-    <span class="c1">#return reader</span>
+    <span class="c1"># return reader</span>
     <span class="k">if</span> <span class="n">reader</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DropSizeDistribution</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -72,26 +73,27 @@
 
 <div class="viewcode-block" id="GPMApuWallopsRawReader"><a class="viewcode-back" href="../../../pydsd.aux_reader.html#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader">[docs]</a><span class="k">class</span> <span class="nc">GPMApuWallopsRawReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="sd">&#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class reads and parses parsivel disdrometer data from</span>
 <span class="sd">    nasa ground campaigns. These conform to document.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles setting up a NASA APU Reader for Raw 1024 Size Data</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">time</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Time in minutes from start of recording</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_drops</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rr</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
         <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
             <span class="n">time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_time</span><span class="p">((</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">9</span><span class="o">+</span><span class="mi">1024</span><span class="p">]])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">9</span> <span class="o">+</span> <span class="mi">1024</span><span class="p">]])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">num_drops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
 
@@ -100,47 +102,51 @@
         <span class="n">yyyy</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
         <span class="n">mm</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
         <span class="n">dd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span>
-        <span class="n">t_units</span> <span class="o">=</span> <span class="s1">&#39;minutes since &#39;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">yyyy</span><span class="p">,</span> <span class="n">mm</span><span class="p">,</span> <span class="n">dd</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;T00:00:00&#39;</span>
+        <span class="n">t_units</span> <span class="o">=</span> <span class="s2">&quot;minutes since &quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">yyyy</span><span class="p">,</span> <span class="n">mm</span><span class="p">,</span> <span class="n">dd</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;T00:00:00&quot;</span>
         <span class="c1"># Return a common epoch time dictionary</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">_get_epoch_time</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">t_units</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">Md</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bin_edges</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
-            <span class="s1">&#39;bin_edges&#39;</span><span class="p">,</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
-                <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)),</span>
-            <span class="s1">&#39;mm&#39;</span><span class="p">,</span> <span class="s1">&#39;Boundaries of bin sizes&#39;</span><span class="p">)</span>
+            <span class="s2">&quot;bin_edges&quot;</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)),</span>
+            <span class="s2">&quot;mm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Boundaries of bin sizes&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">Nd</span> <span class="o">=</span> <span class="n">conv_md_nd</span><span class="p">(</span><span class="n">Md</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;Nd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
-            <span class="s1">&#39;Nd&#39;</span><span class="p">,</span> <span class="n">Nd</span><span class="p">,</span> <span class="s1">&#39;m^-3&#39;</span><span class="p">,</span> <span class="s1">&#39;Liquid water particle concentration&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Nd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
+            <span class="s2">&quot;Nd&quot;</span><span class="p">,</span> <span class="n">Nd</span><span class="p">,</span> <span class="s2">&quot;m^-3&quot;</span><span class="p">,</span> <span class="s2">&quot;Liquid water particle concentration&quot;</span>
+        <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_regenerate_rainfall</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The goal of this function is to recreate the rainfall that the</span>
 <span class="sd">        NASA processing removes. The alternative is to merge the dsd and</span>
 <span class="sd">        raintables files together. We might add that later</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Not implemented yet&#39;</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not implemented yet&quot;</span><span class="p">)</span>
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">_parse_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_vector</span><span class="p">):</span>
         <span class="c1"># For now we just drop the day stuff, Eventually we&#39;ll make this a</span>
         <span class="c1"># proper time</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">time_vector</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span> <span class="o">*</span> <span class="mf">60.0</span> <span class="o">+</span>\
-            <span class="nb">float</span><span class="p">(</span><span class="n">time_vector</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">12</span><span class="p">])</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">time_vector</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">14</span><span class="p">])</span><span class="o">/</span><span class="mf">60.0</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">time_vector</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span> <span class="o">*</span> <span class="mf">60.0</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">time_vector</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">12</span><span class="p">])</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span>
+            <span class="n">time_vector</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mf">60.0</span>
 
-<div class="viewcode-block" id="GPMApuWallopsRawReader.conv_md_to_nd"><a class="viewcode-back" href="../../../pydsd.aux_reader.html#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.conv_md_to_nd">[docs]</a>    <span class="k">def</span> <span class="nf">conv_md_to_nd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Md</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">10</span><span class="o">/</span><span class="mf">60.0</span><span class="p">):</span>
+<div class="viewcode-block" id="GPMApuWallopsRawReader.conv_md_to_nd"><a class="viewcode-back" href="../../../pydsd.aux_reader.html#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.conv_md_to_nd">[docs]</a>    <span class="k">def</span> <span class="nf">conv_md_to_nd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Md</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">10</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">):</span>
         <span class="n">F</span> <span class="o">=</span> <span class="mf">0.0054</span>
-        <span class="c1">#v = 9.65 - 10.3 * np.exp(-0.6 * self.diameter)</span>
+        <span class="c1"># v = 9.65 - 10.3 * np.exp(-0.6 * self.diameter)</span>
         <span class="n">vel_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">,</span> <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">spread_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Nd_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">Md</span><span class="p">))</span>
         <span class="n">Nd_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">),</span> <span class="mi">32</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)):</span>
             <span class="n">Nd_mat</span><span class="p">[</span><span class="n">ti</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
-                <span class="n">Md</span><span class="p">[</span><span class="n">ti</span><span class="p">],</span> <span class="p">(</span><span class="n">F</span> <span class="o">*</span> <span class="mi">60</span><span class="o">*</span><span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">vel_mat</span><span class="p">,</span> <span class="n">spread_mat</span><span class="p">)))</span>
+                <span class="n">Md</span><span class="p">[</span><span class="n">ti</span><span class="p">],</span> <span class="p">(</span><span class="n">F</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">vel_mat</span><span class="p">,</span> <span class="n">spread_mat</span><span class="p">))</span>
+            <span class="p">)</span>
             <span class="n">Nd_array</span><span class="p">[</span><span class="n">ti</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd_mat</span><span class="p">[</span><span class="n">ti</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Nd_array</span></div>
 
@@ -152,36 +158,140 @@
         <span class="n">timesec</span> <span class="o">=</span> <span class="n">date2num</span><span class="p">(</span><span class="n">dts</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">EPOCH_UNITS</span><span class="p">)</span>
         <span class="c1"># Now once again convert this data into a datetime instance</span>
         <span class="n">time_unaware</span> <span class="o">=</span> <span class="n">num2date</span><span class="p">(</span><span class="n">timesec</span><span class="p">,</span> <span class="n">common</span><span class="o">.</span><span class="n">EPOCH_UNITS</span><span class="p">)</span>
-        <span class="n">eptime</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">time_unaware</span><span class="p">,</span> <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="n">common</span><span class="o">.</span><span class="n">EPOCH_UNITS</span><span class="p">,</span>
-                  <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Time (UTC)&#39;</span><span class="p">}</span>
-
+        <span class="n">eptime</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">time_unaware</span><span class="p">,</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">common</span><span class="o">.</span><span class="n">EPOCH_UNITS</span><span class="p">,</span>
+            <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Time&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Time (UTC)&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
 
     <span class="n">spread</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
-        <span class="s1">&#39;spread&#39;</span><span class="p">,</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-            <span class="mf">0.129</span><span class="p">,</span> <span class="mf">0.129</span><span class="p">,</span> <span class="mf">0.129</span><span class="p">,</span> <span class="mf">0.129</span><span class="p">,</span> <span class="mf">0.129</span><span class="p">,</span> <span class="mf">0.129</span><span class="p">,</span> <span class="mf">0.129</span><span class="p">,</span> <span class="mf">0.129</span><span class="p">,</span> <span class="mf">0.129</span><span class="p">,</span> <span class="mf">0.129</span><span class="p">,</span> <span class="mf">0.257</span><span class="p">,</span>
-            <span class="mf">0.257</span><span class="p">,</span> <span class="mf">0.257</span><span class="p">,</span> <span class="mf">0.257</span><span class="p">,</span> <span class="mf">0.257</span><span class="p">,</span> <span class="mf">0.515</span><span class="p">,</span> <span class="mf">0.515</span><span class="p">,</span> <span class="mf">0.515</span><span class="p">,</span> <span class="mf">0.515</span><span class="p">,</span> <span class="mf">0.515</span><span class="p">,</span> <span class="mf">1.030</span><span class="p">,</span> <span class="mf">1.030</span><span class="p">,</span>
-            <span class="mf">1.030</span><span class="p">,</span> <span class="mf">1.030</span><span class="p">,</span> <span class="mf">1.030</span><span class="p">,</span> <span class="mf">2.060</span><span class="p">,</span> <span class="mf">2.060</span><span class="p">,</span> <span class="mf">2.060</span><span class="p">,</span> <span class="mf">2.060</span><span class="p">,</span> <span class="mf">2.060</span><span class="p">,</span> <span class="mf">3.090</span><span class="p">,</span> <span class="mf">3.090</span><span class="p">]),</span>
-        <span class="s1">&#39;mm&#39;</span><span class="p">,</span> <span class="s1">&#39;Bin size spread of bins&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;spread&quot;</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="mf">0.129</span><span class="p">,</span>
+                <span class="mf">0.129</span><span class="p">,</span>
+                <span class="mf">0.129</span><span class="p">,</span>
+                <span class="mf">0.129</span><span class="p">,</span>
+                <span class="mf">0.129</span><span class="p">,</span>
+                <span class="mf">0.129</span><span class="p">,</span>
+                <span class="mf">0.129</span><span class="p">,</span>
+                <span class="mf">0.129</span><span class="p">,</span>
+                <span class="mf">0.129</span><span class="p">,</span>
+                <span class="mf">0.129</span><span class="p">,</span>
+                <span class="mf">0.257</span><span class="p">,</span>
+                <span class="mf">0.257</span><span class="p">,</span>
+                <span class="mf">0.257</span><span class="p">,</span>
+                <span class="mf">0.257</span><span class="p">,</span>
+                <span class="mf">0.257</span><span class="p">,</span>
+                <span class="mf">0.515</span><span class="p">,</span>
+                <span class="mf">0.515</span><span class="p">,</span>
+                <span class="mf">0.515</span><span class="p">,</span>
+                <span class="mf">0.515</span><span class="p">,</span>
+                <span class="mf">0.515</span><span class="p">,</span>
+                <span class="mf">1.030</span><span class="p">,</span>
+                <span class="mf">1.030</span><span class="p">,</span>
+                <span class="mf">1.030</span><span class="p">,</span>
+                <span class="mf">1.030</span><span class="p">,</span>
+                <span class="mf">1.030</span><span class="p">,</span>
+                <span class="mf">2.060</span><span class="p">,</span>
+                <span class="mf">2.060</span><span class="p">,</span>
+                <span class="mf">2.060</span><span class="p">,</span>
+                <span class="mf">2.060</span><span class="p">,</span>
+                <span class="mf">2.060</span><span class="p">,</span>
+                <span class="mf">3.090</span><span class="p">,</span>
+                <span class="mf">3.090</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;mm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Bin size spread of bins&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">diameter</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
-        <span class="s1">&#39;diameter&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;diameter&quot;</span><span class="p">,</span>
         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.19</span><span class="p">,</span> <span class="mf">0.32</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.58</span><span class="p">,</span> <span class="mf">0.71</span><span class="p">,</span> <span class="mf">0.84</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="mf">1.09</span><span class="p">,</span> <span class="mf">1.22</span><span class="p">,</span>
-             <span class="mf">1.42</span><span class="p">,</span> <span class="mf">1.67</span><span class="p">,</span> <span class="mf">1.93</span><span class="p">,</span> <span class="mf">2.19</span><span class="p">,</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.83</span><span class="p">,</span> <span class="mf">3.35</span><span class="p">,</span> <span class="mf">3.86</span><span class="p">,</span> <span class="mf">4.38</span><span class="p">,</span> <span class="mf">4.89</span><span class="p">,</span>
-             <span class="mf">5.66</span><span class="p">,</span> <span class="mf">6.70</span><span class="p">,</span> <span class="mf">7.72</span><span class="p">,</span> <span class="mf">8.76</span><span class="p">,</span> <span class="mf">9.78</span><span class="p">,</span> <span class="mf">11.33</span><span class="p">,</span> <span class="mf">13.39</span><span class="p">,</span> <span class="mf">15.45</span><span class="p">,</span> <span class="mf">17.51</span><span class="p">,</span>
-             <span class="mf">19.57</span><span class="p">,</span> <span class="mf">22.15</span><span class="p">,</span> <span class="mf">25.24</span><span class="p">]),</span>
-        <span class="s1">&#39;mm&#39;</span><span class="p">,</span> <span class="s1">&#39;Particle diameter of bins&#39;</span><span class="p">)</span>
+            <span class="p">[</span>
+                <span class="mf">0.06</span><span class="p">,</span>
+                <span class="mf">0.19</span><span class="p">,</span>
+                <span class="mf">0.32</span><span class="p">,</span>
+                <span class="mf">0.45</span><span class="p">,</span>
+                <span class="mf">0.58</span><span class="p">,</span>
+                <span class="mf">0.71</span><span class="p">,</span>
+                <span class="mf">0.84</span><span class="p">,</span>
+                <span class="mf">0.96</span><span class="p">,</span>
+                <span class="mf">1.09</span><span class="p">,</span>
+                <span class="mf">1.22</span><span class="p">,</span>
+                <span class="mf">1.42</span><span class="p">,</span>
+                <span class="mf">1.67</span><span class="p">,</span>
+                <span class="mf">1.93</span><span class="p">,</span>
+                <span class="mf">2.19</span><span class="p">,</span>
+                <span class="mf">2.45</span><span class="p">,</span>
+                <span class="mf">2.83</span><span class="p">,</span>
+                <span class="mf">3.35</span><span class="p">,</span>
+                <span class="mf">3.86</span><span class="p">,</span>
+                <span class="mf">4.38</span><span class="p">,</span>
+                <span class="mf">4.89</span><span class="p">,</span>
+                <span class="mf">5.66</span><span class="p">,</span>
+                <span class="mf">6.70</span><span class="p">,</span>
+                <span class="mf">7.72</span><span class="p">,</span>
+                <span class="mf">8.76</span><span class="p">,</span>
+                <span class="mf">9.78</span><span class="p">,</span>
+                <span class="mf">11.33</span><span class="p">,</span>
+                <span class="mf">13.39</span><span class="p">,</span>
+                <span class="mf">15.45</span><span class="p">,</span>
+                <span class="mf">17.51</span><span class="p">,</span>
+                <span class="mf">19.57</span><span class="p">,</span>
+                <span class="mf">22.15</span><span class="p">,</span>
+                <span class="mf">25.24</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;mm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Particle diameter of bins&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">velocity</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
-        <span class="s1">&#39;velocity&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;velocity&quot;</span><span class="p">,</span>
         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="mf">1.13</span><span class="p">,</span>
-             <span class="mf">1.35</span><span class="p">,</span> <span class="mf">1.59</span><span class="p">,</span> <span class="mf">1.83</span><span class="p">,</span> <span class="mf">2.08</span><span class="p">,</span> <span class="mf">2.40</span><span class="p">,</span> <span class="mf">2.78</span><span class="p">,</span> <span class="mf">3.15</span><span class="p">,</span> <span class="mf">3.50</span><span class="p">,</span> <span class="mf">3.84</span><span class="p">,</span> <span class="mf">4.40</span><span class="p">,</span> <span class="mf">5.20</span><span class="p">,</span>
-             <span class="mf">6.00</span><span class="p">,</span> <span class="mf">6.80</span><span class="p">,</span> <span class="mf">7.60</span><span class="p">,</span> <span class="mf">8.80</span><span class="p">,</span> <span class="mf">10.40</span><span class="p">,</span> <span class="mf">12.00</span><span class="p">,</span> <span class="mf">13.60</span><span class="p">,</span> <span class="mf">15.20</span><span class="p">,</span> <span class="mf">17.60</span><span class="p">,</span> <span class="mf">20.80</span><span class="p">]),</span>
-        <span class="s1">&#39;m s^-1&#39;</span><span class="p">,</span> <span class="s1">&#39;Terminal fall velocity for each bin&#39;</span><span class="p">)</span>
+            <span class="p">[</span>
+                <span class="mf">0.05</span><span class="p">,</span>
+                <span class="mf">0.15</span><span class="p">,</span>
+                <span class="mf">0.25</span><span class="p">,</span>
+                <span class="mf">0.35</span><span class="p">,</span>
+                <span class="mf">0.45</span><span class="p">,</span>
+                <span class="mf">0.55</span><span class="p">,</span>
+                <span class="mf">0.65</span><span class="p">,</span>
+                <span class="mf">0.75</span><span class="p">,</span>
+                <span class="mf">0.85</span><span class="p">,</span>
+                <span class="mf">0.96</span><span class="p">,</span>
+                <span class="mf">1.13</span><span class="p">,</span>
+                <span class="mf">1.35</span><span class="p">,</span>
+                <span class="mf">1.59</span><span class="p">,</span>
+                <span class="mf">1.83</span><span class="p">,</span>
+                <span class="mf">2.08</span><span class="p">,</span>
+                <span class="mf">2.40</span><span class="p">,</span>
+                <span class="mf">2.78</span><span class="p">,</span>
+                <span class="mf">3.15</span><span class="p">,</span>
+                <span class="mf">3.50</span><span class="p">,</span>
+                <span class="mf">3.84</span><span class="p">,</span>
+                <span class="mf">4.40</span><span class="p">,</span>
+                <span class="mf">5.20</span><span class="p">,</span>
+                <span class="mf">6.00</span><span class="p">,</span>
+                <span class="mf">6.80</span><span class="p">,</span>
+                <span class="mf">7.60</span><span class="p">,</span>
+                <span class="mf">8.80</span><span class="p">,</span>
+                <span class="mf">10.40</span><span class="p">,</span>
+                <span class="mf">12.00</span><span class="p">,</span>
+                <span class="mf">13.60</span><span class="p">,</span>
+                <span class="mf">15.20</span><span class="p">,</span>
+                <span class="mf">17.60</span><span class="p">,</span>
+                <span class="mf">20.80</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;m s^-1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Terminal fall velocity for each bin&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">supported_campaigns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ifloods&#39;</span><span class="p">,</span> <span class="s1">&#39;mc3e_dsd&#39;</span><span class="p">,</span> <span class="s1">&#39;mc3e_raw&#39;</span><span class="p">]</span></div>
+    <span class="n">supported_campaigns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ifloods&quot;</span><span class="p">,</span> <span class="s2">&quot;mc3e_dsd&quot;</span><span class="p">,</span> <span class="s2">&quot;mc3e_raw&quot;</span><span class="p">]</span></div>
 </pre></div>
 
           </div>
