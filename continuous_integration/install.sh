@@ -21,43 +21,28 @@ wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh \
 chmod +x miniconda.sh
 ./miniconda.sh -b
 export PATH=/home/travis/miniconda2/bin:/home/travis/miniconda/bin:$PATH
-conda update --yes conda
-conda update --yes conda
+
+conda config --set always_yes yes
+conda config --set show_channel_urls true
+conda update -q conda
 
 # Create a testenv with the correct Python version
 conda create -n testenv --yes pip python=$PYTHON_VERSION
 source activate testenv
 
 # Install dependencies
-conda install --yes numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4=4.2.12
-conda install --yes sphinx_rtd_theme
-pip install sphinx-gallery
-
+conda install sphinx_rtd_theme numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4=4.2.12
+pip install sphinx-gallery nose-cov
+conda install -c conda-forge pytmatrix
 
 pip install git+https://github.com/jleinonen/pytmatrix.git
 if [[ $PYTHON_VERSION == '2.7' ]]; then
-    conda install --yes sphinx numpydoc hdf4=4.2.12
-    conda install --yes sphinx_rtd_theme
     pip install sphinxcontrib-bibtex
     pip install xmltodict
-    pip install pytmatrix
-fi
-if [[ $PYTHON_VERSION == '3.4' ]]; then
-    pip install pytmatrix
-    conda install --yes hdf4=4.2.12
-fi
-if [[ $PYTHON_VERSION == '3.5' ]]; then
-    pip install pytmatrix
-    conda install --yes hdf4=4.2.12
-fi
-if [[ $PYTHON_VERSION == '3.6' ]]; then
-    pip install pytmatrix
-    conda install --yes hdf4=4.2.12
 fi
 
 
 # install coverage modules
-pip install nose-cov
 if [[ "$COVERALLS" == "true" ]]; then
     pip install python-coveralls
 fi
