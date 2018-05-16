@@ -31,11 +31,10 @@ conda create -n testenv --yes pip python=$PYTHON_VERSION
 source activate testenv
 
 # Install dependencies
-conda install sphinx_rtd_theme numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4=4.2.12
+conda install pytest pytest-cov sphinx_rtd_theme numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4=4.2.12
 pip install sphinx-gallery nose-cov
 conda install -c conda-forge pytmatrix
 
-pip install git+https://github.com/jleinonen/pytmatrix.git
 if [[ $PYTHON_VERSION == '2.7' ]]; then
     pip install sphinxcontrib-bibtex
     pip install xmltodict
