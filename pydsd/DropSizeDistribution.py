@@ -178,7 +178,8 @@ class DropSizeDistribution(object):
 
             if scatter_time_range[1] > self.numt:
                 print(
-                    "End of Scatter time is greater than end of file. Scattering to end of included time."
+                    "End of Scatter time is greater than end of file." +
+                    "Scattering to end of included time."
                 )
                 self.scatter_end_time = self.numt
 
