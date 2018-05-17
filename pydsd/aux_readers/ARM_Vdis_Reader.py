@@ -81,7 +81,7 @@ class ArmVdisReader(object):
                 conv_factor = 1e-3
             elif(units == "m"):
                 conv_factor = 1e3
-            self.spread = np.array([float(width_str[0])*conv_factor])
+            self.spread = np.array([float(width_str[0]) * conv_factor])
 
         # TODO: Move this to new metadata utility, and just add information from raw netcdf where appropriate
         self.bin_edges = common.var_to_dict(
@@ -100,9 +100,6 @@ class ArmVdisReader(object):
         self.fields["Nd"] = common.var_to_dict(
             "Nd", Nd, "m^-3 mm^-1", "Liquid water particle concentration"
         )
-        #self.fields["velocity"] = common.var_to_dict(
-        #    "velocity", velocity, "m s^-1", "Terminal fall velocity for each bin"
-        #)
         self.fields["rain_rate"] = common.var_to_dict(
             "rain_rate", rain_rate, "mm h^-1", "Rain rate"
         )
