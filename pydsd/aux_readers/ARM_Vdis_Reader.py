@@ -61,12 +61,27 @@ class ArmVdisReader(object):
         self.time = self._get_epoch_time(time)
 
         Nd = np.ma.array(self.nc_dataset.variables["num_density"][:])
+        rain_rate = np.ma.array(self.nc_dataset.variables["rain_rate"][:])
         # velocity = np.ma.array(
         #         self.nc_dataset.variables['fall_vel'][:])
         # rain_rate = np.ma.array(
         #         self.nc_dataset.variables['rain_rate'][:])
+        # Sometimes the spread is stored as a bin_width attribute
         self.diameter = np.ma.array(self.nc_dataset.variables["drop_diameter"][:])
-        self.spread = np.ma.array(self.nc_dataset.variables["delta_diam"][:])
+        try:
+            self.spread = np.ma.array(self.nc_dataset.variables["delta_diam"][:])
+        except KeyError:
+            width_str = self.nc_dataset.bin_width.split(" ")
+            units = width_str[1]
+            if(units == "mm"):
+                conv_factor = 1
+            elif(units == "cm"):
+                conv_factor = 10
+            elif(units == "um"):
+                conv_factor = 1e-3
+            elif(units == "m"):
+                conv_factor = 1e3
+            self.spread = np.array([float(width_str[0]) * conv_factor])
 
         # TODO: Move this to new metadata utility, and just add information from raw netcdf where appropriate
         self.bin_edges = common.var_to_dict(
@@ -84,9 +99,6 @@ class ArmVdisReader(object):
 
         self.fields["Nd"] = common.var_to_dict(
             "Nd", Nd, "m^-3 mm^-1", "Liquid water particle concentration"
-        )
-        self.fields["velocity"] = common.var_to_dict(
-            "velocity", velocity, "m s^-1", "Terminal fall velocity for each bin"
         )
         self.fields["rain_rate"] = common.var_to_dict(
             "rain_rate", rain_rate, "mm h^-1", "Rain rate"
@@ -106,13 +118,13 @@ class ArmVdisReader(object):
 
         self.fields["n_0"] = common.var_to_dict(
             "n_0",
-            self.nc_dataset.variables["n_0"][:],
+            self.nc_dataset.variables["intercept_parameter"][:],
             "1/(m^3-mm)",
             "Distribution Intercept",
         )
         self.fields["lambda"] = common.var_to_dict(
             "lambda",
-            self.nc_dataset.variables["lambda"][:],
+            self.nc_dataset.variables["slope_parameter"][:],
             "1/mm",
             "Distribution Slope",
         )
