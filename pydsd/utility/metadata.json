@@ -20,7 +20,7 @@
     "Nw":
     {
         "standard_name": "normalized_intercept_parameter",
-        "units": "?",
+        "units": "mm-1 m-3",
         "long_name" :"Normalized Intercept Parameter of a Normalized Gaussian Distribution"
     },
     "Nt":
@@ -32,7 +32,7 @@
     "N0":
     {
         "standard_name": "intercept_parameter",
-        "units": "?",
+        "units": "mm-1 m-3",
         "long_name" :"Intercept Parameter of Modeled Drop Size Distribution"
     },
     "W":
@@ -68,7 +68,7 @@
     "Kdp":
     {
         "standard_name": "specific_differential_phase",
-        "units": "deg",
+        "units": "deg/km",
         "long_name" :"Specific Differential Phase from Drop Size Distribution"
     },
     "Ai":
