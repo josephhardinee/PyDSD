@@ -55,3 +55,10 @@ class TestArmJwdReader(unittest.TestCase):
         self.assertEqual(
             self.dsd.time["data"][0], 1305590400
         )  # Basetime + first start time
+
+    def test_spread_has_same_dimension_as_bins(self):
+        """
+        This is a regression test to determine if spread is correctly being set to the same size as the bins dimension
+        of the Nd variable.
+        """
+        assert self.dsd.spread['data'].shape[0] == self.dsd.fields['Nd']['data'].shape[1]
