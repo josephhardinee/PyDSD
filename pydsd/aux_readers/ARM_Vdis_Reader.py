@@ -73,13 +73,13 @@ class ArmVdisReader(object):
         except KeyError:
             width_str = self.nc_dataset.bin_width.split(" ")
             units = width_str[1]
-            if(units == "mm"):
+            if units == "mm":
                 conv_factor = 1
-            elif(units == "cm"):
+            elif units == "cm":
                 conv_factor = 10
-            elif(units == "um"):
+            elif units == "um":
                 conv_factor = 1e-3
-            elif(units == "m"):
+            elif units == "m":
                 conv_factor = 1e3
             self.spread = np.array([float(width_str[0]) * conv_factor])
 

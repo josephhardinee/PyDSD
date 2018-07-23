@@ -61,4 +61,6 @@ class TestArmJwdReader(unittest.TestCase):
         This is a regression test to determine if spread is correctly being set to the same size as the bins dimension
         of the Nd variable.
         """
-        assert self.dsd.spread['data'].shape[0] == self.dsd.fields['Nd']['data'].shape[1]
+        assert (
+            self.dsd.spread["data"].shape[0] == self.dsd.fields["Nd"]["data"].shape[1]
+        )
