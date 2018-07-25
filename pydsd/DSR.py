@@ -34,19 +34,27 @@ def tb(D_eq):
        video disdrometer." J. Atmos. Oceanic Technol., 22, 966 - 978. 2005
 
     """
-    if D_eq < 0.7:
-        return 1.0
-    elif D_eq < 1.5:
-        return 1.173 - 0.5165 * D_eq + 0.4698 * D_eq ** 2 - 0.1317 * D_eq ** 3 - 8.5e-3 * D_eq ** 4
+
+    def tb_elementwise(D):
+        """ Quick inner function to map our equation to an array"""
+        if D < 0.7:
+            return 1.0
+        elif D < 1.5:
+            return 1.173 - 0.5165 * D + 0.4698 * D ** 2 - 0.1317 * D ** 3 - 8.5e-3 * D ** 4
+        else:
+            return 1.065 - 6.25e-2 * D - 3.99e-3 * D ** 2 + 7.66e-4 * D ** 3 - 4.095e-5 * D ** 4
+
+    if type(D_eq) in [np.ndarray, np.ma.masked_array]:
+        return np.array(list(map(tb_elementwise, D_eq)))
     else:
-        return 1.065 - 6.25e-2 * D_eq - 3.99e-3 * D_eq ** 2 + 7.66e-4 * D_eq ** 3 - 4.095e-5 * D_eq ** 4
+        return tb_elementwise(D_eq)
 
 
 def pb(D_eq):
     """Pruppacher and Beard Drop Shape relationship model.
 
     Implementation of the Pruppacher and Beard Drop Shape model given in [1]
-    . This gives the ratio of the major to minor axis.
+    . This gives the ratio of the semi minor to semi major axis.
 
     Parameters
     -----------
@@ -62,6 +70,7 @@ def pb(D_eq):
     --------
     tb : Thurai and Bringi DSR
     bc : Beard and Chuang DSR
+    brandes: Brandes DSR
 
     References
     ----------
@@ -88,12 +97,13 @@ def bc(D_eq):
     Returns
     -------
     axis_ratio: float
-        The ratio of the major to minor axis.
+        The ratio of the semi minor to semi major axis.
 
     See Also
     --------
     tb : Thurai and Bringi DSR
     pb : Pruppacher and Beard DSR
+    brandes: Brandes DSR
 
     References
     ----------
@@ -106,5 +116,42 @@ def bc(D_eq):
     ) + 3.682e-03 * np.power(
         D_eq, 3
     ) - 1.677e-04 * np.power(
+        D_eq, 4
+    )
+
+
+def brandes(D_eq):
+    """Brandes 2005 Drop shape relationship model.
+
+    Implementation of the Brandes et. al. drop shape model given in [1]. This gives
+    the ratio of the major to minor axis as a function of equivalent liquid spherical
+    diameter.
+
+    Parameters
+    ----------
+    D_eq: float or array_like
+        Volume Equivalent Drop Diameter
+
+    Returns
+    -------
+    axis_ratio: float
+        The ratio of the semi minor to semi major axis.
+
+    See Also
+    tb : Thurai and Bringi DSR
+    pb: Pruppacher and Beard DSR
+    bc: Beard and Chuang DSR
+
+    References
+    ----------
+    ..[1] Brandes, etl al. 2005: On the Influence of Assumed Drop Size Distribution Form
+    on Radar-Retrieved Thunderstorm Microphysics. J. Appl. Meteor. Climatol., 45, 259-268.
+    """
+
+    return 0.9951 + 0.0251 * np.power(D_eq, 1) - 0.03644 * np.power(
+        D_eq, 2
+    ) + 0.005303 * np.power(
+        D_eq, 3
+    ) - .0002492 * np.power(
         D_eq, 4
     )
