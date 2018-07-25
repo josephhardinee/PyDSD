@@ -74,19 +74,27 @@
 <span class="sd">       video disdrometer.&quot; J. Atmos. Oceanic Technol., 22, 966 - 978. 2005</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">D_eq</span> <span class="o">&lt;</span> <span class="mf">0.7</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mf">1.0</span>
-    <span class="k">elif</span> <span class="n">D_eq</span> <span class="o">&lt;</span> <span class="mf">1.5</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mf">1.173</span> <span class="o">-</span> <span class="mf">0.5165</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">+</span> <span class="mf">0.4698</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.1317</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">8.5e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span>
+
+    <span class="k">def</span> <span class="nf">tb_elementwise</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Quick inner function to map our equation to an array&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">D</span> <span class="o">&lt;</span> <span class="mf">0.7</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.0</span>
+        <span class="k">elif</span> <span class="n">D</span> <span class="o">&lt;</span> <span class="mf">1.5</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.173</span> <span class="o">-</span> <span class="mf">0.5165</span> <span class="o">*</span> <span class="n">D</span> <span class="o">+</span> <span class="mf">0.4698</span> <span class="o">*</span> <span class="n">D</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.1317</span> <span class="o">*</span> <span class="n">D</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">8.5e-3</span> <span class="o">*</span> <span class="n">D</span> <span class="o">**</span> <span class="mi">4</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.065</span> <span class="o">-</span> <span class="mf">6.25e-2</span> <span class="o">*</span> <span class="n">D</span> <span class="o">-</span> <span class="mf">3.99e-3</span> <span class="o">*</span> <span class="n">D</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">7.66e-4</span> <span class="o">*</span> <span class="n">D</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">4.095e-5</span> <span class="o">*</span> <span class="n">D</span> <span class="o">**</span> <span class="mi">4</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">D_eq</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_array</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">tb_elementwise</span><span class="p">,</span> <span class="n">D_eq</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mf">1.065</span> <span class="o">-</span> <span class="mf">6.25e-2</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">-</span> <span class="mf">3.99e-3</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">7.66e-4</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">4.095e-5</span> <span class="o">*</span> <span class="n">D_eq</span> <span class="o">**</span> <span class="mi">4</span></div>
+        <span class="k">return</span> <span class="n">tb_elementwise</span><span class="p">(</span><span class="n">D_eq</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="pb"><a class="viewcode-back" href="../../pydsd.html#pydsd.DSR.pb">[docs]</a><span class="k">def</span> <span class="nf">pb</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Pruppacher and Beard Drop Shape relationship model.</span>
 
 <span class="sd">    Implementation of the Pruppacher and Beard Drop Shape model given in [1]</span>
-<span class="sd">    . This gives the ratio of the major to minor axis.</span>
+<span class="sd">    . This gives the ratio of the semi minor to semi major axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    -----------</span>
@@ -102,6 +110,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    tb : Thurai and Bringi DSR</span>
 <span class="sd">    bc : Beard and Chuang DSR</span>
+<span class="sd">    brandes: Brandes DSR</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -128,12 +137,13 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    axis_ratio: float</span>
-<span class="sd">        The ratio of the major to minor axis.</span>
+<span class="sd">        The ratio of the semi minor to semi major axis.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    tb : Thurai and Bringi DSR</span>
 <span class="sd">    pb : Pruppacher and Beard DSR</span>
+<span class="sd">    brandes: Brandes DSR</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -146,6 +156,43 @@
     <span class="p">)</span> <span class="o">+</span> <span class="mf">3.682e-03</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
         <span class="n">D_eq</span><span class="p">,</span> <span class="mi">3</span>
     <span class="p">)</span> <span class="o">-</span> <span class="mf">1.677e-04</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
+        <span class="n">D_eq</span><span class="p">,</span> <span class="mi">4</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="brandes"><a class="viewcode-back" href="../../pydsd.html#pydsd.DSR.brandes">[docs]</a><span class="k">def</span> <span class="nf">brandes</span><span class="p">(</span><span class="n">D_eq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Brandes 2005 Drop shape relationship model.</span>
+
+<span class="sd">    Implementation of the Brandes et. al. drop shape model given in [1]. This gives</span>
+<span class="sd">    the ratio of the major to minor axis as a function of equivalent liquid spherical</span>
+<span class="sd">    diameter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    D_eq: float or array_like</span>
+<span class="sd">        Volume Equivalent Drop Diameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    axis_ratio: float</span>
+<span class="sd">        The ratio of the semi minor to semi major axis.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    tb : Thurai and Bringi DSR</span>
+<span class="sd">    pb: Pruppacher and Beard DSR</span>
+<span class="sd">    bc: Beard and Chuang DSR</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ..[1] Brandes, etl al. 2005: On the Influence of Assumed Drop Size Distribution Form</span>
+<span class="sd">    on Radar-Retrieved Thunderstorm Microphysics. J. Appl. Meteor. Climatol., 45, 259-268.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="mf">0.9951</span> <span class="o">+</span> <span class="mf">0.0251</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">D_eq</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.03644</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
+        <span class="n">D_eq</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="p">)</span> <span class="o">+</span> <span class="mf">0.005303</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
+        <span class="n">D_eq</span><span class="p">,</span> <span class="mi">3</span>
+    <span class="p">)</span> <span class="o">-</span> <span class="o">.</span><span class="mi">0002492</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
         <span class="n">D_eq</span><span class="p">,</span> <span class="mi">4</span>
     <span class="p">)</span></div>
 </pre></div>
@@ -186,7 +233,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
     </div>
   </body>
 </html>

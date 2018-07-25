@@ -96,7 +96,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>axis_ratio: float</strong></dt>
-<dd><p class="first last">The ratio of the major to minor axis.</p>
+<dd><p class="first last">The ratio of the semi minor to semi major axis.</p>
 </dd>
 </dl>
 </td>
@@ -110,6 +110,8 @@
 <dd>Thurai and Bringi DSR</dd>
 <dt><a class="reference internal" href="#pydsd.DSR.pb" title="pydsd.DSR.pb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pb</span></code></a></dt>
 <dd>Pruppacher and Beard DSR</dd>
+<dt><a class="reference internal" href="#pydsd.DSR.brandes" title="pydsd.DSR.brandes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brandes</span></code></a></dt>
+<dd>Brandes DSR</dd>
 </dl>
 </div>
 <p class="rubric">References</p>
@@ -118,11 +120,51 @@ Equilibrium Shape of Raindrops. J. Atmos. Sci., 44, 1509-1524.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="pydsd.DSR.brandes">
+<code class="descclassname">pydsd.DSR.</code><code class="descname">brandes</code><span class="sig-paren">(</span><em>D_eq</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DSR.html#brandes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DSR.brandes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brandes 2005 Drop shape relationship model.</p>
+<p>Implementation of the Brandes et. al. drop shape model given in [1]. This gives
+the ratio of the major to minor axis as a function of equivalent liquid spherical
+diameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>D_eq: float or array_like</strong></dt>
+<dd><p class="first last">Volume Equivalent Drop Diameter</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>axis_ratio: float</strong></dt>
+<dd><p class="first last">The ratio of the semi minor to semi major axis.</p>
+</dd>
+<dt><strong>See Also</strong></dt>
+<dd></dd>
+<dt><strong>tb</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Thurai and Bringi DSR</span></dt>
+<dd></dd>
+<dt><strong>pb: Pruppacher and Beard DSR</strong></dt>
+<dd></dd>
+<dt><strong>bc: Beard and Chuang DSR</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>..[1] Brandes, etl al. 2005: On the Influence of Assumed Drop Size Distribution Form
+on Radar-Retrieved Thunderstorm Microphysics. J. Appl. Meteor. Climatol., 45, 259-268.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="pydsd.DSR.pb">
 <code class="descclassname">pydsd.DSR.</code><code class="descname">pb</code><span class="sig-paren">(</span><em>D_eq</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DSR.html#pb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DSR.pb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pruppacher and Beard Drop Shape relationship model.</p>
 <p>Implementation of the Pruppacher and Beard Drop Shape model given in [1]
-. This gives the ratio of the major to minor axis.</p>
+. This gives the ratio of the semi minor to semi major axis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -150,6 +192,8 @@ Equilibrium Shape of Raindrops. J. Atmos. Sci., 44, 1509-1524.</p>
 <dd>Thurai and Bringi DSR</dd>
 <dt><a class="reference internal" href="#pydsd.DSR.bc" title="pydsd.DSR.bc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bc</span></code></a></dt>
 <dd>Beard and Chuang DSR</dd>
+<dt><a class="reference internal" href="#pydsd.DSR.brandes" title="pydsd.DSR.brandes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brandes</span></code></a></dt>
+<dd>Brandes DSR</dd>
 </dl>
 </div>
 <p class="rubric">References</p>
@@ -693,7 +737,7 @@ x: array_like</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
     </div>
   </body>
 </html>
