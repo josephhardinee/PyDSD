@@ -73,15 +73,20 @@ class ArmVdisReader(object):
         except KeyError:
             width_str = self.nc_dataset.bin_width.split(" ")
             units = width_str[1]
-            if(units == "mm"):
+            if units == "mm":
                 conv_factor = 1
-            elif(units == "cm"):
+            elif units == "cm":
                 conv_factor = 10
-            elif(units == "um"):
+            elif units == "um":
                 conv_factor = 1e-3
-            elif(units == "m"):
+            elif units == "m":
                 conv_factor = 1e3
             self.spread = np.array([float(width_str[0]) * conv_factor])
+
+        #  Sometimes spread is a singleton.
+        #  In which case we expand it to the array as 2DVD are fixed size bins.
+        if len(self.spread) != Nd.shape[1]:
+            self.spread = np.full(Nd.shape[1], self.spread[0])
 
         # TODO: Move this to new metadata utility, and just add information from raw netcdf where appropriate
         self.bin_edges = common.var_to_dict(

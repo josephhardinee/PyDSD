@@ -438,7 +438,7 @@ class DropSizeDistribution(object):
         """
 
         popt, pcov = expfit(
-            np.power(10, 0.1 * self.fields["Zh"]["data"][self.rain_rate["data"] > 0]),
+            np.power(10, 0.1 * self.fields["Zh"]["data"][self.fields["rain_rate"]["data"] > 0]),
             self.fields["rain_rate"]["data"][self.fields["rain_rate"]["data"] > 0],
         )
         return popt, pcov
