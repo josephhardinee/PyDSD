@@ -59,10 +59,7 @@ class ArmVdisReader(object):
 
         Nd = np.ma.array(self.nc_dataset.variables["num_density"][:])
         rain_rate = np.ma.array(self.nc_dataset.variables["rain_rate"][:])
-        # velocity = np.ma.array(
-        #         self.nc_dataset.variables['fall_vel'][:])
-        # rain_rate = np.ma.array(
-        #         self.nc_dataset.variables['rain_rate'][:])
+
         # Sometimes the spread is stored as a bin_width attribute
         self.diameter = np.ma.array(self.nc_dataset.variables["drop_diameter"][:])
         try:
