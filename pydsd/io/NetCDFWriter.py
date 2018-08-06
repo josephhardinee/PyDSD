@@ -51,9 +51,9 @@ def write_netcdf(dsd, filename):
 
     for variable in dsd.fields.keys():
         if variable == "Nd":
-            var_name = rootgrp.createVariable(variable, "f8", ("time", "diameter"))
+            var_name = rootgrp.createVariable(variable, "f8", ("time", "diameter"), fill_value=-9999)
         else:
-            var_name = rootgrp.createVariable(variable, "f8", ("time",))
+            var_name = rootgrp.createVariable(variable, "f8", ("time",), fill_value=-9999)
 
         var_name.units = dsd.fields[variable]['units']
         var_name.long_name = dsd.fields[variable]['long_name']
