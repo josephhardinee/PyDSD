@@ -44,8 +44,14 @@
     "mu":
     {
         "standard_name": "shape_parameter",
-        "units": " ",
+        "units": "1",
         "long_name" :"Shape Parameter of Modeled Drop Size Distribution"
+    },
+    "lambda":
+    {
+        "standard_name": "distribution_slope",
+        "units": "1/mm",
+        "long_name": "Distribution Slope Parameter"
     },
     "rain_rate":
     {

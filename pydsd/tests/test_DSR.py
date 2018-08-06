@@ -1,5 +1,4 @@
 from ..DSR import tb, pb, bc, brandes
-import pydsd
 import numpy as np
 
 
