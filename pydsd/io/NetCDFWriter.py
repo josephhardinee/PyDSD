@@ -2,7 +2,8 @@
 
 from netCDF4 import Dataset, num2date, date2num
 
-def write_netCDF(dsd, filename):
+
+def write_netcdf(dsd, filename):
     """ Write DropSizeDistribution to a netCDF4 file.
 
     Write a DropSizeDistribution object to a netCDF4 file.
