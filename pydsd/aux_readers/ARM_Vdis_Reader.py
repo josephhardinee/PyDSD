@@ -88,13 +88,8 @@ class ArmVdisReader(object):
         self.bin_edges = config.fill_in_metadata("bin_edges", np.hstack((0, self.diameter + np.array(self.spread) / 2)))
         self.spread = config.fill_in_metadata("spread", self.spread)
         self.diameter = config.fill_in_metadata("diameter", self.diameter)
-
-        self.fields["Nd"] = common.var_to_dict(
-            "Nd", Nd, "m^-3 mm^-1", "Liquid water particle concentration"
-        )
-        self.fields["rain_rate"] = common.var_to_dict(
-            "rain_rate", rain_rate, "mm h^-1", "Rain rate"
-        )
+        self.fields["Nd"] = config.fill_in_metadata("Nd", Nd)
+        self.fields["rain_rate"] = config.fill_in_metadata("rain_rate", rain_rate)
 
         self.fields["N0"] = config.fill_in_metadata("N0", self.nc_dataset.variables["intercept_parameter"][:])
         self.fields["lambda"] = config.fill_in_metadata("lambda", self.nc_dataset.variables["slope_parameter"][:])
