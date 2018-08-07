@@ -34,8 +34,6 @@ def read_2dvd_sav_nasa_gv(filename, campaign="ifloods"):
     else:
         return None
 
-    del (reader)
-
 
 def read_2dvd_dsd_nasa_gv(filename, skip_header=None):
     """
@@ -57,8 +55,6 @@ def read_2dvd_dsd_nasa_gv(filename, skip_header=None):
         return DropSizeDistribution(reader)
     else:
         return None
-
-    del (reader)
 
 
 class NASA_2DVD_sav_reader(object):
@@ -199,11 +195,10 @@ class NASA_2DVD_dsd_reader(object):
                     + datetime.timedelta(DOY - 1, hours=hour, minutes=minute)
                 )
                 self.Nd[idx, :] = [float(value) for value in data_array[4:]]
+        self.Nd = np.ma(self.Nd)
 
         # TODO: Convert this to use new metadata
-        self.fields["Nd"] = common.var_to_dict(
-            "Nd", self.Nd, "m^-3 mm^-1", "Liquid water particle concentration"
-        )
+        self.fields["Nd"] = self.config.fill_in_metadata("Nd", self.Nd)
         self.time = self._get_epoch_time(dt)
         velocity = [
             0.248,
@@ -257,9 +252,8 @@ class NASA_2DVD_dsd_reader(object):
             9.570,
             9.570,
         ]
-        self.velocity = common.var_to_dict(
-            "velocity", velocity, "m s^-1", "Terminal fall velocity for each bin"
-        )
+
+        self.velocity = self.config.fill_in_metadata("velocity", velocity)
 
         self.bin_edges = common.var_to_dict(
             "bin_edges",
