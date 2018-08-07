@@ -409,8 +409,8 @@ class DropSizeDistribution(object):
         num = m1 * gamma(moment_2 + 1)
         den = m2 * gamma(moment_1 + 1)
 
-        Lambda = np.power(np.divide(num, den),(1/(moment_2-moment_1)))
-        N0 = m1 * np.power(Lambda , moment_1+1)/gamma(moment_1+1)
+        Lambda = np.power(np.divide(num, den), (1/(moment_2-moment_1)))
+        N0 = m1 * np.power(Lambda, moment_1+1)/gamma(moment_1+1)
 
         return Lambda, N0
 
