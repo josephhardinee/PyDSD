@@ -325,7 +325,7 @@ class DropSizeDistribution(object):
         self.fields["mu"]["data"][:] = list(
             map(self._estimate_mu, list(range(0, self.numt)))
         )
-        self.fields['Lambda'] = self._calculate_exponential_params()[0]
+        self.fields['Lambda']['data'] = self._calculate_exponential_params()[0]
 
     def __get_last_nonzero(self, N):
         """ Gets last nonzero entry in an array. Gets last non-zero entry in an array.
