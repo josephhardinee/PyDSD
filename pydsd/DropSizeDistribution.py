@@ -10,6 +10,7 @@ import numpy as np
 import pytmatrix
 import scipy
 from scipy.optimize import curve_fit
+from math import gamma
 
 from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
@@ -292,7 +293,7 @@ class DropSizeDistribution(object):
 
         """
 
-        params_list = ["D0", "Dmax", "Dm", "Nt", "Nw", "N0", "W", "mu"]
+        params_list = ["D0", "Dmax", "Dm", "Nt", "Nw", "N0", "W", "mu", "Lambda"]
 
         for param in params_list:
             self.fields[param] = self.config.fill_in_metadata(
@@ -324,6 +325,7 @@ class DropSizeDistribution(object):
         self.fields["mu"]["data"][:] = list(
             map(self._estimate_mu, list(range(0, self.numt)))
         )
+        self.fields['Lambda'] = self._calculate_exponential_params()[0]
 
     def __get_last_nonzero(self, N):
         """ Gets last nonzero entry in an array. Gets last non-zero entry in an array.
@@ -379,6 +381,37 @@ class DropSizeDistribution(object):
         )
         run = (0.5 * cum_W[-1] - cum_W[cross_pt]) / slope
         return self.diameter["data"][cross_pt] + run
+
+    def _calculate_exponential_params(self, moment_1 = 2, moment_2 = 4):
+        """ Calculate Exponential DSD parameters.
+
+        Calculate Exponential DSD parameters using method of moments. The choice of moments
+        is given in the parameters. Uses method from [1]
+
+        Parameters:
+        moment_1: float
+            First moment to use.
+        moment_2: float
+            Second moment to use.
+
+        References:
+        ------
+        [1] Zhang, et. al., 2008, Diagnosing the Intercept Parameter for Exponential Raindrop Size
+            Distribution Based on Video Disdrometer Observations: Model Development. J. Appl. Meteor. Climatol.,
+            https://doi.org/10.1175/2008JAMC1876.1
+        """
+
+        m1 = self._calc_mth_moment(moment_1)
+        m2 = self._calc_mth_moment(moment_2)
+
+        num = m1 * gamma(moment_1 + 1)
+        den = m2 * gamma(moment_2 + 1)
+
+        Lambda = np.divide(num, den)**(1/(moment_2-moment_1))
+        N0 = m1 * Lambda ** ((moment_1+1)/gamma(moment_1+1))
+
+        return Lambda, N0
+
 
     def calculate_RR(self):
         """Calculate instantaneous rain rate.

@@ -53,6 +53,11 @@
         "units": "1/mm",
         "long_name": "Distribution Slope Parameter"
     },
+    "Lambda": {
+        "standard_name": "distribution_slope",
+        "units": "1/mm",
+        "long_name": "Distribution Slope Parameter"
+    },
     "rain_rate":
     {
         "standard_name": "rain_rate",

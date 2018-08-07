@@ -60,8 +60,10 @@ def write_netcdf(dsd, filename):
         var_name.standard_name = dsd.fields[variable]['standard_name']
         var_name[:] = dsd.fields[variable]['data']
 
-
     # Create Attributes
+
+    rootgrp.source = 'Created using PyDSD'
+
 
     rootgrp.close()
 
