@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import datetime
+from datetime import timezone
+
 import scipy.io
 from netCDF4 import num2date, date2num
 
@@ -195,11 +197,10 @@ class NASA_2DVD_dsd_reader(object):
                     + datetime.timedelta(DOY - 1, hours=hour, minutes=minute)
                 )
                 self.Nd[idx, :] = [float(value) for value in data_array[4:]]
-        self.Nd = np.ma(self.Nd)
+        self.Nd = np.ma.array(self.Nd)
 
-        # TODO: Convert this to use new metadata
-        self.fields["Nd"] = self.config.fill_in_metadata("Nd", self.Nd)
-        self.time = self._get_epoch_time(dt)
+        self.time = [x.replace(tzinfo=timezone.utc).timestamp() for x in dt]
+
         velocity = [
             0.248,
             1.144,
@@ -254,21 +255,11 @@ class NASA_2DVD_dsd_reader(object):
         ]
 
         self.velocity = self.config.fill_in_metadata("velocity", velocity)
-
-        self.bin_edges = common.var_to_dict(
-            "bin_edges",
-            np.array(list(range(0, 51))) * 0.2,
-            "mm",
-            "Boundaries of bin sizes",
-        )
-
-        self.spread = common.var_to_dict(
-            "spread", np.array([0.2] * 50), "mm", "Bin size spread of bins"
-        )
-
-        self.diameter = common.var_to_dict(
-            "diameter", np.arange(0.1, 10.1, .2), "mm", "Particle diameter of bins"
-        )
+        self.bin_edges = self.config.fill_in_metadata("bin_edges",np.ma.array( np.array(list(range(0, 51))) * 0.2))
+        self.spread = self.config.fill_in_metadata("spread", np.array([0.2] * 50))
+        self.diameter = self.config.fill_in_metadata("diameter", np.ma.array(np.arange(0.1, 10.1, .2)))
+        self.fields["Nd"] = self.config.fill_in_metadata("Nd", self.Nd)
+        self.time = self.config.fill_in_metadata("time", np.ma.array(self.time))
 
     def _get_number_of_samples(self, filename, skip_header):
         """ Loop through file counting number of lines to calculate number of samples."""
@@ -283,17 +274,5 @@ class NASA_2DVD_dsd_reader(object):
                 num_samples += 1
 
         return num_samples
-
-    def _get_epoch_time(self, sample_time):
-        """
-        Convert the time to an Epoch time using package standard.
-        """
-        eptime = {
-            "data": sample_time,
-            "units": common.EPOCH_UNITS,
-            "title": "Time",
-            "full_name": "Time (UTC)",
-        }
-        return eptime
 
     supported_campaigns = ["mc3e", "ifloods"]
