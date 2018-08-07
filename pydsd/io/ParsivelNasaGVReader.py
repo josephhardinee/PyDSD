@@ -7,6 +7,7 @@ import csv
 import datetime
 import time
 from netCDF4 import num2date, date2num
+from ..utility.configuration import Configuration
 
 from ..DropSizeDistribution import DropSizeDistribution
 from . import common
@@ -51,7 +52,6 @@ def read_parsivel_nasa_gv(filename, campaign="ifloods", skip_header=None):
     else:
         return None
 
-    del (reader)
 
 
 class NASA_APU_reader(object):
@@ -77,6 +77,7 @@ class NASA_APU_reader(object):
 
         self.time = []  # Time in minutes from start of recording
         self.Nd = []
+        self.config = Configuration()
 
         if not campaign in self.supported_campaigns:
             print("Campaign type not supported")
@@ -94,21 +95,16 @@ class NASA_APU_reader(object):
 
         self._prep_data()
 
-        self.bin_edges = common.var_to_dict(
-            "bin_edges",
-            np.hstack((0, self.diameter["data"] + np.array(self.spread["data"]) / 2)),
-            "mm",
-            "Boundaries of bin sizes",
-        )
-        self.time["data"] = self._datetime_to_epoch_time(self.time["data"])
+        self.bin_edges = self.config.fill_in_metadata("bin_edges",
+                                        np.hstack((0, self.diameter["data"] + np.array(self.spread["data"]) / 2)) )
+        self.time["data"] = np.ma.array(self._datetime_to_epoch_time(self.time["data"]))
 
         self.f.close()
 
     def _prep_data(self):
         self.fields = {}
-        self.fields["Nd"] = common.var_to_dict(
-            "Nd", np.ma.array(self.Nd), "m^-3", "Liquid water particle concentration"
-        )
+
+        self.fields['Nd'] = self.config.fill_in_metadata("Nd", np.ma.array(self.Nd))
 
         try:
             time_dict = self._get_epoch_time(self.time)
@@ -151,7 +147,7 @@ class NASA_APU_reader(object):
 
         return time_secs
 
-    spread = common.var_to_dict(
+    spread =  common.var_to_dict(
         "spread",
         np.array(
             [
