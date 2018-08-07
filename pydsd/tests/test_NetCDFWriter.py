@@ -24,7 +24,7 @@ class TestNetCDFWriter(object):
         self.dsd = ARM_Vdis_Reader.read_arm_vdis_b1(filename)
 
     def test_opens_file(self, two_dvd_file):
-        assert os.path.isfile(two_dvd_file)
+        assert os.path.isfile(os.fspath(two_dvd_file))
 
     # def test_desktop_write(self):
     #     filename_in = "testdata/arm_vdis_b1.cdf"
