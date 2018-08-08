@@ -82,14 +82,20 @@ class ArmVdisReader(object):
         if len(self.spread) != Nd.shape[1]:
             self.spread = np.full(Nd.shape[1], self.spread[0])
 
-        self.bin_edges = config.fill_in_metadata("bin_edges", np.hstack((0, self.diameter + np.array(self.spread) / 2)))
+        self.bin_edges = config.fill_in_metadata(
+            "bin_edges", np.hstack((0, self.diameter + np.array(self.spread) / 2))
+        )
         self.spread = config.fill_in_metadata("spread", self.spread)
         self.diameter = config.fill_in_metadata("diameter", self.diameter)
         self.fields["Nd"] = config.fill_in_metadata("Nd", Nd)
         self.fields["rain_rate"] = config.fill_in_metadata("rain_rate", rain_rate)
 
-        self.fields["N0"] = config.fill_in_metadata("N0", self.nc_dataset.variables["intercept_parameter"][:])
-        self.fields["lambda"] = config.fill_in_metadata("lambda", self.nc_dataset.variables["slope_parameter"][:])
+        self.fields["N0"] = config.fill_in_metadata(
+            "N0", self.nc_dataset.variables["intercept_parameter"][:]
+        )
+        self.fields["lambda"] = config.fill_in_metadata(
+            "lambda", self.nc_dataset.variables["slope_parameter"][:]
+        )
 
         for key in self.nc_dataset.ncattrs():
             self.info[key] = self.nc_dataset.getncattr(key)

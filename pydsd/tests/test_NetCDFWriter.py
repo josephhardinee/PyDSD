@@ -4,6 +4,7 @@ import os.path
 from ..aux_readers import ARM_Vdis_Reader
 from ..io.NetCDFWriter import write_netcdf
 
+
 @pytest.fixture
 def two_dvd_file(tmpdir):
     filename_in = "testdata/arm_vdis_b1.cdf"
@@ -32,6 +33,3 @@ class TestNetCDFWriter(object):
     #     dsd = ARM_Vdis_Reader.read_arm_vdis_b1(filename_in)
     #     dsd.calculate_dsd_parameterization()
     #     write_netcdf(dsd, filename_out)
-
-
-

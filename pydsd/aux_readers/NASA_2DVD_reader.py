@@ -255,9 +255,13 @@ class NASA_2DVD_dsd_reader(object):
         ]
 
         self.velocity = self.config.fill_in_metadata("velocity", velocity)
-        self.bin_edges = self.config.fill_in_metadata("bin_edges",np.ma.array( np.array(list(range(0, 51))) * 0.2))
+        self.bin_edges = self.config.fill_in_metadata(
+            "bin_edges", np.ma.array(np.array(list(range(0, 51))) * 0.2)
+        )
         self.spread = self.config.fill_in_metadata("spread", np.array([0.2] * 50))
-        self.diameter = self.config.fill_in_metadata("diameter", np.ma.array(np.arange(0.1, 10.1, .2)))
+        self.diameter = self.config.fill_in_metadata(
+            "diameter", np.ma.array(np.arange(0.1, 10.1, .2))
+        )
         self.fields["Nd"] = self.config.fill_in_metadata("Nd", self.Nd)
         self.time = self.config.fill_in_metadata("time", np.ma.array(self.time))
 

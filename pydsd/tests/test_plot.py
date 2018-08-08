@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from ..plot import plot
 from ..aux_readers import ARM_JWD_Reader, NASA_2DVD_reader
 
+
 class TestPlot(unittest.TestCase):
     "Test module for the plot scripts"
 

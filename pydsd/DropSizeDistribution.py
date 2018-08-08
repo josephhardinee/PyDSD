@@ -179,8 +179,8 @@ class DropSizeDistribution(object):
 
             if scatter_time_range[1] > self.numt:
                 print(
-                    "End of Scatter time is greater than end of file." +
-                    "Scattering to end of included time."
+                    "End of Scatter time is greater than end of file."
+                    + "Scattering to end of included time."
                 )
                 self.scatter_end_time = self.numt
 
@@ -326,8 +326,8 @@ class DropSizeDistribution(object):
             map(self._estimate_mu, list(range(0, self.numt)))
         )
         Lambda, N0 = self._calculate_exponential_params()
-        self.fields['Lambda']['data'] =Lambda
-        self.fields['N0']['data'] = N0
+        self.fields["Lambda"]["data"] = Lambda
+        self.fields["N0"]["data"] = N0
 
     def __get_last_nonzero(self, N):
         """ Gets last nonzero entry in an array. Gets last non-zero entry in an array.
@@ -384,7 +384,7 @@ class DropSizeDistribution(object):
         run = (0.5 * cum_W[-1] - cum_W[cross_pt]) / slope
         return self.diameter["data"][cross_pt] + run
 
-    def _calculate_exponential_params(self, moment_1 = 2, moment_2 = 4):
+    def _calculate_exponential_params(self, moment_1=2, moment_2=4):
         """ Calculate Exponential DSD parameters.
 
         Calculate Exponential DSD parameters using method of moments. The choice of moments
@@ -409,11 +409,10 @@ class DropSizeDistribution(object):
         num = m1 * gamma(moment_2 + 1)
         den = m2 * gamma(moment_1 + 1)
 
-        Lambda = np.power(np.divide(num, den), (1/(moment_2-moment_1)))
-        N0 = m1 * np.power(Lambda, moment_1+1)/gamma(moment_1+1)
+        Lambda = np.power(np.divide(num, den), (1 / (moment_2 - moment_1)))
+        N0 = m1 * np.power(Lambda, moment_1 + 1) / gamma(moment_1 + 1)
 
         return Lambda, N0
-
 
     def calculate_RR(self):
         """Calculate instantaneous rain rate.
@@ -473,7 +472,10 @@ class DropSizeDistribution(object):
         """
 
         popt, pcov = expfit(
-            np.power(10, 0.1 * self.fields["Zh"]["data"][self.fields["rain_rate"]["data"] > 0]),
+            np.power(
+                10,
+                0.1 * self.fields["Zh"]["data"][self.fields["rain_rate"]["data"] > 0],
+            ),
             self.fields["rain_rate"]["data"][self.fields["rain_rate"]["data"] > 0],
         )
         return popt, pcov
