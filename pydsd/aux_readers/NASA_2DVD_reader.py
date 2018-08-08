@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import datetime
-from datetime import timezone
 
 import scipy.io
 from netCDF4 import num2date, date2num
@@ -199,8 +198,9 @@ class NASA_2DVD_dsd_reader(object):
                 self.Nd[idx, :] = [float(value) for value in data_array[4:]]
         self.Nd = np.ma.array(self.Nd)
 
-        self.time = [x.replace(tzinfo=timezone.utc).timestamp() for x in dt]
+        epoch = datetime.datetime(1970, 1, 1, 0, 0, 0)
 
+        self.time = [(x - epoch).total_seconds() for x in dt]
         velocity = [
             0.248,
             1.144,
