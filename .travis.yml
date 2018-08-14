@@ -39,6 +39,13 @@ matrix:
     - PYTEST_ARGS="--cov=pydsd"
     - COVERALLS="true"
     - DOC_BUILD="true"
+  - python: '3.7-dev'
+    env:
+    - PYTHON_VERSION="3.7"
+    - PYTEST_ARGS="--cov=pydsd"
+    - COVERALLS="true"
+    allow_failures:
+      python: "3.7-dev"
 before_install:
 - pip install pytest pytest-cov
 - pip install coveralls
