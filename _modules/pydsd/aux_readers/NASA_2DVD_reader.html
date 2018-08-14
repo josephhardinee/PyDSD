@@ -41,6 +41,7 @@
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
+
 <span class="kn">import</span> <span class="nn">scipy.io</span>
 <span class="kn">from</span> <span class="nn">netCDF4</span> <span class="k">import</span> <span class="n">num2date</span><span class="p">,</span> <span class="n">date2num</span>
 
@@ -72,9 +73,7 @@
     <span class="k">if</span> <span class="n">reader</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DropSizeDistribution</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="k">del</span> <span class="p">(</span><span class="n">reader</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="read_2dvd_dsd_nasa_gv"><a class="viewcode-back" href="../../../pydsd.aux_reader.html#pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_dsd_nasa_gv">[docs]</a><span class="k">def</span> <span class="nf">read_2dvd_dsd_nasa_gv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">skip_header</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -96,9 +95,7 @@
     <span class="k">if</span> <span class="n">reader</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DropSizeDistribution</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="k">del</span> <span class="p">(</span><span class="n">reader</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="NASA_2DVD_sav_reader"><a class="viewcode-back" href="../../../pydsd.aux_reader.html#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader">[docs]</a><span class="k">class</span> <span class="nc">NASA_2DVD_sav_reader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -239,12 +236,11 @@
                     <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">DOY</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hours</span><span class="o">=</span><span class="n">hour</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="n">minute</span><span class="p">)</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data_array</span><span class="p">[</span><span class="mi">4</span><span class="p">:]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">)</span>
 
-        <span class="c1"># TODO: Convert this to use new metadata</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Nd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
-            <span class="s2">&quot;Nd&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">,</span> <span class="s2">&quot;m^-3 mm^-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Liquid water particle concentration&quot;</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_epoch_time</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+        <span class="n">epoch</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1970</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span> <span class="o">-</span> <span class="n">epoch</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dt</span><span class="p">]</span>
         <span class="n">velocity</span> <span class="o">=</span> <span class="p">[</span>
             <span class="mf">0.248</span><span class="p">,</span>
             <span class="mf">1.144</span><span class="p">,</span>
@@ -297,24 +293,17 @@
             <span class="mf">9.570</span><span class="p">,</span>
             <span class="mf">9.570</span><span class="p">,</span>
         <span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
-            <span class="s2">&quot;velocity&quot;</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="s2">&quot;m s^-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Terminal fall velocity for each bin&quot;</span>
-        <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">bin_edges</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
-            <span class="s2">&quot;bin_edges&quot;</span><span class="p">,</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">51</span><span class="p">)))</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span>
-            <span class="s2">&quot;mm&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Boundaries of bin sizes&quot;</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fill_in_metadata</span><span class="p">(</span><span class="s2">&quot;velocity&quot;</span><span class="p">,</span> <span class="n">velocity</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bin_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fill_in_metadata</span><span class="p">(</span>
+            <span class="s2">&quot;bin_edges&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">51</span><span class="p">)))</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span>
         <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">spread</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
-            <span class="s2">&quot;spread&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">]</span> <span class="o">*</span> <span class="mi">50</span><span class="p">),</span> <span class="s2">&quot;mm&quot;</span><span class="p">,</span> <span class="s2">&quot;Bin size spread of bins&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spread</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fill_in_metadata</span><span class="p">(</span><span class="s2">&quot;spread&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">]</span> <span class="o">*</span> <span class="mi">50</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fill_in_metadata</span><span class="p">(</span>
+            <span class="s2">&quot;diameter&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">10.1</span><span class="p">,</span> <span class="o">.</span><span class="mi">2</span><span class="p">))</span>
         <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">var_to_dict</span><span class="p">(</span>
-            <span class="s2">&quot;diameter&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">10.1</span><span class="p">,</span> <span class="o">.</span><span class="mi">2</span><span class="p">),</span> <span class="s2">&quot;mm&quot;</span><span class="p">,</span> <span class="s2">&quot;Particle diameter of bins&quot;</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Nd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fill_in_metadata</span><span class="p">(</span><span class="s2">&quot;Nd&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fill_in_metadata</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_get_number_of_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">skip_header</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Loop through file counting number of lines to calculate number of samples.&quot;&quot;&quot;</span>
@@ -329,18 +318,6 @@
                 <span class="n">num_samples</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">return</span> <span class="n">num_samples</span>
-
-    <span class="k">def</span> <span class="nf">_get_epoch_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_time</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert the time to an Epoch time using package standard.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">eptime</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">sample_time</span><span class="p">,</span>
-            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">common</span><span class="o">.</span><span class="n">EPOCH_UNITS</span><span class="p">,</span>
-            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Time&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;full_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Time (UTC)&quot;</span><span class="p">,</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">eptime</span>
 
     <span class="n">supported_campaigns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mc3e&quot;</span><span class="p">,</span> <span class="s2">&quot;ifloods&quot;</span><span class="p">]</span></div>
 </pre></div>
@@ -381,7 +358,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
     </div>
   </body>
 </html>
