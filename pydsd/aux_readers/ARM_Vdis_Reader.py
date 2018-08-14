@@ -46,6 +46,7 @@ class ArmVdisReader(object):
         """
         self.fields = {}
         self.info = {}
+        self.diagnostic_info = {}
 
         self.nc_dataset = Dataset(filename)
         self.filename = filename
@@ -98,7 +99,10 @@ class ArmVdisReader(object):
         )
 
         for key in self.nc_dataset.ncattrs():
-            self.info[key] = self.nc_dataset.getncattr(key)
+            if key in DIAG_ATT_LIST:
+                self.diagnostic_info[key] = self.nc_dataset.getncattr(key)
+            else:
+                self.info[key] = self.nc_dataset.getncattr(key)
 
     def _get_epoch_time(self, sample_times):
         """Convert time to epoch time and return a dictionary."""
@@ -109,3 +113,6 @@ class ArmVdisReader(object):
             "long_name": "Time (UTC)",
         }
         return eptime
+
+DIAG_ATT_LIST = ['resolution_description', 'qc_standards_version','qc_method','qc_comnment','qc_bit_1_description','qc_bit_1_assessment',
+                 'qc_bit_2_description', 'qc_bit_2_assessment','qc_bit_3_description','qc_bit_3_assessment','qc_bit_4_description','qc_bit_4_assessment']

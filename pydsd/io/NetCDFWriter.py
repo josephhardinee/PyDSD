@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from netCDF4 import Dataset, num2date, date2num
+from .._version import get_versions
 
 
 def write_netcdf(dsd, filename):
@@ -62,6 +63,8 @@ def write_netcdf(dsd, filename):
 
     #  Create Attributes
 
-    rootgrp.source = "Created using PyDSD"
+    for k, v in dsd.info.items():
+            setattr(rootgrp, k, v)
+    rootgrp.source = "Created using PyDSD version %s" % get_versions()
 
     rootgrp.close()

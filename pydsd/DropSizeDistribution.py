@@ -32,6 +32,10 @@ class DropSizeDistribution(object):
     and relationships. Should be returned from the disdrometer*reader style
     functions.
 
+    Note that if info and diagnostic_info dictionaries are passed in on
+    the reader object, these will be copied to the object. info will be written
+    to an output file while diagnostic_info will be not.
+
     Attributes
     ----------
         time: array_like
@@ -40,7 +44,9 @@ class DropSizeDistribution(object):
             A datetime object indicated start of disdrometer recording.
         fields: dictionary
             Dictionary of scattered components.
-        Nd : 2d Array
+        info_attributes: dict
+            Descriptive Attributes
+        Nd: 2d Array
             A list of drop size distributions
         spread: array_like
             Array giving the bin spread size for each size bin of the
@@ -72,7 +78,7 @@ class DropSizeDistribution(object):
             Object returned by package readers.
         time_start: datetime
             Recording Start time.
-        location: tuple
+        location: dict
             (Latitude, Longitude) pair in decimal format.
 
         Returns
@@ -83,6 +89,8 @@ class DropSizeDistribution(object):
         """
 
         self.config = configuration.Configuration()
+        self.info = {}
+        self.diagnostic_info = {}
 
         self.time = reader.time
         self.Nd = reader.fields["Nd"]
@@ -117,13 +125,19 @@ class DropSizeDistribution(object):
         try:
             self.info = reader.info
         except:
-            self.info = {}
+            pass
+
+        try:
+            self.info = reader.diagnostic_info
+        except:
+            pass
 
         self.numt = len(reader.time["data"])
-        location = {}
 
         if location:
-            self.location = {"latitude": location[0], "longitude": location[1]}
+            self.location = {"latitude": location.get('latitude', None),
+                             "longitude": location.get('longitude', None),
+                             "altitude": location.get('altitude', None)}
 
         self.set_scattering_temperature_and_frequency()
 

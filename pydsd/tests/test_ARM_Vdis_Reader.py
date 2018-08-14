@@ -64,3 +64,17 @@ class TestArmJwdReader(unittest.TestCase):
         assert (
             self.dsd.spread["data"].shape[0] == self.dsd.fields["Nd"]["data"].shape[1]
         )
+
+    def test_info_is_created(self):
+        """
+        Test that an information dictionary is created on the DropSizeDistribution Object.
+        """
+
+        assert hasattr(self.dsd, 'info')
+
+    def test_diagnostic_info_is_created(self):
+        """
+        Test that an information dictionary is created on the DropSizeDistribution Object.
+        """
+
+        assert hasattr(self.dsd, 'diagnostic_info')
