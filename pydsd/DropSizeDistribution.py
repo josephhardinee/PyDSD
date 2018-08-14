@@ -399,7 +399,7 @@ class DropSizeDistribution(object):
         References:
         ------
         [1] Zhang, et. al., 2008, Diagnosing the Intercept Parameter for Exponential Raindrop Size
-            Distribution Based on Video Disdrometer Observations: Model Development. J. Appl. 
+            Distribution Based on Video Disdrometer Observations: Model Development. J. Appl.
             Meteor. Climatol.,
             https://doi.org/10.1175/2008JAMC1876.1
         """
