@@ -53,7 +53,6 @@ def read_parsivel_nasa_gv(filename, campaign="ifloods", skip_header=None):
         return None
 
 
-
 class NASA_APU_reader(object):
 
     """
@@ -95,8 +94,10 @@ class NASA_APU_reader(object):
 
         self._prep_data()
 
-        self.bin_edges = self.config.fill_in_metadata("bin_edges",
-                                        np.hstack((0, self.diameter["data"] + np.array(self.spread["data"]) / 2)) )
+        self.bin_edges = self.config.fill_in_metadata(
+            "bin_edges",
+            np.hstack((0, self.diameter["data"] + np.array(self.spread["data"]) / 2)),
+        )
         self.time["data"] = np.ma.array(self._datetime_to_epoch_time(self.time["data"]))
 
         self.f.close()
@@ -104,7 +105,7 @@ class NASA_APU_reader(object):
     def _prep_data(self):
         self.fields = {}
 
-        self.fields['Nd'] = self.config.fill_in_metadata("Nd", np.ma.array(self.Nd))
+        self.fields["Nd"] = self.config.fill_in_metadata("Nd", np.ma.array(self.Nd))
 
         try:
             time_dict = self._get_epoch_time(self.time)
@@ -147,7 +148,7 @@ class NASA_APU_reader(object):
 
         return time_secs
 
-    spread =  common.var_to_dict(
+    spread = common.var_to_dict(
         "spread",
         np.array(
             [
