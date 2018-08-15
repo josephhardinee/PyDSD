@@ -21,7 +21,7 @@
     {
         "standard_name": "normalized_intercept_parameter",
         "units": "?",
-        "long_name" :"Normalized Intercept Parameter of a Normalized Gaussian Distribution"
+        "long_name" :"Normalized Intercept Parameter of a Normalized Gamma Distribution"
     },
     "Nt":
     {
@@ -93,6 +93,16 @@
         "standard_name": "specific_differential_attenuation",
         "units": "dB/km",
         "long_name": "Specific Differential Attenuation"
+    },
+    "delta_hv": {
+        "standard_name": "backscatter_differential_phase",
+        "units": "deg",
+        "long_name": "Backscatter differential phase"
+    },
+    "rho_hv": {
+        "standard_name": "copolar_correlation_coefficient",
+        "units": "1",
+        "long_name": "Copolar Correlation Coefficient"
     },
     "Nd":{
         "standard_name":"drop_size_distribution",

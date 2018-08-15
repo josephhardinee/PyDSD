@@ -211,6 +211,8 @@ class DropSizeDistribution(object):
             self.scatterer.psd = BinnedDSD
             self.fields["Zh"]["data"][t] = 10 * np.log10(radar.refl(self.scatterer))
             self.fields["Zdr"]["data"][t] = 10 * np.log10(radar.Zdr(self.scatterer))
+            self.fields["delta_hv"]["data"][t] = radar.delta_hv(self.scatterer)
+            self.fields["rho_hv"]["data"][t] = radar.rho_hv(self.scatterer)
 
         self.scatterer.set_geometry(tmatrix_aux.geom_horiz_forw)
 
@@ -228,7 +230,7 @@ class DropSizeDistribution(object):
     def _setup_empty_fields(self):
         """ Preallocate arrays of zeros for the radar moments
         """
-        params_list = ["Zh", "Zdr", "Kdp", "Ai", "Adr"]
+        params_list = ["Zh", "Zdr", "Kdp", "Ai", "Adr", "delta_hv", "rho_hv"]
 
         for param in params_list:
             self.fields[param] = self.config.fill_in_metadata(
