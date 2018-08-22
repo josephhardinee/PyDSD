@@ -3,7 +3,7 @@ import unittest
 import matplotlib.pyplot as plt
 
 from ..plot import plot
-from ..aux_readers import ARM_JWD_Reader
+from ..aux_readers import ARM_JWD_Reader, NASA_2DVD_reader
 
 
 class TestPlot(unittest.TestCase):
@@ -14,6 +14,12 @@ class TestPlot(unittest.TestCase):
         self.dsd = ARM_JWD_Reader.read_arm_jwd_b1(filename)
 
     def test_plot_dsd(self):
+        fig, ax = plot.plot_dsd(self.dsd)
+        plt.close()
+
+    def test_plot_dsd_nasa_2dvd(self):
+        filename = "testdata/nasa_gv_mc3e_2dvd_test.txt"
+        self.dsd = NASA_2DVD_reader.read_2dvd_dsd_nasa_gv(filename)
         fig, ax = plot.plot_dsd(self.dsd)
         plt.close()
 
