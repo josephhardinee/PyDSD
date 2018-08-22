@@ -31,8 +31,9 @@ conda create -n testenv --yes pip python=$PYTHON_VERSION
 source activate testenv
 
 # Install dependencies
-conda install -c conda-forge numpy
-conda install -c conda-forge pytest pytest-cov sphinx_rtd_theme numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4=4.2.12 pytmatrix
+
+conda install -c conda-forge pytmatrix pytest pytest-cov sphinx_rtd_theme numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4=4.2.12
+
 pip install sphinx-gallery nose-cov
 
 if [[ $PYTHON_VERSION == '2.7' ]]; then
