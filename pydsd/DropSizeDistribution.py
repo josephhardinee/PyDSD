@@ -10,6 +10,7 @@ import numpy as np
 import pytmatrix
 import scipy
 from scipy.optimize import curve_fit
+from math import gamma
 
 from pytmatrix.tmatrix import Scatterer
 from pytmatrix.psd import PSDIntegrator
@@ -143,7 +144,9 @@ class DropSizeDistribution(object):
         self.scattering_temp = scattering_temp
         self.m_w = dielectric.get_refractivity(scattering_freq, scattering_temp)
 
-    def calculate_radar_parameters(self, dsr_func=DSR.bc, scatter_time_range=None):
+    def calculate_radar_parameters(
+        self, dsr_func=DSR.bc, scatter_time_range=None, max_diameter=9.0
+    ):
         """ Calculates radar parameters for the Drop Size Distribution.
 
         Calculates the radar parameters and stores them in the object.
@@ -163,7 +166,9 @@ class DropSizeDistribution(object):
                 Parameter to restrict the scattering to a time interval. The first element is the start time,
                 while the second is the end time.
         """
-        self._setup_scattering(SPEED_OF_LIGHT / self.scattering_freq * 1000.0, dsr_func)
+        self._setup_scattering(
+            SPEED_OF_LIGHT / self.scattering_freq * 1000.0, dsr_func, max_diameter
+        )
         self._setup_empty_fields()
 
         if scatter_time_range is None:
@@ -178,8 +183,8 @@ class DropSizeDistribution(object):
 
             if scatter_time_range[1] > self.numt:
                 print(
-                    "End of Scatter time is greater than end of file." +
-                    "Scattering to end of included time."
+                    "End of Scatter time is greater than end of file."
+                    + "Scattering to end of included time."
                 )
                 self.scatter_end_time = self.numt
 
@@ -220,7 +225,7 @@ class DropSizeDistribution(object):
                 param, np.ma.zeros(self.numt)
             )
 
-    def _setup_scattering(self, wavelength, dsr_func):
+    def _setup_scattering(self, wavelength, dsr_func, max_diameter):
         """ Internal Function to create scattering tables.
 
         This internal function sets up the scattering table. It takes a
@@ -228,20 +233,23 @@ class DropSizeDistribution(object):
         accepted wavelengths.
 
         Parameters:
-        -----------
+
             wavelength : tmatrix wavelength
                 PyTmatrix wavelength.
             dsr_func : function
                 Drop Shape Relationship function. Several built-in are available in the `DSR` module.
+            max_diameter: float
+                Maximum drop diameter to generate scattering table for. 
 
         """
         self.scatterer = Scatterer(wavelength=wavelength, m=self.m_w)
         self.scatterer.psd_integrator = PSDIntegrator()
         self.scatterer.psd_integrator.axis_ratio_func = lambda D: 1.0 / dsr_func(D)
         self.dsr_func = dsr_func
-        self.scatterer.psd_integrator.D_max = 10.0
+        self.scatterer.psd_integrator.D_max = max_diameter
         self.scatterer.psd_integrator.geometries = (
-            tmatrix_aux.geom_horiz_back, tmatrix_aux.geom_horiz_forw
+            tmatrix_aux.geom_horiz_back,
+            tmatrix_aux.geom_horiz_forw,
         )
         self.scatterer.or_pdf = orientation.gaussian_pdf(20.0)
         self.scatterer.orient = orientation.orient_averaged_fixed
@@ -292,7 +300,7 @@ class DropSizeDistribution(object):
 
         """
 
-        params_list = ["D0", "Dmax", "Dm", "Nt", "Nw", "N0", "W", "mu"]
+        params_list = ["D0", "Dmax", "Dm", "Nt", "Nw", "N0", "W", "mu", "Lambda"]
 
         for param in params_list:
             self.fields[param] = self.config.fill_in_metadata(
@@ -315,8 +323,12 @@ class DropSizeDistribution(object):
                 np.array(self.diameter["data"]) ** 3,
             )
             self.fields["D0"]["data"][t] = self._calculate_D0(self.Nd["data"][t])
-            self.fields["Nw"]["data"][t] = 256.0 / (np.pi * rho_w) * np.divide(
-                self.fields["W"]["data"][t], self.fields["Dm"]["data"][t] ** 4
+            self.fields["Nw"]["data"][t] = (
+                256.0
+                / (np.pi * rho_w)
+                * np.divide(
+                    self.fields["W"]["data"][t], self.fields["Dm"]["data"][t] ** 4
+                )
             )
 
             self.fields["Dmax"]["data"][t] = self.__get_last_nonzero(self.Nd["data"][t])
@@ -324,6 +336,9 @@ class DropSizeDistribution(object):
         self.fields["mu"]["data"][:] = list(
             map(self._estimate_mu, list(range(0, self.numt)))
         )
+        Lambda, N0 = self._calculate_exponential_params()
+        self.fields["Lambda"]["data"] = Lambda
+        self.fields["N0"]["data"] = N0
 
     def __get_last_nonzero(self, N):
         """ Gets last nonzero entry in an array. Gets last non-zero entry in an array.
@@ -380,6 +395,37 @@ class DropSizeDistribution(object):
         run = (0.5 * cum_W[-1] - cum_W[cross_pt]) / slope
         return self.diameter["data"][cross_pt] + run
 
+    def _calculate_exponential_params(self, moment_1=2, moment_2=4):
+        """ Calculate Exponential DSD parameters.
+
+        Calculate Exponential DSD parameters using method of moments. The choice of moments
+        is given in the parameters. Uses method from [1]
+
+        Parameters:
+        moment_1: float
+            First moment to use.
+        moment_2: float
+            Second moment to use.
+
+        References:
+        ------
+        [1] Zhang, et. al., 2008, Diagnosing the Intercept Parameter for Exponential Raindrop Size
+            Distribution Based on Video Disdrometer Observations: Model Development. J. Appl.
+            Meteor. Climatol.,
+            https://doi.org/10.1175/2008JAMC1876.1
+        """
+
+        m1 = self._calc_mth_moment(moment_1)
+        m2 = self._calc_mth_moment(moment_2)
+
+        num = m1 * gamma(moment_2 + 1)
+        den = m2 * gamma(moment_1 + 1)
+
+        Lambda = np.power(np.divide(num, den), (1 / (moment_2 - moment_1)))
+        N0 = m1 * np.power(Lambda, moment_1 + 1) / gamma(moment_1 + 1)
+
+        return Lambda, N0
+
     def calculate_RR(self):
         """Calculate instantaneous rain rate.
 
@@ -391,12 +437,17 @@ class DropSizeDistribution(object):
             #    np.array(self.diameter['data'])**3)
             velocity = 9.65 - 10.3 * np.exp(-0.6 * self.diameter["data"])
             velocity[0] = 0.5
-            self.fields["rain_rate"]["data"][t] = 0.6 * np.pi * 1e-03 * np.sum(
-                self._mmultiply(
-                    velocity,
-                    self.Nd["data"][t],
-                    self.spread["data"],
-                    np.array(self.diameter["data"]) ** 3,
+            self.fields["rain_rate"]["data"][t] = (
+                0.6
+                * np.pi
+                * 1e-03
+                * np.sum(
+                    self._mmultiply(
+                        velocity,
+                        self.Nd["data"][t],
+                        self.spread["data"],
+                        np.array(self.diameter["data"]) ** 3,
+                    )
                 )
             )
 
@@ -438,7 +489,10 @@ class DropSizeDistribution(object):
         """
 
         popt, pcov = expfit(
-            np.power(10, 0.1 * self.fields["Zh"]["data"][self.fields["rain_rate"]["data"] > 0]),
+            np.power(
+                10,
+                0.1 * self.fields["Zh"]["data"][self.fields["rain_rate"]["data"] > 0],
+            ),
             self.fields["rain_rate"]["data"][self.fields["rain_rate"]["data"] > 0],
         )
         return popt, pcov
