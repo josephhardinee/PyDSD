@@ -125,7 +125,11 @@ class DropSizeDistribution(object):
         if location:
             self.location = {"latitude": location[0], "longitude": location[1]}
 
+        self.scattering_table_consistent = False
+        self.scattering_params = {}
+
         self.set_scattering_temperature_and_frequency()
+        self.set_canting_angle()
 
     def set_scattering_temperature_and_frequency(
         self, scattering_temp=10, scattering_freq=9.7e9
@@ -140,9 +144,16 @@ class DropSizeDistribution(object):
         scattering_freq: optional, float
             Scattering frequency [Hz].
         """
-        self.scattering_freq = scattering_freq
-        self.scattering_temp = scattering_temp
-        self.m_w = dielectric.get_refractivity(scattering_freq, scattering_temp)
+        self.scattering_params['scattering_freq'] = scattering_freq
+        self.scattering_params['scattering_temp'] = scattering_temp
+        self.scattering_params['m_w'] = dielectric.get_refractivity(scattering_freq, scattering_temp)
+        self.scattering_table_consistent = False
+
+    def set_canting_angle(self, canting_angle=7):
+        """ Change the canting angle for scattering calculations. Requires scattering table to be
+         regenerated afterwards. """
+        self.scattering_params['canting_angle'] = canting_angle
+        self.scattering_table_consistent = False
 
     def calculate_radar_parameters(
         self, dsr_func=DSR.bc, scatter_time_range=None, max_diameter=9.0
@@ -166,9 +177,10 @@ class DropSizeDistribution(object):
                 Parameter to restrict the scattering to a time interval. The first element is the start time,
                 while the second is the end time.
         """
-        self._setup_scattering(
-            SPEED_OF_LIGHT / self.scattering_freq * 1000.0, dsr_func, max_diameter
-        )
+        if self.scattering_table_consistent is False:
+            self._setup_scattering(
+                SPEED_OF_LIGHT / self.scattering_params['scattering_freq'] * 1000.0, dsr_func, max_diameter
+            )
         self._setup_empty_fields()
 
         if scatter_time_range is None:
@@ -242,7 +254,7 @@ class DropSizeDistribution(object):
                 Maximum drop diameter to generate scattering table for. 
 
         """
-        self.scatterer = Scatterer(wavelength=wavelength, m=self.m_w)
+        self.scatterer = Scatterer(wavelength=wavelength, m=self.scattering_params['m_w'])
         self.scatterer.psd_integrator = PSDIntegrator()
         self.scatterer.psd_integrator.axis_ratio_func = lambda D: 1.0 / dsr_func(D)
         self.dsr_func = dsr_func
@@ -251,9 +263,10 @@ class DropSizeDistribution(object):
             tmatrix_aux.geom_horiz_back,
             tmatrix_aux.geom_horiz_forw,
         )
-        self.scatterer.or_pdf = orientation.gaussian_pdf(20.0)
+        self.scatterer.or_pdf = orientation.gaussian_pdf(self.scattering_params['canting_angle'])
         self.scatterer.orient = orientation.orient_averaged_fixed
         self.scatterer.psd_integrator.init_scatter_table(self.scatterer)
+        self.scattering_table_consistent = True
 
     def _calc_mth_moment(self, m):
         """Calculates the mth moment of the drop size distribution.
