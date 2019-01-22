@@ -151,7 +151,7 @@ class DropSizeDistribution(object):
         )
         self.scattering_table_consistent = False
 
-    def set_canting_angle(self, canting_angle=7):
+    def set_canting_angle(self, canting_angle=20):
         """ Change the canting angle for scattering calculations. Requires scattering table to be
          regenerated afterwards. """
         self.scattering_params["canting_angle"] = canting_angle

@@ -25,8 +25,8 @@ class TestNetCDFWriter(object):
         self.dsd = ARM_Vdis_Reader.read_arm_vdis_b1(filename)
 
     def test_changing_canting_angle_updates_value(self, two_dvd_open_test_file):
-        two_dvd_open_test_file.set_canting_angle(20)
-        assert two_dvd_open_test_file.scattering_params["canting_angle"] == 20
+        two_dvd_open_test_file.set_canting_angle(15)
+        assert two_dvd_open_test_file.scattering_params["canting_angle"] == 15
 
     def test_canting_angle_has_default_value(self, two_dvd_open_test_file):
         assert "canting_angle" in two_dvd_open_test_file.scattering_params.keys()
