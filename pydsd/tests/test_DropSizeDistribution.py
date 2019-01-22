@@ -5,6 +5,7 @@ from ..aux_readers import ARM_Vdis_Reader
 from ..io.NetCDFWriter import write_netcdf
 from .. import DropSizeDistribution
 
+
 @pytest.fixture
 def two_dvd_open_test_file(tmpdir):
     filename_in = "testdata/arm_vdis_b1.cdf"
@@ -25,8 +26,7 @@ class TestNetCDFWriter(object):
 
     def test_changing_canting_angle_updates_value(self, two_dvd_open_test_file):
         two_dvd_open_test_file.set_canting_angle(20)
-        assert two_dvd_open_test_file.scattering_params['canting_angle'] == 20
+        assert two_dvd_open_test_file.scattering_params["canting_angle"] == 20
 
     def test_canting_angle_has_default_value(self, two_dvd_open_test_file):
-        assert 'canting_angle' in two_dvd_open_test_file.scattering_params.keys()
-
+        assert "canting_angle" in two_dvd_open_test_file.scattering_params.keys()
