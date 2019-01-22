@@ -167,7 +167,11 @@
         <span class="k">if</span> <span class="n">location</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">location</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">location</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_table_consistent</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_params</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">set_scattering_temperature_and_frequency</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_canting_angle</span><span class="p">()</span>
 
 <div class="viewcode-block" id="DropSizeDistribution.set_scattering_temperature_and_frequency"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">set_scattering_temperature_and_frequency</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">scattering_temp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scattering_freq</span><span class="o">=</span><span class="mf">9.7e9</span>
@@ -182,9 +186,18 @@
 <span class="sd">        scattering_freq: optional, float</span>
 <span class="sd">            Scattering frequency [Hz].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_freq</span> <span class="o">=</span> <span class="n">scattering_freq</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_temp</span> <span class="o">=</span> <span class="n">scattering_temp</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">m_w</span> <span class="o">=</span> <span class="n">dielectric</span><span class="o">.</span><span class="n">get_refractivity</span><span class="p">(</span><span class="n">scattering_freq</span><span class="p">,</span> <span class="n">scattering_temp</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_params</span><span class="p">[</span><span class="s2">&quot;scattering_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scattering_freq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_params</span><span class="p">[</span><span class="s2">&quot;scattering_temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scattering_temp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_params</span><span class="p">[</span><span class="s2">&quot;m_w&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dielectric</span><span class="o">.</span><span class="n">get_refractivity</span><span class="p">(</span>
+            <span class="n">scattering_freq</span><span class="p">,</span> <span class="n">scattering_temp</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_table_consistent</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="DropSizeDistribution.set_canting_angle"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.set_canting_angle">[docs]</a>    <span class="k">def</span> <span class="nf">set_canting_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canting_angle</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Change the canting angle for scattering calculations. Requires scattering table to be</span>
+<span class="sd">         regenerated afterwards. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_params</span><span class="p">[</span><span class="s2">&quot;canting_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">canting_angle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_table_consistent</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="DropSizeDistribution.calculate_radar_parameters"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_radar_parameters</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dsr_func</span><span class="o">=</span><span class="n">DSR</span><span class="o">.</span><span class="n">bc</span><span class="p">,</span> <span class="n">scatter_time_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_diameter</span><span class="o">=</span><span class="mf">9.0</span>
@@ -208,9 +221,12 @@
 <span class="sd">                Parameter to restrict the scattering to a time interval. The first element is the start time,</span>
 <span class="sd">                while the second is the end time.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_setup_scattering</span><span class="p">(</span>
-            <span class="n">SPEED_OF_LIGHT</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scattering_freq</span> <span class="o">*</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="n">dsr_func</span><span class="p">,</span> <span class="n">max_diameter</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scattering_table_consistent</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_setup_scattering</span><span class="p">(</span>
+                <span class="n">SPEED_OF_LIGHT</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scattering_params</span><span class="p">[</span><span class="s2">&quot;scattering_freq&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1000.0</span><span class="p">,</span>
+                <span class="n">dsr_func</span><span class="p">,</span>
+                <span class="n">max_diameter</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setup_empty_fields</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">scatter_time_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -284,18 +300,22 @@
 <span class="sd">                Maximum drop diameter to generate scattering table for. </span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span> <span class="o">=</span> <span class="n">Scatterer</span><span class="p">(</span><span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">m_w</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span> <span class="o">=</span> <span class="n">Scatterer</span><span class="p">(</span>
+            <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scattering_params</span><span class="p">[</span><span class="s2">&quot;m_w&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span> <span class="o">=</span> <span class="n">PSDIntegrator</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">axis_ratio_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">D</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">dsr_func</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dsr_func</span> <span class="o">=</span> <span class="n">dsr_func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">D_max</span> <span class="o">=</span> <span class="n">max_diameter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">geometries</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_back</span><span class="p">,</span>
-            <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span><span class="p">,</span>
+            <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_back</span><span class="p">,</span> <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">or_pdf</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">gaussian_pdf</span><span class="p">(</span><span class="mf">20.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">or_pdf</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">gaussian_pdf</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scattering_params</span><span class="p">[</span><span class="s2">&quot;canting_angle&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">orient</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">orient_averaged_fixed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">init_scatter_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scattering_table_consistent</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">_calc_mth_moment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculates the mth moment of the drop size distribution.</span>
