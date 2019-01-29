@@ -32,7 +32,7 @@ source activate testenv
 
 # Install dependencies
 
-conda install -c conda-forge pytmatrix pytest pytest-cov=2.5 sphinx_rtd_theme numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4=4.2.12
+conda install -c conda-forge pytmatrix pytest pytest-cov=2.5 sphinx_rtd_theme numpy scipy matplotlib netcdf4 nose sphinx numpydoc hdf4
 
 pip install sphinx-gallery nose-cov
 
