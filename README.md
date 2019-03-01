@@ -1,7 +1,10 @@
 # PyDSD
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.9991.svg)](https://doi.org/10.5281/zenodo.9991)
-
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/pydsd/badges/version.svg)](https://anaconda.org/conda-forge/pydsd)
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/pydsd/badges/latest_release_date.svg)](https://anaconda.org/conda-forge/pydsd)
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/pydsd/badges/license.svg)](https://anaconda.org/conda-forge/pydsd)
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/pydsd/badges/downloads.svg)](https://anaconda.org/conda-forge/pydsd)
 [![Coverage Status](https://coveralls.io/repos/github/josephhardinee/PyDSD/badge.svg?branch=master)](https://coveralls.io/github/josephhardinee/PyDSD?branch=master)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
