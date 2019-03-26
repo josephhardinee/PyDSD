@@ -26,6 +26,7 @@
 ./_sources/source/auto_examples/index.rst.txt
 ./_sources/source/auto_examples/plot_basic_example.rst.txt
 ./_sources/source/auto_examples/plot_dsd.rst.txt
+./_sources/source/auto_examples/sg_execution_times.rst.txt
 ./_static/ajax-loader.gif
 ./_static/basic.css
 ./_static/broken_example.png
@@ -66,3 +67,4 @@
 ./source/auto_examples/index.html
 ./source/auto_examples/plot_basic_example.html
 ./source/auto_examples/plot_dsd.html
+./source/auto_examples/sg_execution_times.html
