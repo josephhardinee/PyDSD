@@ -46,40 +46,40 @@
 <span id="gpmapuwallopsrawreader"></span><h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">GPMApuWallopsRawReader</span></code><a class="headerlink" href="#module-pydsd.aux_readers.GPMApuWallopsRawReader" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader">
-<em class="property">class </em><code class="descclassname">pydsd.aux_readers.GPMApuWallopsRawReader.</code><code class="descname">GPMApuWallopsRawReader</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/GPMApuWallopsRawReader.html#GPMApuWallopsRawReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pydsd.aux_readers.GPMApuWallopsRawReader.</code><code class="sig-name descname">GPMApuWallopsRawReader</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/GPMApuWallopsRawReader.html#GPMApuWallopsRawReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>This class reads and parses parsivel disdrometer data from
 nasa ground campaigns. These conform to document.</p>
 <dl class="method">
 <dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.conv_md_to_nd">
-<code class="descname">conv_md_to_nd</code><span class="sig-paren">(</span><em>self</em>, <em>Md</em>, <em>t=0.16666666666666666</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/GPMApuWallopsRawReader.html#GPMApuWallopsRawReader.conv_md_to_nd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.conv_md_to_nd" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">conv_md_to_nd</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">Md</em>, <em class="sig-param">t=0.16666666666666666</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/GPMApuWallopsRawReader.html#GPMApuWallopsRawReader.conv_md_to_nd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.conv_md_to_nd" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.diameter">
-<code class="descname">diameter</code><em class="property"> = {'data': array([ 0.06,  0.19,  0.32,  0.45,  0.58,  0.71,  0.84,  0.96,  1.09,         1.22,  1.42,  1.67,  1.93,  2.19,  2.45,  2.83,  3.35,  3.86,         4.38,  4.89,  5.66,  6.7 ,  7.72,  8.76,  9.78, 11.33, 13.39,        15.45, 17.51, 19.57, 22.15, 25.24]), 'long_name': 'Particle diameter of bins', 'standard_name': 'diameter', 'units': 'mm'}</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.diameter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">diameter</code><em class="property"> = {'data': array([ 0.06,  0.19,  0.32,  0.45,  0.58,  0.71,  0.84,  0.96,  1.09,         1.22,  1.42,  1.67,  1.93,  2.19,  2.45,  2.83,  3.35,  3.86,         4.38,  4.89,  5.66,  6.7 ,  7.72,  8.76,  9.78, 11.33, 13.39,        15.45, 17.51, 19.57, 22.15, 25.24]), 'long_name': 'Particle diameter of bins', 'standard_name': 'diameter', 'units': 'mm'}</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.diameter" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.spread">
-<code class="descname">spread</code><em class="property"> = {'data': array([0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129,        0.129, 0.257, 0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515,        0.515, 0.515, 1.03 , 1.03 , 1.03 , 1.03 , 1.03 , 2.06 , 2.06 ,        2.06 , 2.06 , 2.06 , 3.09 , 3.09 ]), 'long_name': 'Bin size spread of bins', 'standard_name': 'spread', 'units': 'mm'}</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.spread" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">spread</code><em class="property"> = {'data': array([0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129, 0.129,        0.129, 0.257, 0.257, 0.257, 0.257, 0.257, 0.515, 0.515, 0.515,        0.515, 0.515, 1.03 , 1.03 , 1.03 , 1.03 , 1.03 , 2.06 , 2.06 ,        2.06 , 2.06 , 2.06 , 3.09 , 3.09 ]), 'long_name': 'Bin size spread of bins', 'standard_name': 'spread', 'units': 'mm'}</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.spread" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.supported_campaigns">
-<code class="descname">supported_campaigns</code><em class="property"> = ['ifloods', 'mc3e_dsd', 'mc3e_raw']</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">supported_campaigns</code><em class="property"> = ['ifloods', 'mc3e_dsd', 'mc3e_raw']</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.velocity">
-<code class="descname">velocity</code><em class="property"> = {'data': array([ 0.05,  0.15,  0.25,  0.35,  0.45,  0.55,  0.65,  0.75,  0.85,         0.96,  1.13,  1.35,  1.59,  1.83,  2.08,  2.4 ,  2.78,  3.15,         3.5 ,  3.84,  4.4 ,  5.2 ,  6.  ,  6.8 ,  7.6 ,  8.8 , 10.4 ,        12.  , 13.6 , 15.2 , 17.6 , 20.8 ]), 'long_name': 'Terminal fall velocity for each bin', 'standard_name': 'velocity', 'units': 'm s^-1'}</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.velocity" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">velocity</code><em class="property"> = {'data': array([ 0.05,  0.15,  0.25,  0.35,  0.45,  0.55,  0.65,  0.75,  0.85,         0.96,  1.13,  1.35,  1.59,  1.83,  2.08,  2.4 ,  2.78,  3.15,         3.5 ,  3.84,  4.4 ,  5.2 ,  6.  ,  6.8 ,  7.6 ,  8.8 , 10.4 ,        12.  , 13.6 , 15.2 , 17.6 , 20.8 ]), 'long_name': 'Terminal fall velocity for each bin', 'standard_name': 'velocity', 'units': 'm s^-1'}</em><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.GPMApuWallopsRawReader.velocity" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="pydsd.aux_readers.GPMApuWallopsRawReader.read_gpm_nasa_apu_raw_wallops">
-<code class="descclassname">pydsd.aux_readers.GPMApuWallopsRawReader.</code><code class="descname">read_gpm_nasa_apu_raw_wallops</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/GPMApuWallopsRawReader.html#read_gpm_nasa_apu_raw_wallops"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.read_gpm_nasa_apu_raw_wallops" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsd.aux_readers.GPMApuWallopsRawReader.</code><code class="sig-name descname">read_gpm_nasa_apu_raw_wallops</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/GPMApuWallopsRawReader.html#read_gpm_nasa_apu_raw_wallops"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.GPMApuWallopsRawReader.read_gpm_nasa_apu_raw_wallops" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a filename pointing to a parsivel NASA Field Campaign file with RAW Data and returns
 a drop size distribution object.</p>
 <p>Usage:
@@ -95,35 +95,35 @@ recalculate it based upon a fall speed relationship.</p>
 <span id="nasa-2dvd-reader"></span><h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">NASA_2DVD_reader</span></code><a class="headerlink" href="#module-pydsd.aux_readers.NASA_2DVD_reader" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader">
-<em class="property">class </em><code class="descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="descname">NASA_2DVD_dsd_reader</code><span class="sig-paren">(</span><em>filename</em>, <em>skip_header</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#NASA_2DVD_dsd_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="sig-name descname">NASA_2DVD_dsd_reader</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">skip_header</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#NASA_2DVD_dsd_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>This class reads and parses 2dvd disdrometer data from NASA ground
 campaigns. It works with the _dropCounts files from IFloodS.</p>
 <p>Use the read_2dvd_dsd_nasa_gv() function to interface with this.</p>
 <dl class="attribute">
 <dt id="pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader.supported_campaigns">
-<code class="descname">supported_campaigns</code><em class="property"> = ['mc3e', 'ifloods']</em><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">supported_campaigns</code><em class="property"> = ['mc3e', 'ifloods']</em><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_dsd_reader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader">
-<em class="property">class </em><code class="descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="descname">NASA_2DVD_sav_reader</code><span class="sig-paren">(</span><em>filename</em>, <em>campaign</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#NASA_2DVD_sav_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="sig-name descname">NASA_2DVD_sav_reader</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">campaign</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#NASA_2DVD_sav_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>This class reads and parses 2dvd disdrometer data from nasa ground
 campaigns.</p>
 <p>Use the read_2dvd_sav_nasa_gv() function to interface with this.</p>
 <dl class="attribute">
 <dt id="pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader.supported_campaigns">
-<code class="descname">supported_campaigns</code><em class="property"> = ['ifloods']</em><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">supported_campaigns</code><em class="property"> = ['ifloods']</em><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.NASA_2DVD_sav_reader.supported_campaigns" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_dsd_nasa_gv">
-<code class="descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="descname">read_2dvd_dsd_nasa_gv</code><span class="sig-paren">(</span><em>filename</em>, <em>skip_header=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#read_2dvd_dsd_nasa_gv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_dsd_nasa_gv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="sig-name descname">read_2dvd_dsd_nasa_gv</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">skip_header=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#read_2dvd_dsd_nasa_gv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_dsd_nasa_gv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Takes a filename pointing to a 2D-Video Disdrometer NASA Field Campaign</dt><dd><p>_dsd file and returns a drop size distribution object.</p>
 </dd>
@@ -137,7 +137,7 @@ DropSizeDistrometer object</p>
 
 <dl class="function">
 <dt id="pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_sav_nasa_gv">
-<code class="descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="descname">read_2dvd_sav_nasa_gv</code><span class="sig-paren">(</span><em>filename</em>, <em>campaign='ifloods'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#read_2dvd_sav_nasa_gv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_sav_nasa_gv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsd.aux_readers.NASA_2DVD_reader.</code><code class="sig-name descname">read_2dvd_sav_nasa_gv</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">campaign='ifloods'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/aux_readers/NASA_2DVD_reader.html#read_2dvd_sav_nasa_gv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_sav_nasa_gv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a filename pointing to a 2D-Video Disdrometer NASA Field Campaign
 file and returns a drop size distribution object.</p>
 <p>This reader processes the .sav files generated.</p>
@@ -176,10 +176,10 @@ DropSizeDistrometer object</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -203,7 +203,7 @@ DropSizeDistrometer object</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0.
     </div>
   </body>
 </html>
