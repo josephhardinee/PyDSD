@@ -28,9 +28,9 @@ matrix:
     - PYTHON_VERSION="3.6"
     - PYTEST_ARGS="--cov=pydsd"
     - COVERALLS="true"
-  - python: '3.6'
+  - python: '3.7'
     env:
-    - PYTHON_VERSION="3.6"
+    - PYTHON_VERSION="3.7"
     - PYTEST_ARGS="--cov=pydsd"
     - COVERALLS="true"
     - DOC_BUILD="true"
