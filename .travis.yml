@@ -18,11 +18,6 @@ deploy:
 
 matrix:
   include:
-  - python: '2.7'
-    env:
-    - PYTHON_VERSION="2.7"
-    - PYTEST_ARGS="--cov=pydsd"
-    - COVERALLS="true"
   - python: '3.5'
     env:
     - PYTHON_VERSION="3.5"
@@ -33,19 +28,19 @@ matrix:
     - PYTHON_VERSION="3.6"
     - PYTEST_ARGS="--cov=pydsd"
     - COVERALLS="true"
-  - python: '3.6'
-    env:
-    - PYTHON_VERSION="3.6"
-    - PYTEST_ARGS="--cov=pydsd"
-    - COVERALLS="true"
-    - DOC_BUILD="true"
-  - python: '3.7-dev'
+  - python: '3.7'
     env:
     - PYTHON_VERSION="3.7"
     - PYTEST_ARGS="--cov=pydsd"
     - COVERALLS="true"
-    allow_failures:
-      python: "3.7-dev"
+    - DOC_BUILD="true"
+  - python: '3.7'
+    env:
+    - PYTHON_VERSION="3.7"
+    - PYTEST_ARGS="--cov=pydsd"
+    - COVERALLS="true"
+#    allow_failures:
+#      python: "3.7-dev"
 before_install:
 - pip install pytest pytest-cov
 - pip install coveralls
