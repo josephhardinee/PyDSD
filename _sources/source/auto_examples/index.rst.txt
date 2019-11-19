@@ -17,9 +17,9 @@ PyDSD Example Gallery.
 
 .. only:: html
 
-    .. figure:: /source/auto_examples/images/thumb/sphx_glr_plot_basic_example_thumb.png
+ .. figure:: /source/auto_examples/images/thumb/sphx_glr_plot_basic_example_thumb.png
 
-        :ref:`sphx_glr_source_auto_examples_plot_basic_example.py`
+     :ref:`sphx_glr_source_auto_examples_plot_basic_example.py`
 
 .. raw:: html
 
@@ -37,9 +37,9 @@ PyDSD Example Gallery.
 
 .. only:: html
 
-    .. figure:: /source/auto_examples/images/thumb/sphx_glr_plot_dsd_thumb.png
+ .. figure:: /source/auto_examples/images/thumb/sphx_glr_plot_dsd_thumb.png
 
-        :ref:`sphx_glr_source_auto_examples_plot_dsd.py`
+     :ref:`sphx_glr_source_auto_examples_plot_dsd.py`
 
 .. raw:: html
 
@@ -52,7 +52,7 @@ PyDSD Example Gallery.
    /source/auto_examples/plot_dsd
 .. raw:: html
 
-    <div style='clear:both'></div>
+    <div class="sphx-glr-clear"></div>
 
 
 
