@@ -43,11 +43,11 @@
 <span class="kn">import</span> <span class="nn">datetime</span>
 
 <span class="kn">import</span> <span class="nn">scipy.io</span>
-<span class="kn">from</span> <span class="nn">netCDF4</span> <span class="k">import</span> <span class="n">num2date</span><span class="p">,</span> <span class="n">date2num</span>
+<span class="kn">from</span> <span class="nn">netCDF4</span> <span class="kn">import</span> <span class="n">num2date</span><span class="p">,</span> <span class="n">date2num</span>
 
-<span class="kn">from</span> <span class="nn">..DropSizeDistribution</span> <span class="k">import</span> <span class="n">DropSizeDistribution</span>
-<span class="kn">from</span> <span class="nn">..io</span> <span class="k">import</span> <span class="n">common</span>
-<span class="kn">from</span> <span class="nn">..utility.configuration</span> <span class="k">import</span> <span class="n">Configuration</span>
+<span class="kn">from</span> <span class="nn">..DropSizeDistribution</span> <span class="kn">import</span> <span class="n">DropSizeDistribution</span>
+<span class="kn">from</span> <span class="nn">..io</span> <span class="kn">import</span> <span class="n">common</span>
+<span class="kn">from</span> <span class="nn">..utility.configuration</span> <span class="kn">import</span> <span class="n">Configuration</span>
 
 
 <div class="viewcode-block" id="read_2dvd_sav_nasa_gv"><a class="viewcode-back" href="../../../pydsd.aux_reader.html#pydsd.aux_readers.NASA_2DVD_reader.read_2dvd_sav_nasa_gv">[docs]</a><span class="k">def</span> <span class="nf">read_2dvd_sav_nasa_gv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">campaign</span><span class="o">=</span><span class="s2">&quot;ifloods&quot;</span><span class="p">):</span>
@@ -107,7 +107,7 @@
 <span class="sd">    Use the read_2dvd_sav_nasa_gv() function to interface with this.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">campaign</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">campaign</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles setting up a NASA 2DVD Reader.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -204,7 +204,7 @@
 <span class="sd">    Use the read_2dvd_dsd_nasa_gv() function to interface with this.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">skip_header</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">skip_header</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles setting up a NASA 2DVD Reader  Reader</span>
 <span class="sd">        &quot;&quot;&quot;</span>
