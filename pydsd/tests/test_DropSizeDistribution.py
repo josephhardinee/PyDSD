@@ -33,15 +33,20 @@ class TestNetCDFWriter(object):
         assert "canting_angle" in two_dvd_open_test_file.scattering_params.keys()
 
     def test_calculating_D0_with_nan_actually_works(self, two_dvd_open_test_file):
-        two_dvd_open_test_file.fields['Nd']['data'][0,0] = np.nan # Force a nan error
-        two_dvd_open_test_file.fields['Nd']['data'][0,1] = 5
-        
+        two_dvd_open_test_file.fields["Nd"]["data"][0, 0] = np.nan  # Force a nan error
+        two_dvd_open_test_file.fields["Nd"]["data"][0, 1] = 5
+
         two_dvd_open_test_file.calculate_dsd_parameterization()
-        assert two_dvd_open_test_file.fields['D0']['data'][0] != np.nan
-        assert two_dvd_open_test_file.fields['D0']['data'][0] == two_dvd_open_test_file.diameter['data'][1]
+        assert two_dvd_open_test_file.fields["D0"]["data"][0] != np.nan
+        assert (
+            two_dvd_open_test_file.fields["D0"]["data"][0]
+            == two_dvd_open_test_file.diameter["data"][1]
+        )
 
     def test_calculating_D0_returns_correct_values(self, two_dvd_open_test_file):
-        two_dvd_open_test_file.fields['Nd']['data'][0,0] = 1 # Force a nan error
-        two_dvd_open_test_file.fields['Nd']['data'][0,1] = 2 
+        two_dvd_open_test_file.fields["Nd"]["data"][0, 0] = 1  # Force a nan error
+        two_dvd_open_test_file.fields["Nd"]["data"][0, 1] = 2
         two_dvd_open_test_file.calculate_dsd_parameterization()
-        assert np.isclose(two_dvd_open_test_file.fields['D0']['data'][0], .198, rtol=.01 ) # One percent tolerance is closer than my hand calcs.
+        assert np.isclose(
+            two_dvd_open_test_file.fields["D0"]["data"][0], .198, rtol=.01
+        )  # One percent tolerance is closer than my hand calcs.

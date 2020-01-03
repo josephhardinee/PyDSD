@@ -402,8 +402,12 @@ class DropSizeDistribution(object):
         if np.nansum(N) == 0:
             return 0
 
-        if np.count_nonzero(N[np.isfinite(N)]) == 1: # If there is only one nonzero/nan element, return that diameter.
-            return self.diameter['data'][np.nanargmax(N)]                # This gets around weirdness with only one valid point. 
+        if (
+            np.count_nonzero(N[np.isfinite(N)]) == 1
+        ):  # If there is only one nonzero/nan element, return that diameter.
+            return self.diameter["data"][
+                np.nanargmax(N)
+            ]  # This gets around weirdness with only one valid point.
 
         cum_W = W_const * np.nancumsum(
             [
