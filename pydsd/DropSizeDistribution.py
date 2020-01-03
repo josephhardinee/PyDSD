@@ -700,6 +700,9 @@ class DropSizeDistribution(object):
     def save_scattering_table(self, scattering_filename):
         ''' Save scattering table used by PyDSD to be reloaded later. Note this should only be used on disdrometers
         with the same setup for scattering (frequency, bins, max size, etc).
+        This feature is currently experimental and may be removed in the future if it turns out to not work correctly 
+        or to cause issues. 
+        
         '''
         if hasattr(self.scatterer, 'psd_integrator'):
             self.scatterer.psd_integrator.save_scatter_table(scattering_filename)
