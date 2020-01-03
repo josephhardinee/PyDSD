@@ -37,7 +37,6 @@ class TestNetCDFWriter(object):
         two_dvd_open_test_file.fields['Nd']['data'][0,1] = 5
         
         two_dvd_open_test_file.calculate_dsd_parameterization()
-        print(np.count_nonzero(np.isfinite(two_dvd_open_test_file.fields['Nd']['data'][0])))
         assert two_dvd_open_test_file.fields['D0']['data'][0] != np.nan
         assert two_dvd_open_test_file.fields['D0']['data'][0] == two_dvd_open_test_file.diameter['data'][1]
 
