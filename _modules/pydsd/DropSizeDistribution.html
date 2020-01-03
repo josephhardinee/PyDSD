@@ -439,10 +439,17 @@
         <span class="n">rho_w</span> <span class="o">=</span> <span class="mf">1e-3</span>
         <span class="n">W_const</span> <span class="o">=</span> <span class="n">rho_w</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">6.0</span>
 
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
 
-        <span class="n">cum_W</span> <span class="o">=</span> <span class="n">W_const</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">N</span><span class="p">)])</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="p">):</span>  <span class="c1"># If there is only one nonzero/nan element, return that diameter.</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">nanargmax</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+            <span class="p">]</span>  <span class="c1"># This gets around weirdness with only one valid point.</span>
+
+        <span class="n">cum_W</span> <span class="o">=</span> <span class="n">W_const</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nancumsum</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">N</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
@@ -748,7 +755,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
     </div>
   </body>
 </html>
