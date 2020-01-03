@@ -44,7 +44,8 @@ fi
 
 # install coverage modules
 if [[ "$COVERALLS" == "true" ]]; then
-    pip install python-coveralls
+    pip install coverage<5.0
+    pip install coveralls
 fi
 
 pip install -e .
