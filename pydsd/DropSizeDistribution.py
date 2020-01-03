@@ -173,7 +173,11 @@ class DropSizeDistribution(object):
         self.scattering_table_consistent = False
 
     def calculate_radar_parameters(
-        self, dsr_func=DSR.bc, scatter_time_range=None, max_diameter=9.0, scatter_table_filename = None
+        self,
+        dsr_func=DSR.bc,
+        scatter_time_range=None,
+        max_diameter=9.0,
+        scatter_table_filename=None,
     ):
         """ Calculates radar parameters for the Drop Size Distribution.
 
@@ -199,7 +203,7 @@ class DropSizeDistribution(object):
                 SPEED_OF_LIGHT / self.scattering_params["scattering_freq"] * 1000.0,
                 dsr_func,
                 max_diameter,
-                scatter_table_filename=scatter_table_filename
+                scatter_table_filename=scatter_table_filename,
             )
         self._setup_empty_fields()
 
@@ -258,7 +262,9 @@ class DropSizeDistribution(object):
                 param, np.ma.zeros(self.numt)
             )
 
-    def _setup_scattering(self, wavelength, dsr_func, max_diameter, scatter_table_filename=None):
+    def _setup_scattering(
+        self, wavelength, dsr_func, max_diameter, scatter_table_filename=None
+    ):
         """ Internal Function to create scattering tables.
 
         This internal function sets up the scattering table. It takes a
@@ -698,18 +704,18 @@ class DropSizeDistribution(object):
             )
 
     def save_scattering_table(self, scattering_filename):
-        ''' Save scattering table used by PyDSD to be reloaded later. Note this should only be used on disdrometers
+        """ Save scattering table used by PyDSD to be reloaded later. Note this should only be used on disdrometers
         with the same setup for scattering (frequency, bins, max size, etc).
         This feature is currently experimental and may be removed in the future if it turns out to not work correctly 
         or to cause issues. 
         
-        '''
-        if hasattr(self.scatterer, 'psd_integrator'):
+        """
+        if hasattr(self.scatterer, "psd_integrator"):
             self.scatterer.psd_integrator.save_scatter_table(scattering_filename)
         else:
-            raise AttributeError("ERROR: No scattering object has been generated. Please calculate scattering table first.")
-
-    
+            raise AttributeError(
+                "ERROR: No scattering object has been generated. Please calculate scattering table first."
+            )
 
     def _idb(self, db):
         """
