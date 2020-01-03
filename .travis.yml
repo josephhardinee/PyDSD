@@ -43,11 +43,12 @@ matrix:
 #      python: "3.7-dev"
 before_install:
 - pip install pytest pytest-cov
+- pip install coverage==4.5.4 
 - pip install coveralls
 install: source continuous_integration/install.sh
 script: eval xvfb-run python -m pytest $PYTEST_ARGS
 #script: eval xvfb-run nosetests $NOSE_ARGS
 after_success:
-- coveralls
+# - coveralls
 - if [[ "$DOC_BUILD" == "true" ]]; then cd $TRAVIS_BUILD_DIR; source continuous_integration/build_docs.sh;
   fi
