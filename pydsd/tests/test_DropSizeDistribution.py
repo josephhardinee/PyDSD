@@ -1,6 +1,7 @@
 import pytest
 import os.path
 import numpy as np
+import copy
 
 from ..aux_readers import ARM_Vdis_Reader
 from ..io.NetCDFWriter import write_netcdf
@@ -17,7 +18,7 @@ def two_dvd_open_test_file(tmpdir):
 
 class TestNetCDFWriter(object):
     """
-    Test module for the ARM_Vdis_Reader"
+    Test module for the DropSizeDistribution"
     """
 
     @classmethod
@@ -50,3 +51,18 @@ class TestNetCDFWriter(object):
         assert np.isclose(
             two_dvd_open_test_file.fields["D0"]["data"][0], .198, rtol=.01
         )  # One percent tolerance is closer than my hand calcs.
+
+    @pytest.mark.dependency()
+    def test_saving_of_scatter_table(self, two_dvd_open_test_file, tmpdir):
+        two_dvd_open_test_file.calculate_radar_parameters()
+        two_dvd_open_test_file.save_scattering_table(tmpdir+'/test_scatter.scatter')
+        assert os.path.isfile(tmpdir+'/test_scatter.scatter')
+
+
+    @pytest.mark.dependency(depends=['test_saving_of_scatter_table'])
+    def test_reading_of_scatter_table(self, two_dvd_open_test_file, tmpdir):
+        dsd_2 = copy.copy(two_dvd_open_test_file)
+        dsd_2.calculate_radar_parameters()
+        dsd_2.save_scattering_table(tmpdir+'/test_scatter.scatter')
+        two_dvd_open_test_file.calculate_radar_parameters(scatter_table_filename = tmpdir+'/test_scatter.scatter')
+
