@@ -141,7 +141,7 @@ class ParsivelReader(object):
         )
         self.fields["terminal_velocity"] = common.var_to_dict(
             "Terminal Fall Velocity",
-            self.vd,  # np.ndarray(self.vd),
+            np.array(self.vd[0]),  # Should we do something different here? Don't think we want the time series.  
             "m/s",
             "Terminal fall velocity for each bin",
         )
@@ -150,7 +150,7 @@ class ParsivelReader(object):
             self.time = self._get_epoch_time()
         except:
             self.time = {
-                "data": np.array(self.time),
+                "data": np.array(self.time, dtype=float),
                 "units": None,
                 "title": "Time",
                 "full_name": "Native file time",
