@@ -136,6 +136,14 @@ class DropSizeDistribution(object):
         if type(self.velocity) is np.ndarray:
             self.velocity = {"data": self.velocity}
 
+        if "drop_spectrum" in reader.fields:
+            try:
+                self.spectrum_fall_velocity = reader.spectrum_fall_velocity
+            except KeyError:
+                print("Spectrum is stored, but associated velocity is missing. Please fix this in the reader.\
+                    We will continue but this will likely cause errors down the road.")
+
+
     def set_scattering_temperature_and_frequency(
         self, scattering_temp=10, scattering_freq=9.7e9
     ):

@@ -71,6 +71,9 @@ class ARM_APU_reader(object):
         velocity = np.ma.array(self.nc_dataset.variables["fall_velocity_calculated"][:])
         rain_rate = np.ma.array(self.nc_dataset.variables["precip_rate"][:])
 
+        raw_spectrum = np.ma.array(self.nc_dataset.variables["raw_spectrum"][:])
+        raw_spectrum_velocity = np.ma.array(self.nc_dataset.variables["raw_fall_velocity"][:])
+
         self.diameter = common.var_to_dict(
             "diameter",
             self.nc_dataset.variables["particle_size"][:],
@@ -98,6 +101,12 @@ class ARM_APU_reader(object):
         )
         self.fields["rain_rate"] = common.var_to_dict(
             "rain_rate", rain_rate, "mm h^-1", "Rain rate"
+        )
+        self.fields["drop_spectrum"] = common.var_to_dict(
+            "drop_sectrum", raw_spectrum, "m^-3 mm^-1", "Droplet Spectrum"
+        )
+        self.spectrum_fall_velocity = common.var_to_dict(
+            "raw_spectrum_velocity", raw_spectrum_velocity, "m^-3 mm^-1", "Spectrum Fall Velocity"
         )
 
     def _get_epoch_time(self, sample_times, t_units):
