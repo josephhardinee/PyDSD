@@ -478,12 +478,12 @@ class DropSizeDistribution(object):
 
         speed_adjustment = (density / 1000.0) ** 0.4  # Based on Yu 2016
         terminal_fall_speed = velocity * speed_adjustment
-        if self.velocity == None:
+        if self.velocity is None:
             self.velocity = {}
             self.velocity["data"] = terminal_fall_speed
             self.velocity["air_density"] = self.air_density
 
-        if inplace == True:
+        if inplace is True:
             self.velocity["data"] = terminal_fall_speed
             self.velocity["air_density"] = self.air_density
 
