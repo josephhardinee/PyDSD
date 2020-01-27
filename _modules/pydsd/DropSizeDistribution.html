@@ -132,10 +132,6 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rain_rate</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;terminal_velocity&quot;</span><span class="p">]</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;reflectivity&quot;</span><span class="p">]</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="kc">None</span>
@@ -170,6 +166,15 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_scattering_temperature_and_frequency</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_canting_angle</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>  <span class="c1"># We need to make sure this is a dictionary</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;terminal_velocity&quot;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calculate_fall_speed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">}</span>
 
 <div class="viewcode-block" id="DropSizeDistribution.set_scattering_temperature_and_frequency"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">set_scattering_temperature_and_frequency</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">scattering_temp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scattering_freq</span><span class="o">=</span><span class="mf">9.7e9</span>
@@ -306,7 +311,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dsr_func</span> <span class="o">=</span> <span class="n">dsr_func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">D_max</span> <span class="o">=</span> <span class="n">max_diameter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">geometries</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_back</span><span class="p">,</span> <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span>
+            <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_back</span><span class="p">,</span>
+            <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">or_pdf</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">gaussian_pdf</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">scattering_params</span><span class="p">[</span><span class="s2">&quot;canting_angle&quot;</span><span class="p">]</span>
@@ -493,6 +499,43 @@
 
         <span class="k">return</span> <span class="n">Lambda</span><span class="p">,</span> <span class="n">N0</span>
 
+<div class="viewcode-block" id="DropSizeDistribution.set_air_density"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.set_air_density">[docs]</a>    <span class="k">def</span> <span class="nf">set_air_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">air_density</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set air density at ground level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">air_density</span> <span class="o">=</span> <span class="mf">1000.0</span></div>
+
+<div class="viewcode-block" id="DropSizeDistribution.calculate_fall_speed"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_fall_speed">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_fall_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diameter</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Calculate terminal fall velocity for drops.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        diameter: array_like[float]</span>
+<span class="sd">            Array of diameters to calculate fall speed for. </span>
+<span class="sd">        density: float, optional</span>
+<span class="sd">            Density of the air in millibars. Defaults to 1000mb. </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        terminal_fall_speed: array_like[float]</span>
+<span class="sd">            Array of fall speeds matching size of diameter, adjusted for air density.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_air_density</span><span class="p">(</span><span class="n">density</span><span class="p">)</span>
+        <span class="n">velocity</span> <span class="o">=</span> <span class="mf">9.65</span> <span class="o">-</span> <span class="mf">10.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.6</span> <span class="o">*</span> <span class="n">diameter</span><span class="p">)</span>
+        <span class="n">velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="n">speed_adjustment</span> <span class="o">=</span> <span class="p">(</span><span class="n">density</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.4</span>  <span class="c1"># Based on Yu 2016</span>
+        <span class="n">terminal_fall_speed</span> <span class="o">=</span> <span class="n">velocity</span> <span class="o">*</span> <span class="n">speed_adjustment</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">terminal_fall_speed</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="s2">&quot;air_density&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">air_density</span>
+
+        <span class="k">if</span> <span class="n">inplace</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">terminal_fall_speed</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="s2">&quot;air_density&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">air_density</span>
+
+        <span class="k">return</span> <span class="n">terminal_fall_speed</span></div>
+
 <div class="viewcode-block" id="DropSizeDistribution.calculate_RR"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_RR">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_RR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate instantaneous rain rate.</span>
 
@@ -502,15 +545,13 @@
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numt</span><span class="p">):</span>
             <span class="c1"># self.rain_rate[&#39;data&#39;][t] = 0.6*3.1415 * 10**(-3) * np.dot(np.multiply(self.rain_rate[&#39;data&#39;],np.multiply(self.Nd[&#39;data&#39;][t],self.spread[&#39;data&#39;] )),</span>
             <span class="c1">#    np.array(self.diameter[&#39;data&#39;])**3)</span>
-            <span class="n">velocity</span> <span class="o">=</span> <span class="mf">9.65</span> <span class="o">-</span> <span class="mf">10.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.6</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
-            <span class="n">velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;rain_rate&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="mf">0.6</span>
                 <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
                 <span class="o">*</span> <span class="mf">1e-03</span>
                 <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_mmultiply</span><span class="p">(</span>
-                        <span class="n">velocity</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">Nd</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">t</span><span class="p">],</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
                         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">3</span><span class="p">,</span>

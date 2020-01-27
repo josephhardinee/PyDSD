@@ -49,7 +49,8 @@
 <span class="kn">from</span> <span class="nn">pylab</span> <span class="kn">import</span> <span class="n">cm</span>
 <span class="kn">from</span> <span class="nn">matplotlib.dates</span> <span class="kn">import</span> <span class="n">DateFormatter</span>
 <span class="kn">from</span> <span class="nn">matplotlib.dates</span> <span class="kn">import</span> <span class="n">SecondLocator</span><span class="p">,</span> <span class="n">MinuteLocator</span><span class="p">,</span> <span class="n">HourLocator</span><span class="p">,</span> <span class="n">DayLocator</span>
-
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
 
 <div class="viewcode-block" id="plot_dsd"><a class="viewcode-back" href="../../../pydsd.plot.html#pydsd.plot.plot.plot_dsd">[docs]</a><span class="k">def</span> <span class="nf">plot_dsd</span><span class="p">(</span>
     <span class="n">dsd</span><span class="p">,</span>
@@ -109,7 +110,7 @@
         <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span>
         <span class="n">dsd</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">filled</span><span class="p">(),</span>
-        <span class="n">dsd</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">filled</span><span class="p">(),</span>
+        <span class="n">dsd</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
         <span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Nd&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
         <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span>
         <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span>
@@ -420,8 +421,8 @@
     <span class="n">dsd</span><span class="p">,</span>
     <span class="n">varname</span><span class="p">,</span>
     <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;%H:%M&quot;</span><span class="p">,</span>
-    <span class="n">tz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">x_min_tick_format</span><span class="o">=</span><span class="s2">&quot;minute&quot;</span><span class="p">,</span>
+    <span class="n">tz</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="n">x_min_tick_format</span><span class="o">=</span><span class="s2">&quot;hour&quot;</span><span class="p">,</span>
     <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -451,8 +452,8 @@
     <span class="n">fig</span> <span class="o">=</span> <span class="n">parse_ax</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 
     <span class="n">x_fmt</span> <span class="o">=</span> <span class="n">DateFormatter</span><span class="p">(</span><span class="n">date_format</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">tz</span><span class="p">)</span>
-
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot_date</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">varname</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">sample_time</span> <span class="o">=</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dsd</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">filled</span><span class="p">()]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot_date</span><span class="p">(</span><span class="n">sample_time</span><span class="p">,</span> <span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">varname</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">x_fmt</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">x_min_tick_format</span> <span class="o">==</span> <span class="s2">&quot;second&quot;</span><span class="p">:</span>
@@ -466,6 +467,11 @@
 
     <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">varname</span><span class="p">][</span><span class="s1">&#39;long_name&#39;</span><span class="p">])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">dsd</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">varname</span><span class="p">][</span><span class="s1">&#39;units&#39;</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
 
 

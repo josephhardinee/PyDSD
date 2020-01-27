@@ -340,8 +340,30 @@ Nt, W, D0, Nw, Dmax, Dm, N0, mu</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_fall_speed">
+<code class="sig-name descname">calculate_fall_speed</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">diameter</em>, <em class="sig-param">density=1000</em>, <em class="sig-param">inplace=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_fall_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_fall_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate terminal fall velocity for drops.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>diameter: array_like[float]</strong></dt><dd><p>Array of diameters to calculate fall speed for.</p>
+</dd>
+<dt><strong>density: float, optional</strong></dt><dd><p>Density of the air in millibars. Defaults to 1000mb.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>terminal_fall_speed: array_like[float]</dt><dd><p>Array of fall speeds matching size of diameter, adjusted for air density.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters">
-<code class="sig-name descname">calculate_radar_parameters</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">dsr_func=&lt;function bc at 0x7f791c81d440&gt;</em>, <em class="sig-param">scatter_time_range=None</em>, <em class="sig-param">max_diameter=9.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_radar_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_radar_parameters</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">dsr_func=&lt;function bc at 0x7fe198919560&gt;</em>, <em class="sig-param">scatter_time_range=None</em>, <em class="sig-param">max_diameter=9.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_radar_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates radar parameters for the Drop Size Distribution.</p>
 <p>Calculates the radar parameters and stores them in the object.
 Defaults to X-Band,Beard and Chuang 10C setup.</p>
@@ -361,6 +383,12 @@ while the second is the end time.</p>
 </dd>
 </dl>
 </div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pydsd.DropSizeDistribution.DropSizeDistribution.set_air_density">
+<code class="sig-name descname">set_air_density</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">air_density</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.set_air_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.set_air_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set air density at ground level</p>
 </dd></dl>
 
 <dl class="method">
