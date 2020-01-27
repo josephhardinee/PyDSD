@@ -9,7 +9,8 @@ import matplotlib as mpl
 from pylab import cm
 from matplotlib.dates import DateFormatter
 from matplotlib.dates import SecondLocator, MinuteLocator, HourLocator, DayLocator
-
+from datetime import timezone
+import datetime
 
 def plot_dsd(
     dsd,
@@ -69,7 +70,7 @@ def plot_dsd(
         pdb.set_trace()
     plt.pcolormesh(
         dsd.time["data"].filled(),
-        dsd.diameter["data"].filled(),
+        dsd.diameter["data"],
         dsd.fields["Nd"]["data"].T,
         vmin=vmin,
         vmax=vmax,
@@ -380,8 +381,8 @@ def plot_ts(
     dsd,
     varname,
     date_format="%H:%M",
-    tz=None,
-    x_min_tick_format="minute",
+    tz=timezone.utc,
+    x_min_tick_format="hour",
     title=None,
     ax=None,
     fig=None,
@@ -411,8 +412,8 @@ def plot_ts(
     fig = parse_ax(fig)
 
     x_fmt = DateFormatter(date_format, tz=tz)
-
-    ax.plot_date(dsd.time["data"], dsd.fields[varname]["data"], **kwargs)
+    sample_time = [datetime.datetime.fromtimestamp(i) for i in dsd.time['data'].filled()]
+    ax.plot_date(sample_time, dsd.fields[varname]["data"], **kwargs)
 
     ax.xaxis.set_major_formatter(x_fmt)
     if x_min_tick_format == "second":
@@ -426,6 +427,11 @@ def plot_ts(
 
     if title is not None:
         ax.set_title(title)
+    else:
+        plt.title(dsd.fields[varname]['long_name'])
+
+    plt.ylabel(dsd.fields[varname]['units'])
+    plt.xlabel('Time')
     return fig, ax
 
 
