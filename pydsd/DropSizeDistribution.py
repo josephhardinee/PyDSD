@@ -127,15 +127,14 @@ class DropSizeDistribution(object):
         self.set_scattering_temperature_and_frequency()
         self.set_canting_angle()
 
-        try: # We need to make sure this is a dictionary
+        try:  # We need to make sure this is a dictionary
             self.velocity = reader.fields["terminal_velocity"]
         except:
             self.velocity = None
         if self.velocity is None:
-            self.calculate_fall_speed(self.diameter['data'], inplace=True)
-        if type(self.velocity) is np.ndarray :
-            self.velocity = {'data': self.velocity}
-
+            self.calculate_fall_speed(self.diameter["data"], inplace=True)
+        if type(self.velocity) is np.ndarray:
+            self.velocity = {"data": self.velocity}
 
     def set_scattering_temperature_and_frequency(
         self, scattering_temp=10, scattering_freq=9.7e9
@@ -272,7 +271,8 @@ class DropSizeDistribution(object):
         self.dsr_func = dsr_func
         self.scatterer.psd_integrator.D_max = max_diameter
         self.scatterer.psd_integrator.geometries = (
-            tmatrix_aux.geom_horiz_back, tmatrix_aux.geom_horiz_forw
+            tmatrix_aux.geom_horiz_back,
+            tmatrix_aux.geom_horiz_forw,
         )
         self.scatterer.or_pdf = orientation.gaussian_pdf(
             self.scattering_params["canting_angle"]
@@ -451,14 +451,14 @@ class DropSizeDistribution(object):
         N0 = m1 * np.power(Lambda, moment_1 + 1) / gamma(moment_1 + 1)
 
         return Lambda, N0
-    
+
     def set_air_density(self, air_density):
-        ''' Set air density at ground level
-        '''
+        """ Set air density at ground level
+        """
         self.air_density = 1000.0
 
     def calculate_fall_speed(self, diameter, density=1000, inplace=False):
-        ''' Calculate terminal fall velocity for drops.
+        """ Calculate terminal fall velocity for drops.
 
         Parameters
         ----------
@@ -471,25 +471,23 @@ class DropSizeDistribution(object):
         -------
         terminal_fall_speed: array_like[float]
             Array of fall speeds matching size of diameter, adjusted for air density.
-        '''
+        """
         self.set_air_density(density)
         velocity = 9.65 - 10.3 * np.exp(-0.6 * diameter)
-        velocity[0] = 0. 
+        velocity[0] = 0.0
 
-
-        speed_adjustment = (density/1000.0)**0.4 # Based on Yu 2016
+        speed_adjustment = (density / 1000.0) ** 0.4  # Based on Yu 2016
         terminal_fall_speed = velocity * speed_adjustment
         if self.velocity == None:
             self.velocity = {}
-            self.velocity['data'] = terminal_fall_speed
-            self.velocity['air_density'] = self.air_density
+            self.velocity["data"] = terminal_fall_speed
+            self.velocity["air_density"] = self.air_density
 
         if inplace == True:
-            self.velocity['data'] = terminal_fall_speed
-            self.velocity['air_density'] = self.air_density
+            self.velocity["data"] = terminal_fall_speed
+            self.velocity["air_density"] = self.air_density
 
         return terminal_fall_speed
-
 
     def calculate_RR(self):
         """Calculate instantaneous rain rate.
@@ -506,7 +504,7 @@ class DropSizeDistribution(object):
                 * 1e-03
                 * np.sum(
                     self._mmultiply(
-                        self.velocity['data'],
+                        self.velocity["data"],
                         self.Nd["data"][t],
                         self.spread["data"],
                         np.array(self.diameter["data"]) ** 3,
