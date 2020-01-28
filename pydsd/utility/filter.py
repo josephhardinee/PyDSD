@@ -1,11 +1,16 @@
 import numpy as np
+import copy
 
-def filter_spectrum_with_parsivel50_matrix(spectrum_data_array):
-    """ Filter a drop spectrum using 50% fall speed matrix for Parsivels
+def filter_spectrum_with_parsivel_matrix(dsd, over_fall_speed=None, under_fall_speed=None):
+    """ Filter a drop spectrum using 50\%  fall speed matrix for Parsivels.  This requires that velocity is set on the object
+    for both raw spectra and calculated terminal fall speed. If terminal fall speed is not available, this can be calculated
+    using pydsd. 
     Parameters
     ----------
-    spectrum_data_array: np.ndarray
-        Drop Spectrum data array.
+    over_fall_speed: float
+        Filter out drops more than this percent of terminal fall speed.
+    under_fall_speed: float
+        Filter out drops more than this percent under terminal fall speed.
 
     Returns
     -------
@@ -15,15 +20,110 @@ def filter_spectrum_with_parsivel50_matrix(spectrum_data_array):
     Example
     -------
     dsd.fields['drop_spectrum']['data'] = filter_spectrum_with_parsivel50_matrix(dsd.fields['drop_spectrum']['data'])
+
     """
+    # TODO: This can be easily generalized.
+    terminal_fall_speed = dsd.velocity['data']
+    spectra_velocity = dsd.spectrum_fall_velocity['data']
 
-    return spectrum_data_array * parsivel_50_fall_speed_filter_matrix
+    pcm_matrix = np.zeros((32,32))
+    for idx in np.arange(0, 32):
+        pcm_matrix[idx]= np.logical_and(spectra_velocity > (terminal_fall_speed[idx] * (1-under_fall_speed)), spectra_velocity < (terminal_fall_speed[idx] * (1+over_fall_speed)) )
+    
+    pcm_matrix= pcm_matrix.T.astype(int)
+
+    return dsd.fields['drop_spectrum']['data'] * pcm_matrix
 
 
+def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, inplace=True):
+    """ Filter Nd field based on a min and/or max dropsize. 
+    
+    Parameters
+    ----------
+    dsd: `DropSizeDistribution` object
+        DSD object to base filtering on
+    drop_min: float
+        Filter drops under drop_min (mm) in size. 
+    drop_max: float
+        Filter drops larger than drop_max (mm) in size.
+
+    Returns
+    -------
+    Nd: dictionary
+        Updated Nd dictionary. Data and a history field. 
+    """
+    diameter = dsd.diameter['data']
+
+    if drop_min is None:
+        drop_min = 0
+    if drop_max is None:
+        drop_max = diameter[-1] + 100
+
+    mask = np.logical_and(diameter > drop_min, diameter < drop_max)
+    
+    if inplace:
+        dsd.Nd['data'] = dsd.Nd['data'] * mask
+        dsd.Nd['history'] = dsd.Nd.get('history', '') + f'\nFiltered between {drop_min} and {drop_max}' 
+    else:
+        Nd = copy.deepcopy(dsd.Nd)
+        Nd['data'] = Nd['data'] * mask
+        Nd['history'] = dsd.Nd.get('history', '') + f'Filtered between {drop_min} and {drop_max}\n' 
+        return Nd
 
 
+def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, inplace=True):
+    """ Filter Nd field based on a min and/or max dropsize. 
+    
+    Parameters
+    ----------
+    dsd: `DropSizeDistribution` object
+        DSD object to base filtering on
+    drop_min: float
+        Filter drops under drop_min (mm) in size. 
+    drop_max: float
+        Filter drops larger than drop_max (mm) in size.
 
-parsivel_50_fall_speed_filter_matrix = np.array([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    Returns
+    -------
+    Nd: dictionary
+        Updated Nd dictionary. Data and a history field. 
+    """
+    diameter = dsd.diameter['data']
+
+    if drop_min is None:
+        drop_min = 0
+    if drop_max is None:
+        drop_max = diameter[-1] + 100
+
+    mask = np.logical_and(diameter > drop_min, diameter < drop_max)
+    
+    if inplace:
+        dsd.Nd['data'] = dsd.Nd['data'] * mask
+        dsd.Nd['history'] = dsd.Nd.get('history', '') + f'\nFiltered between {drop_min} and {drop_max}' 
+    else:
+        Nd = copy.deepcopy(dsd.Nd)
+        Nd['data'] = Nd['data'] * mask
+        Nd['history'] = dsd.Nd.get('history', '') + f'Filtered between {drop_min} and {drop_max}\n' 
+        return Nd
+
+def parsivel_sampling_area(diameter):
+    """ Calculate effective sampling area for Parsivels
+    
+    Parameters
+    ----------
+    diameter: np.ndarray or float
+        Drop Diameter
+    
+    Returns
+    -------
+    Aeff: np.ndarray or float
+        Effective Sampling Area
+    """
+    return 180 * (30 - 0.5 * diameter)
+
+# This is the 50% fall speed filter, and large drop filter. Eventually we should generate this dynamically
+parsivel_50_fall_speed_filter_matrix = np.array([
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -55,3 +155,37 @@ parsivel_50_fall_speed_filter_matrix = np.array([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]).reshape(32,32)
+
+# parsivel_50_fall_speed_filter_matrix = np.array([
+# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,0,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,0,1,1,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,0,0,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]).reshape(32,32)

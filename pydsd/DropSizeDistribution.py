@@ -21,7 +21,7 @@ from .utility.expfit import expfit, expfit2
 from . import DSR
 from .utility import dielectric
 from .utility import configuration
-
+from .utility import filter
 SPEED_OF_LIGHT = 299792458
 
 
@@ -653,6 +653,33 @@ class DropSizeDistribution(object):
             self.fields["rain_rate"]["data"][filt],
         )
         return popt, pcov
+
+    def calculate_dsd_from_spectrum(self, effective_sampling_area=filter.parsivel_sampling_area, replace=True):
+        """ Calculate N(D) from the drop spectrum based on the effective sampling area. 
+        Updates the entry for ND in fields. 
+        Requires that drop_spectrum be present in fields, and that the dsd has spectrum_fall_velocity defined. 
+        
+        Parameters
+        ----------
+        effective_sampling_area: function 
+            Function that returns the effective sampling area as a function of diameter. 
+        replace: boolean
+            Whether to replace Nd with the newly calculated one. If true, no return value to save memory. 
+        """
+
+        delta_t = np.mean(np.diff(self.time['data'][0:4])) # Sampling time in seconds
+        D = self.diameter['data']
+        velocity = self.spectrum_fall_velocity['data']
+        A = effective_sampling_area(D)
+        spread = self.spread['data']
+
+
+        if replace:
+            self.fields['Nd'] = 1e6 * np.dot(np.swapaxes(self.fields['drop_spectrum'], 1, 2), 1/velocity)/(A * spread * delta_t)
+            self.fields['Nd']['source'] = 'Calculated from spectrum.'
+        else:
+            return 1e6 * np.dot(np.swapaxes(self.fields['drop_spectrum'], 1, 2), 1/velocity)/(A * spread * delta_t) 
+
 
     def _idb(self, db):
         """
