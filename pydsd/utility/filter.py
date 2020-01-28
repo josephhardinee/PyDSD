@@ -7,7 +7,7 @@ def filter_spectrum_with_parsivel_matrix(
 ):
     """ Filter a drop spectrum using fall speed matrix for Parsivels.  This requires that velocity is set on the object
     for both raw spectra and calculated terminal fall speed. If terminal fall speed is not available, this can be calculated
-    using pydsd. 
+    using pydsd.
     Parameters
     ----------
     over_fall_speed: float
@@ -18,13 +18,12 @@ def filter_spectrum_with_parsivel_matrix(
 
     Returns
     -------
-    filtered_spectrum_data_array: np.ndarray
+    filtered_spectrum_data_array: np.ndarra
         Filtered Drop Spectrum Array
 
     Example
     -------
     filter_spectrum_with_parsivel_matrix(dsd, over_fall_speed=.5, under_fall_speed=.5, replace=True)
-
     """
     # TODO: This can be easily generalized for other disdrometers.
     terminal_fall_speed = dsd.velocity["data"]
@@ -51,23 +50,23 @@ def filter_spectrum_with_parsivel_matrix(
 
 
 def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
-    """ Filter Nd field based on a min and/or max dropsize. 
+    """ Filter Nd field based on a min and/or max dropsize.
     
     Parameters
     ----------
     dsd: `DropSizeDistribution` object
         DSD object to base filtering on
     drop_min: float
-        Filter drops under drop_min (mm) in size. 
+        Filter drops under drop_min (mm) in size.
     drop_max: float
         Filter drops larger than drop_max (mm) in size.
     replace: boolean
-        Whether to overwrite the Nd in fields. If replacing, no value is returned.  
+        Whether to overwrite the Nd in fields. If replacing, no value is returned.
 
     Returns
     -------
     Nd: dictionary
-        Updated Nd dictionary. Data and a history field. 
+        Updated Nd dictionary. Data and a history field.
     """
     diameter = dsd.diameter["data"]
 
@@ -93,23 +92,23 @@ def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
 
 
 def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
-    """ Filter Nd field based on a min and/or max dropsize. 
+    """ Filter Nd field based on a min and/or max dropsize.
     
     Parameters
     ----------
     dsd: `DropSizeDistribution` object
         DSD object to base filtering on
     drop_min: float
-        Filter drops under drop_min (mm) in size. 
+        Filter drops under drop_min (mm) in size.
     drop_max: float
         Filter drops larger than drop_max (mm) in size.
     replace: boolean
-        Whether to replace the spectrum stored on dsd object. If set, no data is returned. 
+        Whether to replace the spectrum stored on dsd object. If set, no data is returned.
 
     Returns
     -------
     Nd: dictionary
-        Updated Nd dictionary. Data and a history field. 
+        Updated Nd dictionary. Data and a history field.
     """
     diameter = dsd.diameter["data"]
 
