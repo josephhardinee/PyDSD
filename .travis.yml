@@ -39,8 +39,8 @@ matrix:
     - PYTHON_VERSION="3.8"
     - PYTEST_ARGS="--cov=pydsd"
     - COVERALLS="true"
-#    allow_failures:
-#      python: "3.7-dev"
+   allow_failures:
+     python: "3.8"
 before_install:
 - pip install pytest pytest-cov
 - pip install coverage==4.5.4 
