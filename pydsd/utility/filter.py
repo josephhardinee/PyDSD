@@ -78,7 +78,7 @@ def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
         return Nd
 
 
-def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, inplace=True):
+def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
     """ Filter Nd field based on a min and/or max dropsize. 
     
     Parameters
@@ -89,6 +89,8 @@ def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, inplace=True)
         Filter drops under drop_min (mm) in size. 
     drop_max: float
         Filter drops larger than drop_max (mm) in size.
+    replace: boolean
+        Whether to replace the spectrum stored on dsd object. If set, no data is returned. 
 
     Returns
     -------
@@ -104,7 +106,7 @@ def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, inplace=True)
 
     mask = np.logical_and(diameter > drop_min, diameter < drop_max)
     
-    if inplace:
+    if replace:
         dsd.Nd['data'] = dsd.Nd['data'] * mask
         dsd.Nd['history'] = dsd.Nd.get('history', '') + f'\nFiltered between {drop_min} and {drop_max}' 
     else:

@@ -675,10 +675,10 @@ class DropSizeDistribution(object):
 
 
         if replace:
-            self.fields['Nd'] = 1e6 * np.dot(np.swapaxes(self.fields['drop_spectrum'], 1, 2), 1/velocity)/(A * spread * delta_t)
+            self.fields['Nd'] = 1e6 * np.dot(np.swapaxes(self.fields['drop_spectrum']['data'], 1, 2), 1/velocity)/(A * spread * delta_t)
             self.fields['Nd']['source'] = 'Calculated from spectrum.'
         else:
-            return 1e6 * np.dot(np.swapaxes(self.fields['drop_spectrum'], 1, 2), 1/velocity)/(A * spread * delta_t) 
+            return 1e6 * np.dot(np.swapaxes(self.fields['drop_spectrum']['data'], 1, 2), 1/velocity)/(A * spread * delta_t) 
 
 
     def _idb(self, db):
