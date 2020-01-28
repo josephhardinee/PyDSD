@@ -1,7 +1,10 @@
 import numpy as np
 import copy
 
-def filter_spectrum_with_parsivel_matrix(dsd, over_fall_speed=None, under_fall_speed=None, replace=True):
+
+def filter_spectrum_with_parsivel_matrix(
+    dsd, over_fall_speed=None, under_fall_speed=None, replace=True
+):
     """ Filter a drop spectrum using fall speed matrix for Parsivels.  This requires that velocity is set on the object
     for both raw spectra and calculated terminal fall speed. If terminal fall speed is not available, this can be calculated
     using pydsd. 
@@ -24,20 +27,27 @@ def filter_spectrum_with_parsivel_matrix(dsd, over_fall_speed=None, under_fall_s
 
     """
     # TODO: This can be easily generalized for other disdrometers.
-    terminal_fall_speed = dsd.velocity['data']
-    spectra_velocity = dsd.spectrum_fall_velocity['data']
+    terminal_fall_speed = dsd.velocity["data"]
+    spectra_velocity = dsd.spectrum_fall_velocity["data"]
 
-    pcm_matrix = np.zeros((32,32))
+    pcm_matrix = np.zeros((32, 32))
     for idx in np.arange(0, 32):
-        pcm_matrix[idx]= np.logical_and(spectra_velocity > (terminal_fall_speed[idx] * (1-under_fall_speed)), spectra_velocity < (terminal_fall_speed[idx] * (1+over_fall_speed)) )
-    
-    pcm_matrix= pcm_matrix.T.astype(int)
+        pcm_matrix[idx] = np.logical_and(
+            spectra_velocity > (terminal_fall_speed[idx] * (1 - under_fall_speed)),
+            spectra_velocity < (terminal_fall_speed[idx] * (1 + over_fall_speed)),
+        )
+
+    pcm_matrix = pcm_matrix.T.astype(int)
 
     if replace:
-        dsd.fields['drop_spectrum']['data'] = dsd.fields['drop_spectrum']['data'] * pcm_matrix 
-        dsd.fields['drop_spectrum']['history'] = dsd.fields['drop_spectrum'].get('history', '') + 'Filtered for speeds above {over_fall_speed} of Vt and below {under_fall_speed} of Vt'
+        dsd.fields["drop_spectrum"]["data"] = dsd.fields["drop_spectrum"][
+            "data"
+        ] * pcm_matrix
+        dsd.fields["drop_spectrum"]["history"] = dsd.fields["drop_spectrum"].get(
+            "history", ""
+        ) + "Filtered for speeds above {over_fall_speed} of Vt and below {under_fall_speed} of Vt"
     else:
-        return dsd.fields['drop_spectrum']['data'] * pcm_matrix
+        return dsd.fields["drop_spectrum"]["data"] * pcm_matrix
 
 
 def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
@@ -59,7 +69,7 @@ def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
     Nd: dictionary
         Updated Nd dictionary. Data and a history field. 
     """
-    diameter = dsd.diameter['data']
+    diameter = dsd.diameter["data"]
 
     if drop_min is None:
         drop_min = 0
@@ -67,14 +77,18 @@ def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
         drop_max = diameter[-1] + 100
 
     mask = np.logical_and(diameter > drop_min, diameter < drop_max)
-    
+
     if replace:
-        dsd.Nd['data'] = dsd.Nd['data'] * mask
-        dsd.Nd['history'] = dsd.Nd.get('history', '') + f'\nFiltered between {drop_min} and {drop_max}' 
+        dsd.Nd["data"] = dsd.Nd["data"] * mask
+        dsd.Nd["history"] = dsd.Nd.get(
+            "history", ""
+        ) + f"\nFiltered between {drop_min} and {drop_max}"
     else:
         Nd = copy.deepcopy(dsd.Nd)
-        Nd['data'] = Nd['data'] * mask
-        Nd['history'] = dsd.Nd.get('history', '') + f'Filtered between {drop_min} and {drop_max}\n' 
+        Nd["data"] = Nd["data"] * mask
+        Nd["history"] = dsd.Nd.get(
+            "history", ""
+        ) + f"Filtered between {drop_min} and {drop_max}\n"
         return Nd
 
 
@@ -97,7 +111,7 @@ def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True)
     Nd: dictionary
         Updated Nd dictionary. Data and a history field. 
     """
-    diameter = dsd.diameter['data']
+    diameter = dsd.diameter["data"]
 
     if drop_min is None:
         drop_min = 0
@@ -105,15 +119,20 @@ def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True)
         drop_max = diameter[-1] + 100
 
     mask = np.logical_and(diameter > drop_min, diameter < drop_max)
-    
+
     if replace:
-        dsd.Nd['data'] = dsd.Nd['data'] * mask
-        dsd.Nd['history'] = dsd.Nd.get('history', '') + f'\nFiltered between {drop_min} and {drop_max}' 
+        dsd.Nd["data"] = dsd.Nd["data"] * mask
+        dsd.Nd["history"] = dsd.Nd.get(
+            "history", ""
+        ) + f"\nFiltered between {drop_min} and {drop_max}"
     else:
         Nd = copy.deepcopy(dsd.Nd)
-        Nd['data'] = Nd['data'] * mask
-        Nd['history'] = dsd.Nd.get('history', '') + f'Filtered between {drop_min} and {drop_max}\n' 
+        Nd["data"] = Nd["data"] * mask
+        Nd["history"] = dsd.Nd.get(
+            "history", ""
+        ) + f"Filtered between {drop_min} and {drop_max}\n"
         return Nd
+
 
 def parsivel_sampling_area(diameter):
     """ Calculate effective sampling area for Parsivels
@@ -130,71 +149,3 @@ def parsivel_sampling_area(diameter):
     """
     return 180 * (30 - 0.5 * diameter)
 
-# This is the 50% fall speed filter, and large drop filter. Eventually we should generate this dynamically
-parsivel_50_fall_speed_filter_matrix = np.array([
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]).reshape(32,32)
-
-# parsivel_50_fall_speed_filter_matrix = np.array([
-# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,0,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,0,1,1,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,0,0,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-# 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]).reshape(32,32)

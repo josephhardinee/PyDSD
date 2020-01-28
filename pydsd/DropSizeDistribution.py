@@ -22,6 +22,7 @@ from . import DSR
 from .utility import dielectric
 from .utility import configuration
 from .utility import filter
+
 SPEED_OF_LIGHT = 299792458
 
 
@@ -140,9 +141,10 @@ class DropSizeDistribution(object):
             try:
                 self.spectrum_fall_velocity = reader.spectrum_fall_velocity
             except KeyError:
-                print("Spectrum is stored, but associated velocity is missing. Please fix this in the reader.\
-                    We will continue but this will likely cause errors down the road.")
-
+                print(
+                    "Spectrum is stored, but associated velocity is missing. Please fix this in the reader.\
+                    We will continue but this will likely cause errors down the road."
+                )
 
     def set_scattering_temperature_and_frequency(
         self, scattering_temp=10, scattering_freq=9.7e9
@@ -279,8 +281,7 @@ class DropSizeDistribution(object):
         self.dsr_func = dsr_func
         self.scatterer.psd_integrator.D_max = max_diameter
         self.scatterer.psd_integrator.geometries = (
-            tmatrix_aux.geom_horiz_back,
-            tmatrix_aux.geom_horiz_forw,
+            tmatrix_aux.geom_horiz_back, tmatrix_aux.geom_horiz_forw
         )
         self.scatterer.or_pdf = orientation.gaussian_pdf(
             self.scattering_params["canting_angle"]
@@ -654,7 +655,9 @@ class DropSizeDistribution(object):
         )
         return popt, pcov
 
-    def calculate_dsd_from_spectrum(self, effective_sampling_area=filter.parsivel_sampling_area, replace=True):
+    def calculate_dsd_from_spectrum(
+        self, effective_sampling_area=filter.parsivel_sampling_area, replace=True
+    ):
         """ Calculate N(D) from the drop spectrum based on the effective sampling area. 
         Updates the entry for ND in fields. 
         Requires that drop_spectrum be present in fields, and that the dsd has spectrum_fall_velocity defined. 
@@ -667,19 +670,25 @@ class DropSizeDistribution(object):
             Whether to replace Nd with the newly calculated one. If true, no return value to save memory. 
         """
 
-        delta_t = np.mean(np.diff(self.time['data'][0:4])) # Sampling time in seconds
-        D = self.diameter['data']
-        velocity = self.spectrum_fall_velocity['data']
+        delta_t = np.mean(np.diff(self.time["data"][0:4]))  # Sampling time in seconds
+        D = self.diameter["data"]
+        velocity = self.spectrum_fall_velocity["data"]
         A = effective_sampling_area(D)
-        spread = self.spread['data']
-
+        spread = self.spread["data"]
 
         if replace:
-            self.fields['Nd'] = 1e6 * np.dot(np.swapaxes(self.fields['drop_spectrum']['data'], 1, 2), 1/velocity)/(A * spread * delta_t)
-            self.fields['Nd']['source'] = 'Calculated from spectrum.'
+            self.fields["Nd"] = 1e6 * np.dot(
+                np.swapaxes(self.fields["drop_spectrum"]["data"], 1, 2), 1 / velocity
+            ) / (
+                A * spread * delta_t
+            )
+            self.fields["Nd"]["source"] = "Calculated from spectrum."
         else:
-            return 1e6 * np.dot(np.swapaxes(self.fields['drop_spectrum']['data'], 1, 2), 1/velocity)/(A * spread * delta_t) 
-
+            return 1e6 * np.dot(
+                np.swapaxes(self.fields["drop_spectrum"]["data"], 1, 2), 1 / velocity
+            ) / (
+                A * spread * delta_t
+            )
 
     def _idb(self, db):
         """
