@@ -18,11 +18,6 @@ deploy:
 
 matrix:
   include:
-  - python: '3.5'
-    env:
-    - PYTHON_VERSION="3.5"
-    - PYTEST_ARGS="--cov=pydsd"
-    - COVERALLS="true"
   - python: '3.6'
     env:
     - PYTHON_VERSION="3.6"
@@ -39,8 +34,13 @@ matrix:
     - PYTHON_VERSION="3.7"
     - PYTEST_ARGS="--cov=pydsd"
     - COVERALLS="true"
-#    allow_failures:
-#      python: "3.7-dev"
+  - python: '3.8'
+    env:
+    - PYTHON_VERSION="3.8"
+    - PYTEST_ARGS="--cov=pydsd"
+    - COVERALLS="true"
+   allow_failures:
+     python: "3.8"
 before_install:
 - pip install pytest pytest-cov
 - pip install coverage==4.5.4 
