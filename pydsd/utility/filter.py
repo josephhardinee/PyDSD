@@ -1,16 +1,17 @@
 import numpy as np
 import copy
 
-def filter_spectrum_with_parsivel_matrix(dsd, over_fall_speed=None, under_fall_speed=None):
-    """ Filter a drop spectrum using 50\%  fall speed matrix for Parsivels.  This requires that velocity is set on the object
+def filter_spectrum_with_parsivel_matrix(dsd, over_fall_speed=None, under_fall_speed=None, replace=True):
+    """ Filter a drop spectrum using fall speed matrix for Parsivels.  This requires that velocity is set on the object
     for both raw spectra and calculated terminal fall speed. If terminal fall speed is not available, this can be calculated
     using pydsd. 
     Parameters
     ----------
     over_fall_speed: float
-        Filter out drops more than this percent of terminal fall speed.
+        Filter out drops more than this factor of terminal fall speed.
     under_fall_speed: float
-        Filter out drops more than this percent under terminal fall speed.
+        Filter out drops more than this factor under terminal fall speed.
+
 
     Returns
     -------
@@ -19,10 +20,10 @@ def filter_spectrum_with_parsivel_matrix(dsd, over_fall_speed=None, under_fall_s
 
     Example
     -------
-    dsd.fields['drop_spectrum']['data'] = filter_spectrum_with_parsivel50_matrix(dsd.fields['drop_spectrum']['data'])
+    filter_spectrum_with_parsivel_matrix(dsd, over_fall_speed=.5, under_fall_speed=.5, replace=True)
 
     """
-    # TODO: This can be easily generalized.
+    # TODO: This can be easily generalized for other disdrometers.
     terminal_fall_speed = dsd.velocity['data']
     spectra_velocity = dsd.spectrum_fall_velocity['data']
 
@@ -32,10 +33,14 @@ def filter_spectrum_with_parsivel_matrix(dsd, over_fall_speed=None, under_fall_s
     
     pcm_matrix= pcm_matrix.T.astype(int)
 
-    return dsd.fields['drop_spectrum']['data'] * pcm_matrix
+    if replace:
+        dsd.fields['drop_spectrum']['data'] = dsd.fields['drop_spectrum']['data'] * pcm_matrix 
+        dsd.fields['drop_spectrum']['history'] = dsd.fields['drop_spectrum'].get('history', '') + 'Filtered for speeds above {over_fall_speed} of Vt and below {under_fall_speed} of Vt'
+    else:
+        return dsd.fields['drop_spectrum']['data'] * pcm_matrix
 
 
-def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, inplace=True):
+def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
     """ Filter Nd field based on a min and/or max dropsize. 
     
     Parameters
@@ -46,6 +51,8 @@ def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, inplace=True):
         Filter drops under drop_min (mm) in size. 
     drop_max: float
         Filter drops larger than drop_max (mm) in size.
+    replace: boolean
+        Whether to overwrite the Nd in fields. If replacing, no value is returned.  
 
     Returns
     -------
@@ -61,7 +68,7 @@ def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, inplace=True):
 
     mask = np.logical_and(diameter > drop_min, diameter < drop_max)
     
-    if inplace:
+    if replace:
         dsd.Nd['data'] = dsd.Nd['data'] * mask
         dsd.Nd['history'] = dsd.Nd.get('history', '') + f'\nFiltered between {drop_min} and {drop_max}' 
     else:
