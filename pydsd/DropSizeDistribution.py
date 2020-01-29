@@ -677,7 +677,7 @@ class DropSizeDistribution(object):
         spread = self.spread["data"]
 
         if replace:
-            self.fields["Nd"] = 1e6 * np.dot(
+            self.fields["Nd"]['data'] = 1e6 * np.dot(
                 np.swapaxes(self.fields["drop_spectrum"]["data"], 1, 2), 1 / velocity
             ) / (
                 A * spread * delta_t

@@ -3,22 +3,22 @@ import copy
 
 
 def filter_spectrum_with_parsivel_matrix(
-    dsd, over_fall_speed=None, under_fall_speed=None, replace=True
+    dsd, over_fall_speed=0.5, under_fall_speed=0.5, replace=True
 ):
     """ Filter a drop spectrum using fall speed matrix for Parsivels.  This requires that velocity is set on the object
     for both raw spectra and calculated terminal fall speed. If terminal fall speed is not available, this can be calculated
     using pydsd.
     Parameters
     ----------
-    over_fall_speed: float
+    over_fall_speed: float, default 0.5
         Filter out drops more than this factor of terminal fall speed.
-    under_fall_speed: float
+    under_fall_speed: float, default 0.5
         Filter out drops more than this factor under terminal fall speed.
 
 
     Returns
     -------
-    filtered_spectrum_data_array: np.ndarra
+    filtered_spectrum_data_array: np.ndarray
         Filtered Drop Spectrum Array
 
     Example
@@ -78,14 +78,14 @@ def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
     mask = np.logical_and(diameter > drop_min, diameter < drop_max)
 
     if replace:
-        dsd.Nd["data"] = dsd.Nd["data"] * mask
-        dsd.Nd["history"] = dsd.Nd.get(
+        dsd.fields['Nd']["data"] = dsd.fields['Nd']["data"] * mask
+        dsd.fields['Nd']["history"] = dsd.fields['Nd'].get(
             "history", ""
         ) + f"\nFiltered between {drop_min} and {drop_max}"
     else:
-        Nd = copy.deepcopy(dsd.Nd)
+        Nd = copy.deepcopy(dsd.fields['Nd'])
         Nd["data"] = Nd["data"] * mask
-        Nd["history"] = dsd.Nd.get(
+        Nd["history"] = dsd.fields['Nd'].get(
             "history", ""
         ) + f"Filtered between {drop_min} and {drop_max}\n"
         return Nd
