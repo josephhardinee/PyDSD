@@ -272,6 +272,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd</span> <span class="o">=</span> <span class="n">BinnedDSD</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Zh&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">radar</span><span class="o">.</span><span class="n">refl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Zdr&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">radar</span><span class="o">.</span><span class="n">Zdr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;delta_co&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">radar</span><span class="o">.</span><span class="n">delta_hv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span><span class="o">*</span> <span class="mf">180.0</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span><span class="p">)</span>
 
@@ -289,7 +290,7 @@
     <span class="k">def</span> <span class="nf">_setup_empty_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Preallocate arrays of zeros for the radar moments</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">params_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Zh&quot;</span><span class="p">,</span> <span class="s2">&quot;Zdr&quot;</span><span class="p">,</span> <span class="s2">&quot;Kdp&quot;</span><span class="p">,</span> <span class="s2">&quot;Ai&quot;</span><span class="p">,</span> <span class="s2">&quot;Adr&quot;</span><span class="p">]</span>
+        <span class="n">params_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Zh&quot;</span><span class="p">,</span> <span class="s2">&quot;Zdr&quot;</span><span class="p">,</span> <span class="s2">&quot;delta_co&quot;</span><span class="p">,</span> <span class="s2">&quot;Kdp&quot;</span><span class="p">,</span> <span class="s2">&quot;Ai&quot;</span><span class="p">,</span> <span class="s2">&quot;Adr&quot;</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params_list</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fill_in_metadata</span><span class="p">(</span>
@@ -840,7 +841,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.1.
     </div>
   </body>
 </html>
