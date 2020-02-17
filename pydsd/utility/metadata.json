@@ -139,6 +139,11 @@
         "standard_name":"cross_correlation_ratio_hv",
         "long_name":"Co to Cross Polar Correlation Ratio",
         "units":"unitless"
+    },
+    "delta_co": {
+        "standard_name": "delta_co",
+        "long_name": "BackScatter Differential Phase Shift",
+        "units": "deg"
     }
 
 
