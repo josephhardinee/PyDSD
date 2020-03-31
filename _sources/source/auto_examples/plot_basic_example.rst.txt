@@ -1,10 +1,12 @@
-.. note::
-    :class: sphx-glr-download-link-note
+.. only:: html
 
-    Click :ref:`here <sphx_glr_download_source_auto_examples_plot_basic_example.py>` to download the full example code
-.. rst-class:: sphx-glr-example-title
+    .. note::
+        :class: sphx-glr-download-link-note
 
-.. _sphx_glr_source_auto_examples_plot_basic_example.py:
+        Click :ref:`here <sphx_glr_download_source_auto_examples_plot_basic_example.py>`     to download the full example code
+    .. rst-class:: sphx-glr-example-title
+
+    .. _sphx_glr_source_auto_examples_plot_basic_example.py:
 
 
 Simple Example
@@ -46,7 +48,7 @@ Author: Joseph C. Hardin
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.203 seconds)
+   **Total running time of the script:** ( 0 minutes  0.265 seconds)
 
 
 .. _sphx_glr_download_source_auto_examples_plot_basic_example.py:
@@ -59,13 +61,13 @@ Author: Joseph C. Hardin
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-python
 
      :download:`Download Python source code: plot_basic_example.py <plot_basic_example.py>`
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-jupyter
 
      :download:`Download Jupyter notebook: plot_basic_example.ipynb <plot_basic_example.ipynb>`
 
