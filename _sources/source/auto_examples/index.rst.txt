@@ -18,6 +18,7 @@ PyDSD Example Gallery.
 .. only:: html
 
  .. figure:: /source/auto_examples/images/thumb/sphx_glr_plot_basic_example_thumb.png
+     :alt: Simple Example
 
      :ref:`sphx_glr_source_auto_examples_plot_basic_example.py`
 
@@ -38,6 +39,7 @@ PyDSD Example Gallery.
 .. only:: html
 
  .. figure:: /source/auto_examples/images/thumb/sphx_glr_plot_dsd_thumb.png
+     :alt: Simple Example
 
      :ref:`sphx_glr_source_auto_examples_plot_dsd.py`
 
