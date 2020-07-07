@@ -73,7 +73,7 @@
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="py method">
 <dt id="pydsd.DSDProcessor.DSDProcessor.calcParameters">
-<code class="sig-name descname">calcParameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">D0</span></em>, <em class="sig-param"><span class="n">Nw</span></em>, <em class="sig-param"><span class="n">mu</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DSDProcessor.html#DSDProcessor.calcParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DSDProcessor.DSDProcessor.calcParameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calcParameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D0</span></em>, <em class="sig-param"><span class="n">Nw</span></em>, <em class="sig-param"><span class="n">mu</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DSDProcessor.html#DSDProcessor.calcParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DSDProcessor.DSDProcessor.calcParameters" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -273,14 +273,14 @@ for instance, there will be 31 different bin boundaries.</p>
 </dl>
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_RR">
-<code class="sig-name descname">calculate_RR</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_RR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_RR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_RR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_RR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_RR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate instantaneous rain rate.</p>
 <p>This calculates instantaneous rain rate based on the flux of water.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Kdp_relationship">
-<code class="sig-name descname">calculate_R_Kdp_relationship</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Kdp_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_R_Kdp_relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Kdp_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate_R_kdp_relationship calculates a power fit for the rainfall-kdp
 relationship based upon the calculated radar parameters(which should
 have already been run). It returns the scale and exponential
@@ -290,7 +290,7 @@ gives the covariance matrix of the fit.</p>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zdr_Kdp_relationship">
-<code class="sig-name descname">calculate_R_Zdr_Kdp_relationship</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zdr_Kdp_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zdr_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_R_Zdr_Kdp_relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zdr_Kdp_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zdr_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate_R_Zdr_Kdp_relationship calculates the power law fit for Zdr,Kdp
 based upon scattered radar parameters. It returns the scale and
 exponential parameters a, b, and c in the first tuple, and the
@@ -302,7 +302,7 @@ Kdp &gt; 0</p>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Kdp_relationship">
-<code class="sig-name descname">calculate_R_Zh_Kdp_relationship</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zh_Kdp_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_R_Zh_Kdp_relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zh_Kdp_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Kdp_relationship" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate_R_Zh_Kdp_relationship calculates the power law fit for Zh,Kdp
 based upon scattered radar parameters. It returns the scale and
 exponential parameters a, b, and c in the first tuple, and the
@@ -314,7 +314,7 @@ Kdp &gt; 0</p>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Zdr_relationship">
-<code class="sig-name descname">calculate_R_Zh_Zdr_relationship</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zh_Zdr_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Zdr_relationship" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_R_Zh_Zdr_relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zh_Zdr_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_Zdr_relationship" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate_R_Zh_Zdr_relationship calculates the power law fit for Zh,Zdr
 based upon scattered radar parameters. It returns the scale and
 exponential parameters a, b, and c in the first tuple, and the
@@ -327,7 +327,7 @@ Kdp &gt; 0</p>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_relationship">
-<code class="sig-name descname">calculate_R_Zh_relationship</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zh_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_relationship" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_R_Zh_relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_R_Zh_relationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_R_Zh_relationship" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate_R_Zh_relationship calculates the power law fit for Zh based
 upon scattered radar parameters. It returns the scale and exponential
 parameter a and b in the first tuple, and the second returned argument
@@ -336,7 +336,7 @@ gives the covariance matrix of the fit.</p>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_dsd_from_spectrum">
-<code class="sig-name descname">calculate_dsd_from_spectrum</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">effective_sampling_area=&lt;function parsivel_sampling_area at 0x7f2c52a6e7a0&gt;</em>, <em class="sig-param">replace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_dsd_from_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_dsd_from_spectrum" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_dsd_from_spectrum</code><span class="sig-paren">(</span><em class="sig-param">effective_sampling_area=&lt;function parsivel_sampling_area&gt;</em>, <em class="sig-param">replace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_dsd_from_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_dsd_from_spectrum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate N(D) from the drop spectrum based on the effective sampling area.
 Updates the entry for ND in fields.
 Requires that drop_spectrum be present in fields, and that the dsd has spectrum_fall_velocity defined.</p>
@@ -354,7 +354,7 @@ Requires that drop_spectrum be present in fields, and that the dsd has spectrum_
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_dsd_parameterization">
-<code class="sig-name descname">calculate_dsd_parameterization</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'bringi'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_dsd_parameterization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_dsd_parameterization" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_dsd_parameterization</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'bringi'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_dsd_parameterization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_dsd_parameterization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates DSD Parameterization.</p>
 <p>This calculates the dsd parameterization and stores the result in the fields dictionary.
 This includes the following parameters:
@@ -363,7 +363,7 @@ Nt, W, D0, Nw, Dmax, Dm, N0, mu</p>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_fall_speed">
-<code class="sig-name descname">calculate_fall_speed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">diameter</span></em>, <em class="sig-param"><span class="n">density</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">inplace</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_fall_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_fall_speed" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_fall_speed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diameter</span></em>, <em class="sig-param"><span class="n">density</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">inplace</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_fall_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_fall_speed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate terminal fall velocity for drops.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -385,7 +385,7 @@ Nt, W, D0, Nw, Dmax, Dm, N0, mu</p>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters">
-<code class="sig-name descname">calculate_radar_parameters</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">dsr_func=&lt;function bc at 0x7f2c52a68710&gt;</em>, <em class="sig-param">scatter_time_range=None</em>, <em class="sig-param">max_diameter=9.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_radar_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_radar_parameters</code><span class="sig-paren">(</span><em class="sig-param">dsr_func=&lt;function bc&gt;</em>, <em class="sig-param">scatter_time_range=None</em>, <em class="sig-param">max_diameter=9.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_radar_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_radar_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates radar parameters for the Drop Size Distribution.</p>
 <p>Calculates the radar parameters and stores them in the object.
 Defaults to X-Band,Beard and Chuang 10C setup.</p>
@@ -409,20 +409,20 @@ while the second is the end time.</p>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.set_air_density">
-<code class="sig-name descname">set_air_density</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">air_density</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.set_air_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.set_air_density" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_air_density</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">air_density</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.set_air_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.set_air_density" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set air density at ground level</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.set_canting_angle">
-<code class="sig-name descname">set_canting_angle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">canting_angle</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.set_canting_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.set_canting_angle" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_canting_angle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">canting_angle</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.set_canting_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.set_canting_angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the canting angle for scattering calculations. Requires scattering table to be
 regenerated afterwards.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency">
-<code class="sig-name descname">set_scattering_temperature_and_frequency</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">scattering_temp</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">scattering_freq</span><span class="o">=</span><span class="default_value">9700000000.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.set_scattering_temperature_and_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_scattering_temperature_and_frequency</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scattering_temp</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">scattering_freq</span><span class="o">=</span><span class="default_value">9700000000.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.set_scattering_temperature_and_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the scattering temperature. After use, re-run calculate_radar_parameters
 to see the effect this has on the parameters. Temperatures are in Celsius. Defaults to 10C X-band.</p>
 <dl class="field-list simple">
@@ -450,7 +450,7 @@ to see the effect this has on the parameters. Temperatures are in Celsius. Defau
 This should be a Joss-Waldvogel datafile.</p>
 <dl class="py method">
 <dt id="pydsd.io.JWDReader.JWDReader.conv_md_to_nd">
-<code class="sig-name descname">conv_md_to_nd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">Nd</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/io/JWDReader.html#JWDReader.conv_md_to_nd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.io.JWDReader.JWDReader.conv_md_to_nd" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">conv_md_to_nd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Nd</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/io/JWDReader.html#JWDReader.conv_md_to_nd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.io.JWDReader.JWDReader.conv_md_to_nd" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -460,7 +460,7 @@ This should be a Joss-Waldvogel datafile.</p>
 
 <dl class="py method">
 <dt id="pydsd.io.JWDReader.JWDReader.getSec">
-<code class="sig-name descname">getSec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">start_hh</span></em>, <em class="sig-param"><span class="n">start_mm</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/io/JWDReader.html#JWDReader.getSec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.io.JWDReader.JWDReader.getSec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getSec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">start_hh</span></em>, <em class="sig-param"><span class="n">start_mm</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/io/JWDReader.html#JWDReader.getSec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.io.JWDReader.JWDReader.getSec" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -559,7 +559,7 @@ This should be a parsivel raw datafile(output from the parsivel).</p>
 
 <dl class="py method">
 <dt id="pydsd.io.ParsivelReader.ParsivelReader.get_sec">
-<code class="sig-name descname">get_sec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/io/ParsivelReader.html#ParsivelReader.get_sec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.io.ParsivelReader.ParsivelReader.get_sec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_sec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/io/ParsivelReader.html#ParsivelReader.get_sec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.io.ParsivelReader.ParsivelReader.get_sec" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -710,7 +710,7 @@ x: array_like</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, Joseph C. Hardin.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
     </div>
   </body>
 </html>
