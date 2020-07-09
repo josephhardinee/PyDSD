@@ -5,10 +5,10 @@
 
 Computation times
 =================
-**00:00.421** total execution time for **source_auto_examples** files:
+**00:00.422** total execution time for **source_auto_examples** files:
 
 +----------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_source_auto_examples_plot_dsd.py` (``plot_dsd.py``)                     | 00:00.229 | 0.0 MB |
+| :ref:`sphx_glr_source_auto_examples_plot_dsd.py` (``plot_dsd.py``)                     | 00:00.225 | 0.0 MB |
 +----------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_source_auto_examples_plot_basic_example.py` (``plot_basic_example.py``) | 00:00.192 | 0.0 MB |
+| :ref:`sphx_glr_source_auto_examples_plot_basic_example.py` (``plot_basic_example.py``) | 00:00.196 | 0.0 MB |
 +----------------------------------------------------------------------------------------+-----------+--------+
