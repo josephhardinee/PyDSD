@@ -486,7 +486,7 @@ class DropSizeDistribution(object):
         self.air_density = 1000.0
 
     def calculate_fall_speed(self, diameter, density=1000, inplace=False):
-        """ Calculate terminal fall velocity for drops.
+        """ Calculate terminal fall velocity for drops[1] adjusted by the density of the air[2]
 
         Parameters
         ----------
@@ -499,6 +499,12 @@ class DropSizeDistribution(object):
         -------
         terminal_fall_speed: array_like[float]
             Array of fall speeds matching size of diameter, adjusted for air density.
+
+        References
+        ----------
+        [1] Atlas, D., Srivastava, R. C., and Sekhon, R. S. (1973), Doppler radar characteristics of precipitation at vertical incidence, Rev. Geophys., 11( 1), 1– 35, doi:10.1029/RG011i001p00001.
+        [2] Foote, G. B. and duToit, P. S.: Terminal velocity of raindrops aloft, J. Appl. Meteorol., 8, 249–253, doi:10.1175/1520-
+0450(1969)008<0249:TVORA>2.0.CO;2, 1969.
         """
         self.set_air_density(density)
         velocity = 9.65 - 10.3 * np.exp(-0.6 * diameter)
