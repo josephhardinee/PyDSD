@@ -364,13 +364,17 @@ Nt, W, D0, Nw, Dmax, Dm, N0, mu</p>
 <dl class="py method">
 <dt id="pydsd.DropSizeDistribution.DropSizeDistribution.calculate_fall_speed">
 <code class="sig-name descname">calculate_fall_speed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diameter</span></em>, <em class="sig-param"><span class="n">density</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">inplace</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsd/DropSizeDistribution.html#DropSizeDistribution.calculate_fall_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_fall_speed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate terminal fall velocity for drops.</p>
-<dl class="field-list simple">
+<dd><p>Calculate terminal fall velocity for drops[1] adjusted by the density of the air[2]</p>
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>diameter: array_like[float]</strong></dt><dd><p>Array of diameters to calculate fall speed for.</p>
+<dd class="field-odd"><dl>
+<dt><strong>diameter: array_like[float]</strong></dt><dd><blockquote>
+<div><p>Array of diameters to calculate fall speed for.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>density: float, optional</dt><dd><p>Density of the air in millibars. Defaults to 1000mb.</p>
 </dd>
-<dt><strong>density: float, optional</strong></dt><dd><p>Density of the air in millibars. Defaults to 1000mb.</p>
+</dl>
 </dd>
 </dl>
 </dd>
@@ -381,6 +385,7 @@ Nt, W, D0, Nw, Dmax, Dm, N0, mu</p>
 </dl>
 </dd>
 </dl>
+<p>0450(1969)008&lt;0249:TVORA&gt;2.0.CO;2, 1969.</p>
 </dd></dl>
 
 <dl class="py method">

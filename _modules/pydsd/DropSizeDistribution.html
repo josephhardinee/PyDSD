@@ -530,7 +530,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">air_density</span> <span class="o">=</span> <span class="mf">1000.0</span></div>
 
 <div class="viewcode-block" id="DropSizeDistribution.calculate_fall_speed"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_fall_speed">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_fall_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diameter</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculate terminal fall velocity for drops.</span>
+        <span class="sd">&quot;&quot;&quot; Calculate terminal fall velocity for drops[1] adjusted by the density of the air[2]</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -543,6 +543,12 @@
 <span class="sd">        -------</span>
 <span class="sd">        terminal_fall_speed: array_like[float]</span>
 <span class="sd">            Array of fall speeds matching size of diameter, adjusted for air density.</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        [1] Atlas, D., Srivastava, R. C., and Sekhon, R. S. (1973), Doppler radar characteristics of precipitation at vertical incidence, Rev. Geophys., 11( 1), 1– 35, doi:10.1029/RG011i001p00001.</span>
+<span class="sd">        [2] Foote, G. B. and duToit, P. S.: Terminal velocity of raindrops aloft, J. Appl. Meteorol., 8, 249–253, doi:10.1175/1520-</span>
+<span class="sd">0450(1969)008&lt;0249:TVORA&gt;2.0.CO;2, 1969.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_air_density</span><span class="p">(</span><span class="n">density</span><span class="p">)</span>
         <span class="n">velocity</span> <span class="o">=</span> <span class="mf">9.65</span> <span class="o">-</span> <span class="mf">10.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.6</span> <span class="o">*</span> <span class="n">diameter</span><span class="p">)</span>
