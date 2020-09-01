@@ -94,8 +94,10 @@ def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
         return Nd
 
 
-def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
-    """ Filter Nd field based on a min and/or max dropsize.
+def __filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
+    """ Filter raw_spectrum field based on a min and/or max dropsize.
+
+    Not for use just yet. Doing something dumb with axes and moving on for now. TODO:
     
     Parameters
     ----------
@@ -110,7 +112,7 @@ def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True)
 
     Returns
     -------
-    Nd: dictionary
+    raw_spectrum: dictionary
         Updated Nd dictionary. Data and a history field.
     """
     diameter = dsd.diameter["data"]
@@ -120,20 +122,24 @@ def filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True)
     if drop_max is None:
         drop_max = diameter[-1] + 100
 
-    mask = np.logical_and(diameter > drop_min, diameter < drop_max)
+    lhs = np.sum(diameter <= drop_min)
+    rhs = np.nonzero(diameter <= drop_max)[0][-1]
+    print(lhs, rhs)
 
     if replace:
-        dsd.Nd["data"] = dsd.Nd["data"] * mask
-        dsd.Nd["history"] = dsd.Nd.get(
+        dsd.fields['drop_spectrum']["data"][:,0:lhs,:] = 0 
+        # dsd.fields['drop_spectrum']["data"][:,rhs+1:,:] = 0 
+        dsd.fields['drop_spectrum']["history"] = dsd.fields['drop_spectrum'].get(
             "history", ""
         ) + f"\nFiltered between {drop_min} and {drop_max}"
     else:
-        Nd = copy.deepcopy(dsd.Nd)
-        Nd["data"] = Nd["data"] * mask
-        Nd["history"] = dsd.Nd.get(
+        raw_spectrum = copy.deepcopy(dsd.fields['drop_spectrum'])
+        raw_spectrum["data"][:,0:lhs,:] = 0 
+        # raw_spectrum["data"][:,rhs+1:,:] = 0 
+        raw_spectrum["history"] = dsd.fields['drop_spectrum'].get(
             "history", ""
         ) + f"Filtered between {drop_min} and {drop_max}\n"
-        return Nd
+        return raw_spectrum 
 
 
 def parsivel_sampling_area(diameter):
