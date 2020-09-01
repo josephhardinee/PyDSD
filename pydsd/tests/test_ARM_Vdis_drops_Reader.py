@@ -19,6 +19,14 @@ class TestArmVdisdrops_reader(unittest.TestCase):
     def test_dsd_nd_exists(self):
         self.assertIsNotNone(self.dsd.fields["Nd"], "DSD Object has no Nd field")
 
+    def test_dsd_num_drops_exists(self):
+        self.assertIsNotNone(self.dsd.fields["total_measured_drops"], "DSD Object has no total_measured_drops field")
+        self.assertIsNotNone(self.dsd.fields["number_measured_drops"], "DSD Object has no number_measured_drops field")
+ 
+    def test_dsd_num_drops_have_right_dimension(self):
+        self.assertEqual(self.dsd.fields['total_measured_drops']['data'].ndim, 1)
+        self.assertEqual(self.dsd.fields['number_measured_drops']['data'].ndim, 2)
+
     def test_dsd_nd_is_dict(self):
         self.assertIsInstance(self.dsd.fields["Nd"], dict, "Nd was not a dictionary.")
 

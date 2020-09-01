@@ -98,6 +98,8 @@ class ARM_vdisdrops_reader(object):
             drop_spectra[i, diameter_bin, velocity_bin]+= 1
 
         Nd  = 1e6 * np.dot(drop_spectra, 1 / velocity_bins) / (mean_measurement_area * spread * sampling_interval )
+        num_drops_per_diameter = np.sum(drop_spectra, axis=2)
+        total_drops = np.sum(num_drops_per_diameter, axis=1)
         # Return a common epoch time dictionary
         self.time = {
             "data": integration_time_step,
@@ -128,6 +130,12 @@ class ARM_vdisdrops_reader(object):
             np.hstack((0, self.diameter["data"] + np.array(self.spread["data"]) / 2)),
             "mm",
             "Boundaries of bin sizes",
+        )
+        self.fields["total_measured_drops"] = common.var_to_dict(
+            "total_measured_drops", total_drops, "#/time step", "Total drops counted (after QC) during time period"
+        )
+        self.fields["number_measured_drops"] = common.var_to_dict(
+            "number_measured_drops", num_drops_per_diameter, "#/time step", "Total drops counted (after QC) during time period per time bin"
         )
 
         self.fields["Nd"] = common.var_to_dict(
