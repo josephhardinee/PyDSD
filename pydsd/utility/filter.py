@@ -14,6 +14,8 @@ def filter_spectrum_with_parsivel_matrix(
         Filter out drops more than this factor of terminal fall speed.
     under_fall_speed: float, default 0.5
         Filter out drops more than this factor under terminal fall speed.
+    maintain_smallest: boolean, default False
+        Guarantee at least one bin in smallest sizes is maintained. 
 
 
     Returns
@@ -29,14 +31,15 @@ def filter_spectrum_with_parsivel_matrix(
     terminal_fall_speed = dsd.velocity["data"]
     spectra_velocity = dsd.spectrum_fall_velocity["data"]
 
-    pcm_matrix = np.zeros((32, 32))
-    for idx in np.arange(0, 32):
+    pcm_matrix = np.zeros((len(terminal_fall_speed), len(spectra_velocity)))
+    for idx in np.arange(0, len(terminal_fall_speed)):
         pcm_matrix[idx] = np.logical_and(
             spectra_velocity > (terminal_fall_speed[idx] * (1 - under_fall_speed)),
             spectra_velocity < (terminal_fall_speed[idx] * (1 + over_fall_speed)),
         )
 
-    pcm_matrix = pcm_matrix.T.astype(int)
+    pcm_matrix = pcm_matrix.astype(int)
+    # import pdb; pdb.set_trace()
 
     if replace:
         dsd.fields["drop_spectrum"]["data"] = dsd.fields["drop_spectrum"][
@@ -44,7 +47,7 @@ def filter_spectrum_with_parsivel_matrix(
         ] * pcm_matrix
         dsd.fields["drop_spectrum"]["history"] = dsd.fields["drop_spectrum"].get(
             "history", ""
-        ) + "Filtered for speeds above {over_fall_speed} of Vt and below {under_fall_speed} of Vt"
+        ) + f"Filtered for speeds above {over_fall_speed} of Vt and below {under_fall_speed} of Vt"
     else:
         return dsd.fields["drop_spectrum"]["data"] * pcm_matrix
 
