@@ -13,7 +13,7 @@ from ..DropSizeDistribution import DropSizeDistribution
 from ..io import common
 
 
-def read_arm_vdisdrops_netcdf(filename, sampling_interval=60):
+def read_arm_vdisdrops_netcdf(filename, sampling_interval=60, expand_time_to_full_day = False):
     """
     Takes a filename pointing to an ARM vdisdrops  netcdf file and returns
     a drop size distribution object. 
@@ -32,13 +32,15 @@ def read_arm_vdisdrops_netcdf(filename, sampling_interval=60):
         Filename to read in, corresponds to an ARM vdisdrops file format. 
     sampling_interval: float, optional
         Sampling interval to collect drops into in seconds. Default 60s
+    expand_time_to_full_day: booleans, optional default=False
+        Whether to expand object out to cover an entire day. Useful for lining up datasets. 
 
     Returns
     -------
     DropSizeDistrometer object
     """
 
-    reader = ARM_vdisdrops_reader(filename, sampling_interval)
+    reader = ARM_vdisdrops_reader(filename, sampling_interval, expand_time_to_full_day=expand_time_to_full_day)
 
     if reader:
         return DropSizeDistribution(reader)
@@ -48,13 +50,12 @@ def read_arm_vdisdrops_netcdf(filename, sampling_interval=60):
 
 class ARM_vdisdrops_reader(object):
     """
-    This class reads and parses parsivel disdrometer data from ARM netcdf
-    files. These conform to document (Need Document).
+    This class reads and parses 2DVD disdrometer data from ARM netcdf drops
+    files.
 
-    Use the read_parsivel_arm_netcdf() function to interface with this.
     """
 
-    def __init__(self, filename, sampling_interval=60):
+    def __init__(self, filename, sampling_interval=60.0, expand_time_to_full_day = False):
         """
         Handles setting up a vdisdrops Reader.
         """
@@ -66,8 +67,13 @@ class ARM_vdisdrops_reader(object):
         self.nc_dataset = Dataset(filename)
 
         time = self.nc_dataset['time'][:]
-        time_length = time[-1] - time[0]
-        first_time = np.floor(time[0]/60.0)*60.0
+        if expand_time_to_full_day:
+            time_length = 60 * 60 * 24
+            first_time = 0
+        else:
+            time_length = time[-1] - time[0]
+            first_time = np.floor(time[0]/sampling_interval)*sampling_interval #Make things line up nicely.
+        
         diameter = self.nc_dataset['equivolumetric_sphere_diameter'][:]
         fall_speed = self.nc_dataset['fall_speed'][:]
         # measurement_area = self.nc_dataset['area'][:]
@@ -97,6 +103,7 @@ class ARM_vdisdrops_reader(object):
             velocity_bin = min(len(velocity_bins)-1, int(np.round((fall_speed[idx]-.1)/.2)))
             drop_spectra[i, diameter_bin, velocity_bin]+= 1
 
+
         Nd  = 1e6 * np.dot(drop_spectra, 1 / velocity_bins) / (mean_measurement_area * spread * sampling_interval )
         num_drops_per_diameter = np.sum(drop_spectra, axis=2)
         total_drops = np.sum(num_drops_per_diameter, axis=1)
@@ -111,7 +118,6 @@ class ARM_vdisdrops_reader(object):
 
         Nd = np.ma.array(Nd)
 
-        raw_spectrum = np.ma.array(drop_spectra)
 
         self.diameter = common.var_to_dict(
             "diameter",
@@ -141,11 +147,11 @@ class ARM_vdisdrops_reader(object):
         self.fields["Nd"] = common.var_to_dict(
             "Nd", Nd, "m^-3 mm^-1", "Liquid water particle concentration"
         )
-        self.fields["velocity"] = common.var_to_dict(
+        self.velocity = common.var_to_dict(
             "velocity", velocity_bins, "m s^-1", "Terminal fall velocity for each bin"
         )
         self.fields["drop_spectrum"] = common.var_to_dict(
-            "drop_sectrum", raw_spectrum, "m^-3 mm^-1", "Droplet Spectrum"
+            "drop_sectrum", np.ma.masked_array(drop_spectra), "m^-3 mm^-1", "Droplet Spectrum"
         )
         self.spectrum_fall_velocity = common.var_to_dict(
             "raw_spectrum_velocity", velocity_bins, "m^-3 mm^-1", "Spectrum Fall Velocity"

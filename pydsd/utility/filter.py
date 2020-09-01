@@ -3,7 +3,7 @@ import copy
 
 
 def filter_spectrum_with_parsivel_matrix(
-    dsd, over_fall_speed=0.5, under_fall_speed=0.5, replace=True
+    dsd, over_fall_speed=0.5, under_fall_speed=0.5, replace=True, maintain_smallest=False
 ):
     """ Filter a drop spectrum using fall speed matrix for Parsivels.  This requires that velocity is set on the object
     for both raw spectra and calculated terminal fall speed. If terminal fall speed is not available, this can be calculated
