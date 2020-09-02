@@ -15,7 +15,7 @@ def filter_spectrum_with_parsivel_matrix(
     under_fall_speed: float, default 0.5
         Filter out drops more than this factor under terminal fall speed.
     maintain_smallest: boolean, default False
-        Guarantee at least one bin in smallest sizes is maintained. 
+        For D<1, set V<2.5 bins all to positive to make sure small drops aren't dropped in PCM matrix. 
 
 
     Returns
@@ -27,7 +27,6 @@ def filter_spectrum_with_parsivel_matrix(
     -------
     filter_spectrum_with_parsivel_matrix(dsd, over_fall_speed=.5, under_fall_speed=.5, replace=True)
     """
-    # TODO: This can be easily generalized for other disdrometers.
     terminal_fall_speed = dsd.velocity["data"]
     spectra_velocity = dsd.spectrum_fall_velocity["data"]
 
@@ -38,8 +37,15 @@ def filter_spectrum_with_parsivel_matrix(
             spectra_velocity < (terminal_fall_speed[idx] * (1 + over_fall_speed)),
         )
 
+
+    # print(pcm_matrix)
     pcm_matrix = pcm_matrix.astype(int).T
-    # import pdb; pdb.set_trace()
+    if maintain_smallest:
+        dbins_under_1 = np.sum(dsd.diameter['data']<=1)
+        vbins_under_25 = np.sum(spectra_velocity < 2.5)
+        print(vbins_under_25, dbins_under_1)
+        pcm_matrix[ 0:vbins_under_25, 0:dbins_under_1]=1
+    import pdb; pdb.set_trace()
 
     if replace:
         dsd.fields["drop_spectrum"]["data"] = dsd.fields["drop_spectrum"][
