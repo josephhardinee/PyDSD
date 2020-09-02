@@ -145,6 +145,10 @@ class DropSizeDistribution(object):
                     "Spectrum is stored, but associated velocity is missing. Please fix this in the reader.\
                     We will continue but this will likely cause errors down the road."
                 )
+        try:
+            self.effective_sampling_area = reader.effective_sampling_area
+        except:
+            self.effective_sampling_area = None
 
     def set_scattering_temperature_and_frequency(
         self, scattering_temp=10, scattering_freq=9.7e9
@@ -675,7 +679,7 @@ class DropSizeDistribution(object):
 
 
     def calculate_dsd_from_spectrum(
-        self, effective_sampling_area=filter.parsivel_sampling_area, replace=True
+        self, effective_sampling_area=None, replace=True
     ):
         """ Calculate N(D) from the drop spectrum based on the effective sampling area.
         Updates the entry for ND in fields.
@@ -689,10 +693,18 @@ class DropSizeDistribution(object):
             Whether to replace Nd with the newly calculated one. If true, no return value to save memory.
         """
 
-        delta_t = np.mean(np.diff(self.time["data"][0:4]))  # Sampling time in seconds
         D = self.diameter["data"]
+
+        if effective_sampling_area is not None:
+            A = effective_sampling_area
+        elif self.effective_sampling_area is not None:
+            A = self.effective_sampling_area['data']
+        else:
+            print('Defaulting to Parsivel Sampling Area. This is probably wrong. Make sure effective_sampling_area variable is set')
+            A = filter.parsivel_sampling_area(D)
+
+        delta_t = np.mean(np.diff(self.time["data"][0:4]))  # Sampling time in seconds
         velocity = self.spectrum_fall_velocity["data"]
-        A = effective_sampling_area(D)
         spread = self.spread["data"]
 
         if replace:

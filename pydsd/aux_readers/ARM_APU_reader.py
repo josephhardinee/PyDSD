@@ -103,11 +103,12 @@ class ARM_APU_reader(object):
             "rain_rate", rain_rate, "mm h^-1", "Rain rate"
         )
         self.fields["drop_spectrum"] = common.var_to_dict(
-            "drop_sectrum", raw_spectrum, "m^-3 mm^-1", "Droplet Spectrum"
+            "drop_sectrum",raw_spectrum, "m^-3 mm^-1", "Droplet Spectrum"
         )
         self.spectrum_fall_velocity = common.var_to_dict(
             "raw_spectrum_velocity", raw_spectrum_velocity, "m^-3 mm^-1", "Spectrum Fall Velocity"
         )
+        
 
     def _get_epoch_time(self, sample_times, t_units):
         """Convert time to epoch time and return a dictionary."""

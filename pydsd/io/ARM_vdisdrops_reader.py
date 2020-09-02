@@ -78,15 +78,15 @@ class ARM_vdisdrops_reader(object):
         fall_speed = self.nc_dataset['fall_speed'][:]
         # measurement_area = self.nc_dataset['area'][:]
 
-        diameter_bins = np.arange(0.1, 10.1, .2) # Maybe make this able to be passed in? 
+        diameter_bins = np.arange(0.1, 9.9, .2) # Maybe make this able to be passed in? 
         velocity_bins = np.arange(0.2, 10.1, .2)
-        spread = np.ones(50) * 0.2
+        spread = np.ones(49) * 0.2
         mean_measurement_area = (100-0.5*diameter_bins)**2
 
         num_spectra = int(np.ceil(time_length/sampling_interval))
         integration_time_step = first_time + np.arange(0, num_spectra)*sampling_interval 
 
-        drop_spectra = np.zeros((num_spectra, len(diameter_bins), len(velocity_bins)))
+        drop_spectra = np.zeros((num_spectra, len(diameter_bins),len(velocity_bins)))
 
         qc_fall_speed = self.nc_dataset['qc_fall_speed'][:]
         qc_diameter = self.nc_dataset['qc_equivolumetric_sphere_diameter'][:]
@@ -95,17 +95,18 @@ class ARM_vdisdrops_reader(object):
         for idx, itime in enumerate(time):
             if qc_fall_speed[idx] >0 or qc_diameter[idx]>0:
                 continue
-        #     if np.abs(velocity[idx]-terminal_velocity(diameter[idx]))>0.4*terminal_velocity(diameter[idx]):
-        #         continue
+            # if np.abs(fall_speed[idx]-terminal_velocity(diameter[idx]))>0.4*terminal_velocity(diameter[idx]):
+            #     continue
             while itime > integration_time_step[i]+sampling_interval:
                 i=i+1 
             diameter_bin = min(len(diameter_bins)-1, int(np.round((diameter[idx]-.1)/.2)))
             velocity_bin = min(len(velocity_bins)-1, int(np.round((fall_speed[idx]-.1)/.2)))
-            drop_spectra[i, diameter_bin, velocity_bin]+= 1
-
+            drop_spectra[i, diameter_bin, velocity_bin ]+= 1
 
         Nd  = 1e6 * np.dot(drop_spectra, 1 / velocity_bins) / (mean_measurement_area * spread * sampling_interval )
-        num_drops_per_diameter = np.sum(drop_spectra, axis=2)
+        # We roll axis to make it match what we expect in DropSizeDistribution object
+        drop_spectra = np.rollaxis(drop_spectra, 2, 1)
+        num_drops_per_diameter = np.sum(drop_spectra, axis=1)
         total_drops = np.sum(num_drops_per_diameter, axis=1)
         # Return a common epoch time dictionary
         self.time = {
@@ -156,6 +157,9 @@ class ARM_vdisdrops_reader(object):
         self.spectrum_fall_velocity = common.var_to_dict(
             "raw_spectrum_velocity", velocity_bins, "m^-3 mm^-1", "Spectrum Fall Velocity"
         )
+        self.effective_sampling_area =common.var_to_dict(
+            "effective_sampling_area", mean_measurement_area, "mm", "Effective Sampling Area"
+        ) 
 
 def terminal_velocity(D):
     return 9.65-10.3 * np.exp(-.6 * D)

@@ -38,7 +38,7 @@ def filter_spectrum_with_parsivel_matrix(
             spectra_velocity < (terminal_fall_speed[idx] * (1 + over_fall_speed)),
         )
 
-    pcm_matrix = pcm_matrix.astype(int)
+    pcm_matrix = pcm_matrix.astype(int).T
     # import pdb; pdb.set_trace()
 
     if replace:
