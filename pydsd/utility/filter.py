@@ -3,7 +3,11 @@ import copy
 
 
 def filter_spectrum_with_parsivel_matrix(
-    dsd, over_fall_speed=0.5, under_fall_speed=0.5, replace=True, maintain_smallest=False
+    dsd,
+    over_fall_speed=0.5,
+    under_fall_speed=0.5,
+    replace=True,
+    maintain_smallest=False,
 ):
     """ Filter a drop spectrum using fall speed matrix for Parsivels.  This requires that velocity is set on the object
     for both raw spectra and calculated terminal fall speed. If terminal fall speed is not available, this can be calculated
@@ -37,23 +41,25 @@ def filter_spectrum_with_parsivel_matrix(
             spectra_velocity < (terminal_fall_speed[idx] * (1 + over_fall_speed)),
         )
 
-
     # print(pcm_matrix)
     pcm_matrix = pcm_matrix.astype(int).T
     if maintain_smallest:
-        dbins_under_1 = np.sum(dsd.diameter['data']<=1)
+        dbins_under_1 = np.sum(dsd.diameter["data"] <= 1)
         vbins_under_25 = np.sum(spectra_velocity < 2.5)
         print(vbins_under_25, dbins_under_1)
-        pcm_matrix[ 0:vbins_under_25, 0:dbins_under_1]=1
-    import pdb; pdb.set_trace()
+        pcm_matrix[0:vbins_under_25, 0:dbins_under_1] = 1
+    import pdb
+
+    pdb.set_trace()
 
     if replace:
-        dsd.fields["drop_spectrum"]["data"] = dsd.fields["drop_spectrum"][
-            "data"
-        ] * pcm_matrix
-        dsd.fields["drop_spectrum"]["history"] = dsd.fields["drop_spectrum"].get(
-            "history", ""
-        ) + f"Filtered for speeds above {over_fall_speed} of Vt and below {under_fall_speed} of Vt"
+        dsd.fields["drop_spectrum"]["data"] = (
+            dsd.fields["drop_spectrum"]["data"] * pcm_matrix
+        )
+        dsd.fields["drop_spectrum"]["history"] = (
+            dsd.fields["drop_spectrum"].get("history", "")
+            + f"Filtered for speeds above {over_fall_speed} of Vt and below {under_fall_speed} of Vt"
+        )
     else:
         return dsd.fields["drop_spectrum"]["data"] * pcm_matrix
 
@@ -87,16 +93,18 @@ def filter_nd_on_dropsize(dsd, drop_min=None, drop_max=None, replace=True):
     mask = np.logical_and(diameter > drop_min, diameter < drop_max)
 
     if replace:
-        dsd.fields['Nd']["data"] = dsd.fields['Nd']["data"] * mask
-        dsd.fields['Nd']["history"] = dsd.fields['Nd'].get(
-            "history", ""
-        ) + f"\nFiltered between {drop_min} and {drop_max}"
+        dsd.fields["Nd"]["data"] = dsd.fields["Nd"]["data"] * mask
+        dsd.fields["Nd"]["history"] = (
+            dsd.fields["Nd"].get("history", "")
+            + f"\nFiltered between {drop_min} and {drop_max}"
+        )
     else:
-        Nd = copy.deepcopy(dsd.fields['Nd'])
+        Nd = copy.deepcopy(dsd.fields["Nd"])
         Nd["data"] = Nd["data"] * mask
-        Nd["history"] = dsd.fields['Nd'].get(
-            "history", ""
-        ) + f"Filtered between {drop_min} and {drop_max}\n"
+        Nd["history"] = (
+            dsd.fields["Nd"].get("history", "")
+            + f"Filtered between {drop_min} and {drop_max}\n"
+        )
         return Nd
 
 
@@ -133,19 +141,21 @@ def __filter_spectrum_on_dropsize(dsd, drop_min=None, drop_max=None, replace=Tru
     print(lhs, rhs)
 
     if replace:
-        dsd.fields['drop_spectrum']["data"][:,0:lhs,:] = 0 
-        # dsd.fields['drop_spectrum']["data"][:,rhs+1:,:] = 0 
-        dsd.fields['drop_spectrum']["history"] = dsd.fields['drop_spectrum'].get(
-            "history", ""
-        ) + f"\nFiltered between {drop_min} and {drop_max}"
+        dsd.fields["drop_spectrum"]["data"][:, 0:lhs, :] = 0
+        # dsd.fields['drop_spectrum']["data"][:,rhs+1:,:] = 0
+        dsd.fields["drop_spectrum"]["history"] = (
+            dsd.fields["drop_spectrum"].get("history", "")
+            + f"\nFiltered between {drop_min} and {drop_max}"
+        )
     else:
-        raw_spectrum = copy.deepcopy(dsd.fields['drop_spectrum'])
-        raw_spectrum["data"][:,0:lhs,:] = 0 
-        # raw_spectrum["data"][:,rhs+1:,:] = 0 
-        raw_spectrum["history"] = dsd.fields['drop_spectrum'].get(
-            "history", ""
-        ) + f"Filtered between {drop_min} and {drop_max}\n"
-        return raw_spectrum 
+        raw_spectrum = copy.deepcopy(dsd.fields["drop_spectrum"])
+        raw_spectrum["data"][:, 0:lhs, :] = 0
+        # raw_spectrum["data"][:,rhs+1:,:] = 0
+        raw_spectrum["history"] = (
+            dsd.fields["drop_spectrum"].get("history", "")
+            + f"Filtered between {drop_min} and {drop_max}\n"
+        )
+        return raw_spectrum
 
 
 def parsivel_sampling_area(diameter):
@@ -162,4 +172,3 @@ def parsivel_sampling_area(diameter):
         Effective Sampling Area
     """
     return 180 * (30 - 0.5 * diameter)
-
