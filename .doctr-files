@@ -1,8 +1,8 @@
+./_downloads/0a2aa0c4f58078fa414bc2940e859b4f/auto_examples_jupyter.zip
 ./_downloads/0c14cfa5f71b8d71d2b1525c6423f875/plot_dsd.ipynb
-./_downloads/4f3da924fa2d2561328bb84f1a1ca0cb/auto_examples_python.zip
 ./_downloads/61cd24de9cfa9ecb73568740eae9689b/plot_dsd.py
+./_downloads/7417f3bcb6ced8c409e5ef6b289cb6fd/auto_examples_python.zip
 ./_downloads/8e81b23f32da540c7e4d805b74b3f940/plot_basic_example.py
-./_downloads/9c7f817d4fe89f0786141a5701903c0e/auto_examples_jupyter.zip
 ./_downloads/da8a8e3ce20e2d80cb04e28e485c2c57/plot_basic_example.ipynb
 ./_images/sphx_glr_plot_basic_example_001.png
 ./_images/sphx_glr_plot_basic_example_thumb.png
@@ -28,6 +28,7 @@
 ./_sources/source/auto_examples/plot_dsd.rst.txt
 ./_sources/source/auto_examples/sg_execution_times.rst.txt
 ./_static/basic.css
+./_static/binder_badge_logo.svg
 ./_static/broken_example.png
 ./_static/classic.css
 ./_static/default.css
