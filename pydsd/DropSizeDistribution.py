@@ -145,6 +145,10 @@ class DropSizeDistribution(object):
                     "Spectrum is stored, but associated velocity is missing. Please fix this in the reader.\
                     We will continue but this will likely cause errors down the road."
                 )
+        try:
+            self.effective_sampling_area = reader.effective_sampling_area
+        except:
+            self.effective_sampling_area = None
 
     def set_scattering_temperature_and_frequency(
         self, scattering_temp=10, scattering_freq=9.7e9
@@ -237,7 +241,9 @@ class DropSizeDistribution(object):
             self.scatterer.psd = BinnedDSD
             self.fields["Zh"]["data"][t] = 10 * np.log10(radar.refl(self.scatterer))
             self.fields["Zdr"]["data"][t] = 10 * np.log10(radar.Zdr(self.scatterer))
-            self.fields["delta_co"]["data"][t] = radar.delta_hv(self.scatterer)* 180.0/np.pi
+            self.fields["delta_co"]["data"][t] = (
+                radar.delta_hv(self.scatterer) * 180.0 / np.pi
+            )
 
         self.scatterer.set_geometry(tmatrix_aux.geom_horiz_forw)
 
@@ -289,7 +295,8 @@ class DropSizeDistribution(object):
         self.dsr_func = dsr_func
         self.scatterer.psd_integrator.D_max = max_diameter
         self.scatterer.psd_integrator.geometries = (
-            tmatrix_aux.geom_horiz_back, tmatrix_aux.geom_horiz_forw
+            tmatrix_aux.geom_horiz_back,
+            tmatrix_aux.geom_horiz_forw,
         )
         self.scatterer.or_pdf = orientation.gaussian_pdf(
             self.scattering_params["canting_angle"]
@@ -673,10 +680,7 @@ class DropSizeDistribution(object):
         )
         return popt, pcov
 
-
-    def calculate_dsd_from_spectrum(
-        self, effective_sampling_area=filter.parsivel_sampling_area, replace=True
-    ):
+    def calculate_dsd_from_spectrum(self, effective_sampling_area=None, replace=True):
         """ Calculate N(D) from the drop spectrum based on the effective sampling area.
         Updates the entry for ND in fields.
         Requires that drop_spectrum be present in fields, and that the dsd has spectrum_fall_velocity defined.
@@ -689,24 +693,40 @@ class DropSizeDistribution(object):
             Whether to replace Nd with the newly calculated one. If true, no return value to save memory.
         """
 
-        delta_t = np.mean(np.diff(self.time["data"][0:4]))  # Sampling time in seconds
         D = self.diameter["data"]
+
+        if effective_sampling_area is not None:
+            A = effective_sampling_area
+        elif self.effective_sampling_area is not None:
+            A = self.effective_sampling_area["data"]
+        else:
+            print(
+                "Defaulting to Parsivel Sampling Area. This is probably wrong. Make sure effective_sampling_area variable is set"
+            )
+            A = filter.parsivel_sampling_area(D)
+
+        delta_t = np.mean(np.diff(self.time["data"][0:4]))  # Sampling time in seconds
         velocity = self.spectrum_fall_velocity["data"]
-        A = effective_sampling_area(D)
         spread = self.spread["data"]
 
         if replace:
-            self.fields["Nd"]['data'] = 1e6 * np.dot(
-                np.swapaxes(self.fields["drop_spectrum"]["data"], 1, 2), 1 / velocity
-            ) / (
-                A * spread * delta_t
+            self.fields["Nd"]["data"] = (
+                1e6
+                * np.dot(
+                    np.swapaxes(self.fields["drop_spectrum"]["data"], 1, 2),
+                    1 / velocity,
+                )
+                / (A * spread * delta_t)
             )
             self.fields["Nd"]["source"] = "Calculated from spectrum."
         else:
-            return 1e6 * np.dot(
-                np.swapaxes(self.fields["drop_spectrum"]["data"], 1, 2), 1 / velocity
-            ) / (
-                A * spread * delta_t
+            return (
+                1e6
+                * np.dot(
+                    np.swapaxes(self.fields["drop_spectrum"]["data"], 1, 2),
+                    1 / velocity,
+                )
+                / (A * spread * delta_t)
             )
 
     def save_scattering_table(self, scattering_filename):
