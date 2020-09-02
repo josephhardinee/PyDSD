@@ -189,6 +189,10 @@
                     <span class="s2">&quot;Spectrum is stored, but associated velocity is missing. Please fix this in the reader.</span><span class="se">\</span>
 <span class="s2">                    We will continue but this will likely cause errors down the road.&quot;</span>
                 <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">effective_sampling_area</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">effective_sampling_area</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">effective_sampling_area</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="DropSizeDistribution.set_scattering_temperature_and_frequency"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.set_scattering_temperature_and_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">set_scattering_temperature_and_frequency</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">scattering_temp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scattering_freq</span><span class="o">=</span><span class="mf">9.7e9</span>
@@ -281,7 +285,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd</span> <span class="o">=</span> <span class="n">BinnedDSD</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Zh&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">radar</span><span class="o">.</span><span class="n">refl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Zdr&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">radar</span><span class="o">.</span><span class="n">Zdr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;delta_co&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">radar</span><span class="o">.</span><span class="n">delta_hv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span><span class="o">*</span> <span class="mf">180.0</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;delta_co&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">radar</span><span class="o">.</span><span class="n">delta_hv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="p">)</span> <span class="o">*</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+            <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span><span class="p">)</span>
 
@@ -333,7 +339,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dsr_func</span> <span class="o">=</span> <span class="n">dsr_func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">D_max</span> <span class="o">=</span> <span class="n">max_diameter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">psd_integrator</span><span class="o">.</span><span class="n">geometries</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_back</span><span class="p">,</span> <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span>
+            <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_back</span><span class="p">,</span>
+            <span class="n">tmatrix_aux</span><span class="o">.</span><span class="n">geom_horiz_forw</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scatterer</span><span class="o">.</span><span class="n">or_pdf</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">gaussian_pdf</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">scattering_params</span><span class="p">[</span><span class="s2">&quot;canting_angle&quot;</span><span class="p">]</span>
@@ -717,10 +724,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span></div>
 
-
-<div class="viewcode-block" id="DropSizeDistribution.calculate_dsd_from_spectrum"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_dsd_from_spectrum">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_dsd_from_spectrum</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">effective_sampling_area</span><span class="o">=</span><span class="nb">filter</span><span class="o">.</span><span class="n">parsivel_sampling_area</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="DropSizeDistribution.calculate_dsd_from_spectrum"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.calculate_dsd_from_spectrum">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_dsd_from_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">effective_sampling_area</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Calculate N(D) from the drop spectrum based on the effective sampling area.</span>
 <span class="sd">        Updates the entry for ND in fields.</span>
 <span class="sd">        Requires that drop_spectrum be present in fields, and that the dsd has spectrum_fall_velocity defined.</span>
@@ -733,24 +737,40 @@
 <span class="sd">            Whether to replace Nd with the newly calculated one. If true, no return value to save memory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">delta_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]))</span>  <span class="c1"># Sampling time in seconds</span>
         <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">effective_sampling_area</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">effective_sampling_area</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_sampling_area</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_sampling_area</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Defaulting to Parsivel Sampling Area. This is probably wrong. Make sure effective_sampling_area variable is set&quot;</span>
+            <span class="p">)</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">parsivel_sampling_area</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+
+        <span class="n">delta_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]))</span>  <span class="c1"># Sampling time in seconds</span>
         <span class="n">velocity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum_fall_velocity</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
-        <span class="n">A</span> <span class="o">=</span> <span class="n">effective_sampling_area</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
         <span class="n">spread</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spread</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">replace</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Nd&quot;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;drop_spectrum&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">velocity</span>
-            <span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
-                <span class="n">A</span> <span class="o">*</span> <span class="n">spread</span> <span class="o">*</span> <span class="n">delta_t</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Nd&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="mf">1e6</span>
+                <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;drop_spectrum&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                    <span class="mi">1</span> <span class="o">/</span> <span class="n">velocity</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="o">/</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">spread</span> <span class="o">*</span> <span class="n">delta_t</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;Nd&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Calculated from spectrum.&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mf">1e6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;drop_spectrum&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">velocity</span>
-            <span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
-                <span class="n">A</span> <span class="o">*</span> <span class="n">spread</span> <span class="o">*</span> <span class="n">delta_t</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="mf">1e6</span>
+                <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;drop_spectrum&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                    <span class="mi">1</span> <span class="o">/</span> <span class="n">velocity</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="o">/</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">spread</span> <span class="o">*</span> <span class="n">delta_t</span><span class="p">)</span>
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="DropSizeDistribution.save_scattering_table"><a class="viewcode-back" href="../../pydsd.html#pydsd.DropSizeDistribution.DropSizeDistribution.save_scattering_table">[docs]</a>    <span class="k">def</span> <span class="nf">save_scattering_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scattering_filename</span><span class="p">):</span>
