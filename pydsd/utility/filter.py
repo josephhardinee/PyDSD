@@ -48,9 +48,7 @@ def filter_spectrum_with_parsivel_matrix(
         vbins_under_25 = np.sum(spectra_velocity < 2.5)
         print(vbins_under_25, dbins_under_1)
         pcm_matrix[0:vbins_under_25, 0:dbins_under_1] = 1
-    import pdb
 
-    pdb.set_trace()
 
     if replace:
         dsd.fields["drop_spectrum"]["data"] = (
