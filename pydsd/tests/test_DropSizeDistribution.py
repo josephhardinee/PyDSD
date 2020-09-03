@@ -10,6 +10,7 @@ from .. import DropSizeDistribution
 from ..aux_readers import ARM_APU_reader
 from ..utility import filter
 
+
 @pytest.fixture
 def two_dvddrops_open_test_file(tmpdir):
     filename_in = "testdata/corvdisdropsM1.b1.20181214.020816.cdf"
@@ -17,12 +18,14 @@ def two_dvddrops_open_test_file(tmpdir):
     dsd = ARM_vdisdrops_reader.read_arm_vdisdrops_netcdf(filename_in)
     return dsd
 
+
 @pytest.fixture
 def two_dvd_open_test_file(tmpdir):
     filename_in = "testdata/arm_vdis_b1.cdf"
     filename_out = tmpdir + "test_2dvd.nc"
     dsd = ARM_Vdis_Reader.read_arm_vdis_b1(filename_in)
     return dsd
+
 
 @pytest.fixture
 def parsivel_open_test_file(tmpdir):
@@ -65,7 +68,7 @@ class TestDropSizeDistribution(object):
         two_dvd_open_test_file.fields["Nd"]["data"][0, 1] = 2
         two_dvd_open_test_file.calculate_dsd_parameterization()
         assert np.isclose(
-            two_dvd_open_test_file.fields["D0"]["data"][0], .198, rtol=.01
+            two_dvd_open_test_file.fields["D0"]["data"][0], 0.198, rtol=0.01
         )  # One percent tolerance is closer than my hand calcs.
 
     def test_saving_of_scatter_table(self, two_dvd_open_test_file, tmpdir):
@@ -82,14 +85,31 @@ class TestDropSizeDistribution(object):
             scatter_table_filename=tmpdir + "/test_scatter.scatter"
         )
 
-    def test_calculate_spectrum_accepts_function(self,parsivel_open_test_file ):
-        parsivel_open_test_file.calculate_dsd_from_spectrum(effective_sampling_area = filter.parsivel_sampling_area)
-        assert parsivel_open_test_file.fields['Nd']['source'] == 'Calculated from spectrum.'
-        
-    def test_calculate_spectrum_no_optional_args_with_effective_area_on_object_set(self,two_dvddrops_open_test_file):
-        two_dvddrops_open_test_file.calculate_dsd_from_spectrum()
-        assert two_dvddrops_open_test_file.fields['Nd']['source'] == 'Calculated from spectrum.'
+    def test_calculate_spectrum_accepts_function(self, parsivel_open_test_file):
+        parsivel_open_test_file.calculate_dsd_from_spectrum(
+            effective_sampling_area=filter.parsivel_sampling_area
+        )
+        assert (
+            parsivel_open_test_file.fields["Nd"]["source"]
+            == "Calculated from spectrum."
+        )
 
-    def test_calculate_spectrum_accepts_array_arg(self,two_dvddrops_open_test_file):
-        two_dvddrops_open_test_file.calculate_dsd_from_spectrum(effective_sampling_area=two_dvddrops_open_test_file.effective_sampling_area['data'])
-        assert two_dvddrops_open_test_file.fields['Nd']['source'] == 'Calculated from spectrum.'
+    def test_calculate_spectrum_no_optional_args_with_effective_area_on_object_set(
+        self, two_dvddrops_open_test_file
+    ):
+        two_dvddrops_open_test_file.calculate_dsd_from_spectrum()
+        assert (
+            two_dvddrops_open_test_file.fields["Nd"]["source"]
+            == "Calculated from spectrum."
+        )
+
+    def test_calculate_spectrum_accepts_array_arg(self, two_dvddrops_open_test_file):
+        two_dvddrops_open_test_file.calculate_dsd_from_spectrum(
+            effective_sampling_area=two_dvddrops_open_test_file.effective_sampling_area[
+                "data"
+            ]
+        )
+        assert (
+            two_dvddrops_open_test_file.fields["Nd"]["source"]
+            == "Calculated from spectrum."
+        )
