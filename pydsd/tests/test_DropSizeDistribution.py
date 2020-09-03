@@ -4,9 +4,18 @@ import numpy as np
 import copy
 
 from ..aux_readers import ARM_Vdis_Reader
+from ..io import ARM_vdisdrops_reader
 from ..io.NetCDFWriter import write_netcdf
 from .. import DropSizeDistribution
+from ..aux_readers import ARM_APU_reader
+from ..utility import filter
 
+@pytest.fixture
+def two_dvddrops_open_test_file(tmpdir):
+    filename_in = "testdata/corvdisdropsM1.b1.20181214.020816.cdf"
+    filename_out = tmpdir + "test_vdisdrops.nc"
+    dsd = ARM_vdisdrops_reader.read_arm_vdisdrops_netcdf(filename_in)
+    return dsd
 
 @pytest.fixture
 def two_dvd_open_test_file(tmpdir):
@@ -15,8 +24,15 @@ def two_dvd_open_test_file(tmpdir):
     dsd = ARM_Vdis_Reader.read_arm_vdis_b1(filename_in)
     return dsd
 
+@pytest.fixture
+def parsivel_open_test_file(tmpdir):
+    filename_in = "testdata/corldM1.b1.20181214.000000.cdf"
+    filename_out = tmpdir + "test_pars.nc"
+    dsd = ARM_APU_reader.read_parsivel_arm_netcdf(filename_in)
+    return dsd
 
-class TestNetCDFWriter(object):
+
+class TestDropSizeDistribution(object):
     """
     Test module for the DropSizeDistribution"
     """
@@ -52,7 +68,6 @@ class TestNetCDFWriter(object):
             two_dvd_open_test_file.fields["D0"]["data"][0], .198, rtol=.01
         )  # One percent tolerance is closer than my hand calcs.
 
-    @pytest.mark.dependency()
     def test_saving_of_scatter_table(self, two_dvd_open_test_file, tmpdir):
         two_dvd_open_test_file.calculate_radar_parameters()
         two_dvd_open_test_file.save_scattering_table(tmpdir + "/test_scatter.scatter")
@@ -66,3 +81,15 @@ class TestNetCDFWriter(object):
         two_dvd_open_test_file.calculate_radar_parameters(
             scatter_table_filename=tmpdir + "/test_scatter.scatter"
         )
+
+    def test_calculate_spectrum_accepts_function(self,parsivel_open_test_file ):
+        parsivel_open_test_file.calculate_dsd_from_spectrum(effective_sampling_area = filter.parsivel_sampling_area)
+        assert parsivel_open_test_file.fields['Nd']['source'] == 'Calculated from spectrum.'
+        
+    def test_calculate_spectrum_no_optional_args_with_effective_area_on_object_set(self,two_dvddrops_open_test_file):
+        two_dvddrops_open_test_file.calculate_dsd_from_spectrum()
+        assert two_dvddrops_open_test_file.fields['Nd']['source'] == 'Calculated from spectrum.'
+
+    def test_calculate_spectrum_accepts_array_arg(self,two_dvddrops_open_test_file):
+        two_dvddrops_open_test_file.calculate_dsd_from_spectrum(effective_sampling_area=two_dvddrops_open_test_file.effective_sampling_area['data'])
+        assert two_dvddrops_open_test_file.fields['Nd']['source'] == 'Calculated from spectrum.'

@@ -688,7 +688,8 @@ class DropSizeDistribution(object):
         Parameters
         ----------
         effective_sampling_area: function 
-            Function that returns the effective sampling area as a function of diameter.
+            Function that returns the effective sampling area as a function of diameter. Optionally
+            a array with effective sampling area matched to diameter dimension can be provided as an array.
         replace: boolean
             Whether to replace Nd with the newly calculated one. If true, no return value to save memory.
         """
@@ -696,7 +697,10 @@ class DropSizeDistribution(object):
         D = self.diameter["data"]
 
         if effective_sampling_area is not None:
-            A = effective_sampling_area
+            if callable(effective_sampling_area):
+                A = effective_sampling_area(D)
+            else:
+                A = np.array(effective_sampling_area)
         elif self.effective_sampling_area is not None:
             A = self.effective_sampling_area["data"]
         else:
