@@ -732,7 +732,8 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        effective_sampling_area: function </span>
-<span class="sd">            Function that returns the effective sampling area as a function of diameter.</span>
+<span class="sd">            Function that returns the effective sampling area as a function of diameter. Optionally</span>
+<span class="sd">            a array with effective sampling area matched to diameter dimension can be provided as an array.</span>
 <span class="sd">        replace: boolean</span>
 <span class="sd">            Whether to replace Nd with the newly calculated one. If true, no return value to save memory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -740,7 +741,10 @@
         <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">effective_sampling_area</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">A</span> <span class="o">=</span> <span class="n">effective_sampling_area</span>
+            <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">effective_sampling_area</span><span class="p">):</span>
+                <span class="n">A</span> <span class="o">=</span> <span class="n">effective_sampling_area</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">effective_sampling_area</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_sampling_area</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_sampling_area</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
