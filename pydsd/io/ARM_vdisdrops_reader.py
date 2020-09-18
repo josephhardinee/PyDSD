@@ -74,10 +74,10 @@ class ARM_vdisdrops_reader(object):
             time_length = 60 * 60 * 24
             first_time = 0
         else:
-            time_length = time[-1] - time[0]
             first_time = (
                 np.floor(time[0] / sampling_interval) * sampling_interval
             )  # Make things line up nicely.
+            time_length = time[-1] - first_time
 
         diameter = self.nc_dataset["equivolumetric_sphere_diameter"][:]
         fall_speed = self.nc_dataset["fall_speed"][:]
