@@ -1,5 +1,6 @@
 from .io.ParsivelReader import read_parsivel
 from .io.ParsivelNasaGVReader import read_parsivel_nasa_gv
+from .io.ARM_vdisdrops_reader import read_arm_vdisdrops_netcdf
 from .io.JWDReader import read_jwd
 from .io.Image2DReader import read_ucsc_netcdf, read_noaa_aoml_netcdf
 
