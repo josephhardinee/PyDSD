@@ -5,6 +5,7 @@ from .io.JWDReader import read_jwd
 from .io.Image2DReader import read_ucsc_netcdf, read_noaa_aoml_netcdf
 
 from .aux_readers.GPMApuWallopsRawReader import read_gpm_nasa_apu_raw_wallops
+from .aux_readers.HUCM_model_reader import read_hucm
 from .aux_readers.NASA_2DVD_reader import read_2dvd_sav_nasa_gv
 from .aux_readers.NASA_2DVD_reader import read_2dvd_dsd_nasa_gv
 from .aux_readers.ARM_APU_reader import read_parsivel_arm_netcdf
