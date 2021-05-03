@@ -1,0 +1,25 @@
+name: run_pydsd_ci.yml
+on: [push]
+jobs:
+  build_and_publish:
+    name: Setup Environment, and run test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.7
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: pydsdci
+          environment-file: pydsd-ci.yml
+      - shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
+          printenv | sort
+        
+

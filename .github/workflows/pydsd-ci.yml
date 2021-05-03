@@ -1,0 +1,20 @@
+name: pydsdci
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7
+  - pytmatrix=0.3.2 # 0.3.3 has a bug
+  - coveralls
+  - pytest
+  - pytest-cov=2.5
+  - sphinx_rtd_theme
+  - numpy
+  - scipy
+  - matplotlib
+  - netcdf4
+  - sphinx
+  - numpydoc
+  - hdf4
+  - pip:
+    - sphinx-gallery
