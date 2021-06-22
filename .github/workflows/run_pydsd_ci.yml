@@ -1,5 +1,5 @@
 name: run_pydsd_ci.yml
-on: [push ]
+on: [push,pull_request ]
 jobs:
   build_and_publish:
     name: Setup Environment, and run test suite
