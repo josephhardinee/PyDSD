@@ -1,0 +1,44 @@
+{
+  "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+  "@type": "Code",
+  "author": [
+    {
+      "@id": "https://orcid.org/0000-0002-8489-4763",
+      "@type": "Person",
+      "email": "josephhardinee@gmail.com",
+      "name": "Joseph C. Hardin",
+      "affiliation": "Atmospheric Science and Global Change Division, Pacific Northwest National Laboratory"
+    },
+    {
+      "@id": "",
+      "@type": "Person",
+      "email": "nguysur@gmail.com",
+      "name": "Nick Guy",
+      "affiliation": "Verisk Weather Solutions "
+    },
+    {
+      "@id": "https://orcid.org/0000-0002-6560-6316",
+      "@type": "Person",
+      "email": "Jussi.Leinonen@meteoswiss.ch",
+      "name": "Jussi Leinonen",
+      "affiliation": "Federal Office of Meteorology and Climatology MeteoSwiss"
+    },
+    {
+      "@id": "",
+      "@type": "Person",
+      "email": "chandra@engr.colostate.edu",
+      "name": "V. Chandrasekar",
+      "affiliation": "Colorado State University"
+    }
+  ],
+  "identifier": "http://doi.org/10.5281/zenodo.9991",
+  "codeRepository": "https://github.com/josephhardinee/PyDSD",
+  "datePublished": "2021-07-22",
+  "dateModified": "2021-07-22",
+  "dateCreated": "2021-07-22",
+  "description": "A python library for working with drop size distributions, disdrometers, and particle probes.",
+  "keywords": "dsd, drop size distributions, radar, t-matrix, weather, disdrometer, particle size distribution",
+  "license": "LGPL v2.1",
+  "title": "PyDSD",
+  "version": "v1.0.6.2"
+}
