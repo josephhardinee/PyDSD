@@ -1,8 +1,7 @@
 from __future__ import division
 import numpy as np
-from pytmatrix.tmatrix import Scatterer
-from pytmatrix.psd import PSDIntegrator, GammaPSD
-from pytmatrix import orientation, radar, tmatrix_aux, refractive
+from .scattering import Scatterer, PSDIntegrator, GammaPSD
+from .scattering import orientation, radar, tmatrix_aux, refractive, ldr
 from . import DSR
 
 
@@ -15,8 +14,8 @@ class DSDProcessor:
         self.moments["Zh"] = 10 * np.log10(radar.refl(self.scatterer))
         self.moments["Zdr"] = 10 * np.log10(radar.Zdr(self.scatterer))
         self.moments["delta_hv"] = radar.delta_hv(self.scatterer)
-        self.moments["ldr_h"] = radar.ldr(self.scatterer)
-        self.moments["ldr_v"] = radar.ldr(self.scatterer, h_pol=False)
+        self.moments["ldr_h"] = ldr(self.scatterer)
+        self.moments["ldr_v"] = ldr(self.scatterer, h_pol=False)
 
         self.scatterer.set_geometry(tmatrix_aux.geom_horiz_forw)
         self.moments["Kdp"] = radar.Kdp(self.scatterer)

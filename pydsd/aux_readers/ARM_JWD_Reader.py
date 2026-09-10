@@ -3,7 +3,7 @@ import numpy as np
 import numpy.ma as ma
 import itertools
 import scipy.optimize
-from pytmatrix.psd import GammaPSD
+from ..scattering import GammaPSD
 import csv
 import datetime
 from netCDF4 import Dataset

@@ -2,7 +2,7 @@
 import numpy as np
 import itertools
 import scipy.optimize
-from pytmatrix.psd import GammaPSD
+from ..scattering import GammaPSD
 import csv
 import datetime
 import time

@@ -7,14 +7,12 @@ simulations on itself.
 """
 
 import numpy as np
-import pytmatrix
 import scipy
 from scipy.optimize import curve_fit
 from math import gamma
 
-from pytmatrix.tmatrix import Scatterer
-from pytmatrix.psd import PSDIntegrator
-from pytmatrix import orientation, radar, tmatrix_aux, refractive
+from .scattering import psd, Scatterer, PSDIntegrator
+from .scattering import orientation, radar, tmatrix_aux, refractive
 from datetime import date
 from .utility.expfit import expfit, expfit2
 
@@ -235,7 +233,7 @@ class DropSizeDistribution(object):
         for t in range(self.scatter_start_time, self.scatter_end_time):
             if np.sum(self.Nd["data"][t]) is 0:
                 continue
-            BinnedDSD = pytmatrix.psd.BinnedPSD(
+            BinnedDSD = psd.BinnedPSD(
                 self.bin_edges["data"], self.Nd["data"][t]
             )
             self.scatterer.psd = BinnedDSD
@@ -248,7 +246,7 @@ class DropSizeDistribution(object):
         self.scatterer.set_geometry(tmatrix_aux.geom_horiz_forw)
 
         for t in range(self.scatter_start_time, self.scatter_end_time):
-            BinnedDSD = pytmatrix.psd.BinnedPSD(
+            BinnedDSD = psd.BinnedPSD(
                 self.bin_edges["data"], self.Nd["data"][t]
             )
             self.scatterer.psd = BinnedDSD
@@ -813,7 +811,7 @@ class DropSizeDistribution(object):
             Potential Mu value
         """
 
-        gdsd = pytmatrix.psd.GammaPSD(
+        gdsd = psd.GammaPSD(
             self.fields["D0"]["data"][idx], self.fields["Nw"]["data"][idx], mu
         )
         return np.sqrt(

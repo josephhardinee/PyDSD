@@ -8,7 +8,7 @@ import numpy as np
 import numpy.ma as ma
 import scipy.optimize
 
-from pytmatrix.psd import GammaPSD
+from ..scattering import GammaPSD
 from ..DropSizeDistribution import DropSizeDistribution
 from ..io import common
 
