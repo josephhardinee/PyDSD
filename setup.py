@@ -18,7 +18,6 @@ setup(
     description='Python Disdrometer Processing',
     long_description=""" A python library for working with drop size distributions, disdrometers, and particle probes.""",
     install_requires=['rustmatrix', 'numpy', 'matplotlib', 'scipy', 'versioneer'],
-    python_requires='>=3.9',
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Console"
